@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LaTeX on Furffiblog</title><link>https://www.furffisite.link/tags/latex/</link><description>Recent content in LaTeX on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 24 Dec 2022 12:38:21 +0800</lastBuildDate><atom:link href="https://www.furffisite.link/tags/latex/index.xml" rel="self" type="application/rss+xml"/><item><title>如何将LaTeX内超出文本宽度的浮动体居中</title><link>https://www.furffisite.link/p/latex-widefloat-centering/</link><pubDate>Sat, 24 Dec 2022 12:38:21 +0800</pubDate><guid>https://www.furffisite.link/p/latex-widefloat-centering/</guid><description>&lt;p>如何在$\LaTeX$中将超出文本宽度的浮动体（表格/图片）居中？这个问题我曾多次遇到过，但是没有一次记得怎么解决，每次都需要谷歌。今天也碰到了这个情况，因此将解决方案记录备忘。&lt;/p>
+&lt;p>我看到的最优雅的解决方案出自$\TeX$的&lt;a class="link" href="https://tex.stackexchange.com/" target="_blank" rel="noopener"
+>StackExchange&lt;/a>中的&lt;a class="link" href="https://tex.stackexchange.com/a/430904" target="_blank" rel="noopener"
+>这篇回答&lt;/a>。只要在浮动体内减少左右边距即可，也就是下列示例的第3-4行：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-latex" data-lang="latex">&lt;span class="line">&lt;span class="cl">&lt;span class="k">\begin&lt;/span>&lt;span class="nb">{&lt;/span>figure&lt;span class="nb">}&lt;/span>[t]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">\centering&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">\addtolength&lt;/span>&lt;span class="nb">{&lt;/span>&lt;span class="k">\leftskip&lt;/span>&lt;span class="nb">}{&lt;/span>-2cm&lt;span class="nb">}&lt;/span> &lt;span class="c">% increase (absolute) value if needed
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span> &lt;span class="k">\addtolength&lt;/span>&lt;span class="nb">{&lt;/span>&lt;span class="k">\rightskip&lt;/span>&lt;span class="nb">}{&lt;/span>-2cm&lt;span class="nb">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">\includegraphics&lt;/span>&lt;span class="na">[width=1.2\textwidth]&lt;/span>&lt;span class="nb">{&lt;/span>image&lt;span class="nb">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">\caption&lt;/span>&lt;span class="nb">{&lt;/span>example&lt;span class="nb">}&lt;/span>&lt;span class="k">\label&lt;/span>&lt;span class="nb">{&lt;/span>fig:example&lt;span class="nb">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">\end&lt;/span>&lt;span class="nb">{&lt;/span>figure&lt;span class="nb">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>效果如下图：&lt;/p>
+&lt;p>&lt;img src="https://files.furffisite.link/blogimg/202212312230698.png?x-oss-process=style/common"
+loading="lazy"
+alt="效果图"
+>&lt;/p></description></item></channel></rss>
