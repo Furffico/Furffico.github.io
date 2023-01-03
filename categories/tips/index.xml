@@ -1,4 +1,100 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tips on Furffiblog</title><link>https://blog.furffisite.link/categories/tips/</link><description>Recent content in tips on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 24 Dec 2022 12:38:21 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>如何将LaTeX内超出文本宽度的浮动体居中</title><link>https://blog.furffisite.link/p/latex-widefloat-centering/</link><pubDate>Sat, 24 Dec 2022 12:38:21 +0800</pubDate><guid>https://blog.furffisite.link/p/latex-widefloat-centering/</guid><description>&lt;p>如何在$\LaTeX$中将超出文本宽度的浮动体（表格/图片）居中？这个问题我曾多次遇到过，但是没有一次记得怎么解决，每次都需要谷歌。今天也碰到了这个情况，因此将解决方案记录备忘。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tips on Furffiblog</title><link>https://blog.furffisite.link/categories/tips/</link><description>Recent content in tips on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 03 Jan 2023 23:51:54 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>在QQ内利用透明度通道制作表里不一的图片</title><link>https://blog.furffisite.link/p/qq-duplicity-image/</link><pubDate>Tue, 03 Jan 2023 23:51:54 +0800</pubDate><guid>https://blog.furffisite.link/p/qq-duplicity-image/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230104022542-b692e6e89157626a929575a0b97e5583-3e819.jpg" alt="Featured image of post 在QQ内利用透明度通道制作表里不一的图片" />&lt;style>
+.special-bg{ background-color: #fff }
+:root[data-scheme="dark"] img.special-bg{ background-color: #000 }
+div#gallery{text-align: center; width:100%; }
+div#gallery img{ width:32%; }
+&lt;/style>
+&lt;p>今天在QQ看到一张图，这张图在预览下看到的和查看图片时看到的内容不一样。虽然不是第一次见这种图了，但是今天在摸鱼的时候无事可做，就研究了一下它的原理。&lt;/p>
+&lt;p>这张图是这样的：左图为它在聊天界面的样子，典型的吃🍑场景，点开大图之后看到的却是右图的样子（笑）。
+中间的图片为嵌入的原图，如果您开启了暗色模式（桌面端可以在页面右下角切换），您看到中图的应该和右图一样，反之则和左图一样。
+原图可以在&lt;a class="link" href="https://files.furffisite.link/blogimg/20230104004027-f02f6c487a9b47035c62d6dc44708f5f-23d76.png" target="_blank" rel="noopener"
+>这里&lt;/a>获取。&lt;/p>
+&lt;img class="special-bg" src="https://files.furffisite.link/blogimg/20230104004803-e708ee71f6c9a2ed72525e41a5a50f83-c8ae2.png" loading="lazy" />
+&lt;h2 id="原理">原理&lt;/h2>
+&lt;p>这种图的原理并不难猜，肯定利用了png图片的透明度通道，使其在不同背景色下能呈现出不同的效果。下面求解一下它是怎么制作出来的：
+（因为这里只涉及图像的像素变换，为简化表示，以下的每个变量都表示单个像素单个通道的值，且定义域为$[0,1]$.）&lt;/p>
+&lt;p>设在聊天界面看到的图像（表图）灰度为$c$，点开大图后看到的图像（里图）为$h$，待求量为生成的图像的灰度$g$与透明度$a$。&lt;/p>
+&lt;p>在聊天界面的图像是目标图像和白色背景的混合，也就是$$(1-a) + g\cdot a = c.$$
+点开大图后是目标图像和黑色背景的混合，即$$0+g\cdot a = h.$$&lt;/p>
+&lt;p>解出来就是$$a=1+h-c,~g=h/a.$$&lt;/p>
+&lt;p>又因为解需要满足$a,g\in(0,1]$，所以$c$和$h$需要满足不等式$$h\le c&amp;lt;1+h$$
+右侧当且仅当$c=1,~h=0$时不成立。&lt;/p>
+&lt;h2 id="实现">实现&lt;/h2>
+&lt;p>这个程序实现起来没有什么难度，python代码如下（需要Pillow与numpy）。需要注意的是，为了满足上面的不等式，在程序中需要重新分配两张原图的灰度的范围。&lt;/p>
+&lt;!-- &lt;script type="application/javascript" src="https://gist.github.com/Furffico/c17003dabdcd382ebd22672415fdc8ae.js">&lt;/script>
+-->
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">numpy&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">np&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">PIL&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Image&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 读取图片+转灰度&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cover&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Image&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;./cover.png&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">convert&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;L&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">hidden&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Image&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;./hidden.png&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">convert&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;L&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">assert&lt;/span> &lt;span class="n">cover&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">size&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">hidden&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">size&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cover&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">asarray&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">cover&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">hidden&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">asarray&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">hidden&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 按照约束条件调整像素范围&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cover_min&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">cover_max&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cover&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">min&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">cover&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">max&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">hidden_min&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">hidden_max&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">hidden&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">min&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">hidden&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">max&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cd&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cover_max&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">cover_min&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">hd&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">hidden_max&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">hidden_min&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">divide_portion&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">hd&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">hd&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="mf">1.0&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="n">cd&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cover_f&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">cover&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mf">255.0&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">divide_portion&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mi">255&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">divide_portion&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">hidden_f&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">hidden&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mf">255.0&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">divide_portion&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 计算&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">alpha&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">cover_f&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="n">hidden_f&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">gray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">hidden_f&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">alpha&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">alpha&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">alpha&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="mi">255&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">astype&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">uint8&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">gray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="mi">255&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">astype&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">uint8&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">result&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">stack&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">alpha&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">axis&lt;/span>&lt;span class="o">=-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 保存结果&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">img&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Image&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">fromarray&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">result&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">img&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">save&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;./output.png&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这是随手抓的两张黑白表情包做出来的效果，顺序和上面的展示一样，您可以通过切换暗色模式查看效果：&lt;/p>
+&lt;div id="gallery">
+&lt;img src="https://files.furffisite.link/blogimg/20230104021055-4335bfe7d53a6c36ecf385e6dd745720-42087.png" />
+&lt;img class="special-bg" src="https://files.furffisite.link/blogimg/20230104021105-ac757580dd8f0556361deaff45f67cdb-9ae31.png" />
+&lt;img src="https://files.furffisite.link/blogimg/20230104021111-465e5a2c48fa8b8aa79af65f297f2a38-342fa.png" />
+&lt;/div></description></item><item><title>如何将LaTeX内超出文本宽度的浮动体居中</title><link>https://blog.furffisite.link/p/latex-widefloat-centering/</link><pubDate>Sat, 24 Dec 2022 12:38:21 +0800</pubDate><guid>https://blog.furffisite.link/p/latex-widefloat-centering/</guid><description>&lt;p>如何在$\LaTeX$中将超出文本宽度的浮动体（表格/图片）居中？这个问题我曾多次遇到过，但是没有一次记得怎么解决，每次都需要谷歌。今天也碰到了这个情况，因此将解决方案记录备忘。&lt;/p>
 &lt;p>我看到的最优雅的解决方案出自$\TeX$的&lt;a class="link" href="https://tex.stackexchange.com/" target="_blank" rel="noopener"
 >StackExchange&lt;/a>中的&lt;a class="link" href="https://tex.stackexchange.com/a/430904" target="_blank" rel="noopener"
 >这篇回答&lt;/a>。只要在浮动体内减少左右边距即可，也就是下列示例的第3-4行：&lt;/p>
