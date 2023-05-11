@@ -1,16 +1,205 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Furffiblog</title><link>https://blog.furffisite.link/post/</link><description>Recent content in Posts on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 06 Jan 2023 16:24:31 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/post/index.xml" rel="self" type="application/rss+xml"/><item><title>使用starship定制终端提示符</title><link>https://blog.furffisite.link/p/use-starship/</link><pubDate>Fri, 06 Jan 2023 16:24:31 +0800</pubDate><guid>https://blog.furffisite.link/p/use-starship/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230109230402-9ec5accbc75f863015a4dca68f9f9870-cc3be.jpg" alt="Featured image of post 使用starship定制终端提示符" />&lt;p>&lt;a class="link" href="https://starship.rs/" target="_blank" rel="noopener"
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Furffiblog</title><link>https://blog.furffisite.link/post/</link><description>Recent content in Posts on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 11 May 2023 12:22:54 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/post/index.xml" rel="self" type="application/rss+xml"/><item><title>在Python中导入当前路径下的所有模块</title><link>https://blog.furffisite.link/p/python-import-directory-modules/</link><pubDate>Thu, 11 May 2023 12:22:54 +0800</pubDate><guid>https://blog.furffisite.link/p/python-import-directory-modules/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163144-c5d0b19ce502665b1891ef8c78c5b839-32aa3.jpg" alt="Featured image of post 在Python中导入当前路径下的所有模块" />&lt;h2 id="问题背景">问题背景&lt;/h2>
+&lt;p>在使用Python的Flask框架开发Web应用的过程中，一个基本的服务端程序结构如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">flask&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Flask&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">app&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Flask&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nd">@app.route&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;/handler1&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">handler1&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nd">@app.route&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;/handler2&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">handler2&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nd">@app.route&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;/handler3&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">handler3&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以按照这种模式无限添加处理视图（handler），但是随着项目增大，这种将所有 handler 都放在一个py文件里的模式显然是不合适的，这时可以使用 &lt;a class="link" href="https://dormousehole.readthedocs.io/en/latest/tutorial/views.html" target="_blank" rel="noopener"
+>blueprint&lt;/a> 将每个handler（或一组handler）放在互相独立的文件里。&lt;/p>
+&lt;p>项目结构如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── app.py
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">└── services
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ├── __init__.py
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ├── login.py
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ├── register.py
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>代码如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;&amp;#34;&amp;#34; === app.py === &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">flask&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Flask&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">services&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">blueprint&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">app&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Flask&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">app&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">register_blueprint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">blueprint&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;&amp;#34;&amp;#34; === services/__init__.py === &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">flask&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Blueprint&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">blueprint&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Blueprint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;api&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 为了在程序启动过程中能运行两个handler文件，需要在这里import它们&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">.&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">login&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">.&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">register&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;&amp;#34;&amp;#34; === services/login.py === &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">.&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">blueprint&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nd">@blueprint.route&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;/login&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">handle_login&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 处理登录逻辑&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;&amp;#34;&amp;#34; === services/register.py === &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">.&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">blueprint&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nd">@blueprint.route&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;/register&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">methods&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;POST&amp;#34;&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">handle_register&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 处理注册逻辑&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样做存在两个问题：&lt;/p>
+&lt;ol>
+&lt;li>每次新增一个文件都需要在&lt;code>__init__.py&lt;/code>中添加相应的 import 语句，较为麻烦；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.python.org/dev/peps/pep-0008/#imports" target="_blank" rel="noopener"
+>PEP-8&lt;/a> 中要求将 import 语句放在文件的顶部，&lt;code>__init__.py&lt;/code>显然不符合（但必须如此），因而静态检查器有可能在此处报错（&lt;a class="link" href="https://www.flake8rules.com/rules/E402.html" target="_blank" rel="noopener"
+>E402&lt;/a>）。&lt;/li>
+&lt;/ol>
+&lt;p>于是就自然而然地想到了：&lt;strong>如何在模块初始化时自动导入当前路径下的所有子模块呢？&lt;/strong>&lt;/p>
+&lt;h2 id="解决方法">解决方法&lt;/h2>
+&lt;p>将&lt;code>services/__init__.py&lt;/code>改为这样：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">pkgutil&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">importlib&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">flask&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Blueprint&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">blueprint&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Blueprint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;api&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="n">spec&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">pkgutil&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">iter_modules&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">__path__&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">prefix&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">importlib&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">import_module&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;.&amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="n">spec&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="原理探究">原理探究&lt;/h2>
+&lt;p>可以通过pdb或 &lt;code>print&lt;/code> 获得这段程序所涉及变量的值：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="vm">__name__&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;services&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">__path__&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;/tmp/test/services&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">spec&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ModuleInfo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">module_finder&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">FileFinder&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;/tmp/test/services&amp;#39;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;login&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ispkg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">spec&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ModuleInfo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">module_finder&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">FileFinder&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;/tmp/test/services&amp;#39;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;register&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ispkg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中&lt;code>__name__&lt;/code>为当前包的名字，&lt;code>__path__&lt;/code>为文件所在文件夹的路径。
+pkgutil模块的&lt;a class="link" href="https://docs.python.org/3/library/pkgutil.html#pkgutil.iter_modules" target="_blank" rel="noopener"
+>iter_modules&lt;/a>函数会找到提供的path下的所有子模块，在这里就是&lt;code>login&lt;/code>与&lt;code>register&lt;/code>，并返回它们的 &lt;a class="link" href="https://docs.python.org/3/library/pkgutil.html#pkgutil.ModuleInfo" target="_blank" rel="noopener"
+>ModuleInfo&lt;/a>。&lt;/p>
+&lt;p>在for循环内提取ModuleInfo的name，得到模块的名字，加上前缀&lt;code>.&lt;/code>，即当前目录下的对应子模块。最后使用importlib的&lt;a class="link" href="https://docs.python.org/3/library/importlib.html#importlib.import_module" target="_blank" rel="noopener"
+>import_module&lt;/a>函数导入子模块（即运行子模块的代码，将handler注册到router上）。这样无论增加多少handler文件，&lt;code>__init__.py&lt;/code>都可以找到并加载它们。&lt;/p></description></item><item><title>使用starship定制终端提示符</title><link>https://blog.furffisite.link/p/use-starship/</link><pubDate>Fri, 06 Jan 2023 16:24:31 +0800</pubDate><guid>https://blog.furffisite.link/p/use-starship/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230109230402-9ec5accbc75f863015a4dca68f9f9870-cc3be.jpg" alt="Featured image of post 使用starship定制终端提示符" />&lt;p>&lt;a class="link" href="https://starship.rs/" target="_blank" rel="noopener"
 >starship&lt;/a>&lt;a class="link" style="display:inline-block; vertical-align:top; height:26px;" href="https://github.com/starship/starship" target="_blank" rel="noopener">
 &lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
-&lt;/a>是使用Rust编写的轻量且迅速的终端提示符程序，其功能和作用与&lt;a class="link" href="https://ohmyz.sh/" target="_blank" rel="noopener"
+&lt;/a>
+是使用Rust编写的轻量且迅速的终端提示符程序，其功能和作用与&lt;a class="link" href="https://ohmyz.sh/" target="_blank" rel="noopener"
 >Oh My Zsh&lt;/a>&lt;a class="link" style="display:inline-block; vertical-align:top; height:26px;" href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener">
 &lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
-&lt;/a>相似，但是相比于Oh My Zsh，starship具有以下优点：&lt;/p>
+&lt;/a>
+相似，但是相比于Oh My Zsh，starship具有以下优点：&lt;/p>
 &lt;ol>
 &lt;li>starship是跨平台跨终端的，其支持Bash、Zsh、Fish等十几种终端，甚至包括Windows的PowerShell与cmd；&lt;/li>
 &lt;li>使用编译型语言Rust编写的starship在运行速度上优于基于shell script的Oh My Zsh；&lt;/li>
@@ -58,7 +247,7 @@ loading="lazy"
 &lt;p>另外，使用Nerd Font Symbols需要Nerd Font，请前往 &lt;a class="link" href="https://www.nerdfonts.com/font-downloads" target="_blank" rel="noopener"
 >https://www.nerdfonts.com/font-downloads&lt;/a> 下载你习惯的字体对应的图标字体，并在虚拟终端中将其设为默认字体。&lt;/p>
 &lt;script type="application/javascript" src="https://gist.github.com/Furffico/f63e63cc192d77ca3c6bb5347f0a1d63.js">&lt;/script>
-&lt;h2 id="问题">问题&lt;/h2>
+&lt;h2 id="相关问题">相关问题&lt;/h2>
 &lt;p>在使用Anaconda管理Python的虚拟环境时，Anaconda会自动在提示符前加上当前虚拟环境的名称，如&lt;code>(base)&lt;/code>，这与starship冲突了（且starship的conda模块提供了相同的功能），因此需要使用如下指令禁用Anaconda的这个功能。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -163,7 +352,7 @@ div#gallery img{ width:32%; }
 &lt;img class="special-bg" src="https://files.furffisite.link/blogimg/20230104021105-ac757580dd8f0556361deaff45f67cdb-9ae31.png" />
 &lt;img src="https://files.furffisite.link/blogimg/20230104021111-465e5a2c48fa8b8aa79af65f297f2a38-342fa.png" />
 &lt;/div>
-&lt;p>注：在QQ发送此类图片时，一定要选择发送原图，否则QQ可能会在压缩过程中去掉透明度通道，导致其失效。&lt;/p></description></item><item><title>如何将LaTeX内超出文本宽度的浮动体居中</title><link>https://blog.furffisite.link/p/latex-widefloat-centering/</link><pubDate>Sat, 24 Dec 2022 12:38:21 +0800</pubDate><guid>https://blog.furffisite.link/p/latex-widefloat-centering/</guid><description>&lt;p>如何在$\LaTeX$中将超出文本宽度的浮动体（表格/图片）居中？这个问题我曾多次遇到过，但是没有一次记得怎么解决，每次都需要谷歌。今天也碰到了这个情况，因此将解决方案记录备忘。&lt;/p>
+&lt;p>注：在QQ发送此类图片时，一定要选择发送原图，否则QQ可能会在压缩过程中去掉透明度通道，导致其失效。&lt;/p></description></item><item><title>如何将LaTeX内超出文本宽度的浮动体居中</title><link>https://blog.furffisite.link/p/latex-widefloat-centering/</link><pubDate>Sat, 24 Dec 2022 12:38:21 +0800</pubDate><guid>https://blog.furffisite.link/p/latex-widefloat-centering/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163659-9e52e93f3d72fae5e3a97613e49e921f-97fa4.jpg" alt="Featured image of post 如何将LaTeX内超出文本宽度的浮动体居中" />&lt;p>如何在$\LaTeX$中将超出文本宽度的浮动体（表格/图片）居中？这个问题我曾多次遇到过，但是没有一次记得怎么解决，每次都需要谷歌。今天也碰到了这个情况，因此将解决方案记录备忘。&lt;/p>
 &lt;p>我看到的最优雅的解决方案出自$\TeX$的&lt;a class="link" href="https://tex.stackexchange.com/" target="_blank" rel="noopener"
 >StackExchange&lt;/a>中的&lt;a class="link" href="https://tex.stackexchange.com/a/430904" target="_blank" rel="noopener"
 >这篇回答&lt;/a>。只要在浮动体内减少左右边距即可，也就是下列示例的第3-4行：&lt;/p>
