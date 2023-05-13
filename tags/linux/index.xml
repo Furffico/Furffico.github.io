@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Furffiblog</title><link>https://blog.furffisite.link/tags/linux/</link><description>Recent content in Linux on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 13 May 2023 13:12:27 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>解决Linux系统深色模式下的Zotero显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;p>因为Linux端的Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
+>AUR&lt;/a>）中有一部分元素的样式是由GTK控制的，因此当系统的GTK主题为深色主题时，Zotero的界面会呈现为这个样子：
+&lt;img src="https://files.furffisite.link/blogimg/2023-05-13_13-32-08.png"
+loading="lazy"
+>&lt;/p>
+&lt;p>这不是很好看，并且部分区域内文字和背景色的对比度很低，导致文字难以阅读。&lt;/p>
+&lt;p>根据&lt;a class="link" href="https://forums.zotero.org/discussion/98693/theme-issue-some-parts-of-zoteros-gui-on-linux-are-controlled-by-gtk" target="_blank" rel="noopener"
+>这个帖子&lt;/a>，解决方案是通过环境变量在程序启动时指定其使用的GTK主题，也就是：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ &lt;span class="nv">GTK_THEME&lt;/span>&lt;span class="o">=&lt;/span>Pop-light zotero
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>反映到Desktop文件上，就是在启动指令（Exec项）前加入&lt;code>env GTK_THEME=Pop-light&lt;/code>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">[Desktop Entry]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Type=Application
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Name=Zotero
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Exec=env GTK_THEME=Pop-light /usr/bin/zotero -url %U
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样操作后，通过应用启动器打开的Zotero就不会有问题了。&lt;/p></description></item><item><title>使用starship定制终端提示符</title><link>https://blog.furffisite.link/p/use-starship/</link><pubDate>Fri, 06 Jan 2023 16:24:31 +0800</pubDate><guid>https://blog.furffisite.link/p/use-starship/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230109230402-9ec5accbc75f863015a4dca68f9f9870-cc3be.jpg" alt="Featured image of post 使用starship定制终端提示符" />&lt;p>&lt;a class="link" href="https://starship.rs/" target="_blank" rel="noopener"
+>starship&lt;/a>&lt;a class="link" style="display:inline-block; vertical-align:top; height:26px;" href="https://github.com/starship/starship" target="_blank" rel="noopener">
+&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+&lt;/svg>
+&lt;/a>
+是使用Rust编写的轻量且迅速的终端提示符程序，其功能和作用与&lt;a class="link" href="https://ohmyz.sh/" target="_blank" rel="noopener"
+>Oh My Zsh&lt;/a>&lt;a class="link" style="display:inline-block; vertical-align:top; height:26px;" href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener">
+&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+&lt;/svg>
+&lt;/a>
+相似，但是相比于Oh My Zsh，starship具有以下优点：&lt;/p>
+&lt;ol>
+&lt;li>starship是跨平台跨终端的，其支持Bash、Zsh、Fish等十几种终端，甚至包括Windows的PowerShell与cmd；&lt;/li>
+&lt;li>使用编译型语言Rust编写的starship在运行速度上优于基于shell script的Oh My Zsh；&lt;/li>
+&lt;li>starship的自定义配置方法比Oh My Zsh简单。&lt;/li>
+&lt;/ol>
+&lt;p>先上图，以下是我所习惯的配置的效果图。除当前用户、hostname和当前工作路径外，starship还显示了git状态、相关软件的版本、进程的返回码、运行时间、已用内存/虚拟内存和当前时间等信息。starfish是通过当前工作目录下的文件名判断应当展示哪些模组的，所以当我创建文件之后提示符上也就多出了相关软件的信息。&lt;/p>
+&lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230106203308-193e5d500a6dd22eab5f893f5cd189f9-2ce2a.png"
+loading="lazy"
+>&lt;/p>
+&lt;p>下文将简述starship的安装方法，并给出我的配置文件。&lt;/p>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>本文仅适用于在Linux下的bash和zsh终端安装starship，在其它终端的安装方法请参见&lt;a class="link" href="https://starship.rs/zh-CN/guide/#%F0%9F%9A%80-%E5%AE%89%E8%A3%85" target="_blank" rel="noopener"
+>starship的官方文档&lt;/a>。&lt;/p>
+&lt;p>首先使用官方脚本在Linux系统内安装starship程序：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ curl -sS https://starship.rs/install.sh &lt;span class="p">|&lt;/span> sh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这时如果在终端输入&lt;code>starship -V&lt;/code>能看到starship的版本信息，就说明程序安装成功了。&lt;/p>
+&lt;p>然后需要配置终端程序，使其能使用starship作为提示符。在&lt;code>~/.bashrc&lt;/code>（bash终端）或&lt;code>~/.zshrc&lt;/code>（zsh终端）内加入这一行即可：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">eval&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>starship init bash&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="配置">配置&lt;/h2>
+&lt;p>starship的配置文件是&lt;code>~/.config/starship.toml&lt;/code>，你也可以通过设置环境变量&lt;code>STARSHIP_CONFIG&lt;/code>改变此文件的位置。在终端输入&lt;code>starship config&lt;/code>可以直接打开该文件。&lt;/p>
+&lt;p>由后缀名可知，starship的配置文件为TOML文件，遵守TOML语法，关于TOML语法本文就不赘述了，若需要了解详情请移步&lt;a class="link" href="https://toml.io/cn/" target="_blank" rel="noopener"
+>TOML官网&lt;/a>。&lt;/p>
+&lt;p>starship是分模块的结构，starship生成的提示符中的每一个部分都对应starship的一个模块，你可以使用&lt;code>starship explain&lt;/code>指令查看各模块的说明及其运行时间，例如以我当前的配置输入该命令后效果如下：&lt;/p>
+&lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230106221937-dc59edf0c7890819bbebff31fdf566e2-1269a.png"
+loading="lazy"
+>&lt;/p>
+&lt;p>关于如何自定义配置，starship的官方文档已经写的很完善了，参见 &lt;a class="link" href="https://starship.rs/zh-CN/config/" target="_blank" rel="noopener"
+>https://starship.rs/zh-CN/config/&lt;/a>。&lt;/p>
+&lt;p>starship在官方文档里已经给出了&lt;a class="link" href="https://starship.rs/presets/" target="_blank" rel="noopener"
+>一些预设&lt;/a>，你可以以你喜欢的预设为基础进行定制，例如我的配置就是在Bracketed Segments和Nerd Font Symbols预设之上按照自己的习惯所做的更改。我的&lt;code>starship.toml&lt;/code>如下：&lt;/p>
+&lt;p>另外，使用Nerd Font Symbols需要Nerd Font，请前往 &lt;a class="link" href="https://www.nerdfonts.com/font-downloads" target="_blank" rel="noopener"
+>https://www.nerdfonts.com/font-downloads&lt;/a> 下载你习惯的字体对应的图标字体，并在虚拟终端中将其设为默认字体。&lt;/p>
+&lt;script type="application/javascript" src="https://gist.github.com/Furffico/f63e63cc192d77ca3c6bb5347f0a1d63.js">&lt;/script>
+&lt;h2 id="相关问题">相关问题&lt;/h2>
+&lt;p>在使用Anaconda管理Python的虚拟环境时，Anaconda会自动在提示符前加上当前虚拟环境的名称，如&lt;code>(base)&lt;/code>，这与starship冲突了（且starship的conda模块提供了相同的功能），因此需要使用如下指令禁用Anaconda的这个功能。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ conda config --set changeps1 False
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
