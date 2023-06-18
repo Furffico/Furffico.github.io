@@ -1,4 +1,461 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Furffiblog</title><link>https://blog.furffisite.link/tags/linux/</link><description>Recent content in Linux on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 13 May 2023 13:12:27 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>解决Linux系统深色模式下的Zotero显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;p>因为Linux端的Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Furffiblog</title><link>https://blog.furffisite.link/tags/linux/</link><description>Recent content in Linux on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 18 Jun 2023 13:58:40 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>我折腾NAS的历程（三）</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾NAS的历程（三）" />&lt;p>&lt;em>（一）和（二）留给以前用的NAS，待填坑。&lt;/em>&lt;/p>
+&lt;h2 id="理论">理论&lt;/h2>
+&lt;h3 id="装机配置单">装机配置单&lt;/h3>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>品牌&lt;/th>
+&lt;th>型号&lt;/th>
+&lt;th>参数&lt;/th>
+&lt;th>购买价&lt;/th>
+&lt;th>购买链接&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>CPU&lt;/td>
+&lt;td>Intel&lt;/td>
+&lt;td>E5-2660 v4&lt;/td>
+&lt;td>14核 2.0GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91772/intel-xeon-processor-e52660-v4-35m-cache-2-00-ghz/specifications.html" target="_blank" rel="noopener"
+>规格表&lt;/a>&lt;/td>
+&lt;td>¥52（洋垃圾）&lt;/td>
+&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=653447092309" target="_blank" rel="noopener"
+>link&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>内存&lt;/td>
+&lt;td>Samsung&lt;/td>
+&lt;td>M393A2G40DB0-CPB&lt;/td>
+&lt;td>DDR4 2133MHz 16GB &lt;a class="link" href="https://semiconductor.samsung.com/dram/module/rdimm/m393a2g40db0-cpb/" target="_blank" rel="noopener"
+>规格表&lt;/a>&lt;/td>
+&lt;td>¥92（洋垃圾）&lt;/td>
+&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=655661217770" target="_blank" rel="noopener"
+>link&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>主板&lt;/td>
+&lt;td>华南金牌&lt;/td>
+&lt;td>X99-4MF&lt;/td>
+&lt;td>ITX DDR4x4 SATAx3 &lt;a class="link" href="http://www.huananzhi.com/more.php?lm=10&amp;amp;id=784" target="_blank" rel="noopener"
+>规格表&lt;/a>&lt;/td>
+&lt;td>¥268&lt;/td>
+&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=584879880832" target="_blank" rel="noopener"
+>link&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>系统盘&lt;/td>
+&lt;td>SKHynix&lt;/td>
+&lt;td>HFS512GDE9X084N&lt;/td>
+&lt;td>512GB NVME&lt;/td>
+&lt;td>¥0*&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>显卡&lt;/td>
+&lt;td>NVIDIA&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>¥16&lt;/td>
+&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=704690006685" target="_blank" rel="noopener"
+>link&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>电源&lt;/td>
+&lt;td>航嘉&lt;/td>
+&lt;td>GX500&lt;/td>
+&lt;td>500W ATX 白牌&lt;/td>
+&lt;td>¥191.92&lt;/td>
+&lt;td>&lt;a class="link" href="https://detail.tmall.com/item.htm?id=592122962211" target="_blank" rel="noopener"
+>link&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>机箱&lt;/td>
+&lt;td>invasion&lt;/td>
+&lt;td>invasion X1&lt;/td>
+&lt;td>4盘位ITX&lt;/td>
+&lt;td>¥244&lt;/td>
+&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=631276021464" target="_blank" rel="noopener"
+>link&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>CPU散热器&lt;/td>
+&lt;td>零下30度&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>¥38.7&lt;/td>
+&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=543496686865" target="_blank" rel="noopener"
+>link&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>机箱风扇&lt;/td>
+&lt;td>航嘉&lt;/td>
+&lt;td>MVP120&lt;/td>
+&lt;td>1500RPM，支持PWM&lt;/td>
+&lt;td>¥75.95（三只装）&lt;/td>
+&lt;td>&lt;a class="link" href="https://detail.tmall.com/item.htm?id=657878805031" target="_blank" rel="noopener"
+>link&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>总计&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>¥978.57&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>*笔记本上拆下来的&lt;/p>
+&lt;h3 id="攒机理念">攒机理念&lt;/h3>
+&lt;p>目标：&lt;strong>省钱、性能还行、体积小、静音、保留一定的可升级性、尽量一手&lt;/strong>。&lt;/p>
+&lt;p>关于CPU，我在&lt;a class="link" href="https://www.cpubenchmark.net" target="_blank" rel="noopener"
+>CPUbenchmark&lt;/a>上按照跑分结果在E5的一系列洋垃圾型号中从高到低翻，最后看中了 E5-2660 v4。选择它有以下几点理由：&lt;/p>
+&lt;ol>
+&lt;li>其功耗相比与同系列其它型号较低；&lt;/li>
+&lt;li>E5-2660 v4为2016 Q4推出的，相对v3和v2要新一点；&lt;/li>
+&lt;li>其性价比在同型号中较高，52元16005分，相较于2690 v3的68元16505分更实惠。&lt;/li>
+&lt;/ol>
+&lt;p>CPU定下来了之后，主板和内存也就相应的决定了。之所以主板不选二手是因为我想省点事，对于二手市场上可能遇到的众多问题我目前没有任何应对经验。而选择ITX是为了满足体积小的要求，毕竟宿舍里放不下太多东西。&lt;/p>
+&lt;p>关于系统盘，之前给笔记本升级外存的时候拆下来的原装SSD可以直接给它用。就算是买一个全新的也不会太贵，256GB买个二线厂的SSD应该也够用了。
+在装系统、进BIOS时显卡是必要的，作为服务器CPU的E5-2660 v4没有核心显卡，因此这里依然需要一张显卡。上淘宝一搜果然有卖亮机卡的，16元的价格也就不用纠结值不值了，能亮就行。为了能看到视频输出我还买了一个二十多的HDMI采集卡以代替显示器，事实证明二十块的画质果然不行。
+电源不敢买二手的，怕出问题。500W的电源相对于目前的整机功耗明显是过剩的，但这也为以后的升级保留了余量。
+最后是机箱，综合以上要求，机箱应该是体积小、轻便、便宜的多盘位ITX机箱，在淘宝上翻了一大圈只看到这一款同时满足这几点的。别的型号，例如蜗牛星际、御夫座、天箭座等都太贵了或者散热容量太小。两百多的机箱我觉得还是贵了点，可是也没找到更好的选择。&lt;/p>
+&lt;p>关于可升级性，这套配置中，CPU可以升级为24686分的E5-2699 v4（在价格降下来之后），还有三个位置可以加内存条，显卡可以升级，机箱和电源以后也能用于装游戏电脑。&lt;/p>
+&lt;h2 id="实践">实践&lt;/h2>
+&lt;h3 id="装机过程">装机过程&lt;/h3>
+&lt;p>装机过程中遇到的问题有四：&lt;/p>
+&lt;ol>
+&lt;li>CPU散热器的螺丝是弯的（可能是制造问题），要用钳子扳直了才能安装；&lt;/li>
+&lt;li>机箱自带的硬盘笼和主板电源插槽有2mm左右的overlap，装完之后硬盘笼有一点点变形。得益于硬盘架的减震机构，这个变形产生的影响不大；&lt;/li>
+&lt;li>主板下部的插槽和机箱风扇有冲突，前面板USB-3的线插不进去，但对于NAS而言这根线不插问题也不大；&lt;/li>
+&lt;li>华南金牌的这款主板的主板风扇插槽只有3针，不支持PWM，如果直接插MVP120的话噪音非常大。我最后用一拖三的线把所有风扇都接到了支持PWM的CPU风扇插槽上，这样就安静了很多（之后又进BIOS调整了一下转速曲线）。&lt;/li>
+&lt;/ol>
+&lt;h3 id="操作系统">操作系统&lt;/h3>
+&lt;p>因为我最熟悉的Linux发行版是Ubuntu，所以我安装了Ubuntu 22.04.2 LTS（服务器版）。&lt;/p>
+&lt;p>系统盘分区如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Mountpoint Start End Sectors Size Type
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/boot/efi 2048 2203647 2201600 1G EFI System
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/ 2203648 107061247 104857600 50G Linux filesystem
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/home 107061248 211918847 104857600 50G Linux filesystem
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/srv 211918848 958271487 746352640 355.9G Linux filesystem
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">swap 958271488 1000214527 41943040 20G Linux swap
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="测试">测试&lt;/h3>
+&lt;p>整机待机时CPU核心平均温度为30°C，满载时为55°C，说明散热还是有很大的余量的。关于功耗，等买了功耗计再测。&lt;/p>
+&lt;p>使用sysbench的测试结果如下，和我现役的游戏本相比我觉得这个成绩还算可以接受：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Running the test with following options:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Number of threads: 28
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Initializing random number generator from current time
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Prime numbers limit: 10000
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Initializing worker threads...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Threads started!
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">CPU speed:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> events per second: 17251.86
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">General statistics:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> total time: 600.0017s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> total number of events: 10351174
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Latency (ms):
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> min: 1.22
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> avg: 1.62
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> max: 82.58
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 95th percentile: 1.64
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> sum: 16797418.36
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Threads fairness:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> events (avg/stddev): 369684.7857/436.76
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> execution time (avg/stddev): 599.9078/0.00
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="软件部分">软件部分&lt;/h2>
+&lt;h3 id="docker">Docker&lt;/h3>
+&lt;p>最先安装的是Docker，因为有了Docker之后别的应用都可以使用Docker镜像安装和管理。&lt;/p>
+&lt;p>在Ubuntu上安装Docker只需使用官方提供的安装脚本（&lt;a class="link" href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script" target="_blank" rel="noopener"
+>官方教程&lt;/a>）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ curl -fsSL https://get.docker.com -o get-docker.sh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo sh get-docker.sh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="修改docker数据位置">修改Docker数据位置&lt;/h4>
+&lt;p>Docker的数据默认储存在&lt;code>/var/lib/docker&lt;/code>内，我想将其移到&lt;code>/srv&lt;/code>文件系统内，操作如下：&lt;/p>
+&lt;ol>
+&lt;li>关闭&lt;code>docker&lt;/code>服务：&lt;code>systemctl stop docker&lt;/code>&lt;/li>
+&lt;li>移动文件：&lt;code>sudo mv /var/lib/docker /srv/&lt;/code>&lt;/li>
+&lt;li>创建符号链接（以防万一）：&lt;code>sudo ln -s /srv/docker /var/lib/docker&lt;/code>&lt;/li>
+&lt;li>修改配置文件，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加配置：&lt;code>{&amp;quot;data-root&amp;quot;: &amp;quot;/srv/docker&amp;quot;}&lt;/code>&lt;/li>
+&lt;li>启动&lt;code>docker&lt;/code>服务：&lt;code>systemctl start docker&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;h4 id="使用docker国内镜像源">使用Docker国内镜像源&lt;/h4>
+&lt;p>阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 &lt;a class="link" href="https://aliyun.com" target="_blank" rel="noopener"
+>https://aliyun.com&lt;/a> 登录阿里云帐号，然后在 &lt;strong>控制台 &amp;gt; 容器镜像服务 &amp;gt; 镜像工具 &amp;gt; 镜像加速器&lt;/strong> 处可以获取加速器的地址及修改镜像源的方法。&lt;/p>
+&lt;h3 id="samba">samba&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo apt install samba
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>安装后使用&lt;code>smbpasswd -a &amp;lt;username&amp;gt;&lt;/code>为用户添加samba的访问密码，其中&lt;code>&amp;lt;username&amp;gt;&lt;/code>必须为已经在Linux内注册的用户。&lt;/p>
+&lt;p>配置文件为&lt;code>/etc/samba/smb.conf&lt;/code>，配置项可参考&lt;a class="link" href="https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html" target="_blank" rel="noopener"
+>官方文档&lt;/a>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">[&amp;lt;share name&amp;gt;]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">path = /path/to/folder
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">read only = no
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">browsable = yes
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">guest ok = no
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">valid users = &amp;lt;users&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="jellyfin">jellyfin&lt;/h3>
+&lt;p>jellyfin是数字媒体管理与串流软件，它支持浏览器、Android、iOS、Android TV等许多客户端，可以在这些客户端上便捷地观看服务端存储的内容，这也是我攒这台NAS的主要目的。E5-2660 v4的性能足以支持jellyfin流畅编解码超高清资源（软解，不过目前看来也没有专门为这个买GPU的必要了）。&lt;/p>
+&lt;p>可以使用&lt;a class="link" href="https://hub.docker.com/r/jellyfin/jellyfin" target="_blank" rel="noopener"
+>官方的docker镜像&lt;/a>或者&lt;a class="link" href="https://hub.docker.com/r/linuxserver/jellyfin" target="_blank" rel="noopener"
+>linuxserver.io制作的镜像&lt;/a>来安装jellyfin。&lt;/p>
+&lt;p>为了便于我管理和配置，所有的docker镜像都将使用docker compose启动。这是jellyfin的&lt;code>docker-compose.yaml&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;2.1&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">services&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">jellyfin&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">lscr.io/linuxserver/jellyfin:latest&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">jellyfin&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">environment&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">PUID=1000&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">PGID=1000&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">TZ=Asia/Shanghai&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./config:/config&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">/path/to/media:/data&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">8096&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">8096&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">8920&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">8920&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#optional&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">7359&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">7359&lt;/span>&lt;span class="l">/udp&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#optional&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">1900&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">1900&lt;/span>&lt;span class="l">/udp&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#optional&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">unless-stopped&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">deploy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">global&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">8G&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="qbittorrent">qbittorrent&lt;/h3>
+&lt;p>qbittorrent是用于bt下载的软件。linuxserver.io也打包了qbittorrent的镜像，使用这个镜像安装即可。我的&lt;code>docker-compose.yaml&lt;/code>如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">services&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">qbittorrent&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">lscr.io/linuxserver/qbittorrent:latest&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">qbittorrent&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">environment&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">PUID=1000&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">PGID=1000&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">TZ=Asia/Shanghai&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">WEBUI_PORT=4823&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./config:/config&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./torrents:/torrents&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./cache:/cache&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">/disks/alpha/downloads:/downloads&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">4823&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">4823&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># WebUI&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">6881&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">6881&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 监听端口&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">6881&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">6881&lt;/span>&lt;span class="l">/udp&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">14560-14580&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">14560-14580&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 传出端口&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">14560-14580&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">14560-14580&lt;/span>&lt;span class="l">/udp&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">unless-stopped&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">deploy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">global&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpus&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;2.0&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">1G&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="frpc">frpc&lt;/h3>
+&lt;p>内网穿透工具的客户端，我用的是&lt;a class="link" href="https://hub.docker.com/r/snowdreamtech/frpc" target="_blank" rel="noopener"
+>下载量最高的镜像&lt;/a>。&lt;/p>
+&lt;h3 id="coredns">coredns&lt;/h3>
+&lt;p>DNS服务器，因为学校的DNS以前崩过，所以装一个备用。&lt;a class="link" href="https://hub.docker.com/r/coredns/coredns" target="_blank" rel="noopener"
+>官方镜像&lt;/a>即可。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">services&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">coredns&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">coredns/coredns:latest&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">coredns&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./config:/config&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">command&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;-conf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;/config/Corefile&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">always&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">53&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">53&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">53&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">53&lt;/span>&lt;span class="l">/udp&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">deploy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">global&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpus&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;0.5&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">100M&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>53端口可能和ubuntu的systemd-resolved服务冲突，在启动容器前需要先关闭这个服务：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo systemctl disable systemd-resolved
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo systemctl stop systemd-resolved
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>解决Linux系统深色模式下的Zotero显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;p>因为Linux端的Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
 >AUR&lt;/a>）中有一部分元素的样式是由GTK控制的，因此当系统的GTK主题为深色主题时，Zotero的界面会呈现为这个样子：
 &lt;img src="https://files.furffisite.link/blogimg/2023-05-13_13-32-08.png"
 loading="lazy"

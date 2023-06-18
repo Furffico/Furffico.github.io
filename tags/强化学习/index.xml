@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>强化学习 on Furffiblog</title><link>https://blog.furffisite.link/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</link><description>Recent content in 强化学习 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 18 May 2023 15:05:05 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml"/><item><title>【RL学习笔记】Q-Learning Algorithm</title><link>https://blog.furffisite.link/p/q-learning/</link><pubDate>Thu, 18 May 2023 15:05:05 +0800</pubDate><guid>https://blog.furffisite.link/p/q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg" alt="Featured image of post 【RL学习笔记】Q-Learning Algorithm" />&lt;h2 id="算法">算法&lt;/h2>
-&lt;p>Q学习算法（Q-Learning Algorithm）的思路比较简单：使用Q函数记录每一个状态时每一个动作（action）的期望最大总回报（reward），即Q值。在推理时贪心地选择当前状态Q值最大的动作，从而达到最大化期望总回报的目的。当问题的状态与动作均为离散时，Q函数可以使用表格记录，这个表格也称为Q表格（Q-Table）。&lt;/p>
+&lt;p>Q学习算法（Q-Learning Algorithm）的思路比较简单：使用Q函数记录&lt;strong>每一个状态下每一个动作（action）的期望最大总回报（reward）&lt;/strong>，即Q值。在推理时贪心地选择当前状态Q值最大的动作，从而达到最大化期望总回报的目的。当问题的状态与动作均为离散时，Q函数可以使用表格记录，这个表格也称为Q表格（Q-Table）。&lt;/p>
 &lt;p>设：&lt;/p>
 &lt;ul>
 &lt;li>问题的状态空间为 $S = {1,~2,~\ldots, m}$；&lt;/li>
@@ -63,13 +63,11 @@ $$Q_{s_t, a_t} \leftarrow (1-\eta) Q_{s_t, a_t} + \eta(\gamma\max_{j\in A} Q_{s_
 &lt;/span>&lt;span class="lnt">33
 &lt;/span>&lt;span class="lnt">34
 &lt;/span>&lt;span class="lnt">35
-&lt;/span>&lt;span class="lnt">36
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">gymnasium&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">gym&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">numpy&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">np&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">random&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">random&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">tqdm&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">tqdm&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">env&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">gym&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">make&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;FrozenLake-v1&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">map_name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;4x4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">is_slippery&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">False&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
@@ -133,7 +131,7 @@ loading="lazy"
 >&lt;/p>
 &lt;h3 id="blackjack">Blackjack&lt;/h3>
 &lt;p>Blackjack 有 $32\times 11\times 2=704$ 种状态和 $2$ 种动作，在处理时需要将离散的状态向量映射到非负整数域内。
-这个游戏的状态转移存在不确定性，即使是充分训练的Q表格也只能将胜率从完全随机时的28.2%提升到39.3%。&lt;/p>
+这个游戏的状态转移存在不确定性，即使是充分训练（$5\times 10^6$ 步）的Q表格也只能将胜率从完全随机时的 28.2% 提升到 39.3%。&lt;/p>
 &lt;h2 id="分析">分析&lt;/h2>
 &lt;h3 id="优点">优点&lt;/h3>
 &lt;ul>
@@ -143,7 +141,7 @@ loading="lazy"
 &lt;ul>
 &lt;li>基于Q表格的Q学习算法只能处理输入输出都是离散的问题；&lt;/li>
 &lt;li>基于Q表格的Q学习算法不能跨实例学习，即在遇到新的问题实例时，需要从0开始重新探索；&lt;/li>
-&lt;li>基于Q表格的Q学习算法无法处理训练过程中没有见过的状态；&lt;/li>
+&lt;li>基于Q表格的Q学习算法难以处理训练过程中没有见过的状态；&lt;/li>
 &lt;li>当状态空间或动作空间很大时，Q表格的规模也会很大，从而需要更长的学习时间。&lt;/li>
 &lt;/ul>
 &lt;p>上述问题可以通过引入神经网络缓解，即深度Q学习算法（Deep Q-Learning Algorithm）。&lt;/p></description></item></channel></rss>

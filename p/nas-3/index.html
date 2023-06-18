@@ -1,0 +1,244 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="（一）和（二）留给以前用的NAS，待填坑。 理论 装机配置单 品牌 型号 参数 购买价 购买链接 CPU Intel E5-2660 v4 14核 2.0GHz 规格表 ¥52（洋垃圾） link 内存 Samsung M393A2G40DB0-CPB DDR4 2133MHz 16GB 规格"><title>我折腾NAS的历程（三）</title><link rel=canonical href=https://blog.furffisite.link/p/nas-3/><link rel=stylesheet href=/scss/style.min.8191399262444ab68b72a18c97392f5349be20a1615d77445be51e974c144cff.css><meta property="og:title" content="我折腾NAS的历程（三）"><meta property="og:description" content="（一）和（二）留给以前用的NAS，待填坑。 理论 装机配置单 品牌 型号 参数 购买价 购买链接 CPU Intel E5-2660 v4 14核 2.0GHz 规格表 ¥52（洋垃圾） link 内存 Samsung M393A2G40DB0-CPB DDR4 2133MHz 16GB 规格"><meta property="og:url" content="https://blog.furffisite.link/p/nas-3/"><meta property="og:site_name" content="Furffiblog"><meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="NAS"><meta property="article:tag" content="Linux"><meta property="article:tag" content="攒机"><meta property="article:published_time" content="2023-06-18T13:58:40+08:00"><meta property="article:modified_time" content="2023-06-18T13:58:40+08:00"><meta property="og:image" content="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg"><meta name=twitter:title content="我折腾NAS的历程（三）"><meta name=twitter:description content="（一）和（二）留给以前用的NAS，待填坑。 理论 装机配置单 品牌 型号 参数 购买价 购买链接 CPU Intel E5-2660 v4 14核 2.0GHz 规格表 ¥52（洋垃圾） link 内存 Samsung M393A2G40DB0-CPB DDR4 2133MHz 16GB 规格"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg"><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-168606738-1","auto"),ga("send","pageview"))</script><link rel=dns-prefetch href=https://files.furffisite.link><link rel=preconnect href=https://files.furffisite.link crossorigin></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu8a7a5e24c6afd9e1fde1d549095c0023_459346_300x0_resize_box_3.png width=300 height=300 class=site-logo loading=lazy alt=Avatar></a>
+<span class=emoji>🗑️</span></figure><div class=site-meta><h1 class=site-name><a href=/>Furffiblog</a></h1><h2 class=site-description>Furffy's blog</h2></div></header><ol class=social-menu><li><a href=https://github.com/furffico target=_blank title=GitHub rel=me><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg><span>主页</span></a></li><li><a href=/about/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg><span>关于</span></a></li><li><a href=/archives/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg><span>文章归档</span></a></li><li><a href=/gallery/><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><g fill="none"><path d="M3 7a4 4 0 014-4h14a4 4 0 014 4v14a4 4 0 01-4 4H7a4 4 0 01-4-4V7zm4-2A2 2 0 005 7v14a2 2 0 00.077.552l7.32-6.914c.9-.85 2.306-.85 3.205.0l7.32 6.914A2 2 0 0023 21V7a2 2 0 00-2-2H7zm0 18h14c.166.0.328-.02.482-.058l-7.253-6.85a.333.333.0 00-.458.0l-7.253 6.85c.155.038.316.058.482.058zm11.5-11a1.5 1.5.0 100-3 1.5 1.5.0 000 3zm-8 16.5a3.998 3.998.0 01-3.465-2H21a5.5 5.5.0 005.5-5.5V7.035c1.196.692 2 1.984 2 3.465V21A7.5 7.5.0 0121 28.5H10.5z" fill="currentcolor"/></g></svg><span>相册</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg><span>搜索</span></a></li><div class=menu-bottom-section><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg><span>暗色模式</span></li></div></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#理论>理论</a><ol><li><a href=#装机配置单>装机配置单</a></li><li><a href=#攒机理念>攒机理念</a></li></ol></li><li><a href=#实践>实践</a><ol><li><a href=#装机过程>装机过程</a></li><li><a href=#操作系统>操作系统</a></li><li><a href=#测试>测试</a></li></ol></li><li><a href=#软件部分>软件部分</a><ol><li><a href=#docker>Docker</a><ol><li><a href=#修改docker数据位置>修改Docker数据位置</a></li><li><a href=#使用docker国内镜像源>使用Docker国内镜像源</a></li></ol></li><li><a href=#samba>samba</a></li><li><a href=#jellyfin>jellyfin</a></li><li><a href=#qbittorrent>qbittorrent</a></li><li><a href=#frpc>frpc</a></li><li><a href=#coredns>coredns</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/nas-3/><img src=https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg loading=lazy alt="Featured image of post 我折腾NAS的历程（三）"></a></div><div class=article-details><header class=article-category><a href=/categories/%E7%AC%94%E8%AE%B0/>笔记</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/nas-3/>我折腾NAS的历程（三）</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg><time class=article-time--published>Jun 18, 2023</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><time class=article-time--reading>阅读时长: 6 分钟</time></div></footer></div></header><section class=article-content><p><em>（一）和（二）留给以前用的NAS，待填坑。</em></p><h2 id=理论>理论</h2><h3 id=装机配置单>装机配置单</h3><div class=table-wrapper><table><thead><tr><th></th><th>品牌</th><th>型号</th><th>参数</th><th>购买价</th><th>购买链接</th></tr></thead><tbody><tr><td>CPU</td><td>Intel</td><td>E5-2660 v4</td><td>14核 2.0GHz <a class=link href=https://www.intel.cn/content/www/cn/zh/products/sku/91772/intel-xeon-processor-e52660-v4-35m-cache-2-00-ghz/specifications.html target=_blank rel=noopener>规格表</a></td><td>¥52（洋垃圾）</td><td><a class=link href="https://item.taobao.com/item.htm?id=653447092309" target=_blank rel=noopener>link</a></td></tr><tr><td>内存</td><td>Samsung</td><td>M393A2G40DB0-CPB</td><td>DDR4 2133MHz 16GB <a class=link href=https://semiconductor.samsung.com/dram/module/rdimm/m393a2g40db0-cpb/ target=_blank rel=noopener>规格表</a></td><td>¥92（洋垃圾）</td><td><a class=link href="https://item.taobao.com/item.htm?id=655661217770" target=_blank rel=noopener>link</a></td></tr><tr><td>主板</td><td>华南金牌</td><td>X99-4MF</td><td>ITX DDR4x4 SATAx3 <a class=link href="http://www.huananzhi.com/more.php?lm=10&id=784" target=_blank rel=noopener>规格表</a></td><td>¥268</td><td><a class=link href="https://item.taobao.com/item.htm?id=584879880832" target=_blank rel=noopener>link</a></td></tr><tr><td>系统盘</td><td>SKHynix</td><td>HFS512GDE9X084N</td><td>512GB NVME</td><td>¥0*</td><td></td></tr><tr><td>显卡</td><td>NVIDIA</td><td>-</td><td>-</td><td>¥16</td><td><a class=link href="https://item.taobao.com/item.htm?id=704690006685" target=_blank rel=noopener>link</a></td></tr><tr><td>电源</td><td>航嘉</td><td>GX500</td><td>500W ATX 白牌</td><td>¥191.92</td><td><a class=link href="https://detail.tmall.com/item.htm?id=592122962211" target=_blank rel=noopener>link</a></td></tr><tr><td>机箱</td><td>invasion</td><td>invasion X1</td><td>4盘位ITX</td><td>¥244</td><td><a class=link href="https://item.taobao.com/item.htm?id=631276021464" target=_blank rel=noopener>link</a></td></tr><tr><td>CPU散热器</td><td>零下30度</td><td>-</td><td>-</td><td>¥38.7</td><td><a class=link href="https://item.taobao.com/item.htm?id=543496686865" target=_blank rel=noopener>link</a></td></tr><tr><td>机箱风扇</td><td>航嘉</td><td>MVP120</td><td>1500RPM，支持PWM</td><td>¥75.95（三只装）</td><td><a class=link href="https://detail.tmall.com/item.htm?id=657878805031" target=_blank rel=noopener>link</a></td></tr><tr><td>总计</td><td></td><td></td><td></td><td>¥978.57</td><td></td></tr></tbody></table></div><p>*笔记本上拆下来的</p><h3 id=攒机理念>攒机理念</h3><p>目标：<strong>省钱、性能还行、体积小、静音、保留一定的可升级性、尽量一手</strong>。</p><p>关于CPU，我在<a class=link href=https://www.cpubenchmark.net target=_blank rel=noopener>CPUbenchmark</a>上按照跑分结果在E5的一系列洋垃圾型号中从高到低翻，最后看中了 E5-2660 v4。选择它有以下几点理由：</p><ol><li>其功耗相比与同系列其它型号较低；</li><li>E5-2660 v4为2016 Q4推出的，相对v3和v2要新一点；</li><li>其性价比在同型号中较高，52元16005分，相较于2690 v3的68元16505分更实惠。</li></ol><p>CPU定下来了之后，主板和内存也就相应的决定了。之所以主板不选二手是因为我想省点事，对于二手市场上可能遇到的众多问题我目前没有任何应对经验。而选择ITX是为了满足体积小的要求，毕竟宿舍里放不下太多东西。</p><p>关于系统盘，之前给笔记本升级外存的时候拆下来的原装SSD可以直接给它用。就算是买一个全新的也不会太贵，256GB买个二线厂的SSD应该也够用了。
+在装系统、进BIOS时显卡是必要的，作为服务器CPU的E5-2660 v4没有核心显卡，因此这里依然需要一张显卡。上淘宝一搜果然有卖亮机卡的，16元的价格也就不用纠结值不值了，能亮就行。为了能看到视频输出我还买了一个二十多的HDMI采集卡以代替显示器，事实证明二十块的画质果然不行。
+电源不敢买二手的，怕出问题。500W的电源相对于目前的整机功耗明显是过剩的，但这也为以后的升级保留了余量。
+最后是机箱，综合以上要求，机箱应该是体积小、轻便、便宜的多盘位ITX机箱，在淘宝上翻了一大圈只看到这一款同时满足这几点的。别的型号，例如蜗牛星际、御夫座、天箭座等都太贵了或者散热容量太小。两百多的机箱我觉得还是贵了点，可是也没找到更好的选择。</p><p>关于可升级性，这套配置中，CPU可以升级为24686分的E5-2699 v4（在价格降下来之后），还有三个位置可以加内存条，显卡可以升级，机箱和电源以后也能用于装游戏电脑。</p><h2 id=实践>实践</h2><h3 id=装机过程>装机过程</h3><p>装机过程中遇到的问题有四：</p><ol><li>CPU散热器的螺丝是弯的（可能是制造问题），要用钳子扳直了才能安装；</li><li>机箱自带的硬盘笼和主板电源插槽有2mm左右的overlap，装完之后硬盘笼有一点点变形。得益于硬盘架的减震机构，这个变形产生的影响不大；</li><li>主板下部的插槽和机箱风扇有冲突，前面板USB-3的线插不进去，但对于NAS而言这根线不插问题也不大；</li><li>华南金牌的这款主板的主板风扇插槽只有3针，不支持PWM，如果直接插MVP120的话噪音非常大。我最后用一拖三的线把所有风扇都接到了支持PWM的CPU风扇插槽上，这样就安静了很多（之后又进BIOS调整了一下转速曲线）。</li></ol><h3 id=操作系统>操作系统</h3><p>因为我最熟悉的Linux发行版是Ubuntu，所以我安装了Ubuntu 22.04.2 LTS（服务器版）。</p><p>系统盘分区如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Mountpoint      Start        End   Sectors   Size Type
+</span></span><span class=line><span class=cl>/boot/efi        2048    2203647   2201600     1G EFI System
+</span></span><span class=line><span class=cl>/             2203648  107061247 104857600    50G Linux filesystem
+</span></span><span class=line><span class=cl>/home       107061248  211918847 104857600    50G Linux filesystem
+</span></span><span class=line><span class=cl>/srv        211918848  958271487 746352640 355.9G Linux filesystem
+</span></span><span class=line><span class=cl>swap        958271488 1000214527  41943040    20G Linux swap
+</span></span></code></pre></td></tr></table></div></div><h3 id=测试>测试</h3><p>整机待机时CPU核心平均温度为30°C，满载时为55°C，说明散热还是有很大的余量的。关于功耗，等买了功耗计再测。</p><p>使用sysbench的测试结果如下，和我现役的游戏本相比我觉得这个成绩还算可以接受：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Running the test with following options:
+</span></span><span class=line><span class=cl>Number of threads: 28
+</span></span><span class=line><span class=cl>Initializing random number generator from current time
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Prime numbers limit: 10000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Initializing worker threads...
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Threads started!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>CPU speed:
+</span></span><span class=line><span class=cl>    events per second: 17251.86
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>General statistics:
+</span></span><span class=line><span class=cl>    total time:                          600.0017s
+</span></span><span class=line><span class=cl>    total number of events:              10351174
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Latency (ms):
+</span></span><span class=line><span class=cl>         min:                                    1.22
+</span></span><span class=line><span class=cl>         avg:                                    1.62
+</span></span><span class=line><span class=cl>         max:                                   82.58
+</span></span><span class=line><span class=cl>         95th percentile:                        1.64
+</span></span><span class=line><span class=cl>         sum:                             16797418.36
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Threads fairness:
+</span></span><span class=line><span class=cl>    events (avg/stddev):           369684.7857/436.76
+</span></span><span class=line><span class=cl>    execution time (avg/stddev):   599.9078/0.00
+</span></span></code></pre></td></tr></table></div></div><h2 id=软件部分>软件部分</h2><h3 id=docker>Docker</h3><p>最先安装的是Docker，因为有了Docker之后别的应用都可以使用Docker镜像安装和管理。</p><p>在Ubuntu上安装Docker只需使用官方提供的安装脚本（<a class=link href=https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script target=_blank rel=noopener>官方教程</a>）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl -fsSL https://get.docker.com -o get-docker.sh
+</span></span><span class=line><span class=cl>$ sudo sh get-docker.sh
+</span></span></code></pre></td></tr></table></div></div><h4 id=修改docker数据位置>修改Docker数据位置</h4><p>Docker的数据默认储存在<code>/var/lib/docker</code>内，我想将其移到<code>/srv</code>文件系统内，操作如下：</p><ol><li>关闭<code>docker</code>服务：<code>systemctl stop docker</code></li><li>移动文件：<code>sudo mv /var/lib/docker /srv/</code></li><li>创建符号链接（以防万一）：<code>sudo ln -s /srv/docker /var/lib/docker</code></li><li>修改配置文件，在<code>/etc/docker/daemon.json</code>内添加配置：<code>{"data-root": "/srv/docker"}</code></li><li>启动<code>docker</code>服务：<code>systemctl start docker</code></li></ol><h4 id=使用docker国内镜像源>使用Docker国内镜像源</h4><p>阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 <a class=link href=https://aliyun.com target=_blank rel=noopener>https://aliyun.com</a> 登录阿里云帐号，然后在 <strong>控制台 > 容器镜像服务 > 镜像工具 > 镜像加速器</strong> 处可以获取加速器的地址及修改镜像源的方法。</p><h3 id=samba>samba</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo apt install samba
+</span></span></code></pre></td></tr></table></div></div><p>安装后使用<code>smbpasswd -a &lt;username></code>为用户添加samba的访问密码，其中<code>&lt;username></code>必须为已经在Linux内注册的用户。</p><p>配置文件为<code>/etc/samba/smb.conf</code>，配置项可参考<a class=link href=https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html target=_blank rel=noopener>官方文档</a>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[&lt;share name&gt;]
+</span></span><span class=line><span class=cl>path = /path/to/folder
+</span></span><span class=line><span class=cl>read only = no
+</span></span><span class=line><span class=cl>browsable = yes
+</span></span><span class=line><span class=cl>guest ok = no
+</span></span><span class=line><span class=cl>valid users = &lt;users&gt;
+</span></span></code></pre></td></tr></table></div></div><h3 id=jellyfin>jellyfin</h3><p>jellyfin是数字媒体管理与串流软件，它支持浏览器、Android、iOS、Android TV等许多客户端，可以在这些客户端上便捷地观看服务端存储的内容，这也是我攒这台NAS的主要目的。E5-2660 v4的性能足以支持jellyfin流畅编解码超高清资源（软解，不过目前看来也没有专门为这个买GPU的必要了）。</p><p>可以使用<a class=link href=https://hub.docker.com/r/jellyfin/jellyfin target=_blank rel=noopener>官方的docker镜像</a>或者<a class=link href=https://hub.docker.com/r/linuxserver/jellyfin target=_blank rel=noopener>linuxserver.io制作的镜像</a>来安装jellyfin。</p><p>为了便于我管理和配置，所有的docker镜像都将使用docker compose启动。这是jellyfin的<code>docker-compose.yaml</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>version</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;2.1&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>services</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>jellyfin</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>lscr.io/linuxserver/jellyfin:latest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>container_name</span><span class=p>:</span><span class=w> </span><span class=l>jellyfin</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>environment</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>PUID=1000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>PGID=1000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>TZ=Asia/Shanghai</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>./config:/config</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>/path/to/media:/data</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>8096</span><span class=p>:</span><span class=m>8096</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>8920</span><span class=p>:</span><span class=m>8920</span><span class=w> </span><span class=c>#optional</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>7359</span><span class=p>:</span><span class=m>7359</span><span class=l>/udp</span><span class=w> </span><span class=c>#optional</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>1900</span><span class=p>:</span><span class=m>1900</span><span class=l>/udp</span><span class=w> </span><span class=c>#optional</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>restart</span><span class=p>:</span><span class=w> </span><span class=l>unless-stopped</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>deploy</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>mode</span><span class=p>:</span><span class=w> </span><span class=l>global</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>limits</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>memory</span><span class=p>:</span><span class=w> </span><span class=l>8G</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=qbittorrent>qbittorrent</h3><p>qbittorrent是用于bt下载的软件。linuxserver.io也打包了qbittorrent的镜像，使用这个镜像安装即可。我的<code>docker-compose.yaml</code>如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>services</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>qbittorrent</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>lscr.io/linuxserver/qbittorrent:latest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>container_name</span><span class=p>:</span><span class=w> </span><span class=l>qbittorrent</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>environment</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>PUID=1000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>PGID=1000</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>TZ=Asia/Shanghai</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>WEBUI_PORT=4823</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>./config:/config</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>./torrents:/torrents</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>./cache:/cache</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>/disks/alpha/downloads:/downloads</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>4823</span><span class=p>:</span><span class=m>4823</span><span class=w> </span><span class=c># WebUI</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>6881</span><span class=p>:</span><span class=m>6881</span><span class=w> </span><span class=c># 监听端口</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>6881</span><span class=p>:</span><span class=m>6881</span><span class=l>/udp</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>14560-14580</span><span class=p>:</span><span class=m>14560-14580</span><span class=w> </span><span class=c># 传出端口</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>14560-14580</span><span class=p>:</span><span class=m>14560-14580</span><span class=l>/udp</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>restart</span><span class=p>:</span><span class=w> </span><span class=l>unless-stopped</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>deploy</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>mode</span><span class=p>:</span><span class=w> </span><span class=l>global</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>limits</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>cpus</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;2.0&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>memory</span><span class=p>:</span><span class=w> </span><span class=l>1G</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=frpc>frpc</h3><p>内网穿透工具的客户端，我用的是<a class=link href=https://hub.docker.com/r/snowdreamtech/frpc target=_blank rel=noopener>下载量最高的镜像</a>。</p><h3 id=coredns>coredns</h3><p>DNS服务器，因为学校的DNS以前崩过，所以装一个备用。<a class=link href=https://hub.docker.com/r/coredns/coredns target=_blank rel=noopener>官方镜像</a>即可。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>services</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>coredns</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>coredns/coredns:latest</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>container_name</span><span class=p>:</span><span class=w> </span><span class=l>coredns</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>volumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>./config:/config</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>command</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=s2>&#34;-conf&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;/config/Corefile&#34;</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>restart</span><span class=p>:</span><span class=w> </span><span class=l>always</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>0.0.0.0</span><span class=p>:</span><span class=m>53</span><span class=p>:</span><span class=m>53</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>0.0.0.0</span><span class=p>:</span><span class=m>53</span><span class=p>:</span><span class=m>53</span><span class=l>/udp</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>deploy</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>mode</span><span class=p>:</span><span class=w> </span><span class=l>global</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>limits</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>cpus</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;0.5&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>memory</span><span class=p>:</span><span class=w> </span><span class=l>100M</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>53端口可能和ubuntu的systemd-resolved服务冲突，在启动容器前需要先关闭这个服务：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo systemctl disable systemd-resolved
+</span></span><span class=line><span class=cl>$ sudo systemctl stop systemd-resolved
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-tags><a href=/tags/nas/>NAS</a>
+<a href=/tags/linux/>Linux</a>
+<a href=/tags/%E6%94%92%E6%9C%BA/>攒机</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg><span>本文基于<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.zh-Hans target=_blank rel=noopener><u>CC BY-NC-SA 4.0 协议</u></a>发布。本文<strong>不可商用</strong>，转载时请<strong>注明出处</strong>并使用<strong>相同协议</strong>。</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css integrity="sha256-J+iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s=" crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js integrity="sha256-InsNdER1b2xUewP+pKCUJpkhiqwHgqiPXDlIk7GzBu4=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI=" crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.querySelector(`.article-content`),{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article class=has-image><a href=/p/q-learning/><div class=article-image><img src=https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg loading=lazy data-key=Q-learning data-hash=https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg></div><div class=article-details><h2 class=article-title>【RL学习笔记】Q-Learning Algorithm</h2></div></a></article></div></div></aside><script src=https://giscus.app/client.js data-repo=Furffico/Furffico.github.io data-repo-id=R_kgDOIs6c3Q data-category=General data-category-id=DIC_kwDOIs6c3c4CTWXf data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en crossorigin=anonymous async></script>
+<script>function setGiscusTheme(e){let t=document.querySelector("iframe.giscus-frame");t&&t.contentWindow.postMessage({giscus:{setConfig:{theme:e}}},"https://giscus.app")}(function(){addEventListener("message",t=>{if(event.origin!=="https://giscus.app")return;e()}),window.addEventListener("onColorSchemeChange",e);function e(){setGiscusTheme(document.documentElement.dataset.scheme==="light"?"light":"dark_dimmed")}})()</script><footer class=site-footer><section class=copyright>&copy;
+2022 -
+2023 Furffiblog</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.16.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script>
+<script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
