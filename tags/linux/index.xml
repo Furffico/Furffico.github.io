@@ -56,7 +56,7 @@
 &lt;td>NVIDIA&lt;/td>
 &lt;td>-&lt;/td>
 &lt;td>-&lt;/td>
-&lt;td>¥16&lt;/td>
+&lt;td>¥16（亮机卡）&lt;/td>
 &lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=704690006685" target="_blank" rel="noopener"
 >link&lt;/a>&lt;/td>
 &lt;/tr>
@@ -129,7 +129,7 @@
 &lt;li>CPU散热器的螺丝是弯的（可能是制造问题），要用钳子扳直了才能安装；&lt;/li>
 &lt;li>机箱自带的硬盘笼和主板电源插槽有2mm左右的overlap，装完之后硬盘笼有一点点变形。得益于硬盘架的减震机构，这个变形产生的影响不大；&lt;/li>
 &lt;li>主板下部的插槽和机箱风扇有冲突，前面板USB-3的线插不进去，但对于NAS而言这根线不插问题也不大；&lt;/li>
-&lt;li>华南金牌的这款主板的主板风扇插槽只有3针，不支持PWM，如果直接插MVP120的话噪音非常大。我最后用一拖三的线把所有风扇都接到了支持PWM的CPU风扇插槽上，这样就安静了很多（之后又进BIOS调整了一下转速曲线）。&lt;/li>
+&lt;li>华南金牌的这款主板的主板风扇插槽只有3针，不支持PWM，直接插MVP120的话满转速噪音非常大。我最后用一拖三的线把所有风扇都接到了支持PWM的CPU风扇插槽上，这样就安静了很多（之后又进BIOS调整了一下温度-转速曲线）。&lt;/li>
 &lt;/ol>
 &lt;h3 id="操作系统">操作系统&lt;/h3>
 &lt;p>因为我最熟悉的Linux发行版是Ubuntu，所以我安装了Ubuntu 22.04.2 LTS（服务器版）。&lt;/p>
@@ -248,6 +248,49 @@
 &lt;h4 id="使用docker国内镜像源">使用Docker国内镜像源&lt;/h4>
 &lt;p>阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 &lt;a class="link" href="https://aliyun.com" target="_blank" rel="noopener"
 >https://aliyun.com&lt;/a> 登录阿里云帐号，然后在 &lt;strong>控制台 &amp;gt; 容器镜像服务 &amp;gt; 镜像工具 &amp;gt; 镜像加速器&lt;/strong> 处可以获取加速器的地址及修改镜像源的方法。&lt;/p>
+&lt;h4 id="手动下载镜像">手动下载镜像&lt;/h4>
+&lt;p>如果替换了镜像源之后也拉不动镜像的话，可以试试 &lt;a class="link" href="https://github.com/moby/moby" target="_blank" rel="noopener"
+>Moby Project&lt;/a> 提供的镜像下载脚本以通过代理下载镜像：&lt;a class="link" href="https://github.com/moby/moby/blob/master/contrib/download-frozen-image-v2.sh" target="_blank" rel="noopener"
+>link&lt;/a>&lt;/p>
+&lt;p>使用例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ wget https://raw.githubusercontent.com/moby/moby/master/contrib/download-frozen-image-v2.sh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ bash ./download-frozen-image-v2.sh ./alpine-linux alpine:latest
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Downloading &lt;span class="s1">&amp;#39;library/alpine:latest@latest&amp;#39;&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="m">1&lt;/span> layers&lt;span class="o">)&lt;/span>...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-#O&lt;span class="o">=&lt;/span>-# &lt;span class="c1"># #&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">############################################## 100.0%&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Download of images into &lt;span class="s1">&amp;#39;./alpine-linux&amp;#39;&lt;/span> complete.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Use something like the following to load the result into a Docker daemon:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> tar -cC &lt;span class="s1">&amp;#39;./alpine-linux&amp;#39;&lt;/span> . &lt;span class="p">|&lt;/span> docker load
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这时镜像就已经保存到&lt;code>./alpine-linux&lt;/code>内了，然后使用&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ tar -cC &lt;span class="s1">&amp;#39;./alpine-linux&amp;#39;&lt;/span> . &lt;span class="p">|&lt;/span> docker load
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">......
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Loaded image: alpine:latest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>即可让docker导入镜像。&lt;/p>
 &lt;h3 id="samba">samba&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -309,6 +352,7 @@
 &lt;/span>&lt;span class="lnt">21
 &lt;/span>&lt;span class="lnt">22
 &lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;2.1&amp;#34;&lt;/span>&lt;span class="w">
@@ -333,6 +377,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">global&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpus&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;20&amp;#39;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">8G&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
@@ -382,7 +427,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./config:/config&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./torrents:/torrents&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./cache:/cache&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">/disks/alpha/downloads:/downloads&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">/path/to/downloads:/downloads&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">4823&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">4823&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># WebUI&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">6881&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">6881&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 监听端口&lt;/span>&lt;span class="w">
@@ -455,7 +500,14 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo systemctl stop systemd-resolved
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description></item><item><title>解决Linux系统深色模式下的Zotero显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;p>因为Linux端的Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
+&lt;/div>&lt;h3 id="grafana--prometheus">Grafana &amp;amp; Prometheus&lt;/h3>
+&lt;p>&lt;a class="link" href="https://grafana.com/" target="_blank" rel="noopener"
+>Grafana&lt;/a>和&lt;a class="link" href="https://prometheus.io/" target="_blank" rel="noopener"
+>Prometheus&lt;/a>这两个开源软件组合在一起可以用来监控服务器状态（不过在自用的NAS上搞这个可能意义不大）。之前没了解过这些软件，因此这部分完全是按照&lt;a class="link" href="https://geekflare.com/prometheus-grafana-setup-for-linux/" target="_blank" rel="noopener"
+>教程&lt;/a>安装的，其中Grafana不涉及数据收集，可以在Docker容器中运行。&lt;/p>
+&lt;p>除了这两个软件，我还安装了&lt;a class="link" href="https://github.com/prometheus/node_exporter" target="_blank" rel="noopener"
+>node exporter&lt;/a>和&lt;a class="link" href="https://github.com/google/cadvisor" target="_blank" rel="noopener"
+>cadvisor&lt;/a>，分别收集服务器系统与Docker容器的统计信息。&lt;/p></description></item><item><title>解决Linux系统深色模式下的Zotero显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;p>因为Linux端的Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
 >AUR&lt;/a>）中有一部分元素的样式是由GTK控制的，因此当系统的GTK主题为深色主题时，Zotero的界面会呈现为这个样子：
 &lt;img src="https://files.furffisite.link/blogimg/2023-05-13_13-32-08.png"
 loading="lazy"
