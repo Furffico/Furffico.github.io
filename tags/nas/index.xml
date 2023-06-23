@@ -250,7 +250,7 @@
 >https://aliyun.com&lt;/a> 登录阿里云帐号，然后在 &lt;strong>控制台 &amp;gt; 容器镜像服务 &amp;gt; 镜像工具 &amp;gt; 镜像加速器&lt;/strong> 处可以获取加速器的地址及修改镜像源的方法。&lt;/p>
 &lt;h4 id="手动下载镜像">手动下载镜像&lt;/h4>
 &lt;p>如果替换了镜像源之后也拉不动镜像的话，可以试试 &lt;a class="link" href="https://github.com/moby/moby" target="_blank" rel="noopener"
->Moby Project&lt;/a> 提供的镜像下载脚本以通过代理下载镜像：&lt;a class="link" href="https://github.com/moby/moby/blob/master/contrib/download-frozen-image-v2.sh" target="_blank" rel="noopener"
+>Moby Project&lt;/a> 提供的镜像下载脚本下载镜像：&lt;a class="link" href="https://github.com/moby/moby/blob/master/contrib/download-frozen-image-v2.sh" target="_blank" rel="noopener"
 >link&lt;/a>&lt;/p>
 &lt;p>使用例：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -546,6 +546,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>这样在局域网直接访问 &lt;code>http://jellyfin.server.local&lt;/code> 就可以进入jellyfin的界面了。&lt;/p>
+&lt;p>&lt;em>注：关闭systemd-resolved服务之后在使用KVM时可能会遇到一些问题。&lt;/em>&lt;/p>
 &lt;h3 id="grafana--prometheus">Grafana &amp;amp; Prometheus&lt;/h3>
 &lt;p>&lt;a class="link" href="https://grafana.com/" target="_blank" rel="noopener"
 >Grafana&lt;/a>和&lt;a class="link" href="https://prometheus.io/" target="_blank" rel="noopener"
@@ -553,4 +554,62 @@
 >教程&lt;/a>安装的，其中Grafana不涉及数据收集，可以在Docker容器中运行。&lt;/p>
 &lt;p>除了这两个软件，我还安装了&lt;a class="link" href="https://github.com/prometheus/node_exporter" target="_blank" rel="noopener"
 >node exporter&lt;/a>和&lt;a class="link" href="https://github.com/google/cadvisor" target="_blank" rel="noopener"
->cadvisor&lt;/a>，分别收集服务器系统与Docker容器的统计信息。&lt;/p></description></item></channel></rss>
+>cadvisor&lt;/a>，分别收集服务器系统与Docker容器的统计信息。&lt;/p>
+&lt;p>装好之后，我以node exporter为基础改出了这样的dashboard：
+&lt;img src="https://files.furffisite.link/blogimg/20230623223905-8a11623bf1549c06e503742374b7f39c-d92f1.png"
+loading="lazy"
+>&lt;/p>
+&lt;h3 id="数据库">数据库&lt;/h3>
+&lt;p>有一些服务（例如&lt;a class="link" href="https://github.com/go-gitea/gitea" target="_blank" rel="noopener"
+>gitea&lt;/a>和自己写的爬虫）的数据是存储在数据库中的，我比较喜欢将这些数据放在同一个数据库服务端内（而非给每个有需要的应用都运行一个数据库），以便于数据的管理，同时减少系统占用。&lt;/p>
+&lt;p>关于关系型数据库，我使用的是&lt;a class="link" href="https://mariadb.org/" target="_blank" rel="noopener"
+>mariadb&lt;/a>（MySQL的一个衍生版本）。关于镜像的版本，建议使用一个固定的版本号（而非latest），因为在不同版本的mariadb之间迁移数据还是比较麻烦的。&lt;/p>
+&lt;p>关于数据库的管理端，我以前常用的是&lt;a class="link" href="https://www.phpmyadmin.net/" target="_blank" rel="noopener"
+>phpmyadmin&lt;/a>，这次想试试别的，所以使用了&lt;a class="link" href="https://hub.docker.com/_/mariadb" target="_blank" rel="noopener"
+>官方docker镜像页&lt;/a>里提到的&lt;a class="link" href="https://hub.docker.com/_/adminer" target="_blank" rel="noopener"
+>adminer&lt;/a>。其功能虽不如phpmyadmin丰富，界面也不如它美观，但是我平时会用到的基础操作（建表、查看数据、SQL查询、导出数据）它都有，缺少的功能可以直接用SQL语句凑嘛~&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">services&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">db&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">mariadb:10.11.4&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">mariadb&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">always&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">environment&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">MARIADB_ROOT_PASSWORD&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./mariadb:/var/lib/mysql&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">3306&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">3306&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">adminer&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">adminer&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">adminer&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">always&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">8080&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">8080&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果服务需要，也可以使用docker运行非关系型数据库&lt;a class="link" href="https://www.mongodb.com/" target="_blank" rel="noopener"
+>MongoDB&lt;/a>和&lt;a class="link" href="https://redis.io/" target="_blank" rel="noopener"
+>redis&lt;/a>，遇到的时候再写。&lt;/p></description></item></channel></rss>
