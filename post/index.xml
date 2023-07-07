@@ -153,7 +153,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;h3 id="测试">测试&lt;/h3>
-&lt;p>整机待机时CPU核心平均温度为30°C，满载时为55°C，说明散热还是有很大的余量的。关于功耗，等买了功耗计再测。&lt;/p>
+&lt;p>整机待机时CPU核心平均温度为30°C，满载时为55°C，说明散热还是有很大的余量的。服务正常运行时插座上测量到的功率在68W左右，CPU满载时约140W。&lt;/p>
 &lt;p>使用sysbench的测试结果如下，和我现役的游戏本相比我觉得这个成绩还算可以接受：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
