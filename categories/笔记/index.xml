@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>笔记 on Furffiblog</title><link>https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/</link><description>Recent content in 笔记 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 18 Jun 2023 13:58:40 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>我折腾NAS的历程（三）</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾NAS的历程（三）" />&lt;p>&lt;em>（一）和（二）留给以前用的NAS，待填坑。&lt;/em>&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>笔记 on Furffiblog</title><link>https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/</link><description>Recent content in 笔记 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 18 Jun 2023 13:58:40 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>我折腾NAS的历程（三）</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾NAS的历程（三）" />&lt;p>组这台NAS前的事情：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" >&lt;em>我折腾NAS的历程（一）&lt;/em>&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >&lt;em>我折腾NAS的历程（二）&lt;/em>&lt;/a>&lt;/li>
+&lt;/ul>
 &lt;h2 id="理论">理论&lt;/h2>
 &lt;h3 id="装机配置单">装机配置单&lt;/h3>
 &lt;table>
@@ -612,7 +616,79 @@ loading="lazy"
 &lt;/div>
 &lt;/div>&lt;p>如果服务需要，也可以使用docker运行非关系型数据库&lt;a class="link" href="https://www.mongodb.com/" target="_blank" rel="noopener"
 >MongoDB&lt;/a>和&lt;a class="link" href="https://redis.io/" target="_blank" rel="noopener"
->redis&lt;/a>，遇到的时候再写。&lt;/p></description></item><item><title>【RL学习笔记】Q-Learning Algorithm</title><link>https://blog.furffisite.link/p/q-learning/</link><pubDate>Thu, 18 May 2023 15:05:05 +0800</pubDate><guid>https://blog.furffisite.link/p/q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg" alt="Featured image of post 【RL学习笔记】Q-Learning Algorithm" />&lt;h2 id="算法">算法&lt;/h2>
+>redis&lt;/a>。&lt;/p>
+&lt;h3 id="minecraft服务器">Minecraft服务器&lt;/h3>
+&lt;p>选了docker hub里搜索排名靠前的 &lt;a class="link" href="https://hub.docker.com/r/marctv/minecraft-papermc-server" target="_blank" rel="noopener"
+>marctv/minecraft-papermc-server&lt;/a>。&lt;/p>
+&lt;p>用了之后才发现，&lt;a class="link" href="https://papermc.io/" target="_blank" rel="noopener"
+>papermc&lt;/a>是&lt;a class="link" href="https://www.spigotmc.org/" target="_blank" rel="noopener"
+>SpigotMC&lt;/a>的分支，旨在提供原生Minecraft的体验。也就是说它不支持以前我在玩Minecraft时耳熟能详的那些Forge版mod，只支持服务器端的bukkit插件（plugin）。好处是相比与Forge服务器占用更小，并且不挑客户端，只要客户端Minecraft版本和服务器一致就能连上。
+配置好之后，使用frpc转发25565端口到公网，就可以愉快地和朋友们一起玩啦。&lt;/p>
+&lt;h4 id="后台管理">后台管理&lt;/h4>
+&lt;p>在docker-compose.yaml中对应的service配置里加上&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">stdin_open&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">tty&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">mcserver&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ docker compose up -d
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>之后便可以通过&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ docker attach mcserver
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>进入服务器后台，使用指令管理服务器。&lt;/p>
+&lt;h4 id="配置">配置&lt;/h4>
+&lt;p>papermc相比于原版服务端修复了活塞相关的一些“特性”，例如使用活塞复制物品等，并在配置文件中默认限制这些行为，导致刷地毯机/破基岩等原版可行的操作在papermc服务端内不可用。当然这样对于服主而言确实可以防止玩家做出越界的行为，但是对于我这种只有几个朋友在一起玩的服务器，就不需要限制这些了。关闭限制的方式很简单，修改数据目录下的&lt;code>paper.yml&lt;/code>，将&lt;code>allow-headless-pistons&lt;/code>、&lt;code>allow-permanent-block-break-exploits&lt;/code>和&lt;code>allow-piston-duplication&lt;/code>三项设置为&lt;code>true&lt;/code>即可。&lt;/p>
+&lt;h4 id="安装插件">安装插件&lt;/h4>
+&lt;p>Papermc支持的插件可以在 &lt;a class="link" href="https://hangar.papermc.io/" target="_blank" rel="noopener"
+>Hanger&lt;/a>、&lt;a class="link" href="https://dev.bukkit.org/bukkit-plugins" target="_blank" rel="noopener"
+>bukkit&lt;/a>或&lt;a class="link" href="https://www.spigotmc.org/resources/" target="_blank" rel="noopener"
+>SpigotMC&lt;/a>下载。下载对应版本的jar文件放到 /data/plugins 文件夹下（或者直接使用 wget/curl 下载），然后重启服务器，在启动时如果新增的插件没有报错误信息，那大概率是没问题的。&lt;/p>
+&lt;p>目前加了这些插件：&lt;/p>
+&lt;ul>
+&lt;li>Minepacks：背包插件；&lt;/li>
+&lt;li>TreeFeller：连锁砍树；&lt;/li>
+&lt;li>worldedit：创世神插件；&lt;/li>
+&lt;li>worldguard&lt;/li>
+&lt;li>EssentialsX：正如其名，提供一些服务器的必备功能；&lt;/li>
+&lt;li>StackableItems：增加物品堆叠上限；&lt;/li>
+&lt;li>Multiverse-Core：多世界基础插件。
+&lt;ul>
+&lt;li>Multiverse-signportals：使用告示牌在多世界间传送；&lt;/li>
+&lt;li>OpenTerrainGenerator：创建不同类型世界的基础插件之一。
+&lt;ul>
+&lt;li>Skylands&lt;/li>
+&lt;li>FarFromHome&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>ViaVersion：放宽客户端版本限制；&lt;/li>
+&lt;li>LaggRemover：减少服务器卡顿；&lt;/li>
+&lt;li>BlueMap: 地图插件，提供了美观的在线3D地图；&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/Cubxity/UnifiedMetrics" target="_blank" rel="noopener"
+>UnifiedMetrics&lt;/a>：数据收集插件，支持前述的Prometheus。&lt;/li>
+&lt;/ul></description></item><item><title>【RL学习笔记】Q-Learning Algorithm</title><link>https://blog.furffisite.link/p/q-learning/</link><pubDate>Thu, 18 May 2023 15:05:05 +0800</pubDate><guid>https://blog.furffisite.link/p/q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg" alt="Featured image of post 【RL学习笔记】Q-Learning Algorithm" />&lt;h2 id="算法">算法&lt;/h2>
 &lt;p>Q学习算法（Q-Learning Algorithm）的思路比较简单：使用Q函数记录&lt;strong>每一个状态下每一个动作（action）的期望最大总回报（reward）&lt;/strong>，即Q值。在推理时贪心地选择当前状态Q值最大的动作，从而达到最大化期望总回报的目的。当问题的状态与动作均为离散时，Q函数可以使用表格记录，这个表格也称为Q表格（Q-Table）。&lt;/p>
 &lt;p>设：&lt;/p>
 &lt;ul>
