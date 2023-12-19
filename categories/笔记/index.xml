@@ -518,8 +518,9 @@ Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G.
 &lt;tr>
 &lt;td>显卡&lt;/td>
 &lt;td>NVIDIA&lt;/td>
-&lt;td>-&lt;/td>
-&lt;td>-&lt;/td>
+&lt;td>GeForce 605&lt;/td>
+&lt;td>&lt;a class="link" href="https://www.nvidia.com/en-us/geforce/graphics-cards/geforce-605-oem/specifications/" target="_blank" rel="noopener"
+>规格表&lt;/a>&lt;/td>
 &lt;td>¥16（亮机卡）&lt;/td>
 &lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=704690006685" target="_blank" rel="noopener"
 >link&lt;/a>&lt;/td>
@@ -688,8 +689,9 @@ Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G.
 &lt;/div>&lt;h2 id="软件部分">软件部分&lt;/h2>
 &lt;h3 id="docker">Docker&lt;/h3>
 &lt;p>最先安装的是Docker，因为有了Docker之后别的应用都可以使用Docker镜像安装和管理。&lt;/p>
-&lt;p>在Ubuntu上安装Docker只需使用官方提供的安装脚本（&lt;a class="link" href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script" target="_blank" rel="noopener"
->官方教程&lt;/a>）：&lt;/p>
+&lt;p>在Ubuntu上安装Docker只需使用官方提供的安装脚本
+&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>
+：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -712,6 +714,32 @@ Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G.
 &lt;h4 id="使用docker国内镜像源">使用Docker国内镜像源&lt;/h4>
 &lt;p>阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 &lt;a class="link" href="https://aliyun.com" target="_blank" rel="noopener"
 >https://aliyun.com&lt;/a> 登录阿里云帐号，然后在 &lt;strong>控制台 &amp;gt; 容器镜像服务 &amp;gt; 镜像工具 &amp;gt; 镜像加速器&lt;/strong> 处可以获取加速器的地址及修改镜像源的方法。&lt;/p>
+&lt;p>此外也有一些开放的镜像源，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加如下属性
+&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>
+：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;registry-mirrors&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;https://hub-mirror.c.163.com&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;https://ustc-edu-cn.mirror.aliyuncs.com&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;https://ghcr.io&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;https://mirror.baidubce.com&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>修改后使用 &lt;code>systemctl restart docker&lt;/code> 重启docker服务即可。&lt;/p>
 &lt;h4 id="手动下载镜像">手动下载镜像&lt;/h4>
 &lt;p>如果替换了镜像源之后也拉不动镜像的话，可以试试 &lt;a class="link" href="https://github.com/moby/moby" target="_blank" rel="noopener"
 >Moby Project&lt;/a> 提供的镜像下载脚本下载镜像：&lt;a class="link" href="https://github.com/moby/moby/blob/master/contrib/download-frozen-image-v2.sh" target="_blank" rel="noopener"
@@ -1077,7 +1105,7 @@ loading="lazy"
 &lt;/div>&lt;p>如果服务需要，也可以使用docker运行非关系型数据库&lt;a class="link" href="https://www.mongodb.com/" target="_blank" rel="noopener"
 >MongoDB&lt;/a>和&lt;a class="link" href="https://redis.io/" target="_blank" rel="noopener"
 >redis&lt;/a>。&lt;/p>
-&lt;h3 id="minecraft服务器">Minecraft服务器&lt;/h3>
+&lt;h3 id="minecraft服务器-papermc">Minecraft服务器 （papermc）&lt;/h3>
 &lt;p>选了docker hub里搜索排名靠前的 &lt;a class="link" href="https://hub.docker.com/r/marctv/minecraft-papermc-server" target="_blank" rel="noopener"
 >marctv/minecraft-papermc-server&lt;/a>。&lt;/p>
 &lt;p>用了之后才发现，&lt;a class="link" href="https://papermc.io/" target="_blank" rel="noopener"
@@ -1148,7 +1176,32 @@ loading="lazy"
 &lt;li>BlueMap: 地图插件，提供了美观的在线3D地图；&lt;/li>
 &lt;li>&lt;a class="link" href="https://github.com/Cubxity/UnifiedMetrics" target="_blank" rel="noopener"
 >UnifiedMetrics&lt;/a>：数据收集插件，支持前述的Prometheus。&lt;/li>
-&lt;/ul></description></item><item><title>【RL学习笔记】Q学习算法</title><link>https://blog.furffisite.link/p/q-learning/</link><pubDate>Thu, 18 May 2023 15:05:05 +0800</pubDate><guid>https://blog.furffisite.link/p/q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg" alt="Featured image of post 【RL学习笔记】Q学习算法" />&lt;h2 id="算法">算法&lt;/h2>
+&lt;/ul>
+&lt;h2 id="参考资料">参考资料&lt;/h2>
+&lt;style>
+.bibliography { display: table; font-size: medium; line-height: normal; }
+.bib-item { display: table-row; }
+.bib-item > :first-child { display: table-cell; padding-right: 0.3em; font-weight: bold; }
+.bib-item > :last-child { display: table-cell; padding-bottom: 1ex; }
+&lt;/style>
+&lt;div class="bibliography">
+&lt;div id="cite1" class="bib-item">
+&lt;span>[1]&lt;/span>
+&lt;span>
+Install Docker Engine on Ubuntu - Docker Docs | &lt;a class="link" href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script" target="_blank" rel="noopener"
+>https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script&lt;/a>
+&lt;a href="#ref-cite1-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite2" class="bib-item">
+&lt;span>[2]&lt;/span>
+&lt;span>
+Docker 换源 - 腾讯云开发者社区 | &lt;a class="link" href="https://cloud.tencent.com/developer/article/1769231" target="_blank" rel="noopener"
+>https://cloud.tencent.com/developer/article/1769231&lt;/a>
+&lt;a href="#ref-cite2-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;/div></description></item><item><title>【RL学习笔记】Q学习算法</title><link>https://blog.furffisite.link/p/q-learning/</link><pubDate>Thu, 18 May 2023 15:05:05 +0800</pubDate><guid>https://blog.furffisite.link/p/q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg" alt="Featured image of post 【RL学习笔记】Q学习算法" />&lt;h2 id="算法">算法&lt;/h2>
 &lt;p>Q学习算法（Q-Learning Algorithm）的思路比较简单：使用Q函数记录&lt;strong>每一个状态下每一个动作（action）的期望最大总回报（reward）&lt;/strong>，即Q值。在推理时贪心地选择当前状态Q值最大的动作，从而达到最大化期望总回报的目的。当问题的状态与动作均为离散时，Q函数可以使用表格记录，这个表格也称为Q表格（Q-Table）。&lt;/p>
 &lt;p>设：&lt;/p>
 &lt;ul>

@@ -18,7 +18,7 @@
 &lt;/ul>
 &lt;p>缺点是：&lt;/p>
 &lt;ul>
-&lt;li>第一，它的cpu是32位arm架构的，这导致许多没有提供32位arm版本的程序它都无法运行，例如qbittorrent、数据库、jellyfin等，而受限于其性能，从源代码编译这条路也不简单；&lt;/li>
+&lt;li>第一，它的cpu是32位arm架构的，这导致许多没有提供32位arm版本的程序它都无法运行，例如qbittorrent、数据库、jellyfin等，而受限于其性能，从源代码编译这条路也不简单（当然也可以使用docker buildx跨平台编译，但是当时的我还不会搞这些）；&lt;/li>
 &lt;li>第二，性能太弱；&lt;/li>
 &lt;li>第三，性价比不高。&lt;/li>
 &lt;/ul>

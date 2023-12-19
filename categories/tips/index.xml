@@ -14,7 +14,7 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ &lt;span class="nv">GTK_THEME&lt;/span>&lt;span class="o">=&lt;/span>Pop-light zotero
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>反映到Desktop文件上，就是在启动指令（Exec项）前加入&lt;code>env GTK_THEME=Pop-light&lt;/code>。&lt;/p>
+&lt;/div>&lt;p>反映到Desktop文件上（通常位于&lt;code>/usr/share/applications/&lt;/code>和&lt;code>~/.local/share/applications/&lt;/code>），就是在启动指令（Exec项）前加入&lt;code>env GTK_THEME=Pop-light&lt;/code>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -24,11 +24,11 @@ loading="lazy"
 &lt;/span>&lt;span class="lnt">5
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">[Desktop Entry]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Type=Application
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Name=Zotero
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Exec=env GTK_THEME=Pop-light /usr/bin/zotero -url %U
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">...
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="k">[Desktop Entry]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Type&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">Application&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">Zotero&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Exec&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">env GTK_THEME=Pop-light /usr/bin/zotero -url %U&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">...&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>这样操作后，通过应用启动器打开的Zotero就不会有问题了。&lt;/p></description></item><item><title>在Python中导入当前路径下的所有模块</title><link>https://blog.furffisite.link/p/python-import-directory-modules/</link><pubDate>Thu, 11 May 2023 12:22:54 +0800</pubDate><guid>https://blog.furffisite.link/p/python-import-directory-modules/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163144-c5d0b19ce502665b1891ef8c78c5b839-32aa3.jpg" alt="Featured image of post 在Python中导入当前路径下的所有模块" />&lt;h2 id="问题背景">问题背景&lt;/h2>
