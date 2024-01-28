@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tips on Furffiblog</title><link>https://blog.furffisite.link/categories/tips/</link><description>Recent content in tips on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 13 May 2023 13:12:27 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>解决Linux系统深色模式下的Zotero显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;p>因为Linux端的Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tips on Furffiblog</title><link>https://blog.furffisite.link/categories/tips/</link><description>Recent content in tips on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 26 Dec 2023 18:07:49 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>关于实验记录的管理</title><link>https://blog.furffisite.link/p/experiment-record-management/</link><pubDate>Tue, 26 Dec 2023 18:07:49 +0800</pubDate><guid>https://blog.furffisite.link/p/experiment-record-management/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240101025358-39157c666fdfaedad07996f1f3e91a67-39937.jpg" alt="Featured image of post 关于实验记录的管理" />&lt;p>我因为之前做实验时习惯不好（一边训练一边改代码），没有保留好实验记录惹出了一些麻烦（不知道发布的模型具体是怎么训练出来的），觉得有必要确立几条原则防止以后再出现类似的情况。
+为了确保每次实验都是完全可复现的，以下是我的想法：&lt;/p>
+&lt;ol>
+&lt;li>使用git管理实验代码版本，在程序内强制要求长时间训练模型前commit所有修改，并且在commit记录内写清楚每次做出的更改；&lt;/li>
+&lt;li>使用&lt;code>logging&lt;/code>模块替代&lt;code>print&lt;/code>，以将带时间戳的记录同时输出到控制台和log文件；&lt;/li>
+&lt;li>在程序运行前输出所有超参数与运行时间；&lt;/li>
+&lt;li>在训练时使用运行时间与commit id的前几位创建文件夹，并将此次训练产生的所有文件都组织到这个文件夹内，测试记录可以和模型放在一起。&lt;/li>
+&lt;li>固定并输出random seed；&lt;/li>
+&lt;li>使用服务器训练时应及时下载训练记录。&lt;/li>
+&lt;/ol>
+&lt;h2 id="实现">实现&lt;/h2>
+&lt;p>原本想自己实现的，这个时候发现了 meta 开源的 &lt;a class="link" href="https://hydra.cc/" target="_blank" rel="noopener"
+>Hydra&lt;/a> 库，似乎它提供的功能能实现其中几个想法。&lt;/p></description></item><item><title>解决Linux系统深色模式下的Zotero显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;p>因为Linux端的Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
 >AUR&lt;/a>）中有一部分元素的样式是由GTK控制的，因此当系统的GTK主题为深色主题时，Zotero的界面会呈现为这个样子：
 &lt;img src="https://files.furffisite.link/blogimg/2023-05-13_13-32-08.png"
 loading="lazy"

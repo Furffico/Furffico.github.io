@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Furffiblog</title><link>https://blog.furffisite.link/post/</link><description>Recent content in Posts on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 25 Dec 2023 11:02:45 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/post/index.xml" rel="self" type="application/rss+xml"/><item><title>考研经历 - 准备初试</title><link>https://blog.furffisite.link/p/kaoyan-stage1/</link><pubDate>Mon, 25 Dec 2023 11:02:45 +0800</pubDate><guid>https://blog.furffisite.link/p/kaoyan-stage1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20231226003721-76bafcf83bb54ee4b8d8524cc179b790-e34bc.jpg" alt="Featured image of post 考研经历 - 准备初试" />&lt;p>本文旨在回顾我这三个月准备考研的经历。无论结果如何，我想给自己留下一份奋斗的记录，如果能帮到后来者那就更好了。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Furffiblog</title><link>https://blog.furffisite.link/post/</link><description>Recent content in Posts on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 26 Dec 2023 18:07:49 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/post/index.xml" rel="self" type="application/rss+xml"/><item><title>关于实验记录的管理</title><link>https://blog.furffisite.link/p/experiment-record-management/</link><pubDate>Tue, 26 Dec 2023 18:07:49 +0800</pubDate><guid>https://blog.furffisite.link/p/experiment-record-management/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240101025358-39157c666fdfaedad07996f1f3e91a67-39937.jpg" alt="Featured image of post 关于实验记录的管理" />&lt;p>我因为之前做实验时习惯不好（一边训练一边改代码），没有保留好实验记录惹出了一些麻烦（不知道发布的模型具体是怎么训练出来的），觉得有必要确立几条原则防止以后再出现类似的情况。
+为了确保每次实验都是完全可复现的，以下是我的想法：&lt;/p>
+&lt;ol>
+&lt;li>使用git管理实验代码版本，在程序内强制要求长时间训练模型前commit所有修改，并且在commit记录内写清楚每次做出的更改；&lt;/li>
+&lt;li>使用&lt;code>logging&lt;/code>模块替代&lt;code>print&lt;/code>，以将带时间戳的记录同时输出到控制台和log文件；&lt;/li>
+&lt;li>在程序运行前输出所有超参数与运行时间；&lt;/li>
+&lt;li>在训练时使用运行时间与commit id的前几位创建文件夹，并将此次训练产生的所有文件都组织到这个文件夹内，测试记录可以和模型放在一起。&lt;/li>
+&lt;li>固定并输出random seed；&lt;/li>
+&lt;li>使用服务器训练时应及时下载训练记录。&lt;/li>
+&lt;/ol>
+&lt;h2 id="实现">实现&lt;/h2>
+&lt;p>原本想自己实现的，这个时候发现了 meta 开源的 &lt;a class="link" href="https://hydra.cc/" target="_blank" rel="noopener"
+>Hydra&lt;/a> 库，似乎它提供的功能能实现其中几个想法。&lt;/p></description></item><item><title>考研经历 - 准备初试</title><link>https://blog.furffisite.link/p/kaoyan-stage1/</link><pubDate>Mon, 25 Dec 2023 11:02:45 +0800</pubDate><guid>https://blog.furffisite.link/p/kaoyan-stage1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20231226003721-76bafcf83bb54ee4b8d8524cc179b790-e34bc.jpg" alt="Featured image of post 考研经历 - 准备初试" />&lt;p>本文旨在回顾我这三个月准备考研的经历。无论结果如何，我想给自己留下一份奋斗的记录，如果能帮到后来者那就更好了。&lt;/p>
 &lt;h2 id="背景">背景&lt;/h2>
 &lt;p>在五月份的时候，我知道我处在保研排名的边缘，有一定可能获取不到推免资格，于是我在当时购买了几本参考书，并且复习了一小段时间的高等数学。
 但是随着夏令营、预推免和毕业实习等工作的推进，我动摇了，一度认为自己真的能成功保研，完全将复习考研抛之脑后。
