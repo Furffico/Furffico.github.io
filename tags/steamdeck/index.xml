@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>steamdeck on Furffiblog</title><link>https://blog.furffisite.link/tags/steamdeck/</link><description>Recent content in steamdeck on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 19 Feb 2024 20:12:35 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/steamdeck/index.xml" rel="self" type="application/rss+xml"/><item><title>Steam Deck 折腾记录</title><link>https://blog.furffisite.link/p/steamdeck-tweaking/</link><pubDate>Mon, 19 Feb 2024 20:12:35 +0800</pubDate><guid>https://blog.furffisite.link/p/steamdeck-tweaking/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240220134919-e7ed5ace1e94b03d7e56a619a0f7a6d7-5ca68.jpg" alt="Featured image of post Steam Deck 折腾记录" />&lt;p>考研初试结束后，我在淘宝上给自己买了个 64GB 的 LCD 版 Steam Deck，当时（2023年12月底）花了￥2885.90.&lt;/p>
+&lt;h2 id="扩容硬盘与恢复系统">扩容硬盘与恢复系统&lt;/h2>
+&lt;p>我是为了省钱才买的 64GB 版本，但是 64GB 的外存显然不够用，所以我又买了一块 2230 尺寸的 2TB NVMe 硬盘（西数 SN740），硬盘+散热片共花费 ￥744.90.
+这样算下来购买 64GB 版本自己加硬盘比直接买商家改的 2TB 版本划算且更有保障。&lt;/p>
+&lt;p>下面是更换硬盘及其后续操作的步骤。&lt;/p>
+&lt;h3 id="第一步备份存档">第一步：备份存档&lt;/h3>
+&lt;p>如果是刚到手的新机，或者有硬盘盒支持拆下来的64GB的硬盘的话倒也不必要这一步。
+如果拿到手之后已经玩了一段时间，游戏不支持steam云存档（或者各种原因导致没有同步成功），且手边没有硬盘盒的话，一定要在更换硬盘之前备份一下Steam Deck上的游戏存档。&lt;/p>
+&lt;p>进入 SteamOS 的桌面模式后插入 U 盘，使用指令或图形界面复制文件夹 &lt;code>/home/deck/.local/share/Steam/steamapps/compatdata&lt;/code> 到 U 盘内。&lt;/p>
+&lt;h3 id="第二步更换硬盘">第二步：更换硬盘&lt;/h3>
+&lt;p>更换硬盘的操作可以直接参考 iFixit 的教程
+&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>
+。&lt;/p>
+&lt;h3 id="第三步恢复steamos">第三步：恢复SteamOS&lt;/h3>
+&lt;p>这部分的操作可以参考 Steam 官方的教程
+&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>
+，我在此记录一下我踩到的坑：&lt;/p>
+&lt;ol>
+&lt;li>Steam 提供的镜像不能使用 &lt;a class="link" href="https://www.ventoy.net/cn/" target="_blank" rel="noopener"
+>Ventoy&lt;/a> 启动，只能老老实实用工具（&lt;a class="link" href="https://rufus.ie/en/" target="_blank" rel="noopener"
+>Rufus&lt;/a> / &lt;a class="link" href="https://etcher.balena.io/" target="_blank" rel="noopener"
+>balenaEtcher&lt;/a> / &lt;a class="link" href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/dd.html" target="_blank" rel="noopener"
+>dd&lt;/a>）写到空 U 盘或 microSD 卡内；&lt;/li>
+&lt;li>我最开始用的是 U 盘，但是在 Steam Deck 上从 U 盘启动时在黑屏卡住了，后面在 reddit 用户的建议下
+&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup>
+换用了 microSD 卡（三星 EVOPlus 64GB）才顺利进入桌面（不知是 hub 的问题还是 U 盘的问题，踩这个坑让我多花了两三个小时）。&lt;/li>
+&lt;/ol>
+&lt;p>恢复好系统后就可以弹出 U 盘或 microSD 卡，从硬盘启动了，之后系统初始化的步骤和刚拿到机器时的一样。&lt;/p>
+&lt;h3 id="第四步硬盘分区">第四步：硬盘分区&lt;/h3>
+&lt;p>进入桌面模式，使用 KDE Partition Manager 按照需求调整分区，如果有双系统需求的要给 Windows 预留好安装空间（我留了250GB），并且把两个系统共享的游戏文件分区格式化为 ntfs 文件系统。&lt;/p>
+&lt;p>我的分区方案如下：&lt;/p>
+&lt;p>&lt;img src="https://files.furffisite.link/blogimg/20240220125355-b3bb2fb3802a325bab7097c5a8e3f7a2-6db4b.png"
+loading="lazy"
+alt="分区方案"
+>&lt;/p>
+&lt;p>其中，我给 SteamOS 的 home 分区分配了 200GB，用于存放只有 SteamOS 用得到的工具，另外 SteamOS 会默认把游戏存档、运行环境和游戏预编译的着色器放在这里，目前的使用情况如下：&lt;/p>
+&lt;p>&lt;img src="https://files.furffisite.link/blogimg/20240220125422-c7d5ed8bd67274884eba9e219465e9fa-3e181.png"
+loading="lazy"
+alt="home分区使用情况"
+>&lt;/p>
+&lt;p>然后配置开机自动挂载，这算是 Linux 用户的基操吧，我就不赘述了，可以参考
+&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>
+&lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>
+。&lt;/p>
+&lt;p>配置好之后重启（或者使用 &lt;code>sudo mount -a&lt;/code> 挂载新分区），进入 Steam 在新分区上创建游戏库即可。&lt;/p>
+&lt;hr>
+&lt;h2 id="安装双系统">安装双系统&lt;/h2>
+&lt;p>首先要明确自己有没有在 Steam Deck 上安装双系统的需求，我要装 Windows 是因为：&lt;/p>
+&lt;ul>
+&lt;li>有些 Windows 游戏不支持 SteamOS；&lt;/li>
+&lt;li>对于非 Steam 平台的游戏，使其在 SteamOS 上正常运行需要耗费一定的精力。&lt;/li>
+&lt;/ul>
+&lt;h3 id="第一步安装-windows">第一步：安装 Windows&lt;/h3>
+&lt;p>AtlasOS 相当于非官方的精简版 Windows，我觉得在侧重于游戏的 Steam Deck 上安装这个非常合适，LinusTechTips 也出过一期视频介绍它
+&lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>
+。
+至于视频评论里提到的安全性问题我倒不太担心，因为我在这上面无非就是运行 Steam 和一些游戏，我知道自己在做什么，要是真出了问题重装就行。&lt;/p>
+&lt;p>安装 AtlasOS 的步骤参见
+&lt;a id='ref-cite7-1' href='#cite7'>[7]&lt;/a>
+。我激活 Windows 时用的是学校的 KMS 服务。&lt;/p>
+&lt;p>&lt;strong>注意&lt;/strong>：安装 Windows 时使用的 ISO 文件只能从这个页面生成的链接下载，否则 Windows 版本对不上，到后面使用 AME Wizard 的时候会报错。
+我踩中了这个坑，浪费了一个小时。&lt;/p>
+&lt;h3 id="第二步安装驱动">第二步：安装驱动&lt;/h3>
+&lt;p>Steam Deck 上刚装好的 Windows 系统时没有音频输出的，原因是缺少相关驱动。
+此时要按照 Steam 的指南
+&lt;sup>&lt;a id='ref-cite8-1' href='#cite8'>[8]&lt;/a>&lt;/sup>
+下载并安装里面提供的所有驱动。&lt;/p>
+&lt;p>可是装完驱动后我发现屏幕亮度的调节还是存在一些问题：Windows 里调整亮度的范围比 SteamOS 的小好多，不过这不太影响日常使用，所以我就没管了。&lt;/p>
+&lt;h3 id="第三步双系统的常见问题">第三步：双系统的常见问题&lt;/h3>
+&lt;p>目前遇到两个，这是安装双系统的计算机都会遇到的问题，并非 Steam Deck 独有的：&lt;/p>
+&lt;ol>
+&lt;li>双系统时间不一致，解决方法可以参考
+&lt;a id='ref-cite9-1' href='#cite9'>[9]&lt;/a>
+；&lt;/li>
+&lt;li>双系统无法共享蓝牙设备，解决方法参考
+&lt;a id='ref-cite10-1' href='#cite10'>[10]&lt;/a>
+。&lt;/li>
+&lt;/ol>
+&lt;h3 id="第四步安装辅助工具">第四步：安装辅助工具&lt;/h3>
+&lt;p>Steam Deck Tools
+&lt;sup>&lt;a id='ref-cite11-1' href='#cite11'>[11]&lt;/a>&lt;/sup>
+提供了改善在 Steam Deck 上使用 Windows 体验的一系列工具，包括手柄模拟，性能监视器，TDP控制等。
+其中手柄模拟（Steam Controller）我觉得是必要的。&lt;/p>
+&lt;hr>
+&lt;h2 id="相关资料">相关资料&lt;/h2>
+&lt;h3 id="参考资料">参考资料&lt;/h3>
+&lt;style>
+.bibliography { display: table; font-size: medium; line-height: normal; }
+.bib-item { display: table-row; }
+.bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
+.bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
+&lt;/style>
+&lt;div class="bibliography">
+&lt;div id="cite1" class="bib-item">
+&lt;span>[1]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://zh.ifixit.com/Guide/Steam&amp;#43;Deck&amp;#43;SSD&amp;#43;%E6%9B%B4%E6%8D%A2/148989" target="_blank" rel="noopener"
+>Steam Deck SSD 更换 - iFixit 维修指南&lt;/a>
+&lt;a href="#ref-cite1-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite2" class="bib-item">
+&lt;span>[2]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://help.steampowered.com/en/faqs/view/1b71-edf2-eb6d-2bb3" target="_blank" rel="noopener"
+>Steam Support :: Steam Deck Recovery Instructions&lt;/a>
+&lt;a href="#ref-cite2-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite3" class="bib-item">
+&lt;span>[3]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://www.reddit.com/r/SteamDeck/comments/tkmrd4/comment/jlj3464/" target="_blank" rel="noopener"
+>Recovery image not booting : r/SteamDeck&lt;/a>
+&lt;a href="#ref-cite3-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite4" class="bib-item">
+&lt;span>[4]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://wiki.archlinuxcn.org/wiki/Fstab" target="_blank" rel="noopener"
+>fstab - Arch Linux 中文维基&lt;/a>
+&lt;a href="#ref-cite4-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite5" class="bib-item">
+&lt;span>[5]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://gnu-linux.readthedocs.io/zh/latest/Chapter02/00_fstab.html" target="_blank" rel="noopener"
+>开机自动挂载硬盘 — Linux latest 文档&lt;/a>
+&lt;a href="#ref-cite5-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite6" class="bib-item">
+&lt;span>[6]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://www.bilibili.com/video/BV1Ko4y1A71w" target="_blank" rel="noopener"
+>【官方双语】你不需要新电脑(赞助)#linus谈科技_哔哩哔哩_bilibili&lt;/a>
+&lt;a href="#ref-cite6-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite7" class="bib-item">
+&lt;span>[7]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://docs.atlasos.net/getting-started/installation/" target="_blank" rel="noopener"
+>Installation - Atlas Documentation&lt;/a>
+&lt;a href="#ref-cite7-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite8" class="bib-item">
+&lt;span>[8]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://help.steampowered.com/en/faqs/view/6121-ECCD-D643-BAA8" target="_blank" rel="noopener"
+>Steam Support :: Steam Deck - Windows Resources&lt;/a>
+&lt;a href="#ref-cite8-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite9" class="bib-item">
+&lt;span>[9]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://sspai.com/post/55983" target="_blank" rel="noopener"
+>Linux Windows 双系统时间不一致 - 少数派&lt;/a>
+&lt;a href="#ref-cite9-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite10" class="bib-item">
+&lt;span>[10]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://blog.nanpuyue.com/2018/040.html" target="_blank" rel="noopener"
+>Linux 与 Windows 双系统共享蓝牙鼠标 - 南浦月&lt;/a>
+&lt;a href="#ref-cite10-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite11" class="bib-item">
+&lt;span>[11]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://steam-deck-tools.ayufan.dev/" target="_blank" rel="noopener"
+>README | (Windows) Steam Deck Tools&lt;/a>
+&lt;a href="#ref-cite11-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;/div>
+&lt;h3 id="其它资料">其它资料&lt;/h3>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://store.steampowered.com/steamdeck" target="_blank" rel="noopener"
+>Steam Deck™&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://store.steampowered.com/greatondeck" target="_blank" rel="noopener"
+>非常适合 Deck&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.bilibili.com/video/BV1sg411x7vS" target="_blank" rel="noopener"
+>【爱折腾】SteamDeck完全折腾指南_哔哩哔哩_bilibili&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.bilibili.com/read/cv18881740" target="_blank" rel="noopener"
+>Steam Deck单硬盘双系统+互通游戏库详细教程 - 哔哩哔哩&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.bilibili.com/read/cv20244884" target="_blank" rel="noopener"
+>Steam deck双系统疑难杂症记录帖 - 哔哩哔哩&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.bilibili.com/video/BV1GP4y197ys" target="_blank" rel="noopener"
+>Steam Deck上手折腾指南 换硬盘 双系统 内存卡互通新手教程_哔哩哔哩_bilibili&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.bilibili.com/read/cv19756668" target="_blank" rel="noopener"
+>SteamDeck双系统启动项一键替换为Refind - 哔哩哔哩&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.bilibili.com/read/cv19037197" target="_blank" rel="noopener"
+>SteamDeck Windows 和 Steamos 共享游戏库教程 - 哔哩哔哩&lt;/a>&lt;/li>
+&lt;/ul></description></item></channel></rss>

@@ -721,8 +721,8 @@ loading="lazy"
 &lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
-.bib-item > :first-child { display: table-cell; padding-right: 0.3em; font-weight: bold; }
-.bib-item > :last-child { display: table-cell; padding-bottom: 1ex; }
+.bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
+.bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
 &lt;/style>
 &lt;div class="bibliography">
 &lt;div id="cite1" class="bib-item">

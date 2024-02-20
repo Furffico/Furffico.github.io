@@ -113,39 +113,39 @@
 &lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
-.bib-item > :first-child { display: table-cell; padding-right: 0.3em; font-weight: bold; }
-.bib-item > :last-child { display: table-cell; padding-bottom: 1ex; }
+.bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
+.bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
 &lt;/style>
 &lt;div class="bibliography">
 &lt;div id="cite1" class="bib-item">
 &lt;span>[1]&lt;/span>
 &lt;span>
-东大研招网. 东南大学—蒙纳士大学苏州联合研究生院2024年硕士研究生招生简章. &lt;a class="link" href="https://yzb.seu.edu.cn/2023/0921/c6679a466344/page.htm" target="_blank" rel="noopener"
->https://yzb.seu.edu.cn/2023/0921/c6679a466344/page.htm&lt;/a>
+&lt;a class="link" href="https://yzb.seu.edu.cn/2023/0921/c6679a466344/page.htm" target="_blank" rel="noopener"
+>东大研招网 - 东南大学—蒙纳士大学苏州联合研究生院2024年硕士研究生招生简章&lt;/a>
 &lt;a href="#ref-cite1-1">⤶&lt;/a>
 &lt;/span>
 &lt;/div>
 &lt;div id="cite2" class="bib-item">
 &lt;span>[2]&lt;/span>
 &lt;span>
-东大研招网. 2023年东南大学各院系所复试分数线. &lt;a class="link" href="https://yzb.seu.edu.cn/2023/0726/c6674a455893/page.htm" target="_blank" rel="noopener"
->https://yzb.seu.edu.cn/2023/0726/c6674a455893/page.htm&lt;/a>
+&lt;a class="link" href="https://yzb.seu.edu.cn/2023/0726/c6674a455893/page.htm" target="_blank" rel="noopener"
+>东大研招网 - 2023年东南大学各院系所复试分数线&lt;/a>
 &lt;a href="#ref-cite2-1">⤶&lt;/a>
 &lt;/span>
 &lt;/div>
 &lt;div id="cite3" class="bib-item">
 &lt;span>[3]&lt;/span>
 &lt;span>
-东大研招网. 2023年硕士研究生考试录取情况汇总. &lt;a class="link" href="https://yzb.seu.edu.cn/2023/0726/c6675a455894/page.htm" target="_blank" rel="noopener"
->https://yzb.seu.edu.cn/2023/0726/c6675a455894/page.htm&lt;/a>
+&lt;a class="link" href="https://yzb.seu.edu.cn/2023/0726/c6675a455894/page.htm" target="_blank" rel="noopener"
+>东大研招网 - 2023年硕士研究生考试录取情况汇总&lt;/a>
 &lt;a href="#ref-cite3-1">⤶&lt;/a>
 &lt;/span>
 &lt;/div>
 &lt;div id="cite4" class="bib-item">
 &lt;span>[4]&lt;/span>
 &lt;span>
-东南大学计算机科学与工程学院. 2024年计算机科学与工程学院硕士研究生入学考试930、935考试大纲. &lt;a class="link" href="https://cse.seu.edu.cn/2023/0913/c24628a464355/page.psp" target="_blank" rel="noopener"
->https://cse.seu.edu.cn/2023/0913/c24628a464355/page.psp&lt;/a>
+&lt;a class="link" href="https://cse.seu.edu.cn/2023/0913/c24628a464355/page.psp" target="_blank" rel="noopener"
+>东南大学计算机科学与工程学院 - 2024年计算机科学与工程学院硕士研究生入学考试930、935考试大纲&lt;/a>
 &lt;a href="#ref-cite4-1">⤶&lt;/a>
 &lt;/span>
 &lt;/div>
