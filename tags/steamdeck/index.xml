@@ -82,6 +82,12 @@ alt="home分区使用情况"
 提供了改善在 Steam Deck 上使用 Windows 体验的一系列工具，包括手柄模拟，性能监视器，TDP控制等。
 其中手柄模拟（Steam Controller）我觉得是必要的。&lt;/p>
 &lt;hr>
+&lt;h2 id="相关问题">相关问题&lt;/h2>
+&lt;h3 id="steamos更新后引导消失">SteamOS更新后引导消失&lt;/h3>
+&lt;p>近日我更新了 SteamOS 版本，更新后 SteamOS 从启动项菜单消失了，最终按照
+&lt;a id='ref-cite12-1' href='#cite12'>[12]&lt;/a>
+提供的修复方法成功恢复启动项。&lt;/p>
+&lt;hr>
 &lt;h2 id="相关资料">相关资料&lt;/h2>
 &lt;h3 id="参考资料">参考资料&lt;/h3>
 &lt;style>
@@ -177,6 +183,14 @@ alt="home分区使用情况"
 &lt;a class="link" href="https://steam-deck-tools.ayufan.dev/" target="_blank" rel="noopener"
 >README | (Windows) Steam Deck Tools&lt;/a>
 &lt;a href="#ref-cite11-1">⤶&lt;/a>
+&lt;/span>
+&lt;/div>
+&lt;div id="cite12" class="bib-item">
+&lt;span>[12]&lt;/span>
+&lt;span>
+&lt;a class="link" href="https://www.bilibili.com/read/cv26620174/" target="_blank" rel="noopener"
+>Steamdeck双系统系统引导通用修复指南——以SteamOS更新掉引导为例 - 哔哩哔哩&lt;/a>
+&lt;a href="#ref-cite12-1">⤶&lt;/a>
 &lt;/span>
 &lt;/div>
 &lt;/div>
