@@ -1,4 +1,248 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Furffiblog</title><link>https://blog.furffisite.link/tags/linux/</link><description>Recent content in Linux on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 19 Feb 2024 20:12:35 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Steam Deck 折腾记录</title><link>https://blog.furffisite.link/p/steamdeck-tweaking/</link><pubDate>Mon, 19 Feb 2024 20:12:35 +0800</pubDate><guid>https://blog.furffisite.link/p/steamdeck-tweaking/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240220134919-e7ed5ace1e94b03d7e56a619a0f7a6d7-5ca68.jpg" alt="Featured image of post Steam Deck 折腾记录" />&lt;p>考研初试结束后，我在淘宝上给自己买了个 64GB 的 LCD 版 Steam Deck，当时（2023年12月底）花了￥2885.90.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Furffiblog</title><link>https://blog.furffisite.link/tags/linux/</link><description>Recent content in Linux on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 09 Mar 2024 23:53:36 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>我折腾NAS的历程（四）：一些升级</title><link>https://blog.furffisite.link/p/nas-4/</link><pubDate>Sat, 09 Mar 2024 23:53:36 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-4/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240310022612-8671164f59f21e5d03de82e41e7073d5-7f2c7.jpg" alt="Featured image of post 我折腾NAS的历程（四）：一些升级" />&lt;p>之前的事情：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" >&lt;em>我折腾NAS的历程（一）&lt;/em>&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >&lt;em>我折腾NAS的历程（二）&lt;/em>&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >&lt;em>我折腾NAS的历程（三）&lt;/em>&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>本文以&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >上一篇的自组NAS&lt;/a>为基础，升级了一些配置，就性价比而言感觉这钱花得不算太值。&lt;/p>
+&lt;h2 id="硬件部分">硬件部分&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>品牌&lt;/th>
+&lt;th>型号&lt;/th>
+&lt;th>参数&lt;/th>
+&lt;th>购买价&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>CPU&lt;/td>
+&lt;td>Intel&lt;/td>
+&lt;td>E5-2690 v4&lt;/td>
+&lt;td>14核 2.6GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91770/intel-xeon-processor-e52690-v4-35m-cache-2-60-ghz/specifications.html" target="_blank" rel="noopener"
+>规格表&lt;/a>&lt;/td>
+&lt;td>¥134（洋垃圾）&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>内存&lt;/td>
+&lt;td>Samsung&lt;/td>
+&lt;td>M386A4G40DM0-CPB&lt;/td>
+&lt;td>DDR4 2133MHz 32GB &lt;a class="link" href="https://semiconductor.samsung.com/cn/dram/module/lrdimm/m386a4g40dm0-cpb/" target="_blank" rel="noopener"
+>规格表&lt;/a>&lt;/td>
+&lt;td>¥155（洋垃圾）&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>接口扩展&lt;/td>
+&lt;td>（主控）Marvell&lt;/td>
+&lt;td>88SE9215&lt;/td>
+&lt;td>PCIe2.0x1 转 SATAx4 &lt;a class="link" href="https://www.marvell.com/content/dam/marvell/en/public-collateral/storage/marvell-storage-88se92xx-product-brief-2012-04.pdf" target="_blank" rel="noopener"
+>规格表&lt;/a>&lt;/td>
+&lt;td>¥75&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>总计&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>¥364&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="cpu">CPU&lt;/h3>
+&lt;p>同样是按照&lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#%e6%b5%8b%e8%af%95" >之前的&lt;/a>设置，使用&lt;code>sysbench&lt;/code>粗测的对比如下：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>CPU&lt;/th>
+&lt;th>主频&lt;/th>
+&lt;th>TDP&lt;/th>
+&lt;th>&lt;strong>Events/s&lt;/strong>&lt;/th>
+&lt;th>&lt;strong>Avg. Latency&lt;/strong>&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>E5-2660 v4&lt;/td>
+&lt;td>2.0 GHz&lt;/td>
+&lt;td>105 W&lt;/td>
+&lt;td>17251.86&lt;/td>
+&lt;td>1.62 ms&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>E5-2690 v4&lt;/td>
+&lt;td>2.6 GHz (+30%)&lt;/td>
+&lt;td>135 W (+28.6%)&lt;/td>
+&lt;td>22860.48 (+32.5%)&lt;/td>
+&lt;td>1.22 ms (-24.7%)&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>考虑到这两块CPU除了主频和功耗外几乎一致，性能成比例地提升确实是预料之中。也就是说我为了 30% 的性能提升多花了 157.7% 的钱，性价比不算高，
+不过主频的提升对于一些多线程优化不好的任务（例如 &lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#minecraft%e6%9c%8d%e5%8a%a1%e5%99%a8-papermc" >Minecraft 服务器&lt;/a>）还是有用的。&lt;/p>
+&lt;p>此外我买到的似乎是这个商家的最后一块 E5-2690 v4，我下单后回到详情页就发现这个型号缺货了。&lt;/p>
+&lt;h3 id="内存">内存&lt;/h3>
+&lt;p>我本来认为这个32GB的内存条和之前购买的16GB内存条是兼容的，因为我在我的笔记本上用的就是8GB+32GB的非对称双通道的配置。
+内存条到货之后才发现，虽然这两条单独安装都是能正常启动的（说明两条都没坏），但是两者同时安装的时候，无论放在哪两个插槽，NAS都无法开机。
+这让我感觉很奇怪，奈何也找不到解决方法，只好当作是主板/CPU不支持，并闲置原来的16GB内存条。&lt;/p>
+&lt;h3 id="pcie转sata扩展卡">PCIE转SATA扩展卡&lt;/h3>
+&lt;p>这个是在淘宝上随便找的一个。因为我需要接的也都是机械硬盘，传输瓶颈还是在机械硬盘的读写上，所以我对速率没什么要求，能跑满机械硬盘的读速就可以。&lt;/p>
+&lt;p>至于它是不是真的值75元就不得而知了。&lt;/p>
+&lt;p>扩展完SATA口之后，机箱内一共有7个SATA接口，但是只有4个硬盘位，我想下一步应该是购买硬盘支架了。&lt;/p>
+&lt;h2 id="软件部分">软件部分&lt;/h2>
+&lt;h3 id="gitea">Gitea&lt;/h3>
+&lt;p>&lt;a class="link" href="https://about.gitea.com/" target="_blank" rel="noopener"
+>Gitea&lt;/a> 是开源的代码托管平台。
+自己有时候写了一些工具项目，不想向 Github 上传的时候（担心隐私问题，以及大陆地区访问 Github 有时连接不畅），就会传到自建的 Gitea 上。&lt;/p>
+&lt;p>虽然名字和 &lt;a class="link" href="https://gitee.com/" target="_blank" rel="noopener"
+>Gitee&lt;/a> 只差一个字母，但是它们应该没有任何关系。
+类似的自建代码托管平台还有 &lt;a class="link" href="https://about.gitlab.com/" target="_blank" rel="noopener"
+>GitLab&lt;/a> 和 &lt;a class="link" href="https://gogs.io/" target="_blank" rel="noopener"
+>Gogs&lt;/a>等。
+不用 GitLab 是因为 GitLab 的资源占用太大了，并且我也基本用不到它的 CI/CD 功能。&lt;/p>
+&lt;p>Gitea 可以直接使用 docker 镜像部署，具体参照 &lt;a class="link" href="https://docs.gitea.com/installation/install-with-docker" target="_blank" rel="noopener"
+>Gitea 官方文档&lt;/a>。&lt;/p>
+&lt;h3 id="immich">Immich&lt;/h3>
+&lt;p>&lt;a class="link" href="https://immich.app" target="_blank" rel="noopener"
+>Immich&lt;/a> 是开源自建的相册服务，类似于谷歌相册，提供了图片管理、人脸识别、地图和智能搜索等功能，并且在IOS、Android和网页端都有官方的客户端。&lt;/p>
+&lt;p>这个项目各方面都挺不错的，缺点是版本更新有点太快了，最快的时候一周能发三四个版本。当然对于项目而言这是好事，是项目活跃的证明，但是对于使用体验而言就不那么好了。
+它更新的时候可能会引入 breaking changes，这就要求每次更新前都要到其 &lt;a class="link" href="https://github.com/immich-app/immich/releases" target="_blank" rel="noopener"
+>github 的发布页&lt;/a>查看升级前的注意事项，然后才能用 docker compose 拉镜像。
+拉镜像的过程也有些折磨，因为镜像实在太大了。&lt;/p>
+&lt;p>&lt;a class="link" href="https://immich.app/docs/install/docker-compose" target="_blank" rel="noopener"
+>官方文档&lt;/a>里给出了使用 docker compose 部署 Immich 的方法。&lt;/p>
+&lt;h3 id="lanraragi">LANraragi&lt;/h3>
+&lt;p>&lt;a class="link" href="https://github.com/Difegue/LANraragi" target="_blank" rel="noopener">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">
+&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+&lt;/svg>
+&lt;/span>
+LANraragi
+&lt;/a>
+是用 Perl 语言编写的自建漫画库和漫画阅读器。
+优势是通过浏览器访问，且支持直接从 zip、tar.gz 等压缩文件/归档文件读取图片，而不用手动解压。&lt;/p>
+&lt;p>缺点是它对 unicode 的支持不太好，我觉得 Lanraragi 在管理漫画方面的功能也比较欠缺，不算特别好用。
+可以先找找它的替代品，找不到的话不妨有空自己动手用 golang 实现一个。&lt;/p>
+&lt;p>&lt;a class="link" href="https://sugoi.gitbook.io/lanraragi/v/dev/installing-lanraragi/docker" target="_blank" rel="noopener"
+>官方文档&lt;/a>给出了使用docker部署的方法。&lt;/p>
+&lt;h3 id="主页homer">主页（homer）&lt;/h3>
+&lt;p>NAS上运行的服务多了，每次访问服务都要输地址（无论是ip+端口还是&lt;a class="link" href="http://localhost:1313/p/nas-3/#coredns" target="_blank" rel="noopener"
+>内网域名&lt;/a>）会很麻烦，于是用&lt;a class="link" href="https://github.com/bastienwirtz/homer" target="_blank" rel="noopener">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">
+&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+&lt;/svg>
+&lt;/span>
+homer
+&lt;/a>
+搭建了NAS的入口页。&lt;/p>
+&lt;p>由于是纯静态的网页（改完配置也不需要重新编译之类的），部署的时候进&lt;a class="link" href="https://github.com/bastienwirtz/homer/releases" target="_blank" rel="noopener"
+>项目的 release 页&lt;/a>下载编译好的 zip 文件解压，然后直接在 nginx 里添一个 server 就行，也可以改 default，让它成为路由无匹配时的默认页面。配置时只要改&lt;code>assets/config.yml&lt;/code>，在浏览器里刷新页面（可能需要在开发者工具的 networks 里 Disable Cache）就能看到更改了。&lt;/p>
+&lt;h3 id="百度网盘客户端">百度网盘客户端&lt;/h3>
+&lt;p>之前在复习备考的时候，有很多考研资料是通过百度网盘流传的。
+又因为百度网盘的限速，和它的一些操作让我不是很想在本机安装它的客户端，催生了我在 NAS 上部署其客户端的需求。
+一搜果然有大佬做好了百度网盘客户端的docker镜像，其中之一是&lt;a class="link" href="https://github.com/gshang2017/docker/tree/master/baidunetdisk" target="_blank" rel="noopener">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">
+&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+&lt;/svg>
+&lt;/span>
+gshang2017做的
+&lt;/a>
+。&lt;/p>
+&lt;p>把指令转换成&lt;code>docker-compose.yaml&lt;/code>文件，然后&lt;code>docker compose up -d&lt;/code>，不出意外用浏览器访问 NAS 的 5800 端口就能看到登录界面了。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">services&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">baidunetdisk&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">johngong/baidunetdisk:latest&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./config:/config&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">&amp;lt;path to downloads&amp;gt;:/config/baidunetdiskdownload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">baidunetdisk&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">5800&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">5800&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># web&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">5900&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">5900&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># vnc&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">unless-stopped&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">environment&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">VNC_PASSWORD=12345678&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">USER_ID=1000&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">GROUP_ID=1000&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">NOVNC_LANGUAGE=&amp;#34;zh_Hans&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>因为这个镜像是以官方的linux客户端为基础制作的，功能基本上与之相同。除了广告点不开（这是好事）之外我在使用过程中没有遇到什么问题。&lt;/p>
+&lt;h3 id="饥荒服务器">饥荒服务器&lt;/h3>
+&lt;p>我的舍友想要联机玩&lt;a class="link" href="https://www.klei.com/games/dont-starve-together" target="_blank" rel="noopener"
+>饥荒（Don&amp;rsquo;t Starve (Together)）&lt;/a>，于是拜托我在NAS上搭了一个饥荒服务器（不过我自己没什么兴趣就是啦）。&lt;/p>
+&lt;p>我在 Docker 上没找到下载量较多的镜像，于是按照&lt;a class="link" href="https://zhuanlan.zhihu.com/p/457714222" target="_blank" rel="noopener"
+>知乎&lt;/a>和&lt;a class="link" href="https://dontstarve.fandom.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers" target="_blank" rel="noopener"
+>Fandom wiki的教程&lt;/a>搭建了环境（配置起来还挺麻烦），然后写了&lt;code>dnst.service&lt;/code>让它作为 systemd 服务运行和自启动：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="k">[Unit]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Description&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">DoNotStarveTogether Server&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">After&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">network.target&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">[Service]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">User&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">steam&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Group&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">steam&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Type&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">simple&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">WorkingDirectory&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">/home/steam&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">ExecStart&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">/home/steam/rundst.sh&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">TimeoutStopSec&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">2min&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Restart&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">always&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">[Install]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">WantedBy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">multi-user.target&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="虚拟化kvm">虚拟化（KVM）&lt;/h3>
+&lt;p>关于虚拟机，我之前只用过图形界面的 VirtualBox，这是我第一次接触 Linux 服务器上常用的 Kernel-based Virtual Machine（KVM）。
+我是按照&lt;a class="link" href="https://linux.how2shout.com/how-to-install-kvm-on-ubuntu-20-04-lts-server/" target="_blank" rel="noopener"
+>这篇教程&lt;/a>在服务器上安装的KVM，按照&lt;a class="link" href="https://computingforgeeks.com/install-kvm-qemu-virt-manager-arch-manjar/" target="_blank" rel="noopener"
+>这篇教程&lt;/a>在本机（Arch Linux）安装了Virtual Machine Manager。&lt;/p>
+&lt;p>目前只是在虚拟机里装好了 Ubuntu 系统，还没有深入折腾。&lt;/p></description></item><item><title>Steam Deck 折腾记录</title><link>https://blog.furffisite.link/p/steamdeck-tweaking/</link><pubDate>Mon, 19 Feb 2024 20:12:35 +0800</pubDate><guid>https://blog.furffisite.link/p/steamdeck-tweaking/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240220134919-e7ed5ace1e94b03d7e56a619a0f7a6d7-5ca68.jpg" alt="Featured image of post Steam Deck 折腾记录" />&lt;p>考研初试结束后，我在淘宝上给自己买了个 64GB 的 LCD 版 Steam Deck，当时（2023年12月底）花了￥2885.90.&lt;/p>
 &lt;h2 id="扩容硬盘与恢复系统">扩容硬盘与恢复系统&lt;/h2>
 &lt;p>我是为了省钱才买的 64GB 版本，但是 64GB 的外存显然不够用，所以我又买了一块 2230 尺寸的 2TB NVMe 硬盘（西数 SN740），硬盘+散热片共花费 ￥744.90.
 这样算下来购买 64GB 版本自己加硬盘比直接买商家改的 2TB 版本划算且更有保障。&lt;/p>
@@ -212,7 +456,7 @@ alt="home分区使用情况"
 >SteamDeck双系统启动项一键替换为Refind - 哔哩哔哩&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://www.bilibili.com/read/cv19037197" target="_blank" rel="noopener"
 >SteamDeck Windows 和 Steamos 共享游戏库教程 - 哔哩哔哩&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>我折腾NAS的历程（一）</title><link>https://blog.furffisite.link/p/nas-1/</link><pubDate>Mon, 21 Aug 2023 14:46:05 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821143533-8f90300e7a87f5103e8c13359c0ce9a7-a82cd.jpg" alt="Featured image of post 我折腾NAS的历程（一）" />&lt;p>我开始折腾NAS的原因很简单——笔记本的存储空间不够了，当时固态硬盘的价格远没有现在这么便宜，移动硬盘随身携带有点麻烦，所以就想给硬盘连上网，这样只要有网就能访问。&lt;/p>
+&lt;/ul></description></item><item><title>我折腾NAS的历程（一）：树莓派</title><link>https://blog.furffisite.link/p/nas-1/</link><pubDate>Mon, 21 Aug 2023 14:46:05 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821143533-8f90300e7a87f5103e8c13359c0ce9a7-a82cd.jpg" alt="Featured image of post 我折腾NAS的历程（一）：树莓派" />&lt;p>我开始折腾NAS的原因很简单——笔记本的存储空间不够了，当时固态硬盘的价格远没有现在这么便宜，移动硬盘随身携带有点麻烦，所以就想给硬盘连上网，这样只要有网就能访问。&lt;/p>
 &lt;p>当时是2021年3月，我手边有闲置的树莓派Raspberry Pi 3B+（19年花￥279买的），于是一个很朴素的想法就形成了——买一个SATA-USB的硬盘盒连接机械硬盘，再给树莓派连上网线，做成一个简陋的NAS（后来才知道有NAS这个名字）。我后来也的确是这么操作的，硬盘盒买的绿联的，花了￥99。使用后发现树莓派3B+的USB2.0接口太慢了，于是半年后（2021.9）加钱买了带USB3的树莓派4B，花了￥578（当时这个价格已经很贵了，想不通为什么自己那个时候决定要买），所以这一套不算硬盘的价格是￥677。&lt;/p>
 &lt;p>我使用的操作系统是树莓派官方提供的&lt;a class="link" href="https://www.raspberrypi.com/software/operating-systems/" target="_blank" rel="noopener"
 >Raspbian&lt;/a>，在上面安装了&lt;/p>
@@ -236,10 +480,10 @@ alt="home分区使用情况"
 &lt;li>第二，性能太弱；&lt;/li>
 &lt;li>第三，性价比不高。&lt;/li>
 &lt;/ul>
-&lt;p>相较于其优点，它的缺点还是太突出了，于是我在一年后（2022.10）换了&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >amd64架构的NAS&lt;/a>。&lt;/p></description></item><item><title>我折腾NAS的历程（二）</title><link>https://blog.furffisite.link/p/nas-2/</link><pubDate>Sun, 20 Aug 2023 10:22:44 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-2/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821152623-0e0e9fdf80c6f1c9ffeee0f80f808e1e-60da9.jpg" alt="Featured image of post 我折腾NAS的历程（二）" />&lt;p>时值2022年国庆节，我在淘宝翻了很久，找x86/amd64的NAS方案，最终相中了淘宝某家店卖的“青春版黑群晖”，CPU+主板+风扇+4GB 内存+亚克力外壳一共只要￥285，外带黑群晖的引导盘。这个价格很吸引我，于是我没过多考虑就下单了。&lt;/p>
+&lt;p>相较于其优点，它的缺点还是太突出了，于是我在一年后（2022.10）换了&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >amd64架构的NAS&lt;/a>。&lt;/p></description></item><item><title>我折腾NAS的历程（二）：淘宝工控机</title><link>https://blog.furffisite.link/p/nas-2/</link><pubDate>Sun, 20 Aug 2023 10:22:44 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-2/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821152623-0e0e9fdf80c6f1c9ffeee0f80f808e1e-60da9.jpg" alt="Featured image of post 我折腾NAS的历程（二）：淘宝工控机" />&lt;p>时值2022年国庆节，我在淘宝翻了很久，找x86/amd64的NAS方案，最终相中了淘宝某家店卖的“青春版黑群晖”，CPU+主板+风扇+4GB 内存+亚克力外壳一共只要￥285，外带黑群晖的引导盘。这个价格很吸引我，于是我没过多考虑就下单了。&lt;/p>
 &lt;p>货到之后发现这个主板似乎是工控机里拆出来的，CPU是12年Q1出的Atom D2550。主板上只有一个SATA口，其余的被拆掉了，于是商家增加了一个SATA转M.2接口的板子插在（疑似）M.2口上，这样就能支持双硬盘了。因为我想让硬盘完全用来存储数据，所以我又花￥56.9买了一个64GB的小U盘用来存储操作系统。&lt;/p>
 &lt;p>操作系统选的是Ubuntu Server 16.04，理由是相较于商家提供的黑群晖，我更熟悉Ubuntu。软件和服务方面安装了samba、jellyfin、qbittorrent、coredns等。&lt;/p>
-&lt;p>这个价格我很是满意，但是这台NAS的性能不比树莓派高多少，毕竟是十年前的处理器，导致它在一些高负载的情况下（例如Jellyfin使用ffmpeg转码播放视频）有些力不从心，播放时异常卡顿，所以在今年六月的时候趁购物节&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >自己组了一台&lt;/a>。换了新的之后发现，性能上去了，能同时跑的服务就多了很多，可以真的把它当作一台服务器来用了。&lt;/p></description></item><item><title>我折腾NAS的历程（三）</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾NAS的历程（三）" />&lt;p>组这台NAS前的事情：&lt;/p>
+&lt;p>这个价格我很是满意，但是这台NAS的性能不比树莓派高多少，毕竟是十年前的处理器，导致它在一些高负载的情况下（例如Jellyfin使用ffmpeg转码播放视频）有些力不从心，播放时异常卡顿，所以在今年六月的时候趁购物节&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >自己组了一台&lt;/a>。换了新的之后发现，性能上去了，能同时跑的服务就多了很多，可以真的把它当作一台服务器来用了。&lt;/p></description></item><item><title>我折腾NAS的历程（三）：捡垃圾自组</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾NAS的历程（三）：捡垃圾自组" />&lt;p>组这台NAS前的事情：&lt;/p>
 &lt;ul>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" >&lt;em>我折腾NAS的历程（一）&lt;/em>&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >&lt;em>我折腾NAS的历程（二）&lt;/em>&lt;/a>&lt;/li>
