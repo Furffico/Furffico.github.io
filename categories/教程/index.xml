@@ -63,7 +63,7 @@ loading="lazy"
 >一些预设&lt;/a>，你可以以你喜欢的预设为基础进行定制，例如我的配置就是在Bracketed Segments和Nerd Font Symbols预设之上按照自己的习惯所做的更改。我的&lt;code>starship.toml&lt;/code>如下：&lt;/p>
 &lt;p>另外，使用Nerd Font Symbols需要Nerd Font，请前往 &lt;a class="link" href="https://www.nerdfonts.com/font-downloads" target="_blank" rel="noopener"
 >https://www.nerdfonts.com/font-downloads&lt;/a> 下载你习惯的字体对应的图标字体，并在虚拟终端中将其设为默认字体。&lt;/p>
-&lt;script type="application/javascript" src="https://gist.github.com/Furffico/f63e63cc192d77ca3c6bb5347f0a1d63.js">&lt;/script>
+&lt;script src="https://gist.github.com/Furffico/f63e63cc192d77ca3c6bb5347f0a1d63.js">&lt;/script>
 &lt;h2 id="相关问题">相关问题&lt;/h2>
 &lt;p>在使用Anaconda管理Python的虚拟环境时，Anaconda会自动在提示符前加上当前虚拟环境的名称，如&lt;code>(base)&lt;/code>，这与starship冲突了（且starship的conda模块提供了相同的功能），因此需要使用如下指令禁用Anaconda的这个功能。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -97,7 +97,7 @@ div#gallery img{ width:32%; }
 右侧当且仅当$c=1,~h=0$时不成立。&lt;/p>
 &lt;h2 id="实现">实现&lt;/h2>
 &lt;p>这个程序实现起来没有什么难度，python代码如下（需要Pillow与numpy）。需要注意的是，为了满足上面的不等式，在程序中需要重新分配两张原图的灰度的范围。&lt;/p>
-&lt;!-- &lt;script type="application/javascript" src="https://gist.github.com/Furffico/c17003dabdcd382ebd22672415fdc8ae.js">&lt;/script>
+&lt;!-- &lt;script src="https://gist.github.com/Furffico/c17003dabdcd382ebd22672415fdc8ae.js">&lt;/script>
 -->
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">

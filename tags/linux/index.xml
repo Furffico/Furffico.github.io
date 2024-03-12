@@ -1324,7 +1324,7 @@ loading="lazy"
 >一些预设&lt;/a>，你可以以你喜欢的预设为基础进行定制，例如我的配置就是在Bracketed Segments和Nerd Font Symbols预设之上按照自己的习惯所做的更改。我的&lt;code>starship.toml&lt;/code>如下：&lt;/p>
 &lt;p>另外，使用Nerd Font Symbols需要Nerd Font，请前往 &lt;a class="link" href="https://www.nerdfonts.com/font-downloads" target="_blank" rel="noopener"
 >https://www.nerdfonts.com/font-downloads&lt;/a> 下载你习惯的字体对应的图标字体，并在虚拟终端中将其设为默认字体。&lt;/p>
-&lt;script type="application/javascript" src="https://gist.github.com/Furffico/f63e63cc192d77ca3c6bb5347f0a1d63.js">&lt;/script>
+&lt;script src="https://gist.github.com/Furffico/f63e63cc192d77ca3c6bb5347f0a1d63.js">&lt;/script>
 &lt;h2 id="相关问题">相关问题&lt;/h2>
 &lt;p>在使用Anaconda管理Python的虚拟环境时，Anaconda会自动在提示符前加上当前虚拟环境的名称，如&lt;code>(base)&lt;/code>，这与starship冲突了（且starship的conda模块提供了相同的功能），因此需要使用如下指令禁用Anaconda的这个功能。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
