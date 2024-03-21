@@ -1,8 +1,163 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Furffiblog</title><link>https://blog.furffisite.link/</link><description>Recent content on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 12 Mar 2024 15:05:23 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/index.xml" rel="self" type="application/rss+xml"/><item><title>【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem</title><link>https://blog.furffisite.link/p/read-papers/utsp/</link><pubDate>Tue, 12 Mar 2024 15:05:23 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/utsp/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240312193735-df25ede3714c69d2ea8b42ba9c39f7c9-755f3.jpg" alt="Featured image of post 【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem" />&lt;h2 id="论文信息">论文信息&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Furffiblog</title><link>https://blog.furffisite.link/</link><description>Recent content on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 20 Mar 2024 13:55:32 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/index.xml" rel="self" type="application/rss+xml"/><item><title>【Linux】修改登录界面 密码三次错误锁定时间</title><link>https://blog.furffisite.link/p/linux-authfail-lock/</link><pubDate>Wed, 20 Mar 2024 13:55:32 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-authfail-lock/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240321144218-38a3404b3f78e405beab5627f4e45e7b-f5a7b.jpg" alt="Featured image of post 【Linux】修改登录界面 密码三次错误锁定时间" />&lt;p>太长不看版：&lt;/p>
+&lt;ol>
+&lt;li>使用 root 权限打开 &lt;code>/etc/security/faillock.conf&lt;/code> （&lt;code>vim&lt;/code> 可换成其它编辑器，如 &lt;code>nano&lt;/code>）&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo vim /etc/security/faillock.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>取消注释并修改&lt;code>unlock_time&lt;/code>一项，60 可替换为你想要的秒数（默认600秒）&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">unlock_time&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">60&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="3">
+&lt;li>&lt;strong>或者&lt;/strong>，修改&lt;code>deny&lt;/code>一项关闭错误锁定&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">deny&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">0&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="背景">背景&lt;/h2>
+&lt;p>今天清晨我刚刚起床，在迷糊中想看看半夜挂机训练的模型的效果，于是抓起笔记本开机，输密码。结果因为我没睡醒，输错了三次密码，屏幕上跳出了这个提示：&lt;/p>
+&lt;center>
+&lt;img src="https://files.furffisite.link/blogimg/20240320145104-2443a1678e465bfd578c1d40d23648a7-29fb6.jpg" alt="The account is locked due to 3 failed logins. (10 minutes left to unlock)" style="width:50%;min-width:400px;"/>
+&lt;/center>
+&lt;p>（登录界面的壁纸是 &lt;a class="link" href="https://www.pixiv.net/users/14541079" target="_blank" rel="noopener"
+>さなせ&lt;/a> 老师画的 &lt;a class="link" href="https://www.pixiv.net/artworks/109067533" target="_blank" rel="noopener"
+>银狼&lt;/a>。）&lt;/p>
+&lt;p>哇！我用了一年多的 &lt;a class="link" href="http://endeavouros.com/" target="_blank" rel="noopener"
+>EndeavourOS&lt;/a> 第一次见到这个提示。再怎么说输错三次要锁 10 分钟也太无情了吧，如果我急着用怎么办。怎么改变这个设置呢？&lt;/p>
+&lt;h2 id="faillock-配置">faillock 配置&lt;/h2>
+&lt;p>由于我不知道这个部分具体是那个模块负责的，搜索的过程还是有一些波折的。在这个过程中，我发现登录界面（greeter）由 LightDM 的 greeter &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup> 提供，登录验证由 Pluggable Authentication Modules (PAM) &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 处理，账户锁定的部分则由 PAM 的模块&lt;code>pam_faillock.so&lt;/code>负责。前者的配置文件在 &lt;code>/etc/lightdm/&lt;/code> 文件夹下，文件名视所使用的 greeter 而定（我这里是&lt;code>slick-greeter.conf&lt;/code>），后者的配置文件是 &lt;code>/etc/security/faillock.conf&lt;/code>&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>使用 &lt;code>vim&lt;/code>、&lt;code>nano&lt;/code> 等文本编辑器以 root 权限打开 faillock 的配置文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo vim /etc/security/faillock.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以发现默认的配置文件里（可能因发行版不同而有差异）已经解释了每一项配置及其作用，我们要做的只是取消对应行的注释，修改成我们想要的数值。&lt;/p>
+&lt;h3 id="账户锁定相关的配置">账户锁定相关的配置&lt;/h3>
+&lt;p>对于非共享的PC而言我觉得最重要的也就三项：&lt;code>deny&lt;/code>，&lt;code>fail_interval&lt;/code>和&lt;code>unlock_time&lt;/code>。这三项用一句话来概括就是：“&lt;code>deny&lt;/code>为&lt;code>0&lt;/code>时无论输错多少次都不会锁定账户，否则，在&lt;code>{fail_interval}&lt;/code>秒内连续密码错误&lt;code>{deny}&lt;/code>次会导致账户被锁定&lt;code>{unlock_time}&lt;/code>秒。”这三项的默认值分别是&lt;code>deny=3&lt;/code>，&lt;code>fail_interval=900&lt;/code>和&lt;code>unlock_time=600&lt;/code>&lt;/p>
+&lt;p>为了避免暴力破解，我没有将&lt;code>deny&lt;/code>设为 &lt;code>0&lt;/code>，以下是我的配置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">deny&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">3&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">fail_interval&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">60&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">unlock_time&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">60&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>因为比起默认的 10 分钟，1 分钟我觉得是兼顾了安全和便捷的选择。&lt;/p>
+&lt;p>另外，faillock 记录的登录失败次数默认是放在 &lt;code>/var/run/faillock&lt;/code> 内的，而这个文件夹处在临时文件系统 tmpfs 内，也就是说当账户因多次密码错误被锁定时，只要重启电脑就能解除锁定&lt;sup>&lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>&lt;/sup>。修改配置文件的&lt;code>dir&lt;/code>一项，将文件夹改到持久存储的文件系统内即可防止重启解除锁定（例如&lt;code>/var/lib/faillock&lt;/code>）。&lt;/p>
+&lt;p>我还试了一下，在默认情况下使用 ssh 远程登陆也是有可能触发账户锁定的（当然这个也取决于PAM的配置），当账户锁定时即使密码正确也会返回 &lt;code>Permission denied, please try again.&lt;/code>。&lt;/p>
+&lt;h3 id="root-相关的配置">root 相关的配置&lt;/h3>
+&lt;p>在默认情况下，为了防止 DOS 攻击， faillock 是不会锁定 root 账户的 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。开启 &lt;code>even_deny_root&lt;/code> 这一项则让 faillock 可以锁定 root 。使用 &lt;code>root_unlock_time&lt;/code> 可以为 root 账户单独设置锁定时间，并且设置这项会隐式开启&lt;code>even_deny_root&lt;/code>。&lt;/p>
+&lt;h3 id="日志相关的配置">日志相关的配置&lt;/h3>
+&lt;p>在命令行中使用：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ journalctl --since today -fg pam
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到今天以来与 PAM 有关的日志，使用 &lt;code>faillock&lt;/code> 指令可以看到系统当前记录的登录失败的信息，例如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ faillock --user furffico
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">furffico:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">When Type Source Valid
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2024-03-21 13:16:24 RHOST 192.168.1.101 V
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2024-03-21 13:16:27 RHOST 192.168.1.101 V
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2024-03-21 13:16:30 RHOST 192.168.1.101 V
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>配置文件内与日志相关的配置有三个：&lt;/p>
 &lt;ul>
-&lt;li>标题： Unsupervised Learning for Solving the Travelling Salesman Problem
-&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>
-&lt;/li>
+&lt;li>&lt;code>audit&lt;/code>: 当用户不存在时将用户名记入系统日志。
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl"># before:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sshd[134004]: pam_faillock(sshd:auth): User unknown
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># after:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sshd[136827]: pam_faillock(sshd:auth): User unknown: f
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>&lt;code>slient&lt;/code>：不打印 informative（信息丰富的？）消息（没试出来这个开了有什么区别）。&lt;/li>
+&lt;li>&lt;code>no_log_info&lt;/code>：不向系统日志打印 informative 消息。&lt;/li>
+&lt;/ul>
+&lt;h2 id="参考资料">参考资料&lt;/h2>
+&lt;style>
+.bibliography { display: table; font-size: medium; line-height: normal; }
+.bib-item { display: table-row; }
+.bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
+.bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
+&lt;/style>
+&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
+&lt;span>[1]&lt;/span>
+&lt;span>&lt;a class="link" href="https://wiki.archlinux.org/title/LightDM#Greeter" target="_blank" rel="noopener"
+>LightDM - ArchWiki&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite2" class="bib-item">
+&lt;span>[2]&lt;/span>
+&lt;span>&lt;a class="link" href="https://wiki.archlinux.org/title/PAM" target="_blank" rel="noopener"
+>PAM - ArchWiki&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite3" class="bib-item">
+&lt;span>[3]&lt;/span>
+&lt;span>&lt;a class="link" href="https://www.redhat.com/sysadmin/pluggable-authentication-modules-pam" target="_blank" rel="noopener"
+>An introduction to Pluggable Authentication Modules (PAM) in Linux | Enable Sysadmin&lt;/a>&lt;a href="#ref-cite3-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite4" class="bib-item">
+&lt;span>[4]&lt;/span>
+&lt;span>&lt;a class="link" href="https://man.archlinux.org/man/faillock.conf.5" target="_blank" rel="noopener"
+>faillock.conf(5) — Arch manual pages&lt;/a>&lt;a href="#ref-cite4-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite5" class="bib-item">
+&lt;span>[5]&lt;/span>
+&lt;span>&lt;a class="link" href="https://wiki.archlinux.org/title/Security#Lock_out_user_after_three_failed_login_attempts" target="_blank" rel="noopener"
+>Security - ArchWiki&lt;/a>&lt;a href="#ref-cite5-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite6" class="bib-item">
+&lt;span>[6]&lt;/span>
+&lt;span>&lt;a class="link" href="https://man.archlinux.org/man/pam_faillock.8.en" target="_blank" rel="noopener"
+>pam_faillock(8) — Arch manual pages&lt;/a>&lt;a href="#ref-cite6-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;/div></description></item><item><title>【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem</title><link>https://blog.furffisite.link/p/read-papers/utsp/</link><pubDate>Tue, 12 Mar 2024 15:05:23 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/utsp/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240312193735-df25ede3714c69d2ea8b42ba9c39f7c9-755f3.jpg" alt="Featured image of post 【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem" />&lt;h2 id="论文信息">论文信息&lt;/h2>
+&lt;ul>
+&lt;li>标题： Unsupervised Learning for Solving the Travelling Salesman Problem&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;/li>
 &lt;li>作者： Yimeng Min, Yiwei Bai, Carla P. Gomes&lt;/li>
 &lt;li>会议： NeurIPS 2023&lt;/li>
 &lt;li>在线资源： &lt;a class="link" href="https://proceedings.neurips.cc/paper_files/paper/2023/hash/93b8618a9061f8a55825c13ecf28392b-Abstract-Conference.html" target="_blank" rel="noopener"
@@ -34,9 +189,7 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;/ul>
 &lt;p>我认为UTSP的局限性是：&lt;/p>
 &lt;ul>
-&lt;li>根据提供的实验数据，UTSP 即使有轻量化的网络，它生成 heatmap 需要的时间依然比 Att-GCRN
-&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>
-要长（为什么呢？）；&lt;/li>
+&lt;li>根据提供的实验数据，UTSP 即使有轻量化的网络，它生成 heatmap 需要的时间依然比 Att-GCRN&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup> 要长（为什么呢？）；&lt;/li>
 &lt;li>Soft indicator 是针对 TSP 的巧妙设计，只适用于解为汉密尔顿环的问题，并且 UTSP 需要针对问题精心设计 loss 函数，因此将 UTSP 迁移到别的组合优化问题时，相比于一些有监督学习和强化学习方法（分别可以通过有标签的数据和 reward 学习问题特征）需要更多工作。&lt;/li>
 &lt;/ul>
 &lt;p>几个问题：&lt;/p>
@@ -51,23 +204,14 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
 .bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
 &lt;/style>
-&lt;div class="bibliography">
-&lt;div id="cite1" class="bib-item">
+&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
 &lt;span>[1]&lt;/span>
-&lt;span>
-Y. Min, Y. Bai, and C. P. Gomes, “Unsupervised Learning for Solving the Travelling Salesman Problem,” in Advances in Neural Information Processing Systems, A. Oh, T. Neumann, A. Globerson, K. Saenko, M. Hardt, and S. Levine, Eds., Curran Associates, Inc., 2023, pp. 47264–47278. [Online]. Available: &lt;a class="link" href="https://proceedings.neurips.cc/paper_files/paper/2023/file/93b8618a9061f8a55825c13ecf28392b-Paper-Conference.pdf" target="_blank" rel="noopener"
->https://proceedings.neurips.cc/paper_files/paper/2023/file/93b8618a9061f8a55825c13ecf28392b-Paper-Conference.pdf&lt;/a>
-&lt;a href="#ref-cite1-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite2" class="bib-item">
+&lt;span>Y. Min, Y. Bai, and C. P. Gomes, “Unsupervised Learning for Solving the Travelling Salesman Problem,” in Advances in Neural Information Processing Systems, A. Oh, T. Neumann, A. Globerson, K. Saenko, M. Hardt, and S. Levine, Eds., Curran Associates, Inc., 2023, pp. 47264–47278. [Online]. Available: &lt;a class="link" href="https://proceedings.neurips.cc/paper_files/paper/2023/file/93b8618a9061f8a55825c13ecf28392b-Paper-Conference.pdf" target="_blank" rel="noopener"
+>https://proceedings.neurips.cc/paper_files/paper/2023/file/93b8618a9061f8a55825c13ecf28392b-Paper-Conference.pdf&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite2" class="bib-item">
 &lt;span>[2]&lt;/span>
-&lt;span>
-Z.-H. Fu, K.-B. Qiu, and H. Zha, “Generalize a Small Pre-trained Model to Arbitrarily Large TSP Instances,” Proceedings of the AAAI Conference on Artificial Intelligence, vol. 35, no. 8, pp. 7474–7482, May 2021, doi: 10.1609/aaai.v35i8.16916.
-&lt;a href="#ref-cite2-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;/div></description></item><item><title>我折腾NAS的历程（四）：一些升级</title><link>https://blog.furffisite.link/p/nas-4/</link><pubDate>Sat, 09 Mar 2024 23:53:36 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-4/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240310022612-8671164f59f21e5d03de82e41e7073d5-7f2c7.jpg" alt="Featured image of post 我折腾NAS的历程（四）：一些升级" />&lt;p>之前的事情：&lt;/p>
+&lt;span>Z.-H. Fu, K.-B. Qiu, and H. Zha, “Generalize a Small Pre-trained Model to Arbitrarily Large TSP Instances,” Proceedings of the AAAI Conference on Artificial Intelligence, vol. 35, no. 8, pp. 7474–7482, May 2021, doi: 10.1609/aaai.v35i8.16916.&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;/div></description></item><item><title>我折腾NAS的历程（四）：一些升级</title><link>https://blog.furffisite.link/p/nas-4/</link><pubDate>Sat, 09 Mar 2024 23:53:36 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-4/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240310022612-8671164f59f21e5d03de82e41e7073d5-7f2c7.jpg" alt="Featured image of post 我折腾NAS的历程（四）：一些升级" />&lt;p>之前的事情：&lt;/p>
 &lt;ul>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" >&lt;em>我折腾NAS的历程（一）&lt;/em>&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >&lt;em>我折腾NAS的历程（二）&lt;/em>&lt;/a>&lt;/li>
@@ -183,14 +327,11 @@ Z.-H. Fu, K.-B. Qiu, and H. Zha, “Generalize a Small Pre-trained Model to Arbi
 >官方文档&lt;/a>里给出了使用 docker compose 部署 Immich 的方法。&lt;/p>
 &lt;h3 id="lanraragi">LANraragi&lt;/h3>
 &lt;p>&lt;a class="link" href="https://github.com/Difegue/LANraragi" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">
-&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
-&lt;/span>
-LANraragi
-&lt;/a>
+&lt;/span>LANraragi&lt;/a>
 是用 Perl 语言编写的自建漫画库和漫画阅读器。
 优势是通过浏览器访问，且支持直接从 zip、tar.gz 等压缩文件/归档文件读取图片，而不用手动解压。&lt;/p>
 &lt;p>缺点是它对 unicode 的支持不太好，我觉得 Lanraragi 在管理漫画方面的功能也比较欠缺，不算特别好用。
@@ -200,14 +341,11 @@ LANraragi
 &lt;h3 id="主页homer">主页（homer）&lt;/h3>
 &lt;p>NAS上运行的服务多了，每次访问服务都要输地址（无论是ip+端口还是&lt;a class="link" href="http://localhost:1313/p/nas-3/#coredns" target="_blank" rel="noopener"
 >内网域名&lt;/a>）会很麻烦，于是用&lt;a class="link" href="https://github.com/bastienwirtz/homer" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">
-&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
-&lt;/span>
-homer
-&lt;/a>
+&lt;/span>homer&lt;/a>
 搭建了NAS的入口页。&lt;/p>
 &lt;p>由于是纯静态的网页（改完配置也不需要重新编译之类的），部署的时候进&lt;a class="link" href="https://github.com/bastienwirtz/homer/releases" target="_blank" rel="noopener"
 >项目的 release 页&lt;/a>下载编译好的 zip 文件解压，然后直接在 nginx 里添一个 server 就行，也可以改 default，让它成为路由无匹配时的默认页面。配置时只要改&lt;code>assets/config.yml&lt;/code>，在浏览器里刷新页面（可能需要在开发者工具的 networks 里 Disable Cache）就能看到更改了。&lt;/p>
@@ -215,14 +353,11 @@ homer
 &lt;p>之前在复习备考的时候，有很多考研资料是通过百度网盘流传的。
 又因为百度网盘的限速，和它的一些操作让我不是很想在本机安装它的客户端，催生了我在 NAS 上部署其客户端的需求。
 一搜果然有大佬做好了百度网盘客户端的docker镜像，其中之一是&lt;a class="link" href="https://github.com/gshang2017/docker/tree/master/baidunetdisk" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">
-&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
-&lt;/span>
-gshang2017做的
-&lt;/a>
+&lt;/span>gshang2017做的&lt;/a>
 。&lt;/p>
 &lt;p>把指令转换成&lt;code>docker-compose.yaml&lt;/code>文件，然后&lt;code>docker compose up -d&lt;/code>，不出意外用浏览器访问 NAS 的 5800 端口就能看到登录界面了。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -321,22 +456,16 @@ gshang2017做的
 如果拿到手之后已经玩了一段时间，游戏不支持steam云存档（或者各种原因导致没有同步成功），且手边没有硬盘盒的话，一定要在更换硬盘之前备份一下Steam Deck上的游戏存档。&lt;/p>
 &lt;p>进入 SteamOS 的桌面模式后插入 U 盘，使用指令或图形界面复制文件夹 &lt;code>/home/deck/.local/share/Steam/steamapps/compatdata&lt;/code> 到 U 盘内。&lt;/p>
 &lt;h3 id="第二步更换硬盘">第二步：更换硬盘&lt;/h3>
-&lt;p>更换硬盘的操作可以直接参考 iFixit 的教程
-&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>
-。&lt;/p>
+&lt;p>更换硬盘的操作可以直接参考 iFixit 的教程 &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>。&lt;/p>
 &lt;h3 id="第三步恢复steamos">第三步：恢复SteamOS&lt;/h3>
-&lt;p>这部分的操作可以参考 Steam 官方的教程
-&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>
-，我在此记录一下我踩到的坑：&lt;/p>
+&lt;p>这部分的操作可以参考 Steam 官方的教程 &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>，我在此记录一下我踩到的坑：&lt;/p>
 &lt;ol>
 &lt;li>Steam 提供的镜像不能使用 &lt;a class="link" href="https://www.ventoy.net/cn/" target="_blank" rel="noopener"
 >Ventoy&lt;/a> 启动，只能老老实实用工具（&lt;a class="link" href="https://rufus.ie/en/" target="_blank" rel="noopener"
 >Rufus&lt;/a> / &lt;a class="link" href="https://etcher.balena.io/" target="_blank" rel="noopener"
 >balenaEtcher&lt;/a> / &lt;a class="link" href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/dd.html" target="_blank" rel="noopener"
 >dd&lt;/a>）写到空 U 盘或 microSD 卡内；&lt;/li>
-&lt;li>我最开始用的是 U 盘，但是在 Steam Deck 上从 U 盘启动时在黑屏卡住了，后面在 reddit 用户的建议下
-&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup>
-换用了 microSD 卡（三星 EVOPlus 64GB）才顺利进入桌面（不知是 hub 的问题还是 U 盘的问题，踩这个坑让我多花了两三个小时）。&lt;/li>
+&lt;li>我最开始用的是 U 盘，但是在 Steam Deck 上从 U 盘启动时在黑屏卡住了，后面在 reddit 用户的建议下 &lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 换用了 microSD 卡（三星 EVOPlus 64GB）才顺利进入桌面（不知是 hub 的问题还是 U 盘的问题，踩这个坑让我多花了两三个小时）。&lt;/li>
 &lt;/ol>
 &lt;p>恢复好系统后就可以弹出 U 盘或 microSD 卡，从硬盘启动了，之后系统初始化的步骤和刚拿到机器时的一样。&lt;/p>
 &lt;h3 id="第四步硬盘分区">第四步：硬盘分区&lt;/h3>
@@ -351,10 +480,7 @@ alt="分区方案"
 loading="lazy"
 alt="home分区使用情况"
 >&lt;/p>
-&lt;p>然后配置开机自动挂载，这算是 Linux 用户的基操吧，我就不赘述了，可以参考
-&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>
-&lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>
-。&lt;/p>
+&lt;p>然后配置开机自动挂载，这算是 Linux 用户的基操吧，我就不赘述了，可以参考 &lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a> &lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>。&lt;/p>
 &lt;p>配置好之后重启（或者使用 &lt;code>sudo mount -a&lt;/code> 挂载新分区），进入 Steam 在新分区上创建游戏库即可。&lt;/p>
 &lt;hr>
 &lt;h2 id="安装双系统">安装双系统&lt;/h2>
@@ -364,42 +490,28 @@ alt="home分区使用情况"
 &lt;li>对于非 Steam 平台的游戏，使其在 SteamOS 上正常运行需要耗费一定的精力。&lt;/li>
 &lt;/ul>
 &lt;h3 id="第一步安装-windows">第一步：安装 Windows&lt;/h3>
-&lt;p>AtlasOS 相当于非官方的精简版 Windows，我觉得在侧重于游戏的 Steam Deck 上安装这个非常合适，LinusTechTips 也出过一期视频介绍它
-&lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>
-。
+&lt;p>AtlasOS 相当于非官方的精简版 Windows，我觉得在侧重于游戏的 Steam Deck 上安装这个非常合适，LinusTechTips 也出过一期视频介绍它 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。
 至于视频评论里提到的安全性问题我倒不太担心，因为我在这上面无非就是运行 Steam 和一些游戏，我知道自己在做什么，要是真出了问题重装就行。&lt;/p>
-&lt;p>安装 AtlasOS 的步骤参见
-&lt;a id='ref-cite7-1' href='#cite7'>[7]&lt;/a>
-。我激活 Windows 时用的是学校的 KMS 服务。&lt;/p>
+&lt;p>安装 AtlasOS 的步骤参见 &lt;a id='ref-cite7-1' href='#cite7'>[7]&lt;/a>。我激活 Windows 时用的是学校的 KMS 服务。&lt;/p>
 &lt;p>&lt;strong>注意&lt;/strong>：安装 Windows 时使用的 ISO 文件只能从这个页面生成的链接下载，否则 Windows 版本对不上，到后面使用 AME Wizard 的时候会报错。
 我踩中了这个坑，浪费了一个小时。&lt;/p>
 &lt;h3 id="第二步安装驱动">第二步：安装驱动&lt;/h3>
 &lt;p>Steam Deck 上刚装好的 Windows 系统时没有音频输出的，原因是缺少相关驱动。
-此时要按照 Steam 的指南
-&lt;sup>&lt;a id='ref-cite8-1' href='#cite8'>[8]&lt;/a>&lt;/sup>
-下载并安装里面提供的所有驱动。&lt;/p>
+此时要按照 Steam 的指南 &lt;sup>&lt;a id='ref-cite8-1' href='#cite8'>[8]&lt;/a>&lt;/sup> 下载并安装里面提供的所有驱动。&lt;/p>
 &lt;p>可是装完驱动后我发现屏幕亮度的调节还是存在一些问题：Windows 里调整亮度的范围比 SteamOS 的小好多，不过这不太影响日常使用，所以我就没管了。&lt;/p>
 &lt;h3 id="第三步双系统的常见问题">第三步：双系统的常见问题&lt;/h3>
 &lt;p>目前遇到两个，这是安装双系统的计算机都会遇到的问题，并非 Steam Deck 独有的：&lt;/p>
 &lt;ol>
-&lt;li>双系统时间不一致，解决方法可以参考
-&lt;a id='ref-cite9-1' href='#cite9'>[9]&lt;/a>
-；&lt;/li>
-&lt;li>双系统无法共享蓝牙设备，解决方法参考
-&lt;a id='ref-cite10-1' href='#cite10'>[10]&lt;/a>
-。&lt;/li>
+&lt;li>双系统时间不一致，解决方法可以参考 &lt;a id='ref-cite9-1' href='#cite9'>[9]&lt;/a>；&lt;/li>
+&lt;li>双系统无法共享蓝牙设备，解决方法参考 &lt;a id='ref-cite10-1' href='#cite10'>[10]&lt;/a>。&lt;/li>
 &lt;/ol>
 &lt;h3 id="第四步安装辅助工具">第四步：安装辅助工具&lt;/h3>
-&lt;p>Steam Deck Tools
-&lt;sup>&lt;a id='ref-cite11-1' href='#cite11'>[11]&lt;/a>&lt;/sup>
-提供了改善在 Steam Deck 上使用 Windows 体验的一系列工具，包括手柄模拟，性能监视器，TDP控制等。
+&lt;p>Steam Deck Tools &lt;sup>&lt;a id='ref-cite11-1' href='#cite11'>[11]&lt;/a>&lt;/sup> 提供了改善在 Steam Deck 上使用 Windows 体验的一系列工具，包括手柄模拟，性能监视器，TDP控制等。
 其中手柄模拟（Steam Controller）我觉得是必要的。&lt;/p>
 &lt;hr>
 &lt;h2 id="相关问题">相关问题&lt;/h2>
 &lt;h3 id="steamos更新后引导消失">SteamOS更新后引导消失&lt;/h3>
-&lt;p>近日我更新了 SteamOS 版本，更新后 SteamOS 从启动项菜单消失了，最终按照
-&lt;a id='ref-cite12-1' href='#cite12'>[12]&lt;/a>
-提供的修复方法成功恢复启动项。&lt;/p>
+&lt;p>近日我更新了 SteamOS 版本，更新后 SteamOS 从启动项菜单消失了，最终按照 &lt;a id='ref-cite12-1' href='#cite12'>[12]&lt;/a> 提供的修复方法成功恢复启动项。&lt;/p>
 &lt;hr>
 &lt;h2 id="相关资料">相关资料&lt;/h2>
 &lt;h3 id="参考资料">参考资料&lt;/h3>
@@ -409,104 +521,55 @@ alt="home分区使用情况"
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
 .bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
 &lt;/style>
-&lt;div class="bibliography">
-&lt;div id="cite1" class="bib-item">
+&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
 &lt;span>[1]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://zh.ifixit.com/Guide/Steam&amp;#43;Deck&amp;#43;SSD&amp;#43;%E6%9B%B4%E6%8D%A2/148989" target="_blank" rel="noopener"
->Steam Deck SSD 更换 - iFixit 维修指南&lt;/a>
-&lt;a href="#ref-cite1-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite2" class="bib-item">
+&lt;span>&lt;a class="link" href="https://zh.ifixit.com/Guide/Steam&amp;#43;Deck&amp;#43;SSD&amp;#43;%E6%9B%B4%E6%8D%A2/148989" target="_blank" rel="noopener"
+>Steam Deck SSD 更换 - iFixit 维修指南&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite2" class="bib-item">
 &lt;span>[2]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://help.steampowered.com/en/faqs/view/1b71-edf2-eb6d-2bb3" target="_blank" rel="noopener"
->Steam Support :: Steam Deck Recovery Instructions&lt;/a>
-&lt;a href="#ref-cite2-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite3" class="bib-item">
+&lt;span>&lt;a class="link" href="https://help.steampowered.com/en/faqs/view/1b71-edf2-eb6d-2bb3" target="_blank" rel="noopener"
+>Steam Support :: Steam Deck Recovery Instructions&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite3" class="bib-item">
 &lt;span>[3]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://www.reddit.com/r/SteamDeck/comments/tkmrd4/comment/jlj3464/" target="_blank" rel="noopener"
->Recovery image not booting : r/SteamDeck&lt;/a>
-&lt;a href="#ref-cite3-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite4" class="bib-item">
+&lt;span>&lt;a class="link" href="https://www.reddit.com/r/SteamDeck/comments/tkmrd4/comment/jlj3464/" target="_blank" rel="noopener"
+>Recovery image not booting : r/SteamDeck&lt;/a>&lt;a href="#ref-cite3-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite4" class="bib-item">
 &lt;span>[4]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://wiki.archlinuxcn.org/wiki/Fstab" target="_blank" rel="noopener"
->fstab - Arch Linux 中文维基&lt;/a>
-&lt;a href="#ref-cite4-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite5" class="bib-item">
+&lt;span>&lt;a class="link" href="https://wiki.archlinuxcn.org/wiki/Fstab" target="_blank" rel="noopener"
+>fstab - Arch Linux 中文维基&lt;/a>&lt;a href="#ref-cite4-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite5" class="bib-item">
 &lt;span>[5]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://gnu-linux.readthedocs.io/zh/latest/Chapter02/00_fstab.html" target="_blank" rel="noopener"
->开机自动挂载硬盘 — Linux latest 文档&lt;/a>
-&lt;a href="#ref-cite5-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite6" class="bib-item">
+&lt;span>&lt;a class="link" href="https://gnu-linux.readthedocs.io/zh/latest/Chapter02/00_fstab.html" target="_blank" rel="noopener"
+>开机自动挂载硬盘 — Linux latest 文档&lt;/a>&lt;a href="#ref-cite5-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite6" class="bib-item">
 &lt;span>[6]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://www.bilibili.com/video/BV1Ko4y1A71w" target="_blank" rel="noopener"
->【官方双语】你不需要新电脑(赞助)#linus谈科技_哔哩哔哩_bilibili&lt;/a>
-&lt;a href="#ref-cite6-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite7" class="bib-item">
+&lt;span>&lt;a class="link" href="https://www.bilibili.com/video/BV1Ko4y1A71w" target="_blank" rel="noopener"
+>【官方双语】你不需要新电脑(赞助)#linus谈科技_哔哩哔哩_bilibili&lt;/a>&lt;a href="#ref-cite6-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite7" class="bib-item">
 &lt;span>[7]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://docs.atlasos.net/getting-started/installation/" target="_blank" rel="noopener"
->Installation - Atlas Documentation&lt;/a>
-&lt;a href="#ref-cite7-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite8" class="bib-item">
+&lt;span>&lt;a class="link" href="https://docs.atlasos.net/getting-started/installation/" target="_blank" rel="noopener"
+>Installation - Atlas Documentation&lt;/a>&lt;a href="#ref-cite7-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite8" class="bib-item">
 &lt;span>[8]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://help.steampowered.com/en/faqs/view/6121-ECCD-D643-BAA8" target="_blank" rel="noopener"
->Steam Support :: Steam Deck - Windows Resources&lt;/a>
-&lt;a href="#ref-cite8-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite9" class="bib-item">
+&lt;span>&lt;a class="link" href="https://help.steampowered.com/en/faqs/view/6121-ECCD-D643-BAA8" target="_blank" rel="noopener"
+>Steam Support :: Steam Deck - Windows Resources&lt;/a>&lt;a href="#ref-cite8-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite9" class="bib-item">
 &lt;span>[9]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://sspai.com/post/55983" target="_blank" rel="noopener"
->Linux Windows 双系统时间不一致 - 少数派&lt;/a>
-&lt;a href="#ref-cite9-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite10" class="bib-item">
+&lt;span>&lt;a class="link" href="https://sspai.com/post/55983" target="_blank" rel="noopener"
+>Linux Windows 双系统时间不一致 - 少数派&lt;/a>&lt;a href="#ref-cite9-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite10" class="bib-item">
 &lt;span>[10]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://blog.nanpuyue.com/2018/040.html" target="_blank" rel="noopener"
->Linux 与 Windows 双系统共享蓝牙鼠标 - 南浦月&lt;/a>
-&lt;a href="#ref-cite10-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite11" class="bib-item">
+&lt;span>&lt;a class="link" href="https://blog.nanpuyue.com/2018/040.html" target="_blank" rel="noopener"
+>Linux 与 Windows 双系统共享蓝牙鼠标 - 南浦月&lt;/a>&lt;a href="#ref-cite10-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite11" class="bib-item">
 &lt;span>[11]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://steam-deck-tools.ayufan.dev/" target="_blank" rel="noopener"
->README | (Windows) Steam Deck Tools&lt;/a>
-&lt;a href="#ref-cite11-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite12" class="bib-item">
+&lt;span>&lt;a class="link" href="https://steam-deck-tools.ayufan.dev/" target="_blank" rel="noopener"
+>README | (Windows) Steam Deck Tools&lt;/a>&lt;a href="#ref-cite11-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite12" class="bib-item">
 &lt;span>[12]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://www.bilibili.com/read/cv26620174/" target="_blank" rel="noopener"
->Steamdeck双系统系统引导通用修复指南——以SteamOS更新掉引导为例 - 哔哩哔哩&lt;/a>
-&lt;a href="#ref-cite12-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;/div>
+&lt;span>&lt;a class="link" href="https://www.bilibili.com/read/cv26620174/" target="_blank" rel="noopener"
+>Steamdeck双系统系统引导通用修复指南——以SteamOS更新掉引导为例 - 哔哩哔哩&lt;/a>&lt;a href="#ref-cite12-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;/div>
 &lt;h3 id="其它资料">其它资料&lt;/h3>
 &lt;ul>
 &lt;li>&lt;a class="link" href="https://store.steampowered.com/steamdeck" target="_blank" rel="noopener"
@@ -557,18 +620,10 @@ alt="home分区使用情况"
 在用爬虫抓取了&lt;a class="link" href="https://yz.chsi.com.cn/zsml/zyfx_search.jsp" target="_blank" rel="noopener"
 >研招网的专业目录&lt;/a>并在本地筛选后，我筛选出了几个目标，包括北京邮电大学、东南大学（简称东大）等。
 考虑到我的复习时间和之前预推免的情况，在与家人沟通、参考了网络上一些在读或毕业学长学姐的经验帖后，我最终选择了相对比较好考的东南大学-蒙纳士大学苏州联合研究生院（简称东蒙）。&lt;/p>
-&lt;p>好考是有原因的——因为是中外合办的学院，学费相较于别的学校和学院贵很多（6.2万元/年）
-&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>
-，所以竞争对手相对较少，往年的分数线低
-&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>
-，报考-录取比也较低
-&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup>
-。&lt;/p>
+&lt;p>好考是有原因的——因为是中外合办的学院，学费相较于别的学校和学院贵很多（6.2万元/年）&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>，所以竞争对手相对较少，往年的分数线低&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>，报考-录取比也较低&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup>。&lt;/p>
 &lt;h3 id="分析现状">分析现状&lt;/h3>
 &lt;p>东蒙电子信息专硕的考试科目是 101 思想政治理论、201 英语（一）、301 数学（一）和 935 计算机专业基础（东南大学自命题）。
-935的考纲会在东大计算机学院官网发布
-&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>
-，包括操作系统、计算机组成原理、数据结构，其中操作系统占比最大。&lt;/p>
+935的考纲会在东大计算机学院官网发布&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>，包括操作系统、计算机组成原理、数据结构，其中操作系统占比最大。&lt;/p>
 &lt;p>知道了要考什么，接下来就要分析现状了，依此分配复习时间。&lt;/p>
 &lt;p>我当时的状况是：高数只看完极限和一元函数的微分学，其余学科完全没复习。
 我的优势是英语不错：六级分数 605，英语一真题的选择题大多能在一个小时内做完，且扣分在8分以内，所以几乎不用太多时间复习英语。
@@ -609,37 +664,28 @@ alt="home分区使用情况"
 &lt;li>参考书目：王道考研系列 操作系统/数据结构、计算机组成原理（任国林 著）、408真题、935真题（如果能找到的话）&lt;/li>
 &lt;li>视频课：
 &lt;a class="link" href="https://www.bilibili.com/video/BV1ps4y1d73V" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">
-&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-tv" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-tv" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;rect x="3" y="7" width="18" height="13" rx="2" />
 &lt;polyline points="16 3 12 7 8 3" />
 &lt;/svg>
-&lt;/span>
-王道计算机考研 计算机组成原理
-&lt;/a>
+&lt;/span>王道计算机考研 计算机组成原理&lt;/a>
 、
 &lt;a class="link" href="https://www.bilibili.com/video/BV1YE411D7nH" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">
-&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-tv" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-tv" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;rect x="3" y="7" width="18" height="13" rx="2" />
 &lt;polyline points="16 3 12 7 8 3" />
 &lt;/svg>
-&lt;/span>
-王道计算机考研 操作系统
-&lt;/a>
+&lt;/span>王道计算机考研 操作系统&lt;/a>
 、
 &lt;a class="link" href="https://www.bilibili.com/video/BV1b7411N798" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">
-&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-tv" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-tv" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;rect x="3" y="7" width="18" height="13" rx="2" />
 &lt;polyline points="16 3 12 7 8 3" />
 &lt;/svg>
-&lt;/span>
-王道计算机考研 数据结构
-&lt;/a>
+&lt;/span>王道计算机考研 数据结构&lt;/a>
 &lt;/li>
 &lt;/ul>
 &lt;h3 id="思想政治理论">思想政治理论&lt;/h3>
@@ -655,45 +701,25 @@ alt="home分区使用情况"
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
 .bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
 &lt;/style>
-&lt;div class="bibliography">
-&lt;div id="cite1" class="bib-item">
+&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
 &lt;span>[1]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://yzb.seu.edu.cn/2023/0921/c6679a466344/page.htm" target="_blank" rel="noopener"
->东大研招网 - 东南大学—蒙纳士大学苏州联合研究生院2024年硕士研究生招生简章&lt;/a>
-&lt;a href="#ref-cite1-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite2" class="bib-item">
+&lt;span>&lt;a class="link" href="https://yzb.seu.edu.cn/2023/0921/c6679a466344/page.htm" target="_blank" rel="noopener"
+>东大研招网 - 东南大学—蒙纳士大学苏州联合研究生院2024年硕士研究生招生简章&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite2" class="bib-item">
 &lt;span>[2]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://yzb.seu.edu.cn/2023/0726/c6674a455893/page.htm" target="_blank" rel="noopener"
->东大研招网 - 2023年东南大学各院系所复试分数线&lt;/a>
-&lt;a href="#ref-cite2-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite3" class="bib-item">
+&lt;span>&lt;a class="link" href="https://yzb.seu.edu.cn/2023/0726/c6674a455893/page.htm" target="_blank" rel="noopener"
+>东大研招网 - 2023年东南大学各院系所复试分数线&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite3" class="bib-item">
 &lt;span>[3]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://yzb.seu.edu.cn/2023/0726/c6675a455894/page.htm" target="_blank" rel="noopener"
->东大研招网 - 2023年硕士研究生考试录取情况汇总&lt;/a>
-&lt;a href="#ref-cite3-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite4" class="bib-item">
+&lt;span>&lt;a class="link" href="https://yzb.seu.edu.cn/2023/0726/c6675a455894/page.htm" target="_blank" rel="noopener"
+>东大研招网 - 2023年硕士研究生考试录取情况汇总&lt;/a>&lt;a href="#ref-cite3-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite4" class="bib-item">
 &lt;span>[4]&lt;/span>
-&lt;span>
-&lt;a class="link" href="https://cse.seu.edu.cn/2023/0913/c24628a464355/page.psp" target="_blank" rel="noopener"
->东南大学计算机科学与工程学院 - 2024年计算机科学与工程学院硕士研究生入学考试930、935考试大纲&lt;/a>
-&lt;a href="#ref-cite4-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;/div></description></item><item><title>【RL学习笔记】深度Q学习算法与经验回放</title><link>https://blog.furffisite.link/p/deep-q-learning/</link><pubDate>Tue, 22 Aug 2023 10:51:10 +0800</pubDate><guid>https://blog.furffisite.link/p/deep-q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230822110113-5ef18ab6cfb63d5a730bbd8e077231e7-6ba69.jpg" alt="Featured image of post 【RL学习笔记】深度Q学习算法与经验回放" />&lt;h2 id="深度q学习算法">深度Q学习算法&lt;/h2>
+&lt;span>&lt;a class="link" href="https://cse.seu.edu.cn/2023/0913/c24628a464355/page.psp" target="_blank" rel="noopener"
+>东南大学计算机科学与工程学院 - 2024年计算机科学与工程学院硕士研究生入学考试930、935考试大纲&lt;/a>&lt;a href="#ref-cite4-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;/div></description></item><item><title>【RL学习笔记】深度Q学习算法与经验回放</title><link>https://blog.furffisite.link/p/deep-q-learning/</link><pubDate>Tue, 22 Aug 2023 10:51:10 +0800</pubDate><guid>https://blog.furffisite.link/p/deep-q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230822110113-5ef18ab6cfb63d5a730bbd8e077231e7-6ba69.jpg" alt="Featured image of post 【RL学习笔记】深度Q学习算法与经验回放" />&lt;h2 id="深度q学习算法">深度Q学习算法&lt;/h2>
 &lt;h3 id="理论">理论&lt;/h3>
-&lt;p>深度Q学习算法（Deep Q-Learning Algorithm）是将Q表格替换为神经网络的Q学习算法，由 DeepMind 的 Mnih et al.
-&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>
-&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>
-提出。
+&lt;p>深度Q学习算法（Deep Q-Learning Algorithm）是将Q表格替换为神经网络的Q学习算法，由 DeepMind 的 Mnih et al. &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>提出。
 Q表格本质上是一个函数 $f: S\times A \rightarrow \mathbb{R}$，我们自然也可以使用神经网络构造这个函数，让它可以处理连续的状态和动作。此外，使用神经网络还有一个好处：我们可以向神经网络输入实例信息 $m\in M$ ，使之可以跨实例学习函数 $f: M\times S\times A\rightarrow \mathbb{R}$ 。也就是说，Agent可以将其在实例 $m_1,~m_2,~\ldots~m_n$上 学习到的经验迁移到未曾见过的实例 $m_{n+1}$ 上，增强模型的泛化性能，减少其探索新实例所需的时间。&lt;/p>
 &lt;p>网络更新方程的设计
 （以 &lt;a class="link" href="https://en.wikipedia.org/wiki/Bellman_equation" target="_blank" rel="noopener"
@@ -933,9 +959,7 @@ loading="lazy"
 &lt;li>样本的时序关联性大：每次采样在时间上是高度相关的，上一次采样的末状态就是下一次采样的初始状态，影响训练效果；&lt;/li>
 &lt;li>训练速度慢：每次前向传播只传播一组数据，速度较慢。&lt;/li>
 &lt;/ol>
-&lt;p>为了缓解上述问题，Mnih et al. 在提出深度Q学习的同时也提出了经验回放（Experience Replay）策略
-&lt;sup>&lt;a id='ref-cite2-2' href='#cite2'>[2]&lt;/a>&lt;/sup>
-。
+&lt;p>为了缓解上述问题，Mnih et al. 在提出深度Q学习的同时也提出了经验回放（Experience Replay）策略&lt;sup>&lt;a id='ref-cite2-2' href='#cite2'>[2]&lt;/a>&lt;/sup>。
 其主要思想是将采样与训练分离，采样时在记忆中保存采样的记录，训练时随机从记忆中选取样本进行前向与反向传播，从而降低样本间的时序关联性与提高样本利用率。&lt;/p>
 &lt;p>注意到在算法中，每一步训练需要四个值：当前状态 $s_t$、动作 $a_t$、回报 $r_t$ 以及采取动作后的状态 $s_{t+1}$，因此每一次采样后只需要在记忆中保存这四个值，称为experience四元组 $e_t=(s_t,~a_t,~r_t,~s_{t+1})$。&lt;/p>
 &lt;h3 id="实现-1">实现&lt;/h3>
@@ -1130,25 +1154,15 @@ loading="lazy"
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
 .bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
 &lt;/style>
-&lt;div class="bibliography">
-&lt;div id="cite1" class="bib-item">
+&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
 &lt;span>[1]&lt;/span>
-&lt;span>
-Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I., Wierstra, D., &amp;amp; Riedmiller, M. (2013). Playing Atari with Deep Reinforcement Learning (arXiv:1312.5602). arXiv. &lt;a class="link" href="https://doi.org/10.48550/arXiv.1312.5602" target="_blank" rel="noopener"
->https://doi.org/10.48550/arXiv.1312.5602&lt;/a>
-&lt;a href="#ref-cite1-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite2" class="bib-item">
+&lt;span>Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I., Wierstra, D., &amp;amp; Riedmiller, M. (2013). Playing Atari with Deep Reinforcement Learning (arXiv:1312.5602). arXiv. &lt;a class="link" href="https://doi.org/10.48550/arXiv.1312.5602" target="_blank" rel="noopener"
+>https://doi.org/10.48550/arXiv.1312.5602&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite2" class="bib-item">
 &lt;span>[2]&lt;/span>
-&lt;span>
-Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G., Graves, A., Riedmiller, M., Fidjeland, A. K., Ostrovski, G., Petersen, S., Beattie, C., Sadik, A., Antonoglou, I., King, H., Kumaran, D., Wierstra, D., Legg, S., &amp;amp; Hassabis, D. (2015). Human-level control through deep reinforcement learning. Nature, 518(7540), Article 7540. &lt;a class="link" href="https://doi.org/10.1038/nature14236" target="_blank" rel="noopener"
->https://doi.org/10.1038/nature14236&lt;/a>
-&lt;a href="#ref-cite2-1">⤶&lt;/a>
-&lt;a href="#ref-cite2-2">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;/div></description></item><item><title>我折腾NAS的历程（一）：树莓派</title><link>https://blog.furffisite.link/p/nas-1/</link><pubDate>Mon, 21 Aug 2023 14:46:05 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821143533-8f90300e7a87f5103e8c13359c0ce9a7-a82cd.jpg" alt="Featured image of post 我折腾NAS的历程（一）：树莓派" />&lt;p>我开始折腾NAS的原因很简单——笔记本的存储空间不够了，当时固态硬盘的价格远没有现在这么便宜，移动硬盘随身携带有点麻烦，所以就想给硬盘连上网，这样只要有网就能访问。&lt;/p>
+&lt;span>Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G., Graves, A., Riedmiller, M., Fidjeland, A. K., Ostrovski, G., Petersen, S., Beattie, C., Sadik, A., Antonoglou, I., King, H., Kumaran, D., Wierstra, D., Legg, S., &amp;amp; Hassabis, D. (2015). Human-level control through deep reinforcement learning. Nature, 518(7540), Article 7540. &lt;a class="link" href="https://doi.org/10.1038/nature14236" target="_blank" rel="noopener"
+>https://doi.org/10.1038/nature14236&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;a href="#ref-cite2-2">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;/div></description></item><item><title>我折腾NAS的历程（一）：树莓派</title><link>https://blog.furffisite.link/p/nas-1/</link><pubDate>Mon, 21 Aug 2023 14:46:05 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821143533-8f90300e7a87f5103e8c13359c0ce9a7-a82cd.jpg" alt="Featured image of post 我折腾NAS的历程（一）：树莓派" />&lt;p>我开始折腾NAS的原因很简单——笔记本的存储空间不够了，当时固态硬盘的价格远没有现在这么便宜，移动硬盘随身携带有点麻烦，所以就想给硬盘连上网，这样只要有网就能访问。&lt;/p>
 &lt;p>当时是2021年3月，我手边有闲置的树莓派Raspberry Pi 3B+（19年花￥279买的），于是一个很朴素的想法就形成了——买一个SATA-USB的硬盘盒连接机械硬盘，再给树莓派连上网线，做成一个简陋的NAS（后来才知道有NAS这个名字）。我后来也的确是这么操作的，硬盘盒买的绿联的，花了￥99。使用后发现树莓派3B+的USB2.0接口太慢了，于是半年后（2021.9）加钱买了带USB3的树莓派4B，花了￥578（当时这个价格已经很贵了，想不通为什么自己那个时候决定要买），所以这一套不算硬盘的价格是￥677。&lt;/p>
 &lt;p>我使用的操作系统是树莓派官方提供的&lt;a class="link" href="https://www.raspberrypi.com/software/operating-systems/" target="_blank" rel="noopener"
 >Raspbian&lt;/a>，在上面安装了&lt;/p>
@@ -1406,9 +1420,7 @@ Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G.
 &lt;/div>&lt;h2 id="软件部分">软件部分&lt;/h2>
 &lt;h3 id="docker">Docker&lt;/h3>
 &lt;p>最先安装的是Docker，因为有了Docker之后别的应用都可以使用Docker镜像安装和管理。&lt;/p>
-&lt;p>在Ubuntu上安装Docker只需使用官方提供的安装脚本
-&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>
-：&lt;/p>
+&lt;p>在Ubuntu上安装Docker只需使用官方提供的安装脚本&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1431,9 +1443,7 @@ Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G.
 &lt;h4 id="使用docker国内镜像源">使用Docker国内镜像源&lt;/h4>
 &lt;p>阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 &lt;a class="link" href="https://aliyun.com" target="_blank" rel="noopener"
 >https://aliyun.com&lt;/a> 登录阿里云帐号，然后在 &lt;strong>控制台 &amp;gt; 容器镜像服务 &amp;gt; 镜像工具 &amp;gt; 镜像加速器&lt;/strong> 处可以获取加速器的地址及修改镜像源的方法。&lt;/p>
-&lt;p>此外也有一些开放的镜像源，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加如下属性
-&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>
-：&lt;/p>
+&lt;p>此外也有一些开放的镜像源，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加如下属性&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1901,24 +1911,15 @@ loading="lazy"
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
 .bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
 &lt;/style>
-&lt;div class="bibliography">
-&lt;div id="cite1" class="bib-item">
+&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
 &lt;span>[1]&lt;/span>
-&lt;span>
-Install Docker Engine on Ubuntu - Docker Docs | &lt;a class="link" href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script" target="_blank" rel="noopener"
->https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script&lt;/a>
-&lt;a href="#ref-cite1-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;div id="cite2" class="bib-item">
+&lt;span>Install Docker Engine on Ubuntu - Docker Docs | &lt;a class="link" href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script" target="_blank" rel="noopener"
+>https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite2" class="bib-item">
 &lt;span>[2]&lt;/span>
-&lt;span>
-Docker 换源 - 腾讯云开发者社区 | &lt;a class="link" href="https://cloud.tencent.com/developer/article/1769231" target="_blank" rel="noopener"
->https://cloud.tencent.com/developer/article/1769231&lt;/a>
-&lt;a href="#ref-cite2-1">⤶&lt;/a>
-&lt;/span>
-&lt;/div>
-&lt;/div></description></item><item><title>【RL学习笔记】Q学习算法</title><link>https://blog.furffisite.link/p/q-learning/</link><pubDate>Thu, 18 May 2023 15:05:05 +0800</pubDate><guid>https://blog.furffisite.link/p/q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg" alt="Featured image of post 【RL学习笔记】Q学习算法" />&lt;h2 id="算法">算法&lt;/h2>
+&lt;span>Docker 换源 - 腾讯云开发者社区 | &lt;a class="link" href="https://cloud.tencent.com/developer/article/1769231" target="_blank" rel="noopener"
+>https://cloud.tencent.com/developer/article/1769231&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;/div></description></item><item><title>【RL学习笔记】Q学习算法</title><link>https://blog.furffisite.link/p/q-learning/</link><pubDate>Thu, 18 May 2023 15:05:05 +0800</pubDate><guid>https://blog.furffisite.link/p/q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg" alt="Featured image of post 【RL学习笔记】Q学习算法" />&lt;h2 id="算法">算法&lt;/h2>
 &lt;p>Q学习算法（Q-Learning Algorithm）的思路比较简单：使用Q函数记录&lt;strong>每一个状态下每一个动作（action）的期望最大总回报（reward）&lt;/strong>，即Q值。在推理时贪心地选择当前状态Q值最大的动作，从而达到最大化期望总回报的目的。当问题的状态与动作均为离散时，Q函数可以使用表格记录，这个表格也称为Q表格（Q-Table）。&lt;/p>
 &lt;p>设：&lt;/p>
 &lt;ul>
@@ -2286,22 +2287,18 @@ pkgutil模块的&lt;a class="link" href="https://docs.python.org/3/library/pkgut
 &lt;p>在for循环内提取ModuleInfo的name，得到模块的名字，加上前缀&lt;code>.&lt;/code>，即当前目录下的对应子模块。最后使用importlib的&lt;a class="link" href="https://docs.python.org/3/library/importlib.html#importlib.import_module" target="_blank" rel="noopener"
 >import_module&lt;/a>函数导入子模块（即运行子模块的代码，将handler注册到router上）。这样无论增加多少handler文件，&lt;code>__init__.py&lt;/code>都可以找到并加载它们。&lt;/p></description></item><item><title>使用starship定制终端提示符</title><link>https://blog.furffisite.link/p/use-starship/</link><pubDate>Fri, 06 Jan 2023 16:24:31 +0800</pubDate><guid>https://blog.furffisite.link/p/use-starship/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230109230402-9ec5accbc75f863015a4dca68f9f9870-cc3be.jpg" alt="Featured image of post 使用starship定制终端提示符" />&lt;p>&lt;a class="link" href="https://starship.rs/" target="_blank" rel="noopener"
 >starship&lt;/a>&lt;a class="link" href="https://github.com/starship/starship" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">
-&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
-&lt;/span>
-&lt;/a>
+&lt;/span>&lt;/a>
 是使用Rust编写的轻量且迅速的终端提示符程序，其功能和作用与&lt;a class="link" href="https://ohmyz.sh/" target="_blank" rel="noopener"
 >Oh My Zsh&lt;/a>&lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">
-&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
-&lt;/span>
-&lt;/a>
+&lt;/span>&lt;/a>
 相似，但是相比于Oh My Zsh，starship具有以下优点：&lt;/p>
 &lt;ol>
 &lt;li>starship是跨平台跨终端的，其支持Bash、Zsh、Fish等十几种终端，甚至包括Windows的PowerShell与cmd；&lt;/li>
@@ -2615,13 +2612,11 @@ loading="lazy"
 &lt;/a>&lt;/div>
 &lt;script>
 $(function(){
-$("#photos-gallery")
-.justifiedGallery({
+$("#photos-gallery").justifiedGallery({
 rel: 'photos-gallery',
 lastRow: 'nojustify',
 rowHeight: '200px',
-})
-.on('jg.complete', function () {
+}).on('jg.complete', function () {
 Fancybox.bind('[data-fancybox="photos-gallery"]');
 });
 });
@@ -2644,13 +2639,11 @@ Fancybox.bind('[data-fancybox="photos-gallery"]');
 &lt;/a>&lt;/div>
 &lt;script>
 $(function(){
-$("#genshin-gallery")
-.justifiedGallery({
+$("#genshin-gallery").justifiedGallery({
 rel: 'genshin-gallery',
 lastRow: 'nojustify',
 rowHeight: '200px',
-})
-.on('jg.complete', function () {
+}).on('jg.complete', function () {
 Fancybox.bind('[data-fancybox="genshin-gallery"]');
 });
 });

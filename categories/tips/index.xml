@@ -1,4 +1,161 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tips on Furffiblog</title><link>https://blog.furffisite.link/categories/tips/</link><description>Recent content in Tips on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 26 Dec 2023 18:07:49 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>关于实验记录的管理</title><link>https://blog.furffisite.link/p/experiment-record-management/</link><pubDate>Tue, 26 Dec 2023 18:07:49 +0800</pubDate><guid>https://blog.furffisite.link/p/experiment-record-management/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240101025358-39157c666fdfaedad07996f1f3e91a67-39937.jpg" alt="Featured image of post 关于实验记录的管理" />&lt;p>我因为之前做实验时习惯不好（一边训练一边改代码），没有保留好实验记录惹出了一些麻烦（不知道发布的模型具体是怎么训练出来的），觉得有必要确立几条原则防止以后再出现类似的情况。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tips on Furffiblog</title><link>https://blog.furffisite.link/categories/tips/</link><description>Recent content in Tips on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 20 Mar 2024 13:55:32 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>【Linux】修改登录界面 密码三次错误锁定时间</title><link>https://blog.furffisite.link/p/linux-authfail-lock/</link><pubDate>Wed, 20 Mar 2024 13:55:32 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-authfail-lock/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240321144218-38a3404b3f78e405beab5627f4e45e7b-f5a7b.jpg" alt="Featured image of post 【Linux】修改登录界面 密码三次错误锁定时间" />&lt;p>太长不看版：&lt;/p>
+&lt;ol>
+&lt;li>使用 root 权限打开 &lt;code>/etc/security/faillock.conf&lt;/code> （&lt;code>vim&lt;/code> 可换成其它编辑器，如 &lt;code>nano&lt;/code>）&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo vim /etc/security/faillock.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>取消注释并修改&lt;code>unlock_time&lt;/code>一项，60 可替换为你想要的秒数（默认600秒）&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">unlock_time&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">60&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="3">
+&lt;li>&lt;strong>或者&lt;/strong>，修改&lt;code>deny&lt;/code>一项关闭错误锁定&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">deny&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">0&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="背景">背景&lt;/h2>
+&lt;p>今天清晨我刚刚起床，在迷糊中想看看半夜挂机训练的模型的效果，于是抓起笔记本开机，输密码。结果因为我没睡醒，输错了三次密码，屏幕上跳出了这个提示：&lt;/p>
+&lt;center>
+&lt;img src="https://files.furffisite.link/blogimg/20240320145104-2443a1678e465bfd578c1d40d23648a7-29fb6.jpg" alt="The account is locked due to 3 failed logins. (10 minutes left to unlock)" style="width:50%;min-width:400px;"/>
+&lt;/center>
+&lt;p>（登录界面的壁纸是 &lt;a class="link" href="https://www.pixiv.net/users/14541079" target="_blank" rel="noopener"
+>さなせ&lt;/a> 老师画的 &lt;a class="link" href="https://www.pixiv.net/artworks/109067533" target="_blank" rel="noopener"
+>银狼&lt;/a>。）&lt;/p>
+&lt;p>哇！我用了一年多的 &lt;a class="link" href="http://endeavouros.com/" target="_blank" rel="noopener"
+>EndeavourOS&lt;/a> 第一次见到这个提示。再怎么说输错三次要锁 10 分钟也太无情了吧，如果我急着用怎么办。怎么改变这个设置呢？&lt;/p>
+&lt;h2 id="faillock-配置">faillock 配置&lt;/h2>
+&lt;p>由于我不知道这个部分具体是那个模块负责的，搜索的过程还是有一些波折的。在这个过程中，我发现登录界面（greeter）由 LightDM 的 greeter &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup> 提供，登录验证由 Pluggable Authentication Modules (PAM) &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 处理，账户锁定的部分则由 PAM 的模块&lt;code>pam_faillock.so&lt;/code>负责。前者的配置文件在 &lt;code>/etc/lightdm/&lt;/code> 文件夹下，文件名视所使用的 greeter 而定（我这里是&lt;code>slick-greeter.conf&lt;/code>），后者的配置文件是 &lt;code>/etc/security/faillock.conf&lt;/code>&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>使用 &lt;code>vim&lt;/code>、&lt;code>nano&lt;/code> 等文本编辑器以 root 权限打开 faillock 的配置文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo vim /etc/security/faillock.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以发现默认的配置文件里（可能因发行版不同而有差异）已经解释了每一项配置及其作用，我们要做的只是取消对应行的注释，修改成我们想要的数值。&lt;/p>
+&lt;h3 id="账户锁定相关的配置">账户锁定相关的配置&lt;/h3>
+&lt;p>对于非共享的PC而言我觉得最重要的也就三项：&lt;code>deny&lt;/code>，&lt;code>fail_interval&lt;/code>和&lt;code>unlock_time&lt;/code>。这三项用一句话来概括就是：“&lt;code>deny&lt;/code>为&lt;code>0&lt;/code>时无论输错多少次都不会锁定账户，否则，在&lt;code>{fail_interval}&lt;/code>秒内连续密码错误&lt;code>{deny}&lt;/code>次会导致账户被锁定&lt;code>{unlock_time}&lt;/code>秒。”这三项的默认值分别是&lt;code>deny=3&lt;/code>，&lt;code>fail_interval=900&lt;/code>和&lt;code>unlock_time=600&lt;/code>&lt;/p>
+&lt;p>为了避免暴力破解，我没有将&lt;code>deny&lt;/code>设为 &lt;code>0&lt;/code>，以下是我的配置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">deny&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">3&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">fail_interval&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">60&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">unlock_time&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">60&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>因为比起默认的 10 分钟，1 分钟我觉得是兼顾了安全和便捷的选择。&lt;/p>
+&lt;p>另外，faillock 记录的登录失败次数默认是放在 &lt;code>/var/run/faillock&lt;/code> 内的，而这个文件夹处在临时文件系统 tmpfs 内，也就是说当账户因多次密码错误被锁定时，只要重启电脑就能解除锁定&lt;sup>&lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>&lt;/sup>。修改配置文件的&lt;code>dir&lt;/code>一项，将文件夹改到持久存储的文件系统内即可防止重启解除锁定（例如&lt;code>/var/lib/faillock&lt;/code>）。&lt;/p>
+&lt;p>我还试了一下，在默认情况下使用 ssh 远程登陆也是有可能触发账户锁定的（当然这个也取决于PAM的配置），当账户锁定时即使密码正确也会返回 &lt;code>Permission denied, please try again.&lt;/code>。&lt;/p>
+&lt;h3 id="root-相关的配置">root 相关的配置&lt;/h3>
+&lt;p>在默认情况下，为了防止 DOS 攻击， faillock 是不会锁定 root 账户的 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。开启 &lt;code>even_deny_root&lt;/code> 这一项则让 faillock 可以锁定 root 。使用 &lt;code>root_unlock_time&lt;/code> 可以为 root 账户单独设置锁定时间，并且设置这项会隐式开启&lt;code>even_deny_root&lt;/code>。&lt;/p>
+&lt;h3 id="日志相关的配置">日志相关的配置&lt;/h3>
+&lt;p>在命令行中使用：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ journalctl --since today -fg pam
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到今天以来与 PAM 有关的日志，使用 &lt;code>faillock&lt;/code> 指令可以看到系统当前记录的登录失败的信息，例如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ faillock --user furffico
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">furffico:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">When Type Source Valid
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2024-03-21 13:16:24 RHOST 192.168.1.101 V
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2024-03-21 13:16:27 RHOST 192.168.1.101 V
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2024-03-21 13:16:30 RHOST 192.168.1.101 V
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>配置文件内与日志相关的配置有三个：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>audit&lt;/code>: 当用户不存在时将用户名记入系统日志。
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl"># before:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sshd[134004]: pam_faillock(sshd:auth): User unknown
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># after:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sshd[136827]: pam_faillock(sshd:auth): User unknown: f
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>&lt;code>slient&lt;/code>：不打印 informative（信息丰富的？）消息（没试出来这个开了有什么区别）。&lt;/li>
+&lt;li>&lt;code>no_log_info&lt;/code>：不向系统日志打印 informative 消息。&lt;/li>
+&lt;/ul>
+&lt;h2 id="参考资料">参考资料&lt;/h2>
+&lt;style>
+.bibliography { display: table; font-size: medium; line-height: normal; }
+.bib-item { display: table-row; }
+.bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
+.bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
+&lt;/style>
+&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
+&lt;span>[1]&lt;/span>
+&lt;span>&lt;a class="link" href="https://wiki.archlinux.org/title/LightDM#Greeter" target="_blank" rel="noopener"
+>LightDM - ArchWiki&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite2" class="bib-item">
+&lt;span>[2]&lt;/span>
+&lt;span>&lt;a class="link" href="https://wiki.archlinux.org/title/PAM" target="_blank" rel="noopener"
+>PAM - ArchWiki&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite3" class="bib-item">
+&lt;span>[3]&lt;/span>
+&lt;span>&lt;a class="link" href="https://www.redhat.com/sysadmin/pluggable-authentication-modules-pam" target="_blank" rel="noopener"
+>An introduction to Pluggable Authentication Modules (PAM) in Linux | Enable Sysadmin&lt;/a>&lt;a href="#ref-cite3-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite4" class="bib-item">
+&lt;span>[4]&lt;/span>
+&lt;span>&lt;a class="link" href="https://man.archlinux.org/man/faillock.conf.5" target="_blank" rel="noopener"
+>faillock.conf(5) — Arch manual pages&lt;/a>&lt;a href="#ref-cite4-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite5" class="bib-item">
+&lt;span>[5]&lt;/span>
+&lt;span>&lt;a class="link" href="https://wiki.archlinux.org/title/Security#Lock_out_user_after_three_failed_login_attempts" target="_blank" rel="noopener"
+>Security - ArchWiki&lt;/a>&lt;a href="#ref-cite5-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite6" class="bib-item">
+&lt;span>[6]&lt;/span>
+&lt;span>&lt;a class="link" href="https://man.archlinux.org/man/pam_faillock.8.en" target="_blank" rel="noopener"
+>pam_faillock(8) — Arch manual pages&lt;/a>&lt;a href="#ref-cite6-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;/div></description></item><item><title>关于实验记录的管理</title><link>https://blog.furffisite.link/p/experiment-record-management/</link><pubDate>Tue, 26 Dec 2023 18:07:49 +0800</pubDate><guid>https://blog.furffisite.link/p/experiment-record-management/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240101025358-39157c666fdfaedad07996f1f3e91a67-39937.jpg" alt="Featured image of post 关于实验记录的管理" />&lt;p>我因为之前做实验时习惯不好（一边训练一边改代码），没有保留好实验记录惹出了一些麻烦（不知道发布的模型具体是怎么训练出来的），觉得有必要确立几条原则防止以后再出现类似的情况。
 为了确保每次实验都是完全可复现的，以下是我的想法：&lt;/p>
 &lt;ol>
 &lt;li>使用git管理实验代码版本，在程序内强制要求长时间训练模型前commit所有修改，并且在commit记录内写清楚每次做出的更改；&lt;/li>

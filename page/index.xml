@@ -67,13 +67,11 @@
 &lt;/a>&lt;/div>
 &lt;script>
 $(function(){
-$("#photos-gallery")
-.justifiedGallery({
+$("#photos-gallery").justifiedGallery({
 rel: 'photos-gallery',
 lastRow: 'nojustify',
 rowHeight: '200px',
-})
-.on('jg.complete', function () {
+}).on('jg.complete', function () {
 Fancybox.bind('[data-fancybox="photos-gallery"]');
 });
 });
@@ -96,13 +94,11 @@ Fancybox.bind('[data-fancybox="photos-gallery"]');
 &lt;/a>&lt;/div>
 &lt;script>
 $(function(){
-$("#genshin-gallery")
-.justifiedGallery({
+$("#genshin-gallery").justifiedGallery({
 rel: 'genshin-gallery',
 lastRow: 'nojustify',
 rowHeight: '200px',
-})
-.on('jg.complete', function () {
+}).on('jg.complete', function () {
 Fancybox.bind('[data-fancybox="genshin-gallery"]');
 });
 });
