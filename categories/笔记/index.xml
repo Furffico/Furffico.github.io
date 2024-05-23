@@ -1,4 +1,236 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>笔记 on Furffiblog</title><link>https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/</link><description>Recent content in 笔记 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 12 Mar 2024 15:05:23 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem</title><link>https://blog.furffisite.link/p/read-papers/utsp/</link><pubDate>Tue, 12 Mar 2024 15:05:23 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/utsp/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240312193735-df25ede3714c69d2ea8b42ba9c39f7c9-755f3.jpg" alt="Featured image of post 【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem" />&lt;h2 id="论文信息">论文信息&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>笔记 on Furffiblog</title><link>https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/</link><description>Recent content in 笔记 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 23 May 2024 16:01:12 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>Apple Music 曲库迁移</title><link>https://blog.furffisite.link/p/applemusic-transfer/</link><pubDate>Thu, 23 May 2024 16:01:12 +0800</pubDate><guid>https://blog.furffisite.link/p/applemusic-transfer/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240523203808-9f4a7d937672d53fbc1a7174037c6f64-581fc.jpg" alt="Featured image of post Apple Music 曲库迁移" />&lt;h2 id="背景">背景&lt;/h2>
+&lt;p>刚上大学的时候，我考虑到日区的 Apple Music 版本可选的歌曲更多，而且各种服务也更给力&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>。
+于是我就开通了日区的会员，因为有学生优惠，每月也就花 580 &lt;strong>日元&lt;/strong>（约 25 人民币）。
+但现在毕业在即，我开始怀疑我到研究生阶段还能不能继续享受这个优惠。而日区会员原价要每月 1080 日元（约 50 人民币），这超出我的可接受范围了。
+此外，最近淘宝上苹果日区 App Store 的充值卡不是很好找，而我日区账户的余额也要见底了。
+所以，是时候换个平台了。&lt;/p>
+&lt;p>然而，国内的音乐平台的社交属性太强，我个人不太喜欢这些，觉得太热闹了&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>。
+相对而言，Apple Music 则更专注于音乐本身，而且跟苹果生态融合的更好，所以我最后还是选择了转到 Apple Music 的中国大陆区（国区）。&lt;/p>
+&lt;p>我有两个苹果账户，一个在国区、一个在日区，于我而言这里的“转区”就是将后者资料库的所有歌曲添加到前者的资料库中。
+考虑到 Apple Music 国区的版权库不如日区，我并不要求将其&lt;strong>全部&lt;/strong>迁移，只要能将大部分歌曲复制到目标账户的资料库里就行。&lt;/p>
+&lt;p>我能搜到的成熟的工具不是满足不了我的需求就是需要收费，因此我决定自己探索迁移曲库的方法。本文的方法分为两步：&lt;/p>
+&lt;ol>
+&lt;li>从源账户获取歌曲&lt;/li>
+&lt;li>将歌曲添加到新账户&lt;/li>
+&lt;/ol>
+&lt;p>这需要操作者&lt;strong>有一定的编程和爬虫基础&lt;/strong>，本文只是讲述我的思路和操作流程，我也没有将其整理成通用的代码的想法。本文的方法与账户所在的区域无关，因此理论上也适用于其它区域间的和相同区域不同账户之间的迁移。&lt;/p>
+&lt;h2 id="第一步从源账户获取歌曲">第一步：从源账户获取歌曲&lt;/h2>
+&lt;p>我积累了四年的账户里有歌曲 8441 首，它们分布在 1820 张专辑内，所以以专辑为单位迁移更合理一些。&lt;/p>
+&lt;p>得益于 Apple Music 的网页端，获取相关的API并不是什么难事：&lt;/p>
+&lt;ol>
+&lt;li>在浏览器内的 &lt;a class="link" href="https://music.apple.com/" target="_blank" rel="noopener"
+>Apple Music网页端&lt;/a>登录源账户，打开调试工具，切换到 Network 页，过滤出XHR请求。&lt;/li>
+&lt;li>点击“专辑/Albums”切换到专辑页，这时在调试工具内应该会出现一条 &lt;code>amp-api&lt;/code> 开头的请求：
+&lt;img src="https://files.furffisite.link/blogimg/20240523174431-b5b39700f6d62e42d12f27ec83098955-bb102.png"
+loading="lazy"
+>&lt;/li>
+&lt;li>右键这条请求，Copy -&amp;gt; Copy as cURL，复制到终端内尝试重放请求，在我这里成功了，说明苹果并没有做各种弯弯绕绕的反爬措施，好评。&lt;/li>
+&lt;/ol>
+&lt;p>这个API响应的结构大致如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;data&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="err">...&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;resources&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;library-albums&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">...&lt;/span>&lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;albums&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">...&lt;/span>&lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;library-artists&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">...&lt;/span>&lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;artists&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">...&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;meta&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">...&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>有了API之后就可以循环请求获取完整列表了：&lt;/p>
+&lt;ol>
+&lt;li>请求参数里的 offset 项指定了偏移量，通过不断改变这个值可以获取完整的专辑列表。&lt;/li>
+&lt;li>在响应json最后的&lt;code>meta&lt;/code>项里有订阅的专辑总数，在我这里是 &lt;code>&amp;quot;meta&amp;quot;: {&amp;quot;total&amp;quot;: 1820, ...}&lt;/code>，即1820条，请求参数内 &lt;code>limit=100&lt;/code> 也就是每页有100条。根据这两个数值可以算出一共有19页，要请求19次。我也尝试了调高&lt;code>limit&lt;/code>，发现&lt;code>limit&amp;gt;100&lt;/code>时API会返回错误。&lt;/li>
+&lt;li>将前面复制的 curl 指令放到 &lt;code>.sh&lt;/code> 脚本内，写一个循环，例如：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">......
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> i in &lt;span class="o">{&lt;/span>0..18&lt;span class="o">}&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">chunk&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">i&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">00&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">curl &lt;span class="s2">&amp;#34;https://amp-api.music.apple.com/.../...&amp;amp;offset=&lt;/span>&lt;span class="nv">$chunk&lt;/span>&lt;span class="s2">&amp;amp;...&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --compressed &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> ......
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -H &lt;span class="s1">&amp;#39;Sec-Fetch-Site: same-site&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -H &lt;span class="s1">&amp;#39;TE: trailers&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -o &lt;span class="s2">&amp;#34;chunk&lt;/span>&lt;span class="nv">$chunk&lt;/span>&lt;span class="s2">.json&amp;#34;&lt;/span> &lt;span class="c1"># 把响应输出到文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sleep &lt;span class="m">10&lt;/span> &lt;span class="c1"># 避免请求间隔太短导致被 ban&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">done&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="4">
+&lt;li>在终端用 bash 运行这个脚本，不一会资料库内的所有专辑的信息就都被保存到本地的 json 文件内了&lt;/li>
+&lt;/ol>
+&lt;h2 id="第二步将歌曲添加到新账户">第二步：将歌曲添加到新账户&lt;/h2>
+&lt;p>和上面类似，首先获取添加专辑的API：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>切换到目标账户&lt;/strong>，打开调试工具，切换到 Network 页，过滤出 XHR 请求。&lt;/li>
+&lt;li>在首页上随便找个专辑添加到资料库内，在调试工具内定位到这条请求：
+&lt;img src="https://files.furffisite.link/blogimg/20240523182750-1598942b4c5c3c5de352b8e1ead90f25-36a7e.png"
+loading="lazy"
+>&lt;/li>
+&lt;li>同上，复制 curl 指令到终端内尝试重放，成功。&lt;/li>
+&lt;/ol>
+&lt;p>分析请求URL：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">https://amp-api.music.apple.com/v1/me/library?art[url]=f&amp;amp;format[resources]=map&amp;amp;ids[albums]=1725057905&amp;amp;representation=ids
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中的&lt;code>1725057905&lt;/code>对应之前获取到的json文件里&lt;code>resources.albums&lt;/code>内的每个属性的名称，也就是每个专辑的id。
+由于URL内id是复数&lt;code>ids&lt;/code>，我便猜测能否同时添加多个专辑，将URL中的&lt;code>1725057905&lt;/code>替换为&lt;code>398320584,322934943&lt;/code>，重新发送请求，居然也成功了，说明我的猜测是对的。&lt;/p>
+&lt;p>有了这些基础，编写脚本就很容易了，首先使用 jq 解析之前保存的响应json，提取出其中&lt;code>resources.albums&lt;/code>内每一项的键值，使用逗号分隔输出并拼接到url内：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">jqs&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;.resources.albums | keys[&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">section&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">] | [ .[] | tonumber ] | @csv&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">ids&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>cat chunk&lt;span class="si">${&lt;/span>&lt;span class="nv">index&lt;/span>&lt;span class="si">}&lt;/span>00.json &lt;span class="p">|&lt;/span> jq -r &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$jqs&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">url&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;https://amp-api.music.apple.com/.../...&amp;amp;ids%5Balbums%5D=&lt;/span>&lt;span class="nv">$ids&lt;/span>&lt;span class="s2">&amp;amp;...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>放到之前的curl请求内，加上循环组成脚本，脚本里对每个 chunk 分段请求是因为一次增加 100 张专辑请求的响应会很慢：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">......
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> index in &lt;span class="o">{&lt;/span>0..18&lt;span class="o">}&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> section in &lt;span class="s1">&amp;#39;:25&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;25:50&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;50:75&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;75:&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">jqs&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;.resources.albums | keys[&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">section&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">] | [ .[] | tonumber ] | @csv&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">ids&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>cat chunk&lt;span class="si">${&lt;/span>&lt;span class="nv">index&lt;/span>&lt;span class="si">}&lt;/span>00.json &lt;span class="p">|&lt;/span> jq -r &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$jqs&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">url&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;https://amp-api.music.apple.com/v1/me/library?art%5Burl%5D=f&amp;amp;format%5Bresources%5D=map&amp;amp;ids%5Balbums%5D=&lt;/span>&lt;span class="nv">$ids&lt;/span>&lt;span class="s2">&amp;amp;representation=ids&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">curl -X POST &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$url&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -H &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$ua&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -H &lt;span class="s1">&amp;#39;Accept: */*&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> ......
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -H &lt;span class="s1">&amp;#39;Content-Length: 0&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -H &lt;span class="s1">&amp;#39;TE: trailers&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sleep &lt;span class="m">10&lt;/span> &lt;span class="c1"># 避免请求间隔太短导致被 ban&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">done&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">done&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>之后运行这个脚本，就可以看到自己源账户里的歌曲被慢慢添加到目标账户里了。&lt;/p>
+&lt;h2 id="哪些歌曲没成功迁移">哪些歌曲没成功迁移&lt;/h2>
+&lt;p>仿照第一步获取目标账户的所有专辑，然后写一些脚本就能看到有哪些歌曲没被成功迁移了，例如这个 python 程序：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">json&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">getalbums&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">count&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">fn&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">str&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="nb">dict&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">albums&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">index&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="nb">range&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">count&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">filename&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">fn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">format&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">index&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">data&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">json&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">load&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">filename&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">k&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">v&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">data&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;resources&amp;#34;&lt;/span>&lt;span class="p">][&lt;/span>&lt;span class="s2">&amp;#34;albums&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">items&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">albums&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nb">int&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">)]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">v&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;attributes&amp;#34;&lt;/span>&lt;span class="p">][&lt;/span>&lt;span class="s2">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s1">&amp;#39; | &amp;#39;&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">v&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;attributes&amp;#34;&lt;/span>&lt;span class="p">][&lt;/span>&lt;span class="s2">&amp;#34;artistName&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">albums&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">org_album&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">getalbums&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">19&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;chunk&lt;/span>&lt;span class="si">{}&lt;/span>&lt;span class="s2">00.json&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dest_album&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">getalbums&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">15&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;after-chunk&lt;/span>&lt;span class="si">{}&lt;/span>&lt;span class="s2">00.json&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ids&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">org_album&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="nb">set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dest_album&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">ids&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">org_album&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ids&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我一共有338张专辑没有被成功迁移，这主要有三种情况：&lt;/p>
+&lt;ol>
+&lt;li>Apple Music 国区没版权；&lt;/li>
+&lt;li>没有一模一样的，但是有不同版本的；&lt;/li>
+&lt;li>国区和日区都有，但是ID不同，例如 RADWIMPS 和 HOYO-MiX 的专辑。&lt;/li>
+&lt;/ol>
+&lt;p>其中后两者靠手动搜索也可以慢慢添加回去，如果遇到了第一种那就真的没办法了。&lt;/p>
+&lt;h2 id="参考资料">参考资料&lt;/h2>
+&lt;style>
+.bibliography { display: table; font-size: medium; line-height: normal; }
+.bib-item { display: table-row; }
+.bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
+.bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
+&lt;/style>
+&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
+&lt;span>[1]&lt;/span>
+&lt;span>&lt;a class="link" href="https://steppark.net/16357088669226.html" target="_blank" rel="noopener"
+>订阅 Apple Music 该选哪个区？——中美坡港台日六大地区全对比（第二版） - 向远公园 | Step Park&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite2" class="bib-item">
+&lt;span>[2]&lt;/span>
+&lt;span>&lt;a class="link" href="https://sspai.com/post/64477" target="_blank" rel="noopener"
+>音乐平台横评：Apple Music、QQ 音乐、网易云、咪咕、Spotify、YouTube Music、Tidal - 少数派&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;/div></description></item><item><title>【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem</title><link>https://blog.furffisite.link/p/read-papers/utsp/</link><pubDate>Tue, 12 Mar 2024 15:05:23 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/utsp/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240312193735-df25ede3714c69d2ea8b42ba9c39f7c9-755f3.jpg" alt="Featured image of post 【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem" />&lt;h2 id="论文信息">论文信息&lt;/h2>
 &lt;ul>
 &lt;li>标题： Unsupervised Learning for Solving the Travelling Salesman Problem&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;/li>
 &lt;li>作者： Yimeng Min, Yiwei Bai, Carla P. Gomes&lt;/li>
