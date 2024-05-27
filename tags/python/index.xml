@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Python on Furffiblog</title><link>https://blog.furffisite.link/tags/python/</link><description>Recent content in Python on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 11 May 2023 12:22:54 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/python/index.xml" rel="self" type="application/rss+xml"/><item><title>在Python中导入当前路径下的所有模块</title><link>https://blog.furffisite.link/p/python-import-directory-modules/</link><pubDate>Thu, 11 May 2023 12:22:54 +0800</pubDate><guid>https://blog.furffisite.link/p/python-import-directory-modules/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163144-c5d0b19ce502665b1891ef8c78c5b839-32aa3.jpg" alt="Featured image of post 在Python中导入当前路径下的所有模块" />&lt;h2 id="问题背景">问题背景&lt;/h2>
-&lt;p>在使用Python的Flask框架开发Web应用的过程中，一个基本的服务端程序结构如下：&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Python on Furffiblog</title><link>https://blog.furffisite.link/tags/python/</link><description>Recent content in Python on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 11 May 2023 12:22:54 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/python/index.xml" rel="self" type="application/rss+xml"/><item><title>在Python中导入当前路径下的所有模块</title><link>https://blog.furffisite.link/p/python-import-directory-modules/</link><pubDate>Thu, 11 May 2023 12:22:54 +0800</pubDate><guid>https://blog.furffisite.link/p/python-import-directory-modules/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163144-c5d0b19ce502665b1891ef8c78c5b839-32aa3.jpg" alt="Featured image of post 在Python中导入当前路径下的所有模块" />&lt;h2 id="问题背景">问题背景
+&lt;/h2>&lt;p>在使用 Python 的 Flask 框架开发 Web 应用的过程中，一个基本的服务端程序结构如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -36,8 +36,8 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>可以按照这种模式无限添加处理视图（handler），但是随着项目增大，这种将所有 handler 都放在一个py文件里的模式显然是不合适的，这时可以使用 &lt;a class="link" href="https://dormousehole.readthedocs.io/en/latest/tutorial/views.html" target="_blank" rel="noopener"
->blueprint&lt;/a> 将每个handler（或一组handler）放在互相独立的文件里。&lt;/p>
+&lt;/div>&lt;p>可以按照这种模式无限添加处理视图（handler），但是随着项目增大，这种将所有 handler 都放在一个 py 文件里的模式显然是不合适的，这时可以使用 &lt;a class="link" href="https://dormousehole.readthedocs.io/en/latest/tutorial/views.html" target="_blank" rel="noopener"
+>blueprint&lt;/a> 将每个 handler（或一组 handler）放在互相独立的文件里。&lt;/p>
 &lt;p>项目结构如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -110,7 +110,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">blueprint&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Blueprint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;api&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 为了在程序启动过程中能运行两个handler文件，需要在这里import它们&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 为了在程序启动过程中能运行两个 handler 文件，需要在这里 import 它们&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">.&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">login&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">.&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">register&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
@@ -140,8 +140,8 @@
 >E402&lt;/a>）。&lt;/li>
 &lt;/ol>
 &lt;p>于是就自然而然地想到了：&lt;strong>如何在模块初始化时自动导入当前路径下的所有子模块呢？&lt;/strong>&lt;/p>
-&lt;h2 id="解决方法">解决方法&lt;/h2>
-&lt;p>将&lt;code>services/__init__.py&lt;/code>改为这样：&lt;/p>
+&lt;h2 id="解决方法">解决方法
+&lt;/h2>&lt;p>将&lt;code>services/__init__.py&lt;/code>改为这样：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -164,8 +164,8 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">importlib&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">import_module&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;.&amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="n">spec&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="原理探究">原理探究&lt;/h2>
-&lt;p>可以通过pdb或 &lt;code>print&lt;/code> 获得这段程序所涉及变量的值：&lt;/p>
+&lt;/div>&lt;h2 id="原理探究">原理探究
+&lt;/h2>&lt;p>可以通过 pdb 或 &lt;code>print&lt;/code> 获得这段程序所涉及变量的值：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -184,5 +184,6 @@
 pkgutil模块的&lt;a class="link" href="https://docs.python.org/3/library/pkgutil.html#pkgutil.iter_modules" target="_blank" rel="noopener"
 >iter_modules&lt;/a>函数会找到提供的path下的所有子模块，在这里就是&lt;code>login&lt;/code>与&lt;code>register&lt;/code>，并返回它们的 &lt;a class="link" href="https://docs.python.org/3/library/pkgutil.html#pkgutil.ModuleInfo" target="_blank" rel="noopener"
 >ModuleInfo&lt;/a>。&lt;/p>
-&lt;p>在for循环内提取ModuleInfo的name，得到模块的名字，加上前缀&lt;code>.&lt;/code>，即当前目录下的对应子模块。最后使用importlib的&lt;a class="link" href="https://docs.python.org/3/library/importlib.html#importlib.import_module" target="_blank" rel="noopener"
->import_module&lt;/a>函数导入子模块（即运行子模块的代码，将handler注册到router上）。这样无论增加多少handler文件，&lt;code>__init__.py&lt;/code>都可以找到并加载它们。&lt;/p></description></item></channel></rss>
+&lt;p>在 for 循环内提取 ModuleInfo 的 name，得到模块的名字，加上前缀&lt;code>.&lt;/code>，即当前目录下的对应子模块。
+最后使用 importlib 的 &lt;a class="link" href="https://docs.python.org/3/library/importlib.html#importlib.import_module" target="_blank" rel="noopener"
+>import_module&lt;/a> 函数导入子模块（即运行子模块的代码，将 handler 注册到 router 上）。这样无论增加多少 handler 文件，&lt;code>__init__.py&lt;/code> 都可以找到并加载它们。&lt;/p></description></item></channel></rss>

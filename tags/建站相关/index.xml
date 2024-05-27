@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>建站相关 on Furffiblog</title><link>https://blog.furffisite.link/tags/%E5%BB%BA%E7%AB%99%E7%9B%B8%E5%85%B3/</link><description>Recent content in 建站相关 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 20 Dec 2022 01:48:09 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/%E5%BB%BA%E7%AB%99%E7%9B%B8%E5%85%B3/index.xml" rel="self" type="application/rss+xml"/><item><title>使用阿里云OSS存储服务+CloudFlare配置图床</title><link>https://blog.furffisite.link/p/imagebed-oss-conf/</link><pubDate>Tue, 20 Dec 2022 01:48:09 +0800</pubDate><guid>https://blog.furffisite.link/p/imagebed-oss-conf/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/202212251307965.jpg" alt="Featured image of post 使用阿里云OSS存储服务+CloudFlare配置图床" />&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>今天想给我这个博客加一张图片，但是把图片文件和博客的文章放在一起，内容管理比较麻烦，并且会增大git仓库的体积。因此我就想到了使用图床分流博客中的图片。&lt;/p>
-&lt;p>在网上搜索了一些图床服务，发现国内免费的图床服务要么访问慢（因为源服务器在海外），要么不稳定（存在关站/被墙或者转为付费的可能），而国外著名的图床imgur在国内也处于半墙的状态。于是就想到了使用云计算厂商提供的OSS对象存储服务，虽然收费但是对于我这种有计划长时间运营下去的博客而言，图床的可靠性是最重要的。我可不想因为图站挂掉导致我在未来的某一天要重新找到再上传这些图片。&lt;/p>
-&lt;p>在看了阿里云、腾讯云和华为云三家之后我选择了阿里云，因为阿里云有每月5GB存储和外网流量的的免费额度，请求费用也就每万次一毛钱，对于我这种刚开的小站而言，存储、流量和请求都不会很大（如果被攻击那就是另一回事了，还望您手下留情）。关于阿里云的定价详情可以查看阿里云的&lt;a class="link" href="https://www.aliyun.com/price/product#/oss/detail/ossbag" target="_blank" rel="noopener"
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>建站相关 on Furffiblog</title><link>https://blog.furffisite.link/tags/%E5%BB%BA%E7%AB%99%E7%9B%B8%E5%85%B3/</link><description>Recent content in 建站相关 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 20 Dec 2022 01:48:09 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/%E5%BB%BA%E7%AB%99%E7%9B%B8%E5%85%B3/index.xml" rel="self" type="application/rss+xml"/><item><title>使用阿里云 OSS 存储服务 + CloudFlare 配置图床</title><link>https://blog.furffisite.link/p/imagebed-oss-conf/</link><pubDate>Tue, 20 Dec 2022 01:48:09 +0800</pubDate><guid>https://blog.furffisite.link/p/imagebed-oss-conf/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/202212251307965.jpg" alt="Featured image of post 使用阿里云 OSS 存储服务 + CloudFlare 配置图床" />&lt;h2 id="前言">前言
+&lt;/h2>&lt;p>今天想给我这个博客加一张图片，但是把图片文件和博客的文章放在一起，内容管理比较麻烦，并且会增大 git 仓库的体积。因此我就想到了使用图床分流博客中的图片。&lt;/p>
+&lt;p>在网上搜索了一些图床服务，发现国内免费的图床服务要么访问慢（因为源服务器在海外），要么不稳定（存在关站/被墙或者转为付费的可能），而国外著名的图床 imgur 在国内也处于半墙的状态。于是就想到了使用云计算厂商提供的 OSS 对象存储服务，虽然收费但是对于我这种有计划长时间运营下去的博客而言，图床的可靠性是最重要的。我可不想因为图站挂掉导致我在未来的某一天要重新找到再上传这些图片。&lt;/p>
+&lt;p>在看了阿里云、腾讯云和华为云三家之后我选择了阿里云，因为阿里云有每月 5GB 存储和外网流量的的免费额度，请求费用也就每万次一毛钱，对于我这种刚开的小站而言，存储、流量和请求都不会很大（如果被攻击那就是另一回事了，还望您手下留情）。关于阿里云的定价详情可以查看阿里云的&lt;a class="link" href="https://www.aliyun.com/price/product#/oss/detail/ossbag" target="_blank" rel="noopener"
 >价格计算器&lt;/a>。&lt;/p>
 &lt;p>然后我就按照&lt;a class="link" href="https://www.antmoe.com/posts/3f5daa8e/" target="_blank" rel="noopener"
 >这篇博文&lt;/a>的步骤搭建了图床，途中遇到了原文没有提及的许多问题，所以在这里记录一下完整的步骤、我遇到的问题与解决方案。&lt;/p>
-&lt;h2 id="主要操作流程">主要操作流程&lt;/h2>
-&lt;ol>
+&lt;h2 id="主要操作流程">主要操作流程
+&lt;/h2>&lt;ol>
 &lt;li>
-&lt;p>&lt;strong>创建Bucket&lt;/strong>：开通OSS并创建Bucket。创建Bucket时选择海外的地域（如果在别的地域没有服务器的话，建议使用香港），存储类型选择标准存储即可，&lt;b style="color:red">读写权限一定要选择私有&lt;/b>，其余的附加服务按需启用（有的得加钱）。创建完成后可以向Bucket中上传一张图片作为测试图。&lt;/p>
+&lt;p>&lt;strong>创建Bucket&lt;/strong>：开通 OSS 并创建 Bucket。创建 Bucket 时选择海外的地域（如果在别的地域没有服务器的话，建议使用香港），存储类型选择标准存储即可，&lt;b style="color:red">读写权限一定要选择私有&lt;/b>，其余的附加服务按需启用（有的得加钱）。创建完成后可以向 Bucket 中上传一张图片作为测试图。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>配置访问权限&lt;/strong>：进入&lt;strong>权限控制 -&amp;gt; Bucket授权策略&lt;/strong>面板，添加授权，配置如下图。&lt;/p>
+&lt;p>&lt;strong>配置访问权限&lt;/strong>：进入&lt;strong>权限控制 -&amp;gt; Bucket 授权策略&lt;/strong>面板，添加授权，配置如下图。&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/202212312338802.png"
 loading="lazy"
 >&lt;/p>
-&lt;p>IP字段填写的是CloudFlare的节点IP，列表如下（来自&lt;a class="link" href="https://zhuanlan.zhihu.com/p/143219668" target="_blank" rel="noopener"
+&lt;p>IP 字段填写的是 CloudFlare 的节点 IP，列表如下（来自&lt;a class="link" href="https://zhuanlan.zhihu.com/p/143219668" target="_blank" rel="noopener"
 >知乎专栏&lt;/a>）：&lt;/p>
 &lt;pre>&lt;code> 173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,
 141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,
@@ -27,38 +27,38 @@ loading="lazy"
 &lt;/code>&lt;/pre>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>配置CDN&lt;/strong>：在CloudFlare的DNS管理面板添加CNAME记录，目标设为Bucket的域名（可以在Bucket的&lt;strong>概览&lt;/strong>界面找到），代理状态设为已代理，否则CDN不起作用。
+&lt;p>&lt;strong>配置 CDN&lt;/strong>：在 CloudFlare 的 DNS 管理面板添加 CNAME 记录，目标设为 Bucket 的域名（可以在 Bucket 的&lt;strong>概览&lt;/strong>界面找到），代理状态设为已代理，否则 CDN 不起作用。
 &lt;img src="https://files.furffisite.link/blogimg/202212312309953.png"
 loading="lazy"
 >&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>绑定域名&lt;/strong>：在阿里云的&lt;strong>Bucket配置-&amp;gt;域名管理&lt;/strong>界面绑定你刚设置的域名，这时阿里云需要验证域名的所有权，按照其所说的在CloudFlare的DNS管理处添加指定TXT记录即可。&lt;/p>
+&lt;p>&lt;strong>绑定域名&lt;/strong>：在阿里云的 &lt;strong>Bucket 配置 -&amp;gt; 域名管理&lt;/strong>界面绑定你刚设置的域名，这时阿里云需要验证域名的所有权，按照其所说的在 CloudFlare 的 DNS 管理处添加指定 TXT 记录即可。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>创建并添加证书&lt;/strong>：在CloudFlare的配置面板的&lt;strong>SSL/TLS-&amp;gt;源服务器&lt;/strong>处，选择创建证书。创建之后会告诉你源证书与私钥，这个界面暂时不要动。打开刚才在阿里云控制台绑定证书的界面，选择&lt;strong>证书托管&lt;/strong>，并&lt;strong>上传SSL证书&lt;/strong>，这时会打开&lt;strong>SSL证书&lt;/strong>的界面，选择&lt;strong>上传证书&lt;/strong>，并将CloudFlare给出的源证书和密钥复制到上传证书的对应字段处（证书名字随便设），然后确定。这时切换回&lt;strong>上传SSL证书&lt;/strong>，应该就能在证书名称处看到刚刚设置的证书名字了（看不到的话重开一下这个界面试试），选中，然后点下方的上传即可。&lt;/p>
+&lt;p>&lt;strong>创建并添加证书&lt;/strong>：在 CloudFlare 的配置面板的 &lt;strong>SSL/TLS -&amp;gt; 源服务器&lt;/strong>处，选择创建证书。创建之后会告诉你源证书与私钥，这个界面暂时不要动。打开刚才在阿里云控制台绑定证书的界面，选择&lt;strong>证书托管&lt;/strong>，并&lt;strong>上传 SSL 证书&lt;/strong>，这时会打开&lt;strong>SSL 证书&lt;/strong>的界面，选择&lt;strong>上传证书&lt;/strong>，并将 CloudFlare 给出的源证书和密钥复制到上传证书的对应字段处（证书名字随便设），然后确定。这时切换回&lt;strong>上传 SSL 证书&lt;/strong>，应该就能在证书名称处看到刚刚设置的证书名字了（看不到的话重开一下这个界面试试），选中，然后点下方的上传即可。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;p>这时就已经可以通过你设置的域名访问刚才上传的测试图片了。假如测试图片&lt;code>filename.jpg&lt;/code>存储在OSS的&lt;code>folder&lt;/code>文件夹下，你设置的域名为&lt;code>image.example.org&lt;/code>，则访问路径为&lt;code>https://image.example.org/folder/filename.jpg&lt;/code>。&lt;/p>
-&lt;h2 id="安全性配置">安全性配置&lt;/h2>
-&lt;ol>
-&lt;li>&lt;strong>跨域设置&lt;/strong>：在阿里云OSS的&lt;strong>数据安全-&amp;gt;跨域设置&lt;/strong>中创建跨域规则，来源设置为你的网站的地址。为了能让网站在本地测试时也能正常展示图片，建议同时添加&lt;code>localhost:*&lt;/code>与&lt;code>127.0.0.1:*&lt;/code>。&lt;/li>
-&lt;li>&lt;strong>防盗链设置&lt;/strong>：和跨域设置类似。不同之处在于Referer是包含请求协议的，所以类似于&lt;code>example.org&lt;/code>或&lt;code>localhost:*&lt;/code>等不包括协议的配置是无效的，需要改为&lt;code>https://example.com&lt;/code>或&lt;code>*://localhost:*&lt;/code>；需要注意的是&lt;code>*.example.org&lt;/code>虽然是有效的，但是没有指定https协议，安全起见最好改为&lt;code>https://*.example.org&lt;/code>。&lt;/li>
+&lt;p>这时就已经可以通过你设置的域名访问刚才上传的测试图片了。假如测试图片&lt;code>filename.jpg&lt;/code>存储在 OSS 的&lt;code>folder&lt;/code>文件夹下，你设置的域名为&lt;code>image.example.org&lt;/code>，则访问路径为&lt;code>https://image.example.org/folder/filename.jpg&lt;/code>。&lt;/p>
+&lt;h2 id="安全性配置">安全性配置
+&lt;/h2>&lt;ol>
+&lt;li>&lt;strong>跨域设置&lt;/strong>：在阿里云 OSS 的&lt;strong>数据安全 -&amp;gt; 跨域设置&lt;/strong>中创建跨域规则，来源设置为你的网站的地址。为了能让网站在本地测试时也能正常展示图片，建议同时添加&lt;code>localhost:*&lt;/code>与&lt;code>127.0.0.1:*&lt;/code>。&lt;/li>
+&lt;li>&lt;strong>防盗链设置&lt;/strong>：和跨域设置类似。不同之处在于 Referer 是包含请求协议的，所以类似于&lt;code>example.org&lt;/code>或&lt;code>localhost:*&lt;/code>等不包括协议的配置是无效的，需要改为&lt;code>https://example.com&lt;/code>或&lt;code>*://localhost:*&lt;/code>；需要注意的是&lt;code>*.example.org&lt;/code>虽然是有效的，但是没有指定 https 协议，安全起见最好改为&lt;code>https://*.example.org&lt;/code>。&lt;/li>
 &lt;/ol>
-&lt;h2 id="picgo-配置">PicGo 配置&lt;/h2>
-&lt;p>&lt;a class="link" href="https://molunerfinn.com/PicGo/" target="_blank" rel="noopener"
->PicGo&lt;/a>是一款快速上传图片到图床，并自动复制图片URL到剪贴板的工具，你可以在&lt;a class="link" href="https://github.com/Molunerfinn/PicGo/releases/" target="_blank" rel="noopener"
->Github的release页&lt;/a>获取该程序。&lt;/p>
+&lt;h2 id="picgo-配置">PicGo 配置
+&lt;/h2>&lt;p>&lt;a class="link" href="https://molunerfinn.com/PicGo/" target="_blank" rel="noopener"
+>PicGo&lt;/a> 是一款快速上传图片到图床，并自动复制图片URL到剪贴板的工具，你可以在 &lt;a class="link" href="https://github.com/Molunerfinn/PicGo/releases/" target="_blank" rel="noopener"
+>Github 的 release 页&lt;/a>获取该程序。&lt;/p>
 &lt;ol>
 &lt;li>
-&lt;p>&lt;strong>权限设置&lt;/strong>：在阿里云的&lt;strong>权限控制 -&amp;gt; Bucket授权策略&lt;/strong>面板新增授权，配置如下：
+&lt;p>&lt;strong>权限设置&lt;/strong>：在阿里云的&lt;strong>权限控制 -&amp;gt; Bucket 授权策略&lt;/strong>面板新增授权，配置如下：
 &lt;img src="https://files.furffisite.link/blogimg/202301010016963.png"
 loading="lazy"
 >&lt;/p>
-&lt;p>如果当前没有RAM子帐号，请点击&lt;strong>右上角头像-&amp;gt;访问控制&lt;/strong>，然后在左侧的&lt;strong>身份管理-&amp;gt;用户&lt;/strong>处创建一个子帐号。创建完成后在子帐号的详情页&lt;strong>创建AccessKey&lt;/strong>，得到AccessKey的KeyID与KeySecret，保留备用。&lt;/p>
+&lt;p>如果当前没有RAM子帐号，请点击&lt;strong>右上角头像 -&amp;gt; 访问控制&lt;/strong>，然后在左侧的&lt;strong>身份管理 -&amp;gt; 用户&lt;/strong>处创建一个子帐号。创建完成后在子帐号的详情页&lt;strong>创建 AccessKey&lt;/strong>，得到 AccessKey 的 KeyID 与KeySecret，保留备用。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>上传配置&lt;/strong>：打开PicGo主界面，在&lt;strong>图床设置-&amp;gt;阿里云OSS&lt;/strong>内填写对应的表单项。“KeyID”与“KeySecret”即刚才获取的子帐号AccessKey的KeyID与KeySecret，“设定Bucket”为Bucket的名称，“存储区域”为Bucket所在区域（与Bucket域名内的值统一，例如&lt;code>oss-cn-hongkong&lt;/code>），自定义域名填写你设置的域名，其余两项按需填写即可。配置完成后点击确定并设为默认图床。&lt;/p>
+&lt;p>&lt;strong>上传配置&lt;/strong>：打开 PicGo 主界面，在&lt;strong>图床设置 -&amp;gt; 阿里云 OSS&lt;/strong> 内填写对应的表单项。“KeyID” 与 “KeySecret” 即刚才获取的子帐号 AccessKey 的 KeyID 与 KeySecret，“设定 Bucket”为 Bucket 的名称，“存储区域”为 Bucket 所在区域（与 Bucket 域名内的值统一，例如&lt;code>oss-cn-hongkong&lt;/code>），自定义域名填写你设置的域名，其余两项按需填写即可。配置完成后点击确定并设为默认图床。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;p>注：如果你使用的桌面环境是KDE Plasma，可能需要在PicGo设置内打开“使用内置剪贴板上传”一项，否则无法正常从剪贴板直接上传图片。我使用的Linux发行版是KDE Neon，其它发行版/桌面环境/操作系统尚未测试。&lt;/p></description></item></channel></rss>
+&lt;p>注：如果你使用的桌面环境是 KDE Plasma，可能需要在 PicGo 设置内打开“使用内置剪贴板上传”一项，否则无法正常从剪贴板直接上传图片。我使用的 Linux 发行版是 KDE Neon，其它发行版/桌面环境/操作系统尚未测试。&lt;/p></description></item></channel></rss>

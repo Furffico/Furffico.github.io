@@ -32,8 +32,8 @@
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">deny&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">0&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="背景">背景&lt;/h2>
-&lt;p>今天清晨我刚刚起床，在迷糊中想看看半夜挂机训练的模型的效果，于是抓起笔记本开机，输密码。结果因为我没睡醒，输错了三次密码，屏幕上跳出了这个提示：&lt;/p>
+&lt;/div>&lt;h2 id="背景">背景
+&lt;/h2>&lt;p>今天清晨我刚刚起床，在迷糊中想看看半夜挂机训练的模型的效果，于是抓起笔记本开机，输密码。结果因为我没睡醒，输错了三次密码，屏幕上跳出了这个提示：&lt;/p>
 &lt;center>
 &lt;img src="https://files.furffisite.link/blogimg/20240320145104-2443a1678e465bfd578c1d40d23648a7-29fb6.jpg" alt="The account is locked due to 3 failed logins. (10 minutes left to unlock)" style="width:50%;min-width:400px;"/>
 &lt;/center>
@@ -42,8 +42,8 @@
 >银狼&lt;/a>。）&lt;/p>
 &lt;p>哇！我用了一年多的 &lt;a class="link" href="http://endeavouros.com/" target="_blank" rel="noopener"
 >EndeavourOS&lt;/a> 第一次见到这个提示。再怎么说输错三次要锁 10 分钟也太无情了吧，如果我急着用怎么办。怎么改变这个设置呢？&lt;/p>
-&lt;h2 id="faillock-配置">faillock 配置&lt;/h2>
-&lt;p>由于我不知道这个部分具体是那个模块负责的，搜索的过程还是有一些波折的。在这个过程中，我发现登录界面（greeter）由 LightDM 的 greeter &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup> 提供，登录验证由 Pluggable Authentication Modules (PAM) &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 处理，账户锁定的部分则由 PAM 的模块&lt;code>pam_faillock.so&lt;/code>负责。前者的配置文件在 &lt;code>/etc/lightdm/&lt;/code> 文件夹下，文件名视所使用的 greeter 而定（我这里是&lt;code>slick-greeter.conf&lt;/code>），后者的配置文件是 &lt;code>/etc/security/faillock.conf&lt;/code>&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>.&lt;/p>
+&lt;h2 id="faillock-配置">faillock 配置
+&lt;/h2>&lt;p>由于我不知道这个部分具体是那个模块负责的，搜索的过程还是有一些波折的。在这个过程中，我发现登录界面（greeter）由 LightDM 的 greeter &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup> 提供，登录验证由 Pluggable Authentication Modules (PAM) &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 处理，账户锁定的部分则由 PAM 的模块&lt;code>pam_faillock.so&lt;/code>负责。前者的配置文件在 &lt;code>/etc/lightdm/&lt;/code> 文件夹下，文件名视所使用的 greeter 而定（我这里是&lt;code>slick-greeter.conf&lt;/code>），后者的配置文件是 &lt;code>/etc/security/faillock.conf&lt;/code>&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>.&lt;/p>
 &lt;p>使用 &lt;code>vim&lt;/code>、&lt;code>nano&lt;/code> 等文本编辑器以 root 权限打开 faillock 的配置文件：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -54,8 +54,8 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>可以发现默认的配置文件里（可能因发行版不同而有差异）已经解释了每一项配置及其作用，我们要做的只是取消对应行的注释，修改成我们想要的数值。&lt;/p>
-&lt;h3 id="账户锁定相关的配置">账户锁定相关的配置&lt;/h3>
-&lt;p>对于非共享的PC而言我觉得最重要的也就三项：&lt;code>deny&lt;/code>，&lt;code>fail_interval&lt;/code>和&lt;code>unlock_time&lt;/code>。这三项用一句话来概括就是：“&lt;code>deny&lt;/code>为&lt;code>0&lt;/code>时无论输错多少次都不会锁定账户，否则，在&lt;code>{fail_interval}&lt;/code>秒内连续密码错误&lt;code>{deny}&lt;/code>次会导致账户被锁定&lt;code>{unlock_time}&lt;/code>秒。”这三项的默认值分别是&lt;code>deny=3&lt;/code>，&lt;code>fail_interval=900&lt;/code>和&lt;code>unlock_time=600&lt;/code>&lt;/p>
+&lt;h3 id="账户锁定相关的配置">账户锁定相关的配置
+&lt;/h3>&lt;p>对于非共享的PC而言我觉得最重要的也就三项：&lt;code>deny&lt;/code>，&lt;code>fail_interval&lt;/code>和&lt;code>unlock_time&lt;/code>。这三项用一句话来概括就是：“&lt;code>deny&lt;/code>为&lt;code>0&lt;/code>时无论输错多少次都不会锁定账户，否则，在&lt;code>{fail_interval}&lt;/code>秒内连续密码错误&lt;code>{deny}&lt;/code>次会导致账户被锁定&lt;code>{unlock_time}&lt;/code>秒。”这三项的默认值分别是&lt;code>deny=3&lt;/code>，&lt;code>fail_interval=900&lt;/code>和&lt;code>unlock_time=600&lt;/code>&lt;/p>
 &lt;p>为了避免暴力破解，我没有将&lt;code>deny&lt;/code>设为 &lt;code>0&lt;/code>，以下是我的配置：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -72,10 +72,10 @@
 &lt;/div>&lt;p>因为比起默认的 10 分钟，1 分钟我觉得是兼顾了安全和便捷的选择。&lt;/p>
 &lt;p>另外，faillock 记录的登录失败次数默认是放在 &lt;code>/var/run/faillock&lt;/code> 内的，而这个文件夹处在临时文件系统 tmpfs 内，也就是说当账户因多次密码错误被锁定时，只要重启电脑就能解除锁定&lt;sup>&lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>&lt;/sup>。修改配置文件的&lt;code>dir&lt;/code>一项，将文件夹改到持久存储的文件系统内即可防止重启解除锁定（例如&lt;code>/var/lib/faillock&lt;/code>）。&lt;/p>
 &lt;p>我还试了一下，在默认情况下使用 ssh 远程登陆也是有可能触发账户锁定的（当然这个也取决于PAM的配置），当账户锁定时即使密码正确也会返回 &lt;code>Permission denied, please try again.&lt;/code>。&lt;/p>
-&lt;h3 id="root-相关的配置">root 相关的配置&lt;/h3>
-&lt;p>在默认情况下，为了防止 DOS 攻击， faillock 是不会锁定 root 账户的 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。开启 &lt;code>even_deny_root&lt;/code> 这一项则让 faillock 可以锁定 root 。使用 &lt;code>root_unlock_time&lt;/code> 可以为 root 账户单独设置锁定时间，并且设置这项会隐式开启&lt;code>even_deny_root&lt;/code>。&lt;/p>
-&lt;h3 id="日志相关的配置">日志相关的配置&lt;/h3>
-&lt;p>在命令行中使用：&lt;/p>
+&lt;h3 id="root-相关的配置">root 相关的配置
+&lt;/h3>&lt;p>在默认情况下，为了防止 DOS 攻击， faillock 是不会锁定 root 账户的 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。开启 &lt;code>even_deny_root&lt;/code> 这一项则让 faillock 可以锁定 root 。使用 &lt;code>root_unlock_time&lt;/code> 可以为 root 账户单独设置锁定时间，并且设置这项会隐式开启&lt;code>even_deny_root&lt;/code>。&lt;/p>
+&lt;h3 id="日志相关的配置">日志相关的配置
+&lt;/h3>&lt;p>在命令行中使用：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -124,8 +124,8 @@
 &lt;li>&lt;code>slient&lt;/code>：不打印 informative（信息丰富的？）消息（没试出来这个开了有什么区别）。&lt;/li>
 &lt;li>&lt;code>no_log_info&lt;/code>：不向系统日志打印 informative 消息。&lt;/li>
 &lt;/ul>
-&lt;h2 id="参考资料">参考资料&lt;/h2>
-&lt;style>
+&lt;h2 id="参考资料">参考资料
+&lt;/h2>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -158,23 +158,23 @@
 &lt;/div>&lt;/div></description></item><item><title>关于实验记录的管理</title><link>https://blog.furffisite.link/p/experiment-record-management/</link><pubDate>Tue, 26 Dec 2023 18:07:49 +0800</pubDate><guid>https://blog.furffisite.link/p/experiment-record-management/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240101025358-39157c666fdfaedad07996f1f3e91a67-39937.jpg" alt="Featured image of post 关于实验记录的管理" />&lt;p>我因为之前做实验时习惯不好（一边训练一边改代码），没有保留好实验记录惹出了一些麻烦（不知道发布的模型具体是怎么训练出来的），觉得有必要确立几条原则防止以后再出现类似的情况。
 为了确保每次实验都是完全可复现的，以下是我的想法：&lt;/p>
 &lt;ol>
-&lt;li>使用git管理实验代码版本，在程序内强制要求长时间训练模型前commit所有修改，并且在commit记录内写清楚每次做出的更改；&lt;/li>
-&lt;li>使用&lt;code>logging&lt;/code>模块替代&lt;code>print&lt;/code>，以将带时间戳的记录同时输出到控制台和log文件；&lt;/li>
+&lt;li>使用 git 管理实验代码版本，在程序内强制要求长时间训练模型前 commit 所有修改，并且在 commit 记录内写清楚每次做出的更改；&lt;/li>
+&lt;li>使用&lt;code>logging&lt;/code>模块替代&lt;code>print&lt;/code>，以将带时间戳的记录同时输出到控制台和 log 文件；&lt;/li>
 &lt;li>在程序运行前输出所有超参数与运行时间；&lt;/li>
-&lt;li>在训练时使用运行时间与commit id的前几位创建文件夹，并将此次训练产生的所有文件都组织到这个文件夹内，测试记录可以和模型放在一起。&lt;/li>
-&lt;li>固定并输出random seed；&lt;/li>
+&lt;li>在训练时使用运行时间与 commit id 的前几位创建文件夹，并将此次训练产生的所有文件都组织到这个文件夹内，测试记录可以和模型放在一起。&lt;/li>
+&lt;li>固定并输出 random seed；&lt;/li>
 &lt;li>使用服务器训练时应及时下载训练记录。&lt;/li>
 &lt;/ol>
-&lt;h2 id="实现">实现&lt;/h2>
-&lt;p>原本想自己实现的，这个时候发现了 meta 开源的 &lt;a class="link" href="https://hydra.cc/" target="_blank" rel="noopener"
->Hydra&lt;/a> 库，似乎它提供的功能能实现其中几个想法。&lt;/p></description></item><item><title>解决Linux系统深色模式下的Zotero显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;p>因为Linux端的Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
->AUR&lt;/a>）中有一部分元素的样式是由GTK控制的，因此当系统的GTK主题为深色主题时，Zotero的界面会呈现为这个样子：
+&lt;h2 id="实现">实现
+&lt;/h2>&lt;p>原本想自己实现的，这个时候发现了 meta 开源的 &lt;a class="link" href="https://hydra.cc/" target="_blank" rel="noopener"
+>Hydra&lt;/a> 库，似乎它提供的功能能实现其中几个想法。&lt;/p></description></item><item><title>解决 Linux 系统深色模式下的 Zotero 显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240527150719-58fa3bf91a709e8e208c96720f0aeca2-547a4.jpg" alt="Featured image of post 解决 Linux 系统深色模式下的 Zotero 显示问题" />&lt;p>因为 Linux 端的 Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
+>AUR&lt;/a>）中有一部分元素的样式是由 GTK 控制的，因此当系统的 GTK 主题为深色主题时，Zotero 的界面会呈现为这个样子：
 &lt;img src="https://files.furffisite.link/blogimg/2023-05-13_13-32-08.png"
 loading="lazy"
 >&lt;/p>
 &lt;p>这不是很好看，并且部分区域内文字和背景色的对比度很低，导致文字难以阅读。&lt;/p>
 &lt;p>根据&lt;a class="link" href="https://forums.zotero.org/discussion/98693/theme-issue-some-parts-of-zoteros-gui-on-linux-are-controlled-by-gtk" target="_blank" rel="noopener"
->这个帖子&lt;/a>，解决方案是通过环境变量在程序启动时指定其使用的GTK主题，也就是：&lt;/p>
+>这个帖子&lt;/a>，解决方案是通过环境变量在程序启动时指定其使用的 GTK 主题，也就是：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -183,7 +183,7 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ &lt;span class="nv">GTK_THEME&lt;/span>&lt;span class="o">=&lt;/span>Pop-light zotero
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>反映到Desktop文件上（通常位于&lt;code>/usr/share/applications/&lt;/code>和&lt;code>~/.local/share/applications/&lt;/code>），就是在启动指令（Exec项）前加入&lt;code>env GTK_THEME=Pop-light&lt;/code>。&lt;/p>
+&lt;/div>&lt;p>反映到 Desktop 文件上（通常位于&lt;code>/usr/share/applications/&lt;/code>和&lt;code>~/.local/share/applications/&lt;/code>），就是在启动指令（Exec 项）前加入&lt;code>env GTK_THEME=Pop-light&lt;/code>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -200,8 +200,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">...&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这样操作后，通过应用启动器打开的Zotero就不会有问题了。&lt;/p></description></item><item><title>在Python中导入当前路径下的所有模块</title><link>https://blog.furffisite.link/p/python-import-directory-modules/</link><pubDate>Thu, 11 May 2023 12:22:54 +0800</pubDate><guid>https://blog.furffisite.link/p/python-import-directory-modules/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163144-c5d0b19ce502665b1891ef8c78c5b839-32aa3.jpg" alt="Featured image of post 在Python中导入当前路径下的所有模块" />&lt;h2 id="问题背景">问题背景&lt;/h2>
-&lt;p>在使用Python的Flask框架开发Web应用的过程中，一个基本的服务端程序结构如下：&lt;/p>
+&lt;/div>&lt;p>这样操作后，通过应用启动器打开的 Zotero 就不会有问题了。&lt;/p></description></item><item><title>在Python中导入当前路径下的所有模块</title><link>https://blog.furffisite.link/p/python-import-directory-modules/</link><pubDate>Thu, 11 May 2023 12:22:54 +0800</pubDate><guid>https://blog.furffisite.link/p/python-import-directory-modules/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163144-c5d0b19ce502665b1891ef8c78c5b839-32aa3.jpg" alt="Featured image of post 在Python中导入当前路径下的所有模块" />&lt;h2 id="问题背景">问题背景
+&lt;/h2>&lt;p>在使用 Python 的 Flask 框架开发 Web 应用的过程中，一个基本的服务端程序结构如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -238,8 +238,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>可以按照这种模式无限添加处理视图（handler），但是随着项目增大，这种将所有 handler 都放在一个py文件里的模式显然是不合适的，这时可以使用 &lt;a class="link" href="https://dormousehole.readthedocs.io/en/latest/tutorial/views.html" target="_blank" rel="noopener"
->blueprint&lt;/a> 将每个handler（或一组handler）放在互相独立的文件里。&lt;/p>
+&lt;/div>&lt;p>可以按照这种模式无限添加处理视图（handler），但是随着项目增大，这种将所有 handler 都放在一个 py 文件里的模式显然是不合适的，这时可以使用 &lt;a class="link" href="https://dormousehole.readthedocs.io/en/latest/tutorial/views.html" target="_blank" rel="noopener"
+>blueprint&lt;/a> 将每个 handler（或一组 handler）放在互相独立的文件里。&lt;/p>
 &lt;p>项目结构如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -312,7 +312,7 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">blueprint&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Blueprint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;api&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 为了在程序启动过程中能运行两个handler文件，需要在这里import它们&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 为了在程序启动过程中能运行两个 handler 文件，需要在这里 import 它们&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">.&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">login&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">.&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">register&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
@@ -342,8 +342,8 @@ loading="lazy"
 >E402&lt;/a>）。&lt;/li>
 &lt;/ol>
 &lt;p>于是就自然而然地想到了：&lt;strong>如何在模块初始化时自动导入当前路径下的所有子模块呢？&lt;/strong>&lt;/p>
-&lt;h2 id="解决方法">解决方法&lt;/h2>
-&lt;p>将&lt;code>services/__init__.py&lt;/code>改为这样：&lt;/p>
+&lt;h2 id="解决方法">解决方法
+&lt;/h2>&lt;p>将&lt;code>services/__init__.py&lt;/code>改为这样：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -366,8 +366,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">importlib&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">import_module&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;.&amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="n">spec&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="原理探究">原理探究&lt;/h2>
-&lt;p>可以通过pdb或 &lt;code>print&lt;/code> 获得这段程序所涉及变量的值：&lt;/p>
+&lt;/div>&lt;h2 id="原理探究">原理探究
+&lt;/h2>&lt;p>可以通过 pdb 或 &lt;code>print&lt;/code> 获得这段程序所涉及变量的值：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -386,11 +386,12 @@ loading="lazy"
 pkgutil模块的&lt;a class="link" href="https://docs.python.org/3/library/pkgutil.html#pkgutil.iter_modules" target="_blank" rel="noopener"
 >iter_modules&lt;/a>函数会找到提供的path下的所有子模块，在这里就是&lt;code>login&lt;/code>与&lt;code>register&lt;/code>，并返回它们的 &lt;a class="link" href="https://docs.python.org/3/library/pkgutil.html#pkgutil.ModuleInfo" target="_blank" rel="noopener"
 >ModuleInfo&lt;/a>。&lt;/p>
-&lt;p>在for循环内提取ModuleInfo的name，得到模块的名字，加上前缀&lt;code>.&lt;/code>，即当前目录下的对应子模块。最后使用importlib的&lt;a class="link" href="https://docs.python.org/3/library/importlib.html#importlib.import_module" target="_blank" rel="noopener"
->import_module&lt;/a>函数导入子模块（即运行子模块的代码，将handler注册到router上）。这样无论增加多少handler文件，&lt;code>__init__.py&lt;/code>都可以找到并加载它们。&lt;/p></description></item><item><title>如何将LaTeX内超出文本宽度的浮动体居中</title><link>https://blog.furffisite.link/p/latex-widefloat-centering/</link><pubDate>Sat, 24 Dec 2022 12:38:21 +0800</pubDate><guid>https://blog.furffisite.link/p/latex-widefloat-centering/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163659-9e52e93f3d72fae5e3a97613e49e921f-97fa4.jpg" alt="Featured image of post 如何将LaTeX内超出文本宽度的浮动体居中" />&lt;p>如何在$\LaTeX$中将超出文本宽度的浮动体（表格/图片）居中？这个问题我曾多次遇到过，但是没有一次记得怎么解决，每次都需要谷歌。今天也碰到了这个情况，因此将解决方案记录备忘。&lt;/p>
-&lt;p>我看到的最优雅的解决方案出自$\TeX$的&lt;a class="link" href="https://tex.stackexchange.com/" target="_blank" rel="noopener"
->StackExchange&lt;/a>中的&lt;a class="link" href="https://tex.stackexchange.com/a/430904" target="_blank" rel="noopener"
->这篇回答&lt;/a>。只要在浮动体内减少左右边距即可，也就是下列示例的第3-4行：&lt;/p>
+&lt;p>在 for 循环内提取 ModuleInfo 的 name，得到模块的名字，加上前缀&lt;code>.&lt;/code>，即当前目录下的对应子模块。
+最后使用 importlib 的 &lt;a class="link" href="https://docs.python.org/3/library/importlib.html#importlib.import_module" target="_blank" rel="noopener"
+>import_module&lt;/a> 函数导入子模块（即运行子模块的代码，将 handler 注册到 router 上）。这样无论增加多少 handler 文件，&lt;code>__init__.py&lt;/code> 都可以找到并加载它们。&lt;/p></description></item><item><title>如何将LaTeX内超出文本宽度的浮动体居中</title><link>https://blog.furffisite.link/p/latex-widefloat-centering/</link><pubDate>Sat, 24 Dec 2022 12:38:21 +0800</pubDate><guid>https://blog.furffisite.link/p/latex-widefloat-centering/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163659-9e52e93f3d72fae5e3a97613e49e921f-97fa4.jpg" alt="Featured image of post 如何将LaTeX内超出文本宽度的浮动体居中" />&lt;p>如何在$\LaTeX$中将超出文本宽度的浮动体（表格/图片）居中？这个问题我曾多次遇到过，但是没有一次记得怎么解决，每次都需要谷歌。今天也碰到了这个情况，因此将解决方案记录备忘。&lt;/p>
+&lt;p>我看到的最优雅的解决方案出自 $\TeX$ 的 &lt;a class="link" href="https://tex.stackexchange.com/" target="_blank" rel="noopener"
+>StackExchange&lt;/a> 中的&lt;a class="link" href="https://tex.stackexchange.com/a/430904" target="_blank" rel="noopener"
+>这篇回答&lt;/a>。只要在浮动体内减少左右边距即可，也就是下列示例的第 3-4 行：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1

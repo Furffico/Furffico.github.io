@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>读论文 on Furffiblog</title><link>https://blog.furffisite.link/tags/%E8%AF%BB%E8%AE%BA%E6%96%87/</link><description>Recent content in 读论文 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 12 Mar 2024 15:05:23 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/%E8%AF%BB%E8%AE%BA%E6%96%87/index.xml" rel="self" type="application/rss+xml"/><item><title>【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem</title><link>https://blog.furffisite.link/p/read-papers/utsp/</link><pubDate>Tue, 12 Mar 2024 15:05:23 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/utsp/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240312193735-df25ede3714c69d2ea8b42ba9c39f7c9-755f3.jpg" alt="Featured image of post 【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem" />&lt;h2 id="论文信息">论文信息&lt;/h2>
-&lt;ul>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>读论文 on Furffiblog</title><link>https://blog.furffisite.link/tags/%E8%AF%BB%E8%AE%BA%E6%96%87/</link><description>Recent content in 读论文 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 12 Mar 2024 15:05:23 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/%E8%AF%BB%E8%AE%BA%E6%96%87/index.xml" rel="self" type="application/rss+xml"/><item><title>【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem</title><link>https://blog.furffisite.link/p/read-papers/utsp/</link><pubDate>Tue, 12 Mar 2024 15:05:23 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/utsp/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240312193735-df25ede3714c69d2ea8b42ba9c39f7c9-755f3.jpg" alt="Featured image of post 【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem" />&lt;h2 id="论文信息">论文信息
+&lt;/h2>&lt;ul>
 &lt;li>标题： Unsupervised Learning for Solving the Travelling Salesman Problem&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;/li>
 &lt;li>作者： Yimeng Min, Yiwei Bai, Carla P. Gomes&lt;/li>
 &lt;li>会议： NeurIPS 2023&lt;/li>
@@ -8,8 +8,8 @@
 &lt;li>代码： &lt;a class="link" href="https://github.com/yimengmin/UTSP" target="_blank" rel="noopener"
 >https://github.com/yimengmin/UTSP&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;h2 id="utsp-算法">UTSP 算法&lt;/h2>
-&lt;p>作者认为理想的 heatmap $\mathcal{H}\in[0,1]^{n\times n}$ 应该表示TSP的最优解，即一条长度最短的汉密尔顿环路，也就是：&lt;/p>
+&lt;h2 id="utsp-算法">UTSP 算法
+&lt;/h2>&lt;p>作者认为理想的 heatmap $\mathcal{H}\in[0,1]^{n\times n}$ 应该表示 TSP 的最优解，即一条长度最短的汉密尔顿环路，也就是：&lt;/p>
 &lt;ol>
 &lt;li>$\mathcal{H}$ 作为邻接矩阵表示的图内有且仅有一条汉密尔顿环路；&lt;/li>
 &lt;li>$\mathcal{H}$ 表示的环路长度最短，即$$\min_\mathcal{H}\sum^n_{i=1}\sum^n_{j=1} \mathcal{H} _{ij}\cdot d _{ij}$$&lt;/li>
@@ -19,18 +19,18 @@
 同时作者也证明了这样形成的 heatmap 中至少有一条汉密尔顿环路，这样就满足了第一个条件的一半（有一条）。&lt;/p>
 &lt;p>至于剩下的一半（不超过一条），作者使用设计的 loss 函数鼓励网络减少环路数量：
 $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lambda_2 \sum^n _{i=1}\mathcal{H} _{ii} + \sum^n _{i=1}\sum^n _{j=1} \mathcal{H} _{ij}\cdot d _{ij}$$
-其中第一项鼓励 $\mathbb T$ 每行的和接近 $1$；第二项惩罚 $\mathcal{H}$ 中的自环；第三项对应上面的第二个条件，即让图里所有边的加权和尽可能小。最理想的情况下前两项都是$0$，$\mathcal L$等于TSP最优解的路径长度。UTSP 通过设置这样的 loss 函数，让神经网络输出的结果靠近理想的 heatmap。&lt;/p>
+其中第一项鼓励 $\mathbb T$ 每行的和接近 $1$；第二项惩罚 $\mathcal{H}$ 中的自环；第三项对应上面的第二个条件，即让图里所有边的加权和尽可能小。最理想的情况下前两项都是 $0$，$\mathcal L$等于TSP最优解的路径长度。UTSP 通过设置这样的 loss 函数，让神经网络输出的结果靠近理想的 heatmap。&lt;/p>
 &lt;p>此外，文章使用了 Scattering Attention GNN (SAG) 作为神经网络，在搜索前用 top-k 缩小搜索空间，并使用 Heat Map Guided Best-first Local Search 作为局部搜索方法。&lt;/p>
-&lt;h2 id="优势与局限性">优势与局限性&lt;/h2>
-&lt;p>根据文章，UTSP 的优势是：&lt;/p>
+&lt;h2 id="优势与局限性">优势与局限性
+&lt;/h2>&lt;p>根据文章，UTSP 的优势是：&lt;/p>
 &lt;ul>
-&lt;li>相比于有监督学习，UTSP不需要有标注的数据，相比于强化学习，UTSP的收敛速度更快（需要的样本数量更少）；&lt;/li>
+&lt;li>相比于有监督学习，UTSP 不需要有标注的数据，相比于强化学习，UTSP 的收敛速度更快（需要的样本数量更少）；&lt;/li>
 &lt;li>UTSP 直接从 heatmap 计算 loss，省去了强化学习依赖采样获得 reward 的过程；&lt;/li>
 &lt;li>通过结构设计保证输出的heatmap含有汉密尔顿环路；&lt;/li>
 &lt;li>神经网络很轻量化（TSP100 仅需两层 45k 个参数）；&lt;/li>
 &lt;li>可以有效地减小搜索空间。&lt;/li>
 &lt;/ul>
-&lt;p>我认为UTSP的局限性是：&lt;/p>
+&lt;p>我认为 UTSP 的局限性是：&lt;/p>
 &lt;ul>
 &lt;li>根据提供的实验数据，UTSP 即使有轻量化的网络，它生成 heatmap 需要的时间依然比 Att-GCRN&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup> 要长（为什么呢？）；&lt;/li>
 &lt;li>Soft indicator 是针对 TSP 的巧妙设计，只适用于解为汉密尔顿环的问题，并且 UTSP 需要针对问题精心设计 loss 函数，因此将 UTSP 迁移到别的组合优化问题时，相比于一些有监督学习和强化学习方法（分别可以通过有标签的数据和 reward 学习问题特征）需要更多工作。&lt;/li>
@@ -40,8 +40,8 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;li>在将边权重输入网络时，文章进行了预处理：$w_{ij}=e^{-d_{ij}/\tau}$，这样做除了将输入映射到 $(0,1]$ 之外，相比于直接输入 $w_{ij}=d_{ij}$ 还有什么作用嘛；&lt;/li>
 &lt;li>如果不采用 Soft indicator，实验结果会有多大变化。&lt;/li>
 &lt;/ul>
-&lt;h2 id="相关文献">相关文献&lt;/h2>
-&lt;style>
+&lt;h2 id="相关文献">相关文献
+&lt;/h2>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }

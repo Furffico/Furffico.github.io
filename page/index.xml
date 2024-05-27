@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on Furffiblog</title><link>https://blog.furffisite.link/page/</link><description>Recent content in Pages on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://blog.furffisite.link/page/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>https://blog.furffisite.link/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/about/</guid><description>&lt;p>我是一个地球人，不是外星人👽。&lt;small>（懒，先这样吧）&lt;/small>&lt;/p></description></item><item><title>搜索</title><link>https://blog.furffisite.link/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/search/</guid><description/></item><item><title>文章归档</title><link>https://blog.furffisite.link/archives/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/archives/</guid><description/></item><item><title>相册</title><link>https://blog.furffisite.link/gallery/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/gallery/</guid><description>&lt;p>我拍的一些照片，未经允许请勿转载。&lt;/p>
-&lt;h2 id="photos">photos&lt;/h2>
-&lt;script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous">&lt;/script>
+&lt;h2 id="photos">photos
+&lt;/h2>&lt;script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous">&lt;/script>
 &lt;script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" integrity="sha256-sv0FpYm7s9wU5OAD8AzZGhVXlvKBUQvjoJjL435kS1o=" crossorigin="anonymous">&lt;/script>
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css" integrity="sha256-YBy2rK4TkyaeKbMYUy56/rUERtR7sMEmkQvDr9EuHUQ=" crossorigin="anonymous">
 &lt;script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js">&lt;/script>
@@ -76,8 +76,8 @@ Fancybox.bind('[data-fancybox="photos-gallery"]');
 });
 });
 &lt;/script>
-&lt;h2 id="genshin-impact">genshin impact&lt;/h2>
-&lt;div id="genshin-gallery">&lt;a id="genshin-gallery-img01" data-fancybox="genshin-gallery" data-caption="璃月 - 璃月港" href="https://files.furffisite.link/gallery/20230303180154-bd2212b538e1e28cf34a6ece3975c5cf-35ac8.jpg?x-oss-process=style/gallery">
+&lt;h2 id="genshin-impact">genshin impact
+&lt;/h2>&lt;div id="genshin-gallery">&lt;a id="genshin-gallery-img01" data-fancybox="genshin-gallery" data-caption="璃月 - 璃月港" href="https://files.furffisite.link/gallery/20230303180154-bd2212b538e1e28cf34a6ece3975c5cf-35ac8.jpg?x-oss-process=style/gallery">
 &lt;img alt="璃月 - 璃月港" src="https://files.furffisite.link/gallery/20230303180154-bd2212b538e1e28cf34a6ece3975c5cf-35ac8.jpg?x-oss-process=style/gallery-thumbnail" loading="lazy"/>
 &lt;/a>&lt;a id="genshin-gallery-img02" data-fancybox="genshin-gallery" data-caption="璃月 - 归离原" href="https://files.furffisite.link/gallery/20230303180154-a94ff575e785aad8d64452e1b6f4d166-7ec8b.jpg?x-oss-process=style/gallery">
 &lt;img alt="璃月 - 归离原" src="https://files.furffisite.link/gallery/20230303180154-a94ff575e785aad8d64452e1b6f4d166-7ec8b.jpg?x-oss-process=style/gallery-thumbnail" loading="lazy"/>

@@ -32,8 +32,8 @@
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">deny&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">0&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="背景">背景&lt;/h2>
-&lt;p>今天清晨我刚刚起床，在迷糊中想看看半夜挂机训练的模型的效果，于是抓起笔记本开机，输密码。结果因为我没睡醒，输错了三次密码，屏幕上跳出了这个提示：&lt;/p>
+&lt;/div>&lt;h2 id="背景">背景
+&lt;/h2>&lt;p>今天清晨我刚刚起床，在迷糊中想看看半夜挂机训练的模型的效果，于是抓起笔记本开机，输密码。结果因为我没睡醒，输错了三次密码，屏幕上跳出了这个提示：&lt;/p>
 &lt;center>
 &lt;img src="https://files.furffisite.link/blogimg/20240320145104-2443a1678e465bfd578c1d40d23648a7-29fb6.jpg" alt="The account is locked due to 3 failed logins. (10 minutes left to unlock)" style="width:50%;min-width:400px;"/>
 &lt;/center>
@@ -42,8 +42,8 @@
 >银狼&lt;/a>。）&lt;/p>
 &lt;p>哇！我用了一年多的 &lt;a class="link" href="http://endeavouros.com/" target="_blank" rel="noopener"
 >EndeavourOS&lt;/a> 第一次见到这个提示。再怎么说输错三次要锁 10 分钟也太无情了吧，如果我急着用怎么办。怎么改变这个设置呢？&lt;/p>
-&lt;h2 id="faillock-配置">faillock 配置&lt;/h2>
-&lt;p>由于我不知道这个部分具体是那个模块负责的，搜索的过程还是有一些波折的。在这个过程中，我发现登录界面（greeter）由 LightDM 的 greeter &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup> 提供，登录验证由 Pluggable Authentication Modules (PAM) &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 处理，账户锁定的部分则由 PAM 的模块&lt;code>pam_faillock.so&lt;/code>负责。前者的配置文件在 &lt;code>/etc/lightdm/&lt;/code> 文件夹下，文件名视所使用的 greeter 而定（我这里是&lt;code>slick-greeter.conf&lt;/code>），后者的配置文件是 &lt;code>/etc/security/faillock.conf&lt;/code>&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>.&lt;/p>
+&lt;h2 id="faillock-配置">faillock 配置
+&lt;/h2>&lt;p>由于我不知道这个部分具体是那个模块负责的，搜索的过程还是有一些波折的。在这个过程中，我发现登录界面（greeter）由 LightDM 的 greeter &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup> 提供，登录验证由 Pluggable Authentication Modules (PAM) &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 处理，账户锁定的部分则由 PAM 的模块&lt;code>pam_faillock.so&lt;/code>负责。前者的配置文件在 &lt;code>/etc/lightdm/&lt;/code> 文件夹下，文件名视所使用的 greeter 而定（我这里是&lt;code>slick-greeter.conf&lt;/code>），后者的配置文件是 &lt;code>/etc/security/faillock.conf&lt;/code>&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>.&lt;/p>
 &lt;p>使用 &lt;code>vim&lt;/code>、&lt;code>nano&lt;/code> 等文本编辑器以 root 权限打开 faillock 的配置文件：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -54,8 +54,8 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>可以发现默认的配置文件里（可能因发行版不同而有差异）已经解释了每一项配置及其作用，我们要做的只是取消对应行的注释，修改成我们想要的数值。&lt;/p>
-&lt;h3 id="账户锁定相关的配置">账户锁定相关的配置&lt;/h3>
-&lt;p>对于非共享的PC而言我觉得最重要的也就三项：&lt;code>deny&lt;/code>，&lt;code>fail_interval&lt;/code>和&lt;code>unlock_time&lt;/code>。这三项用一句话来概括就是：“&lt;code>deny&lt;/code>为&lt;code>0&lt;/code>时无论输错多少次都不会锁定账户，否则，在&lt;code>{fail_interval}&lt;/code>秒内连续密码错误&lt;code>{deny}&lt;/code>次会导致账户被锁定&lt;code>{unlock_time}&lt;/code>秒。”这三项的默认值分别是&lt;code>deny=3&lt;/code>，&lt;code>fail_interval=900&lt;/code>和&lt;code>unlock_time=600&lt;/code>&lt;/p>
+&lt;h3 id="账户锁定相关的配置">账户锁定相关的配置
+&lt;/h3>&lt;p>对于非共享的PC而言我觉得最重要的也就三项：&lt;code>deny&lt;/code>，&lt;code>fail_interval&lt;/code>和&lt;code>unlock_time&lt;/code>。这三项用一句话来概括就是：“&lt;code>deny&lt;/code>为&lt;code>0&lt;/code>时无论输错多少次都不会锁定账户，否则，在&lt;code>{fail_interval}&lt;/code>秒内连续密码错误&lt;code>{deny}&lt;/code>次会导致账户被锁定&lt;code>{unlock_time}&lt;/code>秒。”这三项的默认值分别是&lt;code>deny=3&lt;/code>，&lt;code>fail_interval=900&lt;/code>和&lt;code>unlock_time=600&lt;/code>&lt;/p>
 &lt;p>为了避免暴力破解，我没有将&lt;code>deny&lt;/code>设为 &lt;code>0&lt;/code>，以下是我的配置：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -72,10 +72,10 @@
 &lt;/div>&lt;p>因为比起默认的 10 分钟，1 分钟我觉得是兼顾了安全和便捷的选择。&lt;/p>
 &lt;p>另外，faillock 记录的登录失败次数默认是放在 &lt;code>/var/run/faillock&lt;/code> 内的，而这个文件夹处在临时文件系统 tmpfs 内，也就是说当账户因多次密码错误被锁定时，只要重启电脑就能解除锁定&lt;sup>&lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>&lt;/sup>。修改配置文件的&lt;code>dir&lt;/code>一项，将文件夹改到持久存储的文件系统内即可防止重启解除锁定（例如&lt;code>/var/lib/faillock&lt;/code>）。&lt;/p>
 &lt;p>我还试了一下，在默认情况下使用 ssh 远程登陆也是有可能触发账户锁定的（当然这个也取决于PAM的配置），当账户锁定时即使密码正确也会返回 &lt;code>Permission denied, please try again.&lt;/code>。&lt;/p>
-&lt;h3 id="root-相关的配置">root 相关的配置&lt;/h3>
-&lt;p>在默认情况下，为了防止 DOS 攻击， faillock 是不会锁定 root 账户的 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。开启 &lt;code>even_deny_root&lt;/code> 这一项则让 faillock 可以锁定 root 。使用 &lt;code>root_unlock_time&lt;/code> 可以为 root 账户单独设置锁定时间，并且设置这项会隐式开启&lt;code>even_deny_root&lt;/code>。&lt;/p>
-&lt;h3 id="日志相关的配置">日志相关的配置&lt;/h3>
-&lt;p>在命令行中使用：&lt;/p>
+&lt;h3 id="root-相关的配置">root 相关的配置
+&lt;/h3>&lt;p>在默认情况下，为了防止 DOS 攻击， faillock 是不会锁定 root 账户的 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。开启 &lt;code>even_deny_root&lt;/code> 这一项则让 faillock 可以锁定 root 。使用 &lt;code>root_unlock_time&lt;/code> 可以为 root 账户单独设置锁定时间，并且设置这项会隐式开启&lt;code>even_deny_root&lt;/code>。&lt;/p>
+&lt;h3 id="日志相关的配置">日志相关的配置
+&lt;/h3>&lt;p>在命令行中使用：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -124,8 +124,8 @@
 &lt;li>&lt;code>slient&lt;/code>：不打印 informative（信息丰富的？）消息（没试出来这个开了有什么区别）。&lt;/li>
 &lt;li>&lt;code>no_log_info&lt;/code>：不向系统日志打印 informative 消息。&lt;/li>
 &lt;/ul>
-&lt;h2 id="参考资料">参考资料&lt;/h2>
-&lt;style>
+&lt;h2 id="参考资料">参考资料
+&lt;/h2>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -155,15 +155,15 @@
 &lt;span>[6]&lt;/span>
 &lt;span>&lt;a class="link" href="https://man.archlinux.org/man/pam_faillock.8.en" target="_blank" rel="noopener"
 >pam_faillock(8) — Arch manual pages&lt;/a>&lt;a href="#ref-cite6-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;/div></description></item><item><title>我折腾NAS的历程（四）：一些升级</title><link>https://blog.furffisite.link/p/nas-4/</link><pubDate>Sat, 09 Mar 2024 23:53:36 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-4/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240310022612-8671164f59f21e5d03de82e41e7073d5-7f2c7.jpg" alt="Featured image of post 我折腾NAS的历程（四）：一些升级" />&lt;p>之前的事情：&lt;/p>
+&lt;/div>&lt;/div></description></item><item><title>我折腾 NAS 的历程（四）：一些升级</title><link>https://blog.furffisite.link/p/nas-4/</link><pubDate>Sat, 09 Mar 2024 23:53:36 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-4/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240310022612-8671164f59f21e5d03de82e41e7073d5-7f2c7.jpg" alt="Featured image of post 我折腾 NAS 的历程（四）：一些升级" />&lt;p>之前的事情：&lt;/p>
 &lt;ul>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" >&lt;em>我折腾NAS的历程（一）&lt;/em>&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >&lt;em>我折腾NAS的历程（二）&lt;/em>&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >&lt;em>我折腾NAS的历程（三）&lt;/em>&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>本文以&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >上一篇的自组NAS&lt;/a>为基础，升级了一些配置，就性价比而言感觉这钱花得不算太值。&lt;/p>
-&lt;h2 id="硬件部分">硬件部分&lt;/h2>
-&lt;table>
+&lt;p>本文以&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >上一篇的自组 NAS&lt;/a> 为基础，升级了一些配置，就性价比而言感觉这钱花得不算太值。&lt;/p>
+&lt;h2 id="硬件部分">硬件部分
+&lt;/h2>&lt;table>
 &lt;thead>
 &lt;tr>
 &lt;th>&lt;/th>
@@ -178,7 +178,7 @@
 &lt;td>CPU&lt;/td>
 &lt;td>Intel&lt;/td>
 &lt;td>E5-2690 v4&lt;/td>
-&lt;td>14核 2.6GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91770/intel-xeon-processor-e52690-v4-35m-cache-2-60-ghz/specifications.html" target="_blank" rel="noopener"
+&lt;td>14 核 2.6GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91770/intel-xeon-processor-e52690-v4-35m-cache-2-60-ghz/specifications.html" target="_blank" rel="noopener"
 >规格表&lt;/a>&lt;/td>
 &lt;td>¥134（洋垃圾）&lt;/td>
 &lt;/tr>
@@ -186,7 +186,7 @@
 &lt;td>内存&lt;/td>
 &lt;td>Samsung&lt;/td>
 &lt;td>M386A4G40DM0-CPB&lt;/td>
-&lt;td>DDR4 2133MHz 32GB &lt;a class="link" href="https://semiconductor.samsung.com/cn/dram/module/lrdimm/m386a4g40dm0-cpb/" target="_blank" rel="noopener"
+&lt;td>DDR4 2133 MHz 32GB &lt;a class="link" href="https://semiconductor.samsung.com/cn/dram/module/lrdimm/m386a4g40dm0-cpb/" target="_blank" rel="noopener"
 >规格表&lt;/a>&lt;/td>
 &lt;td>¥155（洋垃圾）&lt;/td>
 &lt;/tr>
@@ -207,8 +207,8 @@
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;h3 id="cpu">CPU&lt;/h3>
-&lt;p>同样是按照&lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#%e6%b5%8b%e8%af%95" >之前的&lt;/a>设置，使用&lt;code>sysbench&lt;/code>粗测的对比如下：&lt;/p>
+&lt;h3 id="cpu">CPU
+&lt;/h3>&lt;p>同样是按照&lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#%e6%b5%8b%e8%af%95" >之前的&lt;/a>设置，使用&lt;code>sysbench&lt;/code>粗测的对比如下：&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
@@ -236,20 +236,20 @@
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;p>考虑到这两块CPU除了主频和功耗外几乎一致，性能成比例地提升确实是预料之中。也就是说我为了 30% 的性能提升多花了 157.7% 的钱，性价比不算高，
+&lt;p>考虑到这两块 CPU 除了主频和功耗外几乎一致，性能成比例地提升确实是预料之中。也就是说我为了 30% 的性能提升多花了 157.7% 的钱，性价比不算高，
 不过主频的提升对于一些多线程优化不好的任务（例如 &lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#minecraft%e6%9c%8d%e5%8a%a1%e5%99%a8-papermc" >Minecraft 服务器&lt;/a>）还是有用的。&lt;/p>
 &lt;p>此外我买到的似乎是这个商家的最后一块 E5-2690 v4，我下单后回到详情页就发现这个型号缺货了。&lt;/p>
-&lt;h3 id="内存">内存&lt;/h3>
-&lt;p>我本来认为这个32GB的内存条和之前购买的16GB内存条是兼容的，因为我在我的笔记本上用的就是8GB+32GB的非对称双通道的配置。
-内存条到货之后才发现，虽然这两条单独安装都是能正常启动的（说明两条都没坏），但是两者同时安装的时候，无论放在哪两个插槽，NAS都无法开机。
-这让我感觉很奇怪，奈何也找不到解决方法，只好当作是主板/CPU不支持，并闲置原来的16GB内存条。&lt;/p>
-&lt;h3 id="pcie转sata扩展卡">PCIE转SATA扩展卡&lt;/h3>
-&lt;p>这个是在淘宝上随便找的一个。因为我需要接的也都是机械硬盘，传输瓶颈还是在机械硬盘的读写上，所以我对速率没什么要求，能跑满机械硬盘的读速就可以。&lt;/p>
-&lt;p>至于它是不是真的值75元就不得而知了。&lt;/p>
-&lt;p>扩展完SATA口之后，机箱内一共有7个SATA接口，但是只有4个硬盘位，我想下一步应该是购买硬盘支架了。&lt;/p>
-&lt;h2 id="软件部分">软件部分&lt;/h2>
-&lt;h3 id="gitea">Gitea&lt;/h3>
-&lt;p>&lt;a class="link" href="https://about.gitea.com/" target="_blank" rel="noopener"
+&lt;h3 id="内存">内存
+&lt;/h3>&lt;p>我本来认为这个 32GB 的内存条和之前购买的 16GB 内存条是兼容的，因为我在我的笔记本上用的就是 8GB+32GB 的非对称双通道的配置。
+内存条到货之后才发现，虽然这两条单独安装都是能正常启动的（说明两条都没坏），但是两者同时安装的时候，无论放在哪两个插槽，NAS 都无法开机。
+这让我感觉很奇怪，奈何也找不到解决方法，只好当作是主板/CPU 不支持，并闲置原来的 16GB 内存条。&lt;/p>
+&lt;h3 id="pcie转sata扩展卡">PCIE转SATA扩展卡
+&lt;/h3>&lt;p>这个是在淘宝上随便找的一个。因为我需要接的也都是机械硬盘，传输瓶颈还是在机械硬盘的读写上，所以我对速率没什么要求，能跑满机械硬盘的读速就可以。&lt;/p>
+&lt;p>至于它是不是真的值 75 元就不得而知了。&lt;/p>
+&lt;p>扩展完 SATA 口之后，机箱内一共有 7 个 SATA 接口，但是只有4个硬盘位，我想下一步应该是购买硬盘支架了。&lt;/p>
+&lt;h2 id="软件部分">软件部分
+&lt;/h2>&lt;h3 id="gitea">Gitea
+&lt;/h3>&lt;p>&lt;a class="link" href="https://about.gitea.com/" target="_blank" rel="noopener"
 >Gitea&lt;/a> 是开源的代码托管平台。
 自己有时候写了一些工具项目，不想向 Github 上传的时候（担心隐私问题，以及大陆地区访问 Github 有时连接不畅），就会传到自建的 Gitea 上。&lt;/p>
 &lt;p>虽然名字和 &lt;a class="link" href="https://gitee.com/" target="_blank" rel="noopener"
@@ -260,17 +260,17 @@
 不用 GitLab 是因为 GitLab 的资源占用太大了，并且我也基本用不到它的 CI/CD 功能。&lt;/p>
 &lt;p>Gitea 可以直接使用 docker 镜像部署，具体参照 &lt;a class="link" href="https://docs.gitea.com/installation/install-with-docker" target="_blank" rel="noopener"
 >Gitea 官方文档&lt;/a>。&lt;/p>
-&lt;h3 id="immich">Immich&lt;/h3>
-&lt;p>&lt;a class="link" href="https://immich.app" target="_blank" rel="noopener"
->Immich&lt;/a> 是开源自建的相册服务，类似于谷歌相册，提供了图片管理、人脸识别、地图和智能搜索等功能，并且在IOS、Android和网页端都有官方的客户端。&lt;/p>
+&lt;h3 id="immich">Immich
+&lt;/h3>&lt;p>&lt;a class="link" href="https://immich.app" target="_blank" rel="noopener"
+>Immich&lt;/a> 是开源自建的相册服务，类似于谷歌相册，提供了图片管理、人脸识别、地图和智能搜索等功能，并且在 IOS、Android 和网页端都有官方的客户端。&lt;/p>
 &lt;p>这个项目各方面都挺不错的，缺点是版本更新有点太快了，最快的时候一周能发三四个版本。当然对于项目而言这是好事，是项目活跃的证明，但是对于使用体验而言就不那么好了。
 它更新的时候可能会引入 breaking changes，这就要求每次更新前都要到其 &lt;a class="link" href="https://github.com/immich-app/immich/releases" target="_blank" rel="noopener"
 >github 的发布页&lt;/a>查看升级前的注意事项，然后才能用 docker compose 拉镜像。
 拉镜像的过程也有些折磨，因为镜像实在太大了。&lt;/p>
 &lt;p>&lt;a class="link" href="https://immich.app/docs/install/docker-compose" target="_blank" rel="noopener"
 >官方文档&lt;/a>里给出了使用 docker compose 部署 Immich 的方法。&lt;/p>
-&lt;h3 id="lanraragi">LANraragi&lt;/h3>
-&lt;p>&lt;a class="link" href="https://github.com/Difegue/LANraragi" target="_blank" rel="noopener">
+&lt;h3 id="lanraragi">LANraragi
+&lt;/h3>&lt;p>&lt;a class="link" href="https://github.com/Difegue/LANraragi" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
@@ -282,26 +282,26 @@
 可以先找找它的替代品，找不到的话不妨有空自己动手用 golang 实现一个。&lt;/p>
 &lt;p>&lt;a class="link" href="https://sugoi.gitbook.io/lanraragi/v/dev/installing-lanraragi/docker" target="_blank" rel="noopener"
 >官方文档&lt;/a>给出了使用docker部署的方法。&lt;/p>
-&lt;h3 id="主页homer">主页（homer）&lt;/h3>
-&lt;p>NAS上运行的服务多了，每次访问服务都要输地址（无论是ip+端口还是&lt;a class="link" href="http://localhost:1313/p/nas-3/#coredns" target="_blank" rel="noopener"
->内网域名&lt;/a>）会很麻烦，于是用&lt;a class="link" href="https://github.com/bastienwirtz/homer" target="_blank" rel="noopener">
+&lt;h3 id="主页homer">主页（homer）
+&lt;/h3>&lt;p>NAS上运行的服务多了，每次访问服务都要输地址（无论是 ip + 端口还是&lt;a class="link" href="http://localhost:1313/p/nas-3/#coredns" target="_blank" rel="noopener"
+>内网域名&lt;/a>）会很麻烦，于是用 &lt;a class="link" href="https://github.com/bastienwirtz/homer" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
 &lt;/span>homer&lt;/a>
-搭建了NAS的入口页。&lt;/p>
+搭建了 NAS 的入口页。&lt;/p>
 &lt;p>由于是纯静态的网页（改完配置也不需要重新编译之类的），部署的时候进&lt;a class="link" href="https://github.com/bastienwirtz/homer/releases" target="_blank" rel="noopener"
 >项目的 release 页&lt;/a>下载编译好的 zip 文件解压，然后直接在 nginx 里添一个 server 就行，也可以改 default，让它成为路由无匹配时的默认页面。配置时只要改&lt;code>assets/config.yml&lt;/code>，在浏览器里刷新页面（可能需要在开发者工具的 networks 里 Disable Cache）就能看到更改了。&lt;/p>
-&lt;h3 id="百度网盘客户端">百度网盘客户端&lt;/h3>
-&lt;p>之前在复习备考的时候，有很多考研资料是通过百度网盘流传的。
+&lt;h3 id="百度网盘客户端">百度网盘客户端
+&lt;/h3>&lt;p>之前在复习备考的时候，有很多考研资料是通过百度网盘流传的。
 又因为百度网盘的限速，和它的一些操作让我不是很想在本机安装它的客户端，催生了我在 NAS 上部署其客户端的需求。
-一搜果然有大佬做好了百度网盘客户端的docker镜像，其中之一是&lt;a class="link" href="https://github.com/gshang2017/docker/tree/master/baidunetdisk" target="_blank" rel="noopener">
+一搜果然有大佬做好了百度网盘客户端的 docker 镜像，其中之一是&lt;a class="link" href="https://github.com/gshang2017/docker/tree/master/baidunetdisk" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
-&lt;/span>gshang2017做的&lt;/a>
+&lt;/span>gshang2017 做的&lt;/a>
 。&lt;/p>
 &lt;p>把指令转换成&lt;code>docker-compose.yaml&lt;/code>文件，然后&lt;code>docker compose up -d&lt;/code>，不出意外用浏览器访问 NAS 的 5800 端口就能看到登录界面了。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -342,13 +342,13 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">NOVNC_LANGUAGE=&amp;#34;zh_Hans&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>因为这个镜像是以官方的linux客户端为基础制作的，功能基本上与之相同。除了广告点不开（这是好事）之外我在使用过程中没有遇到什么问题。&lt;/p>
-&lt;h3 id="饥荒服务器">饥荒服务器&lt;/h3>
-&lt;p>我的舍友想要联机玩&lt;a class="link" href="https://www.klei.com/games/dont-starve-together" target="_blank" rel="noopener"
->饥荒（Don&amp;rsquo;t Starve (Together)）&lt;/a>，于是拜托我在NAS上搭了一个饥荒服务器（不过我自己没什么兴趣就是啦）。&lt;/p>
+&lt;/div>&lt;p>因为这个镜像是以官方的 linux 客户端为基础制作的，功能基本上与之相同。除了广告点不开（这是好事）之外我在使用过程中没有遇到什么问题。&lt;/p>
+&lt;h3 id="饥荒服务器">饥荒服务器
+&lt;/h3>&lt;p>我的舍友想要联机玩&lt;a class="link" href="https://www.klei.com/games/dont-starve-together" target="_blank" rel="noopener"
+>饥荒（Don&amp;rsquo;t Starve (Together)）&lt;/a>，于是拜托我在 NAS 上搭了一个饥荒服务器（不过我自己没什么兴趣就是啦）。&lt;/p>
 &lt;p>我在 Docker 上没找到下载量较多的镜像，于是按照&lt;a class="link" href="https://zhuanlan.zhihu.com/p/457714222" target="_blank" rel="noopener"
->知乎&lt;/a>和&lt;a class="link" href="https://dontstarve.fandom.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers" target="_blank" rel="noopener"
->Fandom wiki的教程&lt;/a>搭建了环境（配置起来还挺麻烦），然后写了&lt;code>dnst.service&lt;/code>让它作为 systemd 服务运行和自启动：&lt;/p>
+>知乎&lt;/a>和 &lt;a class="link" href="https://dontstarve.fandom.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers" target="_blank" rel="noopener"
+>Fandom wiki 的教程&lt;/a>搭建了环境（配置起来还挺麻烦），然后写了&lt;code>dnst.service&lt;/code>让它作为 systemd 服务运行和自启动：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -385,24 +385,24 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">WantedBy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">multi-user.target&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="虚拟化kvm">虚拟化（KVM）&lt;/h3>
-&lt;p>关于虚拟机，我之前只用过图形界面的 VirtualBox，这是我第一次接触 Linux 服务器上常用的 Kernel-based Virtual Machine（KVM）。
+&lt;/div>&lt;h3 id="虚拟化kvm">虚拟化（KVM）
+&lt;/h3>&lt;p>关于虚拟机，我之前只用过图形界面的 VirtualBox，这是我第一次接触 Linux 服务器上常用的 Kernel-based Virtual Machine（KVM）。
 我是按照&lt;a class="link" href="https://linux.how2shout.com/how-to-install-kvm-on-ubuntu-20-04-lts-server/" target="_blank" rel="noopener"
 >这篇教程&lt;/a>在服务器上安装的KVM，按照&lt;a class="link" href="https://computingforgeeks.com/install-kvm-qemu-virt-manager-arch-manjar/" target="_blank" rel="noopener"
 >这篇教程&lt;/a>在本机（Arch Linux）安装了Virtual Machine Manager。&lt;/p>
 &lt;p>目前只是在虚拟机里装好了 Ubuntu 系统，还没有深入折腾。&lt;/p></description></item><item><title>Steam Deck 折腾记录</title><link>https://blog.furffisite.link/p/steamdeck-tweaking/</link><pubDate>Mon, 19 Feb 2024 20:12:35 +0800</pubDate><guid>https://blog.furffisite.link/p/steamdeck-tweaking/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240220134919-e7ed5ace1e94b03d7e56a619a0f7a6d7-5ca68.jpg" alt="Featured image of post Steam Deck 折腾记录" />&lt;p>考研初试结束后，我在淘宝上给自己买了个 64GB 的 LCD 版 Steam Deck，当时（2023年12月底）花了￥2885.90.&lt;/p>
-&lt;h2 id="扩容硬盘与恢复系统">扩容硬盘与恢复系统&lt;/h2>
-&lt;p>我是为了省钱才买的 64GB 版本，但是 64GB 的外存显然不够用，所以我又买了一块 2230 尺寸的 2TB NVMe 硬盘（西数 SN740），硬盘+散热片共花费 ￥744.90.
+&lt;h2 id="扩容硬盘与恢复系统">扩容硬盘与恢复系统
+&lt;/h2>&lt;p>我是为了省钱才买的 64GB 版本，但是 64GB 的外存显然不够用，所以我又买了一块 2230 尺寸的 2TB NVMe 硬盘（西数 SN740），硬盘+散热片共花费 ￥744.90.
 这样算下来购买 64GB 版本自己加硬盘比直接买商家改的 2TB 版本划算且更有保障。&lt;/p>
 &lt;p>下面是更换硬盘及其后续操作的步骤。&lt;/p>
-&lt;h3 id="第一步备份存档">第一步：备份存档&lt;/h3>
-&lt;p>如果是刚到手的新机，或者有硬盘盒支持拆下来的64GB的硬盘的话倒也不必要这一步。
-如果拿到手之后已经玩了一段时间，游戏不支持steam云存档（或者各种原因导致没有同步成功），且手边没有硬盘盒的话，一定要在更换硬盘之前备份一下Steam Deck上的游戏存档。&lt;/p>
+&lt;h3 id="第一步备份存档">第一步：备份存档
+&lt;/h3>&lt;p>如果是刚到手的新机，或者有硬盘盒支持拆下来的 64GB 的硬盘的话倒也不必要这一步。
+如果拿到手之后已经玩了一段时间，游戏不支持 steam 云存档（或者各种原因导致没有同步成功），且手边没有硬盘盒的话，一定要在更换硬盘之前备份一下 Steam Deck 上的游戏存档。&lt;/p>
 &lt;p>进入 SteamOS 的桌面模式后插入 U 盘，使用指令或图形界面复制文件夹 &lt;code>/home/deck/.local/share/Steam/steamapps/compatdata&lt;/code> 到 U 盘内。&lt;/p>
-&lt;h3 id="第二步更换硬盘">第二步：更换硬盘&lt;/h3>
-&lt;p>更换硬盘的操作可以直接参考 iFixit 的教程 &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>。&lt;/p>
-&lt;h3 id="第三步恢复steamos">第三步：恢复SteamOS&lt;/h3>
-&lt;p>这部分的操作可以参考 Steam 官方的教程 &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>，我在此记录一下我踩到的坑：&lt;/p>
+&lt;h3 id="第二步更换硬盘">第二步：更换硬盘
+&lt;/h3>&lt;p>更换硬盘的操作可以直接参考 iFixit 的教程 &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>。&lt;/p>
+&lt;h3 id="第三步恢复steamos">第三步：恢复SteamOS
+&lt;/h3>&lt;p>这部分的操作可以参考 Steam 官方的教程 &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>，我在此记录一下我踩到的坑：&lt;/p>
 &lt;ol>
 &lt;li>Steam 提供的镜像不能使用 &lt;a class="link" href="https://www.ventoy.net/cn/" target="_blank" rel="noopener"
 >Ventoy&lt;/a> 启动，只能老老实实用工具（&lt;a class="link" href="https://rufus.ie/en/" target="_blank" rel="noopener"
@@ -412,8 +412,8 @@
 &lt;li>我最开始用的是 U 盘，但是在 Steam Deck 上从 U 盘启动时在黑屏卡住了，后面在 reddit 用户的建议下 &lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 换用了 microSD 卡（三星 EVOPlus 64GB）才顺利进入桌面（不知是 hub 的问题还是 U 盘的问题，踩这个坑让我多花了两三个小时）。&lt;/li>
 &lt;/ol>
 &lt;p>恢复好系统后就可以弹出 U 盘或 microSD 卡，从硬盘启动了，之后系统初始化的步骤和刚拿到机器时的一样。&lt;/p>
-&lt;h3 id="第四步硬盘分区">第四步：硬盘分区&lt;/h3>
-&lt;p>进入桌面模式，使用 KDE Partition Manager 按照需求调整分区，如果有双系统需求的要给 Windows 预留好安装空间（我留了250GB），并且把两个系统共享的游戏文件分区格式化为 ntfs 文件系统。&lt;/p>
+&lt;h3 id="第四步硬盘分区">第四步：硬盘分区
+&lt;/h3>&lt;p>进入桌面模式，使用 KDE Partition Manager 按照需求调整分区，如果有双系统需求的要给 Windows 预留好安装空间（我留了 250GB），并且把两个系统共享的游戏文件分区格式化为 NTFS 文件系统。&lt;/p>
 &lt;p>我的分区方案如下：&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20240220125355-b3bb2fb3802a325bab7097c5a8e3f7a2-6db4b.png"
 loading="lazy"
@@ -427,39 +427,40 @@ alt="home分区使用情况"
 &lt;p>然后配置开机自动挂载，这算是 Linux 用户的基操吧，我就不赘述了，可以参考 &lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a> &lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>。&lt;/p>
 &lt;p>配置好之后重启（或者使用 &lt;code>sudo mount -a&lt;/code> 挂载新分区），进入 Steam 在新分区上创建游戏库即可。&lt;/p>
 &lt;hr>
-&lt;h2 id="安装双系统">安装双系统&lt;/h2>
-&lt;p>首先要明确自己有没有在 Steam Deck 上安装双系统的需求，我要装 Windows 是因为：&lt;/p>
+&lt;h2 id="安装双系统">安装双系统
+&lt;/h2>&lt;p>首先要明确自己有没有在 Steam Deck 上安装双系统的需求，我要装 Windows 是因为：&lt;/p>
 &lt;ul>
 &lt;li>有些 Windows 游戏不支持 SteamOS；&lt;/li>
 &lt;li>对于非 Steam 平台的游戏，使其在 SteamOS 上正常运行需要耗费一定的精力。&lt;/li>
 &lt;/ul>
-&lt;h3 id="第一步安装-windows">第一步：安装 Windows&lt;/h3>
-&lt;p>AtlasOS 相当于非官方的精简版 Windows，我觉得在侧重于游戏的 Steam Deck 上安装这个非常合适，LinusTechTips 也出过一期视频介绍它 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。
+&lt;h3 id="第一步安装-windows">第一步：安装 Windows
+&lt;/h3>&lt;p>AtlasOS 相当于非官方的精简版 Windows，我觉得在侧重于游戏的 Steam Deck 上安装这个非常合适，LinusTechTips 也出过一期视频介绍它 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。
 至于视频评论里提到的安全性问题我倒不太担心，因为我在这上面无非就是运行 Steam 和一些游戏，我知道自己在做什么，要是真出了问题重装就行。&lt;/p>
 &lt;p>安装 AtlasOS 的步骤参见 &lt;a id='ref-cite7-1' href='#cite7'>[7]&lt;/a>。我激活 Windows 时用的是学校的 KMS 服务。&lt;/p>
 &lt;p>&lt;strong>注意&lt;/strong>：安装 Windows 时使用的 ISO 文件只能从这个页面生成的链接下载，否则 Windows 版本对不上，到后面使用 AME Wizard 的时候会报错。
 我踩中了这个坑，浪费了一个小时。&lt;/p>
-&lt;h3 id="第二步安装驱动">第二步：安装驱动&lt;/h3>
-&lt;p>Steam Deck 上刚装好的 Windows 系统时没有音频输出的，原因是缺少相关驱动。
+&lt;h3 id="第二步安装驱动">第二步：安装驱动
+&lt;/h3>&lt;p>Steam Deck 上刚装好的 Windows 系统时没有音频输出的，原因是缺少相关驱动。
 此时要按照 Steam 的指南 &lt;sup>&lt;a id='ref-cite8-1' href='#cite8'>[8]&lt;/a>&lt;/sup> 下载并安装里面提供的所有驱动。&lt;/p>
 &lt;p>可是装完驱动后我发现屏幕亮度的调节还是存在一些问题：Windows 里调整亮度的范围比 SteamOS 的小好多，不过这不太影响日常使用，所以我就没管了。&lt;/p>
-&lt;h3 id="第三步双系统的常见问题">第三步：双系统的常见问题&lt;/h3>
-&lt;p>目前遇到两个，这是安装双系统的计算机都会遇到的问题，并非 Steam Deck 独有的：&lt;/p>
+&lt;h3 id="第三步双系统的常见问题">第三步：双系统的常见问题
+&lt;/h3>&lt;p>目前遇到两个，这是安装双系统的计算机都会遇到的问题，并非 Steam Deck 独有的：&lt;/p>
 &lt;ol>
 &lt;li>双系统时间不一致，解决方法可以参考 &lt;a id='ref-cite9-1' href='#cite9'>[9]&lt;/a>；&lt;/li>
-&lt;li>双系统无法共享蓝牙设备，解决方法参考 &lt;a id='ref-cite10-1' href='#cite10'>[10]&lt;/a>。&lt;/li>
+&lt;li>双系统无法共享蓝牙设备，解决方法参考 &lt;a id='ref-cite10-1' href='#cite10'>[10]&lt;/a>；&lt;/li>
+&lt;li>在 Linux 内无法访问双系统共享磁盘，解决方法是关闭 Windows 的快速启动，参见 &lt;a id='ref-cite11-1' href='#cite11'>[11]&lt;/a>。&lt;/li>
 &lt;/ol>
-&lt;h3 id="第四步安装辅助工具">第四步：安装辅助工具&lt;/h3>
-&lt;p>Steam Deck Tools &lt;sup>&lt;a id='ref-cite11-1' href='#cite11'>[11]&lt;/a>&lt;/sup> 提供了改善在 Steam Deck 上使用 Windows 体验的一系列工具，包括手柄模拟，性能监视器，TDP控制等。
+&lt;h3 id="第四步安装辅助工具">第四步：安装辅助工具
+&lt;/h3>&lt;p>Steam Deck Tools &lt;sup>&lt;a id='ref-cite12-1' href='#cite12'>[12]&lt;/a>&lt;/sup> 提供了改善在 Steam Deck 上使用 Windows 体验的一系列工具，包括手柄模拟，性能监视器，TDP控制等。
 其中手柄模拟（Steam Controller）我觉得是必要的。&lt;/p>
 &lt;hr>
-&lt;h2 id="相关问题">相关问题&lt;/h2>
-&lt;h3 id="steamos更新后引导消失">SteamOS更新后引导消失&lt;/h3>
-&lt;p>近日我更新了 SteamOS 版本，更新后 SteamOS 从启动项菜单消失了，最终按照 &lt;a id='ref-cite12-1' href='#cite12'>[12]&lt;/a> 提供的修复方法成功恢复启动项。&lt;/p>
+&lt;h2 id="相关问题">相关问题
+&lt;/h2>&lt;h3 id="steamos更新后引导消失">SteamOS更新后引导消失
+&lt;/h3>&lt;p>近日我更新了 SteamOS 版本，更新后 SteamOS 从启动项菜单消失了，最终按照 &lt;a id='ref-cite13-1' href='#cite13'>[13]&lt;/a> 提供的修复方法成功恢复启动项。&lt;/p>
 &lt;hr>
-&lt;h2 id="相关资料">相关资料&lt;/h2>
-&lt;h3 id="参考资料">参考资料&lt;/h3>
-&lt;style>
+&lt;h2 id="相关资料">相关资料
+&lt;/h2>&lt;h3 id="参考资料">参考资料
+&lt;/h3>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -507,15 +508,19 @@ alt="home分区使用情况"
 >Linux 与 Windows 双系统共享蓝牙鼠标 - 南浦月&lt;/a>&lt;a href="#ref-cite10-1">⤶&lt;/a>&lt;/span>
 &lt;/div>&lt;div id="cite11" class="bib-item">
 &lt;span>[11]&lt;/span>
-&lt;span>&lt;a class="link" href="https://steam-deck-tools.ayufan.dev/" target="_blank" rel="noopener"
->README | (Windows) Steam Deck Tools&lt;/a>&lt;a href="#ref-cite11-1">⤶&lt;/a>&lt;/span>
+&lt;span>&lt;a class="link" href="https://www.howtohi.com/zh-CN/ultimate-guide-how-to-turn-off-fast-startup-in-windows-10-11.html" target="_blank" rel="noopener"
+>终极指南：如何在 Windows 10/11 中关闭快速启动 - HowToHi&lt;/a>&lt;a href="#ref-cite11-1">⤶&lt;/a>&lt;/span>
 &lt;/div>&lt;div id="cite12" class="bib-item">
 &lt;span>[12]&lt;/span>
+&lt;span>&lt;a class="link" href="https://steam-deck-tools.ayufan.dev/" target="_blank" rel="noopener"
+>README | (Windows) Steam Deck Tools&lt;/a>&lt;a href="#ref-cite12-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite13" class="bib-item">
+&lt;span>[13]&lt;/span>
 &lt;span>&lt;a class="link" href="https://www.bilibili.com/read/cv26620174/" target="_blank" rel="noopener"
->Steamdeck双系统系统引导通用修复指南——以SteamOS更新掉引导为例 - 哔哩哔哩&lt;/a>&lt;a href="#ref-cite12-1">⤶&lt;/a>&lt;/span>
+>Steamdeck双系统系统引导通用修复指南——以SteamOS更新掉引导为例 - 哔哩哔哩&lt;/a>&lt;a href="#ref-cite13-1">⤶&lt;/a>&lt;/span>
 &lt;/div>&lt;/div>
-&lt;h3 id="其它资料">其它资料&lt;/h3>
-&lt;ul>
+&lt;h3 id="其它资料">其它资料
+&lt;/h3>&lt;ul>
 &lt;li>&lt;a class="link" href="https://store.steampowered.com/steamdeck" target="_blank" rel="noopener"
 >Steam Deck™&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://store.steampowered.com/greatondeck" target="_blank" rel="noopener"
@@ -532,41 +537,41 @@ alt="home分区使用情况"
 >SteamDeck双系统启动项一键替换为Refind - 哔哩哔哩&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://www.bilibili.com/read/cv19037197" target="_blank" rel="noopener"
 >SteamDeck Windows 和 Steamos 共享游戏库教程 - 哔哩哔哩&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>我折腾NAS的历程（一）：树莓派</title><link>https://blog.furffisite.link/p/nas-1/</link><pubDate>Mon, 21 Aug 2023 14:46:05 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821143533-8f90300e7a87f5103e8c13359c0ce9a7-a82cd.jpg" alt="Featured image of post 我折腾NAS的历程（一）：树莓派" />&lt;p>我开始折腾NAS的原因很简单——笔记本的存储空间不够了，当时固态硬盘的价格远没有现在这么便宜，移动硬盘随身携带有点麻烦，所以就想给硬盘连上网，这样只要有网就能访问。&lt;/p>
-&lt;p>当时是2021年3月，我手边有闲置的树莓派Raspberry Pi 3B+（19年花￥279买的），于是一个很朴素的想法就形成了——买一个SATA-USB的硬盘盒连接机械硬盘，再给树莓派连上网线，做成一个简陋的NAS（后来才知道有NAS这个名字）。我后来也的确是这么操作的，硬盘盒买的绿联的，花了￥99。使用后发现树莓派3B+的USB2.0接口太慢了，于是半年后（2021.9）加钱买了带USB3的树莓派4B，花了￥578（当时这个价格已经很贵了，想不通为什么自己那个时候决定要买），所以这一套不算硬盘的价格是￥677。&lt;/p>
-&lt;p>我使用的操作系统是树莓派官方提供的&lt;a class="link" href="https://www.raspberrypi.com/software/operating-systems/" target="_blank" rel="noopener"
+&lt;/ul></description></item><item><title>我折腾 NAS 的历程（一）：树莓派</title><link>https://blog.furffisite.link/p/nas-1/</link><pubDate>Mon, 21 Aug 2023 14:46:05 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821143533-8f90300e7a87f5103e8c13359c0ce9a7-a82cd.jpg" alt="Featured image of post 我折腾 NAS 的历程（一）：树莓派" />&lt;p>我开始折腾NAS的原因很简单——笔记本的存储空间不够了，当时固态硬盘的价格远没有现在这么便宜，移动硬盘随身携带有点麻烦，所以就想给硬盘连上网，这样只要有网就能访问。&lt;/p>
+&lt;p>当时是2021年3月，我手边有闲置的树莓派 3B+（19 年花 ￥279 买的），于是一个很朴素的想法就形成了——买一个 SATA-USB 的硬盘盒连接机械硬盘，再给树莓派连上网线，做成一个简陋的 NAS（后来才知道有 NAS 这个名字）。我后来也的确是这么操作的，硬盘盒买的绿联的，花了￥99。使用后发现树莓派 3B+ 的 USB2.0 接口太慢了，于是半年后（2021.9）买了带 USB3 的树莓派4B，花了￥578（当时这个价格已经很贵了，想不通为什么自己那个时候决定要买），所以这一套不算硬盘的价格是￥677。&lt;/p>
+&lt;p>我使用的操作系统是树莓派官方提供的 &lt;a class="link" href="https://www.raspberrypi.com/software/operating-systems/" target="_blank" rel="noopener"
 >Raspbian&lt;/a>，在上面安装了&lt;/p>
 &lt;ol>
 &lt;li>samba（文件服务）、&lt;/li>
 &lt;li>&lt;a class="link" href="https://github.com/Furffico/bililiveRecorder" target="_blank" rel="noopener"
 >自己写的录播姬&lt;/a>、&lt;/li>
 &lt;li>&lt;a class="link" href="https://hub.docker.com/r/p3terx/aria2-pro" target="_blank" rel="noopener"
->aria2&lt;/a>（BT下载）、&lt;/li>
+>aria2&lt;/a>（BT 下载）、&lt;/li>
 &lt;li>Coredns（因为学校的DNS服务器挂过一次）。&lt;/li>
 &lt;/ol>
-&lt;p>我认为树莓派作为NAS主要的优点是：&lt;/p>
+&lt;p>我认为树莓派作为 NAS 主要的优点是：&lt;/p>
 &lt;ul>
 &lt;li>结构简单，插电就能用，且易于携带；&lt;/li>
 &lt;li>耗电量很低；&lt;/li>
-&lt;li>自带GPIO接口，可以外接一些LED或LCD 1602显示服务器状态等，或是增加传感器以收集数据，这对于“折腾类”玩家又是一个可折腾的点。&lt;/li>
+&lt;li>自带 GPIO 接口，可以外接一些 LED 或 LCD 1602 显示服务器状态等，或是增加传感器以收集数据，这对于“折腾类”玩家又是一个可折腾的点。&lt;/li>
 &lt;/ul>
 &lt;p>缺点是：&lt;/p>
 &lt;ul>
-&lt;li>第一，它的cpu是32位arm架构的，这导致许多没有提供32位arm版本的程序它都无法运行，例如qbittorrent、数据库、jellyfin等，而受限于其性能，从源代码编译这条路也不简单（当然也可以使用docker buildx跨平台编译，但是当时的我还不会搞这些）；&lt;/li>
+&lt;li>第一，它的 CPU 是 32 位 arm 架构的，这导致许多没有提供 32 位 arm 版本的程序它都无法运行，例如 qbittorrent、数据库、jellyfin 等，而受限于其性能，从源代码编译这条路也不简单（当然也可以使用 docker buildx 跨平台编译，但是当时的我还不会搞这些）；&lt;/li>
 &lt;li>第二，性能太弱；&lt;/li>
 &lt;li>第三，性价比不高。&lt;/li>
 &lt;/ul>
-&lt;p>相较于其优点，它的缺点还是太突出了，于是我在一年后（2022.10）换了&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >amd64架构的NAS&lt;/a>。&lt;/p></description></item><item><title>我折腾NAS的历程（二）：淘宝工控机</title><link>https://blog.furffisite.link/p/nas-2/</link><pubDate>Sun, 20 Aug 2023 10:22:44 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-2/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821152623-0e0e9fdf80c6f1c9ffeee0f80f808e1e-60da9.jpg" alt="Featured image of post 我折腾NAS的历程（二）：淘宝工控机" />&lt;p>时值2022年国庆节，我在淘宝翻了很久，找x86/amd64的NAS方案，最终相中了淘宝某家店卖的“青春版黑群晖”，CPU+主板+风扇+4GB 内存+亚克力外壳一共只要￥285，外带黑群晖的引导盘。这个价格很吸引我，于是我没过多考虑就下单了。&lt;/p>
-&lt;p>货到之后发现这个主板似乎是工控机里拆出来的，CPU是12年Q1出的Atom D2550。主板上只有一个SATA口，其余的被拆掉了，于是商家增加了一个SATA转M.2接口的板子插在（疑似）M.2口上，这样就能支持双硬盘了。因为我想让硬盘完全用来存储数据，所以我又花￥56.9买了一个64GB的小U盘用来存储操作系统。&lt;/p>
-&lt;p>操作系统选的是Ubuntu Server 16.04，理由是相较于商家提供的黑群晖，我更熟悉Ubuntu。软件和服务方面安装了samba、jellyfin、qbittorrent、coredns等。&lt;/p>
-&lt;p>这个价格我很是满意，但是这台NAS的性能不比树莓派高多少，毕竟是十年前的处理器，导致它在一些高负载的情况下（例如Jellyfin使用ffmpeg转码播放视频）有些力不从心，播放时异常卡顿，所以在今年六月的时候趁购物节&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >自己组了一台&lt;/a>。换了新的之后发现，性能上去了，能同时跑的服务就多了很多，可以真的把它当作一台服务器来用了。&lt;/p></description></item><item><title>我折腾NAS的历程（三）：捡垃圾自组</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾NAS的历程（三）：捡垃圾自组" />&lt;p>组这台NAS前的事情：&lt;/p>
+&lt;p>相较于其优点，它的缺点还是太突出了，于是我在一年后（2022.10）换了&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >amd64架构的NAS&lt;/a>。&lt;/p></description></item><item><title>我折腾 NAS 的历程（二）：淘宝工控机</title><link>https://blog.furffisite.link/p/nas-2/</link><pubDate>Sun, 20 Aug 2023 10:22:44 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-2/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821152623-0e0e9fdf80c6f1c9ffeee0f80f808e1e-60da9.jpg" alt="Featured image of post 我折腾 NAS 的历程（二）：淘宝工控机" />&lt;p>时值 2022 年国庆节，我在淘宝翻了很久，找 x86/amd64 的 NAS 方案，最终相中了淘宝某家店卖的“青春版黑群晖”，CPU+主板+风扇+4GB 内存+亚克力外壳一共只要 ￥285，外带黑群晖的引导盘。这个价格很吸引我，于是我没过多考虑就下单了。&lt;/p>
+&lt;p>货到之后发现这个主板似乎是工控机里拆出来的，CPU 是 12 年 Q1 出的 Atom D2550。主板上只有一个 SATA 口，其余的被拆掉了，于是商家增加了一个 SATA 转 M.2 接口的板子插在（疑似）M.2 口上，这样就能支持双硬盘了。因为我想让硬盘完全用来存储数据，所以我又花 ￥56.9 买了一个 64GB 的小 U 盘用来存储操作系统。&lt;/p>
+&lt;p>操作系统选的是 Ubuntu Server 16.04，理由是相较于商家提供的黑群晖，我更熟悉 Ubuntu。软件和服务方面安装了 samba、jellyfin、qbittorrent、coredns 等。&lt;/p>
+&lt;p>这个价格我很是满意，但是这台 NAS 的性能不比树莓派高多少，毕竟是十年前的处理器，导致它在一些高负载的情况下（例如 Jellyfin 使用 ffmpeg 转码播放视频）有些力不从心，播放时异常卡顿，所以在今年六月的时候趁购物节&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >自己组了一台&lt;/a>。换了新的之后发现，性能上去了，能同时跑的服务就多了很多，可以真的把它当作一台服务器来用了。&lt;/p></description></item><item><title>我折腾 NAS 的历程（三）：捡垃圾自组</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾 NAS 的历程（三）：捡垃圾自组" />&lt;p>组这台 NAS 前的事情：&lt;/p>
 &lt;ul>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" >&lt;em>我折腾NAS的历程（一）&lt;/em>&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >&lt;em>我折腾NAS的历程（二）&lt;/em>&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;h2 id="理论">理论&lt;/h2>
-&lt;h3 id="装机配置单">装机配置单&lt;/h3>
-&lt;table>
+&lt;h2 id="理论">理论
+&lt;/h2>&lt;h3 id="装机配置单">装机配置单
+&lt;/h3>&lt;table>
 &lt;thead>
 &lt;tr>
 &lt;th>&lt;/th>
@@ -582,7 +587,7 @@ alt="home分区使用情况"
 &lt;td>CPU&lt;/td>
 &lt;td>Intel&lt;/td>
 &lt;td>E5-2660 v4&lt;/td>
-&lt;td>14核 2.0GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91772/intel-xeon-processor-e52660-v4-35m-cache-2-00-ghz/specifications.html" target="_blank" rel="noopener"
+&lt;td>14 核 2.0GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91772/intel-xeon-processor-e52660-v4-35m-cache-2-00-ghz/specifications.html" target="_blank" rel="noopener"
 >规格表&lt;/a>&lt;/td>
 &lt;td>¥52（洋垃圾）&lt;/td>
 &lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=653447092309" target="_blank" rel="noopener"
@@ -639,13 +644,13 @@ alt="home分区使用情况"
 &lt;td>机箱&lt;/td>
 &lt;td>invasion&lt;/td>
 &lt;td>invasion X1&lt;/td>
-&lt;td>4盘位ITX&lt;/td>
+&lt;td>4盘位 ITX&lt;/td>
 &lt;td>¥244&lt;/td>
 &lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=631276021464" target="_blank" rel="noopener"
 >link&lt;/a>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>CPU散热器&lt;/td>
+&lt;td>CPU 散热器&lt;/td>
 &lt;td>零下30度&lt;/td>
 &lt;td>-&lt;/td>
 &lt;td>-&lt;/td>
@@ -657,7 +662,7 @@ alt="home分区使用情况"
 &lt;td>机箱风扇&lt;/td>
 &lt;td>航嘉&lt;/td>
 &lt;td>MVP120&lt;/td>
-&lt;td>1500RPM，支持PWM&lt;/td>
+&lt;td>1500 RPM，支持 PWM&lt;/td>
 &lt;td>¥75.95（三只装）&lt;/td>
 &lt;td>&lt;a class="link" href="https://detail.tmall.com/item.htm?id=657878805031" target="_blank" rel="noopener"
 >link&lt;/a>&lt;/td>
@@ -673,32 +678,32 @@ alt="home分区使用情况"
 &lt;/tbody>
 &lt;/table>
 &lt;p>*笔记本上拆下来的&lt;/p>
-&lt;h3 id="攒机理念">攒机理念&lt;/h3>
-&lt;p>目标：&lt;strong>省钱、性能还行、体积小、静音、保留一定的可升级性、尽量一手&lt;/strong>。&lt;/p>
-&lt;p>关于CPU，我在&lt;a class="link" href="https://www.cpubenchmark.net" target="_blank" rel="noopener"
+&lt;h3 id="攒机理念">攒机理念
+&lt;/h3>&lt;p>目标：&lt;strong>省钱、性能还行、体积小、静音、保留一定的可升级性、尽量一手&lt;/strong>。&lt;/p>
+&lt;p>关于 CPU，我在&lt;a class="link" href="https://www.cpubenchmark.net" target="_blank" rel="noopener"
 >CPUbenchmark&lt;/a>上按照跑分结果在E5的一系列洋垃圾型号中从高到低翻，最后看中了 E5-2660 v4。选择它有以下几点理由：&lt;/p>
 &lt;ol>
 &lt;li>其功耗相比与同系列其它型号较低；&lt;/li>
-&lt;li>E5-2660 v4为2016 Q4推出的，相对v3和v2要新一点；&lt;/li>
-&lt;li>其性价比在同型号中较高，52元16005分，相较于2690 v3的68元16505分更实惠。&lt;/li>
+&lt;li>E5-2660 v4 为 2016 Q4 推出的，相对 v3 和 v2 要新一点；&lt;/li>
+&lt;li>其性价比在同型号中较高，52 元 16005 分，相较于2690 v3 的 68 元 16505 分更实惠。&lt;/li>
 &lt;/ol>
-&lt;p>CPU定下来了之后，主板和内存也就相应的决定了。之所以主板不选二手是因为我想省点事，对于二手市场上可能遇到的众多问题我目前没有任何应对经验。而选择ITX是为了满足体积小的要求，毕竟宿舍里放不下太多东西。&lt;/p>
-&lt;p>关于系统盘，之前给笔记本升级外存的时候拆下来的原装SSD可以直接给它用。就算是买一个全新的也不会太贵，256GB买个二线厂的SSD应该也够用了。
-在装系统、进BIOS时显卡是必要的，作为服务器CPU的E5-2660 v4没有核心显卡，因此这里依然需要一张显卡。上淘宝一搜果然有卖亮机卡的，16元的价格也就不用纠结值不值了，能亮就行。为了能看到视频输出我还买了一个二十多的HDMI采集卡以代替显示器，事实证明二十块的画质果然不行。
-电源不敢买二手的，怕出问题。500W的电源相对于目前的整机功耗明显是过剩的，但这也为以后的升级保留了余量。
-最后是机箱，综合以上要求，机箱应该是体积小、轻便、便宜的多盘位ITX机箱，在淘宝上翻了一大圈只看到这一款同时满足这几点的。别的型号，例如蜗牛星际、御夫座、天箭座等都太贵了或者散热容量太小。两百多的机箱我觉得还是贵了点，可是也没找到更好的选择。&lt;/p>
-&lt;p>关于可升级性，这套配置中，CPU可以升级为24686分的E5-2699 v4（在价格降下来之后），还有三个位置可以加内存条，显卡可以升级，机箱和电源以后也能用于装游戏电脑。&lt;/p>
-&lt;h2 id="实践">实践&lt;/h2>
-&lt;h3 id="装机过程">装机过程&lt;/h3>
-&lt;p>装机过程中遇到的问题有四：&lt;/p>
+&lt;p>CPU 定下来了之后，主板和内存也就相应的决定了。之所以主板不选二手是因为我想省点事，对于二手市场上可能遇到的众多问题我目前没有任何应对经验。而选择 ITX 是为了满足体积小的要求，毕竟宿舍里放不下太多东西。&lt;/p>
+&lt;p>关于系统盘，之前给笔记本升级外存的时候拆下来的原装 SSD 可以直接给它用。就算是买一个全新的也不会太贵，256GB 买个二线厂的 SSD 应该也够用了。
+在装系统、进 BIOS 时显卡是必要的，作为服务器 CPU 的 E5-2660 v4 没有核心显卡，因此这里依然需要一张显卡。上淘宝一搜果然有卖亮机卡的，16 元的价格也就不用纠结值不值了，能亮就行。为了能看到视频输出我还买了一个二十多的 HDMI 采集卡以代替显示器，事实证明二十块的画质果然不行。
+电源不敢买二手的，怕出问题。500W 的电源相对于目前的整机功耗明显是过剩的，但这也为以后的升级保留了余量。
+最后是机箱，综合以上要求，机箱应该是体积小、轻便、便宜的多盘位 ITX 机箱，在淘宝上翻了一大圈只看到这一款同时满足这几点的。别的型号，例如蜗牛星际、御夫座、天箭座等都太贵了或者散热容量太小。两百多的机箱我觉得还是贵了点，可是也没找到更好的选择。&lt;/p>
+&lt;p>关于可升级性，这套配置中，CPU 可以升级为 24686 分的 E5-2699 v4（在价格降下来之后），还有三个位置可以加内存条，显卡可以升级，机箱和电源以后也能用于装游戏电脑。&lt;/p>
+&lt;h2 id="实践">实践
+&lt;/h2>&lt;h3 id="装机过程">装机过程
+&lt;/h3>&lt;p>装机过程中遇到的问题有四：&lt;/p>
 &lt;ol>
-&lt;li>CPU散热器的螺丝是弯的（可能是制造问题），要用钳子扳直了才能安装；&lt;/li>
-&lt;li>机箱自带的硬盘笼和主板电源插槽有2mm左右的overlap，装完之后硬盘笼有一点点变形。得益于硬盘架的减震机构，这个变形产生的影响不大；&lt;/li>
-&lt;li>主板下部的插槽和机箱风扇有冲突，前面板USB-3的线插不进去，但对于NAS而言这根线不插问题也不大；&lt;/li>
-&lt;li>华南金牌的这款主板的主板风扇插槽只有3针，不支持PWM，直接插MVP120的话满转速噪音非常大。我最后用一拖三的线把所有风扇都接到了支持PWM的CPU风扇插槽上，这样就安静了很多（之后又进BIOS调整了一下温度-转速曲线）。&lt;/li>
+&lt;li>CPU 散热器的螺丝是弯的（可能是制造问题），要用钳子扳直了才能安装；&lt;/li>
+&lt;li>机箱自带的硬盘笼和主板电源插槽有 2mm 左右的 overlap，装完之后硬盘笼有一点点变形。得益于硬盘架的减震机构，这个变形产生的影响不大；&lt;/li>
+&lt;li>主板下部的插槽和机箱风扇有冲突，前面板 USB-3 的线插不进去，但对于 NAS 而言这根线不插问题也不大；&lt;/li>
+&lt;li>华南金牌的这款主板的主板风扇插槽只有 3 针，不支持 PWM，直接插 MVP120 的话满转速噪音非常大。我最后用一拖三的线把所有风扇都接到了支持 PWM 的 CPU 风扇插槽上，这样就安静了很多（之后又进BIOS 调整了一下温度-转速曲线）。&lt;/li>
 &lt;/ol>
-&lt;h3 id="操作系统">操作系统&lt;/h3>
-&lt;p>因为我最熟悉的Linux发行版是Ubuntu，所以我安装了Ubuntu 22.04.2 LTS（服务器版）。&lt;/p>
+&lt;h3 id="操作系统">操作系统
+&lt;/h3>&lt;p>因为我最熟悉的 Linux 发行版是 Ubuntu，所以我安装了 Ubuntu 22.04.2 LTS（服务器版）。&lt;/p>
 &lt;p>系统盘分区如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -718,9 +723,9 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">swap 958271488 1000214527 41943040 20G Linux swap
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="测试">测试&lt;/h3>
-&lt;p>整机待机时CPU核心平均温度为30°C，满载时为55°C，说明散热还是有很大的余量的。服务正常运行时插座上测量到的功率在68W左右，CPU满载时约140W。&lt;/p>
-&lt;p>使用sysbench的测试结果如下，和我现役的游戏本相比我觉得这个成绩还算可以接受：&lt;/p>
+&lt;/div>&lt;h3 id="测试">测试
+&lt;/h3>&lt;p>整机待机时 CPU 核心平均温度为 30°C，满载时为 55°C，说明散热还是有很大的余量的。服务正常运行时插座上测量到的功率在 68W 左右，CPU满载时约 140W。&lt;/p>
+&lt;p>使用 sysbench 的测试结果如下，和我现役的游戏本相比我觉得这个成绩还算可以接受：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -787,10 +792,10 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> execution time (avg/stddev): 599.9078/0.00
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="软件部分">软件部分&lt;/h2>
-&lt;h3 id="docker">Docker&lt;/h3>
-&lt;p>最先安装的是Docker，因为有了Docker之后别的应用都可以使用Docker镜像安装和管理。&lt;/p>
-&lt;p>在Ubuntu上安装Docker只需使用官方提供的安装脚本&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>：&lt;/p>
+&lt;/div>&lt;h2 id="软件部分">软件部分
+&lt;/h2>&lt;h3 id="docker">Docker
+&lt;/h3>&lt;p>最先安装的是 Docker，因为有了 Docker 之后别的应用都可以使用 Docker 镜像安装和管理。&lt;/p>
+&lt;p>在 Ubuntu 上安装Docker只需使用官方提供的安装脚本&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -801,8 +806,8 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo sh get-docker.sh
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="修改docker数据位置">修改Docker数据位置&lt;/h4>
-&lt;p>Docker的数据默认储存在&lt;code>/var/lib/docker&lt;/code>内，我想将其移到&lt;code>/srv&lt;/code>文件系统内，操作如下：&lt;/p>
+&lt;/div>&lt;h4 id="修改docker数据位置">修改Docker数据位置
+&lt;/h4>&lt;p>Docker 的数据默认储存在 &lt;code>/var/lib/docker&lt;/code> 内，我想将其移到 &lt;code>/srv&lt;/code> 文件系统内，操作如下：&lt;/p>
 &lt;ol>
 &lt;li>关闭&lt;code>docker&lt;/code>服务：&lt;code>systemctl stop docker&lt;/code>&lt;/li>
 &lt;li>移动文件：&lt;code>sudo mv /var/lib/docker /srv/&lt;/code>&lt;/li>
@@ -810,10 +815,10 @@ alt="home分区使用情况"
 &lt;li>修改配置文件，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加配置：&lt;code>{&amp;quot;data-root&amp;quot;: &amp;quot;/srv/docker&amp;quot;}&lt;/code>&lt;/li>
 &lt;li>启动&lt;code>docker&lt;/code>服务：&lt;code>systemctl start docker&lt;/code>&lt;/li>
 &lt;/ol>
-&lt;h4 id="使用docker国内镜像源">使用Docker国内镜像源&lt;/h4>
-&lt;p>阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 &lt;a class="link" href="https://aliyun.com" target="_blank" rel="noopener"
+&lt;h4 id="使用docker国内镜像源">使用Docker国内镜像源
+&lt;/h4>&lt;p>阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 &lt;a class="link" href="https://aliyun.com" target="_blank" rel="noopener"
 >https://aliyun.com&lt;/a> 登录阿里云帐号，然后在 &lt;strong>控制台 &amp;gt; 容器镜像服务 &amp;gt; 镜像工具 &amp;gt; 镜像加速器&lt;/strong> 处可以获取加速器的地址及修改镜像源的方法。&lt;/p>
-&lt;p>此外也有一些开放的镜像源，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加如下属性&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>：&lt;/p>
+&lt;p>此外也有一些开放的镜像源，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加如下属性 &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -837,8 +842,8 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>修改后使用 &lt;code>systemctl restart docker&lt;/code> 重启docker服务即可。&lt;/p>
-&lt;h4 id="手动下载镜像">手动下载镜像&lt;/h4>
-&lt;p>如果替换了镜像源之后也拉不动镜像的话，可以试试 &lt;a class="link" href="https://github.com/moby/moby" target="_blank" rel="noopener"
+&lt;h4 id="手动下载镜像">手动下载镜像
+&lt;/h4>&lt;p>如果替换了镜像源之后也拉不动镜像的话，可以试试 &lt;a class="link" href="https://github.com/moby/moby" target="_blank" rel="noopener"
 >Moby Project&lt;/a> 提供的镜像下载脚本下载镜像：&lt;a class="link" href="https://github.com/moby/moby/blob/master/contrib/download-frozen-image-v2.sh" target="_blank" rel="noopener"
 >link&lt;/a>&lt;/p>
 &lt;p>使用例：&lt;/p>
@@ -879,9 +884,9 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Loaded image: alpine:latest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>即可让docker导入镜像。&lt;/p>
-&lt;h3 id="samba">samba&lt;/h3>
-&lt;div class="highlight">&lt;div class="chroma">
+&lt;/div>&lt;p>即可让 docker 导入镜像。&lt;/p>
+&lt;h3 id="samba">samba
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
@@ -889,7 +894,7 @@ alt="home分区使用情况"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo apt install samba
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>安装后使用&lt;code>smbpasswd -a &amp;lt;username&amp;gt;&lt;/code>为用户添加samba的访问密码，其中&lt;code>&amp;lt;username&amp;gt;&lt;/code>必须为已经在Linux内注册的用户。&lt;/p>
+&lt;/div>&lt;p>安装后使用&lt;code>smbpasswd -a &amp;lt;username&amp;gt;&lt;/code>为用户添加 samba 的访问密码，其中&lt;code>&amp;lt;username&amp;gt;&lt;/code>必须为已经在 Linux 内注册的用户。&lt;/p>
 &lt;p>配置文件为&lt;code>/etc/samba/smb.conf&lt;/code>，配置项可参考&lt;a class="link" href="https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html" target="_blank" rel="noopener"
 >官方文档&lt;/a>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -910,12 +915,12 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">valid users = &amp;lt;users&amp;gt;
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="jellyfin">jellyfin&lt;/h3>
-&lt;p>jellyfin是数字媒体管理与串流软件，它支持浏览器、Android、iOS、Android TV等许多客户端，可以在这些客户端上便捷地观看服务端存储的内容，这也是我攒这台NAS的主要目的。E5-2660 v4的性能足以支持jellyfin流畅编解码超高清资源（软解，不过目前看来也没有专门为这个买GPU的必要了）。&lt;/p>
+&lt;/div>&lt;h3 id="jellyfin">jellyfin
+&lt;/h3>&lt;p>jellyfin 是数字媒体管理与串流软件，它支持浏览器、Android、iOS、Android TV 等许多客户端，可以在这些客户端上便捷地观看服务端存储的内容，这也是我攒这台 NAS 的主要目的。E5-2660 v4 的性能足以支持 jellyfin 流畅编解码超高清资源（软解，不过目前看来也没有专门为这个买 GPU 的必要了）。&lt;/p>
 &lt;p>可以使用&lt;a class="link" href="https://hub.docker.com/r/jellyfin/jellyfin" target="_blank" rel="noopener"
->官方的docker镜像&lt;/a>或者&lt;a class="link" href="https://hub.docker.com/r/linuxserver/jellyfin" target="_blank" rel="noopener"
->linuxserver.io制作的镜像&lt;/a>来安装jellyfin。&lt;/p>
-&lt;p>为了便于我管理和配置，所有的Docker容器都将使用docker compose启动。这是jellyfin的&lt;code>docker-compose.yaml&lt;/code>：&lt;/p>
+>官方的 docker 镜像&lt;/a>或者&lt;a class="link" href="https://hub.docker.com/r/linuxserver/jellyfin" target="_blank" rel="noopener"
+>linuxserver.io 制作的镜像&lt;/a>来安装 jellyfin。&lt;/p>
+&lt;p>为了便于我管理和配置，所有的 Docker 容器都将使用 docker compose 启动。这是 jellyfin 的&lt;code>docker-compose.yaml&lt;/code>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -970,8 +975,8 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">8G&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="qbittorrent">qbittorrent&lt;/h3>
-&lt;p>qbittorrent是用于bt下载的软件。linuxserver.io也打包了qbittorrent的镜像，使用这个镜像运行即可。我的&lt;code>docker-compose.yaml&lt;/code>如下：&lt;/p>
+&lt;/div>&lt;h3 id="qbittorrent">qbittorrent
+&lt;/h3>&lt;p>qbittorrent 是用于 bt 下载的软件。linuxserver.io 也打包了 qbittorrent 的镜像，使用这个镜像运行即可。我的&lt;code>docker-compose.yaml&lt;/code>如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1032,11 +1037,11 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">1G&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="frpc">frpc&lt;/h3>
-&lt;p>内网穿透工具的客户端，我用的是&lt;a class="link" href="https://hub.docker.com/r/snowdreamtech/frpc" target="_blank" rel="noopener"
+&lt;/div>&lt;h3 id="frpc">frpc
+&lt;/h3>&lt;p>内网穿透工具的客户端，我用的是&lt;a class="link" href="https://hub.docker.com/r/snowdreamtech/frpc" target="_blank" rel="noopener"
 >下载量最高的镜像&lt;/a>。&lt;/p>
-&lt;h3 id="coredns">coredns&lt;/h3>
-&lt;p>DNS服务器，因为学校的DNS以前崩过，所以装一个备用。&lt;a class="link" href="https://hub.docker.com/r/coredns/coredns" target="_blank" rel="noopener"
+&lt;h3 id="coredns">coredns
+&lt;/h3>&lt;p>DNS 服务器，因为学校的 DNS 以前崩过，所以装一个备用。&lt;a class="link" href="https://hub.docker.com/r/coredns/coredns" target="_blank" rel="noopener"
 >官方镜像&lt;/a>即可。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1078,7 +1083,7 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">100M&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>53端口可能和ubuntu的systemd-resolved服务冲突，在启动容器前需要先关闭这个服务：&lt;/p>
+&lt;/div>&lt;p>53 端口可能和 ubuntu 的 systemd-resolved 服务冲突，在启动容器前需要先关闭这个服务：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1089,7 +1094,7 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo systemctl stop systemd-resolved
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>coredns结合nginx/Apache转发与一些路由器的设置就可以实现内网域名（不用记端口号了），例如：&lt;/p>
+&lt;/div>&lt;p>coredns 结合 nginx/Apache 转发与一些路由器的设置就可以实现内网域名（不用记端口号了），例如：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1134,29 +1139,29 @@ alt="home分区使用情况"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这样在局域网直接访问 &lt;code>http://jellyfin.server.local&lt;/code> 就可以进入jellyfin的界面了。&lt;/p>
-&lt;p>&lt;em>注：关闭systemd-resolved服务之后在使用KVM时可能会遇到一些问题。&lt;/em>&lt;/p>
-&lt;h3 id="grafana--prometheus">Grafana &amp;amp; Prometheus&lt;/h3>
-&lt;p>&lt;a class="link" href="https://grafana.com/" target="_blank" rel="noopener"
->Grafana&lt;/a>和&lt;a class="link" href="https://prometheus.io/" target="_blank" rel="noopener"
->Prometheus&lt;/a>这两个开源软件组合在一起可以用来监控服务器状态（不过在自用的NAS上搞这个可能意义不大）。之前没了解过这些软件，因此这部分完全是按照&lt;a class="link" href="https://geekflare.com/prometheus-grafana-setup-for-linux/" target="_blank" rel="noopener"
->教程&lt;/a>安装的，其中Grafana不涉及数据收集，可以在Docker容器中运行。&lt;/p>
-&lt;p>除了这两个软件，我还安装了&lt;a class="link" href="https://github.com/prometheus/node_exporter" target="_blank" rel="noopener"
->node exporter&lt;/a>和&lt;a class="link" href="https://github.com/google/cadvisor" target="_blank" rel="noopener"
->cadvisor&lt;/a>，分别收集服务器系统与Docker容器的统计信息。&lt;/p>
-&lt;p>装好之后，我以node exporter为基础改出了这样的dashboard：
+&lt;/div>&lt;p>这样在局域网直接访问 &lt;code>http://jellyfin.server.local&lt;/code> 就可以进入 jellyfin 的界面了。&lt;/p>
+&lt;p>&lt;em>注：关闭 systemd-resolved 服务之后在使用 KVM 时可能会遇到一些问题。&lt;/em>&lt;/p>
+&lt;h3 id="grafana--prometheus">Grafana &amp;amp; Prometheus
+&lt;/h3>&lt;p>&lt;a class="link" href="https://grafana.com/" target="_blank" rel="noopener"
+>Grafana&lt;/a> 和 &lt;a class="link" href="https://prometheus.io/" target="_blank" rel="noopener"
+>Prometheus&lt;/a> 这两个开源软件组合在一起可以用来监控服务器状态（不过在自用的 NAS 上搞这个可能意义不大）。之前没了解过这些软件，因此这部分完全是按照&lt;a class="link" href="https://geekflare.com/prometheus-grafana-setup-for-linux/" target="_blank" rel="noopener"
+>教程&lt;/a>安装的，其中 Grafana 不涉及数据收集，可以在 Docker 容器中运行。&lt;/p>
+&lt;p>除了这两个软件，我还安装了 &lt;a class="link" href="https://github.com/prometheus/node_exporter" target="_blank" rel="noopener"
+>node exporter&lt;/a> 和 &lt;a class="link" href="https://github.com/google/cadvisor" target="_blank" rel="noopener"
+>cadvisor&lt;/a>，分别收集服务器系统与 Docker 容器的统计信息。&lt;/p>
+&lt;p>装好之后，我以 node exporter 为基础改出了这样的 dashboard：
 &lt;img src="https://files.furffisite.link/blogimg/20230623223905-8a11623bf1549c06e503742374b7f39c-d92f1.png"
 loading="lazy"
 >&lt;/p>
-&lt;h3 id="数据库">数据库&lt;/h3>
-&lt;p>有一些服务（例如&lt;a class="link" href="https://github.com/go-gitea/gitea" target="_blank" rel="noopener"
->gitea&lt;/a>和自己写的爬虫）的数据是存储在数据库中的，我比较喜欢将这些数据放在同一个数据库服务端内（而非给每个有需要的应用都运行一个数据库），以便于数据的管理，同时减少系统占用。&lt;/p>
-&lt;p>关于关系型数据库，我使用的是&lt;a class="link" href="https://mariadb.org/" target="_blank" rel="noopener"
->mariadb&lt;/a>（MySQL的一个衍生版本）。关于镜像的版本，建议使用一个固定的版本号（而非latest），因为在不同版本的mariadb之间迁移数据还是比较麻烦的。&lt;/p>
-&lt;p>关于数据库的管理端，我以前常用的是&lt;a class="link" href="https://www.phpmyadmin.net/" target="_blank" rel="noopener"
->phpmyadmin&lt;/a>，这次想试试别的，所以使用了&lt;a class="link" href="https://hub.docker.com/_/mariadb" target="_blank" rel="noopener"
->官方docker镜像页&lt;/a>里提到的&lt;a class="link" href="https://hub.docker.com/_/adminer" target="_blank" rel="noopener"
->adminer&lt;/a>。其功能虽不如phpmyadmin丰富，界面也不如它美观，但是我平时会用到的基础操作（建表、查看数据、SQL查询、导出数据）它都有，缺少的功能可以直接用SQL语句凑嘛~&lt;/p>
+&lt;h3 id="数据库">数据库
+&lt;/h3>&lt;p>有一些服务（例如 &lt;a class="link" href="https://github.com/go-gitea/gitea" target="_blank" rel="noopener"
+>gitea&lt;/a> 和自己写的爬虫）的数据是存储在数据库中的，我比较喜欢将这些数据放在同一个数据库服务端内（而非给每个有需要的应用都运行一个数据库），以便于数据的管理，同时减少系统占用。&lt;/p>
+&lt;p>关于关系型数据库，我使用的是 &lt;a class="link" href="https://mariadb.org/" target="_blank" rel="noopener"
+>mariadb&lt;/a>（MySQL的一个衍生版本）。关于镜像的版本，建议使用一个固定的版本号（而非 latest），因为在不同版本的 mariadb 之间迁移数据还是比较麻烦的。&lt;/p>
+&lt;p>关于数据库的管理端，我以前常用的是 &lt;a class="link" href="https://www.phpmyadmin.net/" target="_blank" rel="noopener"
+>phpmyadmin&lt;/a>，这次想试试别的，所以使用了 &lt;a class="link" href="https://hub.docker.com/_/mariadb" target="_blank" rel="noopener"
+>官方docker镜像页&lt;/a> 里提到的 &lt;a class="link" href="https://hub.docker.com/_/adminer" target="_blank" rel="noopener"
+>adminer&lt;/a>。其功能虽不如 phpmyadmin 丰富，界面也不如它美观，但是我平时会用到的基础操作（建表、查看数据、SQL 查询、导出数据）它都有，缺少的功能可以直接用 SQL 语句凑嘛~&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1199,18 +1204,18 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">8080&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">8080&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>如果服务需要，也可以使用docker运行非关系型数据库&lt;a class="link" href="https://www.mongodb.com/" target="_blank" rel="noopener"
->MongoDB&lt;/a>和&lt;a class="link" href="https://redis.io/" target="_blank" rel="noopener"
+&lt;/div>&lt;p>如果服务需要，也可以使用 docker 运行非关系型数据库 &lt;a class="link" href="https://www.mongodb.com/" target="_blank" rel="noopener"
+>MongoDB&lt;/a> 和 &lt;a class="link" href="https://redis.io/" target="_blank" rel="noopener"
 >redis&lt;/a>。&lt;/p>
-&lt;h3 id="minecraft服务器-papermc">Minecraft服务器 （papermc）&lt;/h3>
-&lt;p>选了docker hub里搜索排名靠前的 &lt;a class="link" href="https://hub.docker.com/r/marctv/minecraft-papermc-server" target="_blank" rel="noopener"
+&lt;h3 id="minecraft-服务器-papermc">Minecraft 服务器 （papermc）
+&lt;/h3>&lt;p>选了 docker hub 里搜索排名靠前的 &lt;a class="link" href="https://hub.docker.com/r/marctv/minecraft-papermc-server" target="_blank" rel="noopener"
 >marctv/minecraft-papermc-server&lt;/a>。&lt;/p>
 &lt;p>用了之后才发现，&lt;a class="link" href="https://papermc.io/" target="_blank" rel="noopener"
->papermc&lt;/a>是&lt;a class="link" href="https://www.spigotmc.org/" target="_blank" rel="noopener"
->SpigotMC&lt;/a>的分支，旨在提供原生Minecraft的体验。也就是说它不支持以前我在玩Minecraft时耳熟能详的那些Forge版mod，只支持服务器端的bukkit插件（plugin）。好处是相比与Forge服务器占用更小，并且不挑客户端，只要客户端Minecraft版本和服务器一致就能连上。
-配置好之后，使用frpc转发25565端口到公网，就可以愉快地和朋友们一起玩啦。&lt;/p>
-&lt;h4 id="后台管理">后台管理&lt;/h4>
-&lt;p>在docker-compose.yaml中对应的service配置里加上&lt;/p>
+>papermc&lt;/a> 是 &lt;a class="link" href="https://www.spigotmc.org/" target="_blank" rel="noopener"
+>SpigotMC&lt;/a> 的分支，旨在提供原生 Minecraft 的体验。也就是说它不支持以前我在玩 Minecraft 时耳熟能详的那些 Forge 版 mod，只支持服务器端的 bukkit 插件（plugin）。好处是相比与 Forge 服务器占用更小，并且不挑客户端，只要客户端 Minecraft 版本和服务器一致就能连上。
+配置好之后，使用 frpc 转发 25565 端口到公网，就可以愉快地和朋友们一起玩啦。&lt;/p>
+&lt;h4 id="后台管理">后台管理
+&lt;/h4>&lt;p>在 docker-compose.yaml 中对应的 service 配置里加上&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1242,13 +1247,13 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>进入服务器后台，使用指令管理服务器。&lt;/p>
-&lt;h4 id="配置">配置&lt;/h4>
-&lt;p>papermc相比于原版服务端修复了活塞相关的一些“特性”，例如使用活塞复制物品等，并在配置文件中默认限制这些行为，导致刷地毯机/破基岩等原版可行的操作在papermc服务端内不可用。当然这样对于服主而言确实可以防止玩家做出越界的行为，但是对于我这种只有几个朋友在一起玩的服务器，就不需要限制这些了。关闭限制的方式很简单，修改数据目录下的&lt;code>paper.yml&lt;/code>，将&lt;code>allow-headless-pistons&lt;/code>、&lt;code>allow-permanent-block-break-exploits&lt;/code>和&lt;code>allow-piston-duplication&lt;/code>三项设置为&lt;code>true&lt;/code>即可。&lt;/p>
-&lt;h4 id="安装插件">安装插件&lt;/h4>
-&lt;p>Papermc支持的插件可以在 &lt;a class="link" href="https://hangar.papermc.io/" target="_blank" rel="noopener"
+&lt;h4 id="配置">配置
+&lt;/h4>&lt;p>papermc 相比于原版服务端修复了活塞相关的一些“特性”，例如使用活塞复制物品等，并在配置文件中默认限制这些行为，导致刷地毯机/破基岩等原版可行的操作在 papermc 服务端内不可用。当然这样对于服主而言确实可以防止玩家做出越界的行为，但是对于我这种只有几个朋友在一起玩的服务器，就不需要限制这些了。关闭限制的方式很简单，修改数据目录下的&lt;code>paper.yml&lt;/code>，将&lt;code>allow-headless-pistons&lt;/code>、&lt;code>allow-permanent-block-break-exploits&lt;/code>和&lt;code>allow-piston-duplication&lt;/code>三项设置为&lt;code>true&lt;/code>即可。&lt;/p>
+&lt;h4 id="安装插件">安装插件
+&lt;/h4>&lt;p>Papermc 支持的插件可以在 &lt;a class="link" href="https://hangar.papermc.io/" target="_blank" rel="noopener"
 >Hanger&lt;/a>、&lt;a class="link" href="https://dev.bukkit.org/bukkit-plugins" target="_blank" rel="noopener"
 >bukkit&lt;/a>或&lt;a class="link" href="https://www.spigotmc.org/resources/" target="_blank" rel="noopener"
->SpigotMC&lt;/a>下载。下载对应版本的jar文件放到 /data/plugins 文件夹下（或者直接使用 wget/curl 下载），然后重启服务器，在启动时如果新增的插件没有报错误信息，那大概率是没问题的。&lt;/p>
+>SpigotMC&lt;/a>下载。下载对应版本的 jar 文件放到 /data/plugins 文件夹下（或者直接使用 wget/curl 下载），然后重启服务器，在启动时如果新增的插件没有报错误信息，那大概率是没问题的。&lt;/p>
 &lt;p>目前加了这些插件：&lt;/p>
 &lt;ul>
 &lt;li>Minepacks：背包插件；&lt;/li>
@@ -1272,10 +1277,10 @@ loading="lazy"
 &lt;li>LaggRemover：减少服务器卡顿；&lt;/li>
 &lt;li>BlueMap: 地图插件，提供了美观的在线3D地图；&lt;/li>
 &lt;li>&lt;a class="link" href="https://github.com/Cubxity/UnifiedMetrics" target="_blank" rel="noopener"
->UnifiedMetrics&lt;/a>：数据收集插件，支持前述的Prometheus。&lt;/li>
+>UnifiedMetrics&lt;/a>：数据收集插件，支持前述的 Prometheus。&lt;/li>
 &lt;/ul>
-&lt;h2 id="参考资料">参考资料&lt;/h2>
-&lt;style>
+&lt;h2 id="参考资料">参考资料
+&lt;/h2>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -1289,14 +1294,14 @@ loading="lazy"
 &lt;span>[2]&lt;/span>
 &lt;span>Docker 换源 - 腾讯云开发者社区 | &lt;a class="link" href="https://cloud.tencent.com/developer/article/1769231" target="_blank" rel="noopener"
 >https://cloud.tencent.com/developer/article/1769231&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;/div></description></item><item><title>解决Linux系统深色模式下的Zotero显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;p>因为Linux端的Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
->AUR&lt;/a>）中有一部分元素的样式是由GTK控制的，因此当系统的GTK主题为深色主题时，Zotero的界面会呈现为这个样子：
+&lt;/div>&lt;/div></description></item><item><title>解决 Linux 系统深色模式下的 Zotero 显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240527150719-58fa3bf91a709e8e208c96720f0aeca2-547a4.jpg" alt="Featured image of post 解决 Linux 系统深色模式下的 Zotero 显示问题" />&lt;p>因为 Linux 端的 Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
+>AUR&lt;/a>）中有一部分元素的样式是由 GTK 控制的，因此当系统的 GTK 主题为深色主题时，Zotero 的界面会呈现为这个样子：
 &lt;img src="https://files.furffisite.link/blogimg/2023-05-13_13-32-08.png"
 loading="lazy"
 >&lt;/p>
 &lt;p>这不是很好看，并且部分区域内文字和背景色的对比度很低，导致文字难以阅读。&lt;/p>
 &lt;p>根据&lt;a class="link" href="https://forums.zotero.org/discussion/98693/theme-issue-some-parts-of-zoteros-gui-on-linux-are-controlled-by-gtk" target="_blank" rel="noopener"
->这个帖子&lt;/a>，解决方案是通过环境变量在程序启动时指定其使用的GTK主题，也就是：&lt;/p>
+>这个帖子&lt;/a>，解决方案是通过环境变量在程序启动时指定其使用的 GTK 主题，也就是：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1305,7 +1310,7 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ &lt;span class="nv">GTK_THEME&lt;/span>&lt;span class="o">=&lt;/span>Pop-light zotero
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>反映到Desktop文件上（通常位于&lt;code>/usr/share/applications/&lt;/code>和&lt;code>~/.local/share/applications/&lt;/code>），就是在启动指令（Exec项）前加入&lt;code>env GTK_THEME=Pop-light&lt;/code>。&lt;/p>
+&lt;/div>&lt;p>反映到 Desktop 文件上（通常位于&lt;code>/usr/share/applications/&lt;/code>和&lt;code>~/.local/share/applications/&lt;/code>），就是在启动指令（Exec 项）前加入&lt;code>env GTK_THEME=Pop-light&lt;/code>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1322,35 +1327,35 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">...&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这样操作后，通过应用启动器打开的Zotero就不会有问题了。&lt;/p></description></item><item><title>使用starship定制终端提示符</title><link>https://blog.furffisite.link/p/use-starship/</link><pubDate>Fri, 06 Jan 2023 16:24:31 +0800</pubDate><guid>https://blog.furffisite.link/p/use-starship/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230109230402-9ec5accbc75f863015a4dca68f9f9870-cc3be.jpg" alt="Featured image of post 使用starship定制终端提示符" />&lt;p>&lt;a class="link" href="https://starship.rs/" target="_blank" rel="noopener"
+&lt;/div>&lt;p>这样操作后，通过应用启动器打开的 Zotero 就不会有问题了。&lt;/p></description></item><item><title>使用starship定制终端提示符</title><link>https://blog.furffisite.link/p/use-starship/</link><pubDate>Fri, 06 Jan 2023 16:24:31 +0800</pubDate><guid>https://blog.furffisite.link/p/use-starship/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230109230402-9ec5accbc75f863015a4dca68f9f9870-cc3be.jpg" alt="Featured image of post 使用starship定制终端提示符" />&lt;p>&lt;a class="link" href="https://starship.rs/" target="_blank" rel="noopener"
 >starship&lt;/a>&lt;a class="link" href="https://github.com/starship/starship" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
 &lt;/span>&lt;/a>
-是使用Rust编写的轻量且迅速的终端提示符程序，其功能和作用与&lt;a class="link" href="https://ohmyz.sh/" target="_blank" rel="noopener"
+是使用 Rust 编写的轻量且迅速的终端提示符程序，其功能和作用与 &lt;a class="link" href="https://ohmyz.sh/" target="_blank" rel="noopener"
 >Oh My Zsh&lt;/a>&lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
 &lt;/span>&lt;/a>
-相似，但是相比于Oh My Zsh，starship具有以下优点：&lt;/p>
+相似，但是相比于 Oh My Zsh，starship 具有以下优点：&lt;/p>
 &lt;ol>
-&lt;li>starship是跨平台跨终端的，其支持Bash、Zsh、Fish等十几种终端，甚至包括Windows的PowerShell与cmd；&lt;/li>
-&lt;li>使用编译型语言Rust编写的starship在运行速度上优于基于shell script的Oh My Zsh；&lt;/li>
-&lt;li>starship的自定义配置方法比Oh My Zsh简单。&lt;/li>
+&lt;li>starship 是跨平台跨终端的，其支持 Bash、Zsh、Fish 等十几种终端，甚至包括 Windows 的 PowerShell 与 cmd；&lt;/li>
+&lt;li>使用编译型语言 Rust 编写的 starship 在运行速度上优于基于 shell script 的 Oh My Zsh；&lt;/li>
+&lt;li>starship 的自定义配置方法比 Oh My Zsh 简单。&lt;/li>
 &lt;/ol>
-&lt;p>先上图，以下是我所习惯的配置的效果图。除当前用户、hostname和当前工作路径外，starship还显示了git状态、相关软件的版本、进程的返回码、运行时间、已用内存/虚拟内存和当前时间等信息。starfish是通过当前工作目录下的文件名判断应当展示哪些模组的，所以当我创建文件之后提示符上也就多出了相关软件的信息。&lt;/p>
+&lt;p>先上图，以下是我所习惯的配置的效果图。除当前用户、hostname 和当前工作路径外，starship 还显示了 git 状态、相关软件的版本、进程的返回码、运行时间、已用内存/虚拟内存和当前时间等信息。starfish 是通过当前工作目录下的文件名判断应当展示哪些模组的，所以当我创建文件之后提示符上也就多出了相关软件的信息。&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230106203308-193e5d500a6dd22eab5f893f5cd189f9-2ce2a.png"
 loading="lazy"
 >&lt;/p>
-&lt;p>下文将简述starship的安装方法，并给出我的配置文件。&lt;/p>
-&lt;h2 id="安装">安装&lt;/h2>
-&lt;p>本文仅适用于在Linux下的bash和zsh终端安装starship，在其它终端的安装方法请参见&lt;a class="link" href="https://starship.rs/zh-CN/guide/#%F0%9F%9A%80-%E5%AE%89%E8%A3%85" target="_blank" rel="noopener"
->starship的官方文档&lt;/a>。&lt;/p>
-&lt;p>首先使用官方脚本在Linux系统内安装starship程序：&lt;/p>
+&lt;p>下文将简述 starship 的安装方法，并给出我的配置文件。&lt;/p>
+&lt;h2 id="安装">安装
+&lt;/h2>&lt;p>本文仅适用于在 Linux 下的 bash 和 zsh 终端安装 starship，在其它终端的安装方法请参见 &lt;a class="link" href="https://starship.rs/zh-CN/guide/#%F0%9F%9A%80-%E5%AE%89%E8%A3%85" target="_blank" rel="noopener"
+>starship 的官方文档&lt;/a>。&lt;/p>
+&lt;p>首先使用官方脚本在 Linux 系统内安装 starship 程序：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1359,8 +1364,8 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ curl -sS https://starship.rs/install.sh &lt;span class="p">|&lt;/span> sh
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这时如果在终端输入&lt;code>starship -V&lt;/code>能看到starship的版本信息，就说明程序安装成功了。&lt;/p>
-&lt;p>然后需要配置终端程序，使其能使用starship作为提示符。在&lt;code>~/.bashrc&lt;/code>（bash终端）或&lt;code>~/.zshrc&lt;/code>（zsh终端）内加入这一行即可：&lt;/p>
+&lt;/div>&lt;p>这时如果在终端输入&lt;code>starship -V&lt;/code>能看到 starship 的版本信息，就说明程序安装成功了。&lt;/p>
+&lt;p>然后需要配置终端程序，使其能使用 starship 作为提示符。在&lt;code>~/.bashrc&lt;/code>（bash 终端）或&lt;code>~/.zshrc&lt;/code>（zsh 终端）内加入这一行即可：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1369,23 +1374,23 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">eval&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>starship init bash&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="配置">配置&lt;/h2>
-&lt;p>starship的配置文件是&lt;code>~/.config/starship.toml&lt;/code>，你也可以通过设置环境变量&lt;code>STARSHIP_CONFIG&lt;/code>改变此文件的位置。在终端输入&lt;code>starship config&lt;/code>可以直接打开该文件。&lt;/p>
-&lt;p>由后缀名可知，starship的配置文件为TOML文件，遵守TOML语法，关于TOML语法本文就不赘述了，若需要了解详情请移步&lt;a class="link" href="https://toml.io/cn/" target="_blank" rel="noopener"
->TOML官网&lt;/a>。&lt;/p>
-&lt;p>starship是分模块的结构，starship生成的提示符中的每一个部分都对应starship的一个模块，你可以使用&lt;code>starship explain&lt;/code>指令查看各模块的说明及其运行时间，例如以我当前的配置输入该命令后效果如下：&lt;/p>
+&lt;/div>&lt;h2 id="配置">配置
+&lt;/h2>&lt;p>starship的配置文件是&lt;code>~/.config/starship.toml&lt;/code>，你也可以通过设置环境变量&lt;code>STARSHIP_CONFIG&lt;/code>改变此文件的位置。在终端输入&lt;code>starship config&lt;/code>可以直接打开该文件。&lt;/p>
+&lt;p>由后缀名可知，starship 的配置文件为 TOML 文件，遵守 TOML 语法，关于 TOML 语法本文就不赘述了，若需要了解详情请移步 &lt;a class="link" href="https://toml.io/cn/" target="_blank" rel="noopener"
+>TOML 官网&lt;/a>。&lt;/p>
+&lt;p>starship 是分模块的结构，starship 生成的提示符中的每一个部分都对应 starship 的一个模块，你可以使用&lt;code>starship explain&lt;/code>指令查看各模块的说明及其运行时间，例如以我当前的配置输入该命令后效果如下：&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230106221937-dc59edf0c7890819bbebff31fdf566e2-1269a.png"
 loading="lazy"
 >&lt;/p>
-&lt;p>关于如何自定义配置，starship的官方文档已经写的很完善了，参见 &lt;a class="link" href="https://starship.rs/zh-CN/config/" target="_blank" rel="noopener"
+&lt;p>关于如何自定义配置，starship 的官方文档已经写的很完善了，参见 &lt;a class="link" href="https://starship.rs/zh-CN/config/" target="_blank" rel="noopener"
 >https://starship.rs/zh-CN/config/&lt;/a>。&lt;/p>
-&lt;p>starship在官方文档里已经给出了&lt;a class="link" href="https://starship.rs/presets/" target="_blank" rel="noopener"
->一些预设&lt;/a>，你可以以你喜欢的预设为基础进行定制，例如我的配置就是在Bracketed Segments和Nerd Font Symbols预设之上按照自己的习惯所做的更改。我的&lt;code>starship.toml&lt;/code>如下：&lt;/p>
-&lt;p>另外，使用Nerd Font Symbols需要Nerd Font，请前往 &lt;a class="link" href="https://www.nerdfonts.com/font-downloads" target="_blank" rel="noopener"
+&lt;p>starship 在官方文档里已经给出了&lt;a class="link" href="https://starship.rs/presets/" target="_blank" rel="noopener"
+>一些预设&lt;/a>，你可以以你喜欢的预设为基础进行定制，例如我的配置就是在 Bracketed Segments 和 Nerd Font Symbols 预设之上按照自己的习惯所做的更改。我的&lt;code>starship.toml&lt;/code>如下：&lt;/p>
+&lt;p>另外，使用 Nerd Font Symbols 需要 Nerd Font，请前往 &lt;a class="link" href="https://www.nerdfonts.com/font-downloads" target="_blank" rel="noopener"
 >https://www.nerdfonts.com/font-downloads&lt;/a> 下载你习惯的字体对应的图标字体，并在虚拟终端中将其设为默认字体。&lt;/p>
 &lt;script src="https://gist.github.com/Furffico/f63e63cc192d77ca3c6bb5347f0a1d63.js">&lt;/script>
-&lt;h2 id="相关问题">相关问题&lt;/h2>
-&lt;p>在使用Anaconda管理Python的虚拟环境时，Anaconda会自动在提示符前加上当前虚拟环境的名称，如&lt;code>(base)&lt;/code>，这与starship冲突了（且starship的conda模块提供了相同的功能），因此需要使用如下指令禁用Anaconda的这个功能。&lt;/p>
+&lt;h2 id="相关问题">相关问题
+&lt;/h2>&lt;p>在使用 Anaconda 管理 Python 的虚拟环境时，Anaconda 会自动在提示符前加上当前虚拟环境的名称，如&lt;code>(base)&lt;/code>，这与 starship 冲突了（且 starship 的 conda 模块提供了相同的功能），因此需要使用如下指令禁用 Anaconda 的这个功能。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1

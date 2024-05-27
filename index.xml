@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Furffiblog</title><link>https://blog.furffisite.link/</link><description>Recent content on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 23 May 2024 16:01:12 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/index.xml" rel="self" type="application/rss+xml"/><item><title>Apple Music 曲库迁移</title><link>https://blog.furffisite.link/p/applemusic-transfer/</link><pubDate>Thu, 23 May 2024 16:01:12 +0800</pubDate><guid>https://blog.furffisite.link/p/applemusic-transfer/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240523203808-9f4a7d937672d53fbc1a7174037c6f64-581fc.jpg" alt="Featured image of post Apple Music 曲库迁移" />&lt;h2 id="背景">背景&lt;/h2>
-&lt;p>刚上大学的时候，我考虑到日区的 Apple Music 版本可选的歌曲更多，而且各种服务也更给力&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Furffiblog</title><link>https://blog.furffisite.link/</link><description>Recent content on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 23 May 2024 16:01:12 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/index.xml" rel="self" type="application/rss+xml"/><item><title>Apple Music 曲库迁移</title><link>https://blog.furffisite.link/p/applemusic-transfer/</link><pubDate>Thu, 23 May 2024 16:01:12 +0800</pubDate><guid>https://blog.furffisite.link/p/applemusic-transfer/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240523203808-9f4a7d937672d53fbc1a7174037c6f64-581fc.jpg" alt="Featured image of post Apple Music 曲库迁移" />&lt;h2 id="背景">背景
+&lt;/h2>&lt;p>刚上大学的时候，我考虑到日区的 Apple Music 版本可选的歌曲更多，而且各种服务也更给力&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>。
 于是我就开通了日区的会员，因为有学生优惠，每月也就花 580 &lt;strong>日元&lt;/strong>（约 25 人民币）。
 但现在毕业在即，我开始怀疑我到研究生阶段还能不能继续享受这个优惠。而日区会员原价要每月 1080 日元（约 50 人民币），这超出我的可接受范围了。
 此外，最近淘宝上苹果日区 App Store 的充值卡不是很好找，而我日区账户的余额也要见底了。
@@ -13,13 +13,14 @@
 &lt;li>从源账户获取歌曲&lt;/li>
 &lt;li>将歌曲添加到新账户&lt;/li>
 &lt;/ol>
-&lt;p>这需要操作者&lt;strong>有一定的编程和爬虫基础&lt;/strong>，本文只是讲述我的思路和操作流程，我也没有将其整理成通用的代码的想法。本文的方法与账户所在的区域无关，因此理论上也适用于其它区域间的和相同区域不同账户之间的迁移。&lt;/p>
-&lt;h2 id="第一步从源账户获取歌曲">第一步：从源账户获取歌曲&lt;/h2>
-&lt;p>我积累了四年的账户里有歌曲 8441 首，它们分布在 1820 张专辑内，所以以专辑为单位迁移更合理一些。&lt;/p>
-&lt;p>得益于 Apple Music 的网页端，获取相关的API并不是什么难事：&lt;/p>
+&lt;p>这需要操作者&lt;strong>有一定的编程和爬虫基础&lt;/strong>，本文只是讲述我的思路和操作流程，我也没有将其整理成通用的代码的想法，&lt;strong>文中的脚本需要根据实际情况修改后才可以正常使用&lt;/strong>。
+本文的方法与账户所在的区域无关，因此理论上也适用于其它区域间的和相同区域不同账户之间的迁移。&lt;/p>
+&lt;h2 id="第一步从源账户获取歌曲">第一步：从源账户获取歌曲
+&lt;/h2>&lt;p>我积累了四年的账户里有歌曲 8441 首，它们分布在 1820 张专辑内，所以以专辑为单位迁移更合理一些。&lt;/p>
+&lt;p>得益于 Apple Music 的网页端，获取相关的 API 并不是什么难事：&lt;/p>
 &lt;ol>
 &lt;li>在浏览器内的 &lt;a class="link" href="https://music.apple.com/" target="_blank" rel="noopener"
->Apple Music网页端&lt;/a>登录源账户，打开调试工具，切换到 Network 页，过滤出XHR请求。&lt;/li>
+>Apple Music网页端&lt;/a>登录源账户，打开调试工具，切换到 Network 页，过滤出 XHR 请求。&lt;/li>
 &lt;li>点击“专辑/Albums”切换到专辑页，这时在调试工具内应该会出现一条 &lt;code>amp-api&lt;/code> 开头的请求：
 &lt;img src="https://files.furffisite.link/blogimg/20240523174431-b5b39700f6d62e42d12f27ec83098955-bb102.png"
 loading="lazy"
@@ -53,10 +54,10 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>有了API之后就可以循环请求获取完整列表了：&lt;/p>
+&lt;/div>&lt;p>有了 API 之后就可以循环请求获取完整列表了：&lt;/p>
 &lt;ol>
 &lt;li>请求参数里的 offset 项指定了偏移量，通过不断改变这个值可以获取完整的专辑列表。&lt;/li>
-&lt;li>在响应json最后的&lt;code>meta&lt;/code>项里有订阅的专辑总数，在我这里是 &lt;code>&amp;quot;meta&amp;quot;: {&amp;quot;total&amp;quot;: 1820, ...}&lt;/code>，即1820条，请求参数内 &lt;code>limit=100&lt;/code> 也就是每页有100条。根据这两个数值可以算出一共有19页，要请求19次。我也尝试了调高&lt;code>limit&lt;/code>，发现&lt;code>limit&amp;gt;100&lt;/code>时API会返回错误。&lt;/li>
+&lt;li>在响应json最后的 &lt;code>meta&lt;/code> 项里有订阅的专辑总数，在我这里是 &lt;code>&amp;quot;meta&amp;quot;: {&amp;quot;total&amp;quot;: 1820, ...}&lt;/code>，即1820条，请求参数内 &lt;code>limit=100&lt;/code> 也就是每页有 100 条。根据这两个数值可以算出一共有 19 页，要请求 19 次。我也尝试了调高 &lt;code>limit&lt;/code>，发现 &lt;code>limit&amp;gt;100&lt;/code> 时 API 会返回错误。&lt;/li>
 &lt;li>将前面复制的 curl 指令放到 &lt;code>.sh&lt;/code> 脚本内，写一个循环，例如：&lt;/li>
 &lt;/ol>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -88,10 +89,10 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;ol start="4">
-&lt;li>在终端用 bash 运行这个脚本，不一会资料库内的所有专辑的信息就都被保存到本地的 json 文件内了&lt;/li>
+&lt;li>在终端用 bash 运行这个脚本，不一会资料库内的所有专辑的信息就都被保存到本地的 json 文件内了。&lt;/li>
 &lt;/ol>
-&lt;h2 id="第二步将歌曲添加到新账户">第二步：将歌曲添加到新账户&lt;/h2>
-&lt;p>和上面类似，首先获取添加专辑的API：&lt;/p>
+&lt;h2 id="第二步将歌曲添加到新账户">第二步：将歌曲添加到新账户
+&lt;/h2>&lt;p>和上面类似，首先获取添加专辑的 API：&lt;/p>
 &lt;ol>
 &lt;li>&lt;strong>切换到目标账户&lt;/strong>，打开调试工具，切换到 Network 页，过滤出 XHR 请求。&lt;/li>
 &lt;li>在首页上随便找个专辑添加到资料库内，在调试工具内定位到这条请求：
@@ -100,7 +101,7 @@ loading="lazy"
 >&lt;/li>
 &lt;li>同上，复制 curl 指令到终端内尝试重放，成功。&lt;/li>
 &lt;/ol>
-&lt;p>分析请求URL：&lt;/p>
+&lt;p>分析请求 URL：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -109,9 +110,9 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">https://amp-api.music.apple.com/v1/me/library?art[url]=f&amp;amp;format[resources]=map&amp;amp;ids[albums]=1725057905&amp;amp;representation=ids
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>其中的&lt;code>1725057905&lt;/code>对应之前获取到的json文件里&lt;code>resources.albums&lt;/code>内的每个属性的名称，也就是每个专辑的id。
-由于URL内id是复数&lt;code>ids&lt;/code>，我便猜测能否同时添加多个专辑，将URL中的&lt;code>1725057905&lt;/code>替换为&lt;code>398320584,322934943&lt;/code>，重新发送请求，居然也成功了，说明我的猜测是对的。&lt;/p>
-&lt;p>有了这些基础，编写脚本就很容易了，首先使用 jq 解析之前保存的响应json，提取出其中&lt;code>resources.albums&lt;/code>内每一项的键值，使用逗号分隔输出并拼接到url内：&lt;/p>
+&lt;/div>&lt;p>其中的 &lt;code>1725057905&lt;/code> 对应之前获取到的 json 文件里 &lt;code>resources.albums&lt;/code> 内的每个属性的名称，也就是每个专辑的 ID。
+由于 URL 内 ID 是复数 &lt;code>ids&lt;/code>，我便猜测能否同时添加多个专辑，将URL中的 &lt;code>1725057905&lt;/code> 替换为 &lt;code>398320584,322934943&lt;/code>，重新发送请求，居然也成功了，说明我的猜测是对的。&lt;/p>
+&lt;p>有了这些基础，编写脚本就很容易了，首先使用 jq 解析之前保存的响应 json，提取出其中 &lt;code>resources.albums&lt;/code> 内每一项的键值，使用逗号分隔输出并拼接到 url 内：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -124,7 +125,7 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">url&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;https://amp-api.music.apple.com/.../...&amp;amp;ids%5Balbums%5D=&lt;/span>&lt;span class="nv">$ids&lt;/span>&lt;span class="s2">&amp;amp;...&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>放到之前的curl请求内，加上循环组成脚本，脚本里对每个 chunk 分段请求是因为一次增加 100 张专辑请求的响应会很慢：&lt;/p>
+&lt;/div>&lt;p>放到之前的 curl 请求内，加上循环组成脚本，脚本里对每个 chunk 分段请求是因为一次增加 100 张专辑请求的响应会很慢：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -168,8 +169,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>之后运行这个脚本，就可以看到自己源账户里的歌曲被慢慢添加到目标账户里了。&lt;/p>
-&lt;h2 id="哪些歌曲没成功迁移">哪些歌曲没成功迁移&lt;/h2>
-&lt;p>仿照第一步获取目标账户的所有专辑，然后写一些脚本就能看到有哪些歌曲没被成功迁移了，例如这个 python 程序：&lt;/p>
+&lt;h2 id="哪些歌曲没成功迁移">哪些歌曲没成功迁移
+&lt;/h2>&lt;p>仿照第一步获取目标账户的所有专辑，然后写一些脚本就能看到有哪些歌曲没被成功迁移了，例如这个 python 程序：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -208,15 +209,15 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ids&lt;/span>&lt;span class="p">))&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>我一共有338张专辑没有被成功迁移，这主要有三种情况：&lt;/p>
+&lt;/div>&lt;p>我一共有 338 张专辑没有被成功迁移，这主要有三种情况：&lt;/p>
 &lt;ol>
 &lt;li>Apple Music 国区没版权；&lt;/li>
 &lt;li>没有一模一样的，但是有不同版本的；&lt;/li>
-&lt;li>国区和日区都有，但是ID不同，例如 RADWIMPS 和 HOYO-MiX 的专辑。&lt;/li>
+&lt;li>国区和日区都有，但是 ID 不同，例如 RADWIMPS 和 HOYO-MiX 的专辑。&lt;/li>
 &lt;/ol>
 &lt;p>其中后两者靠手动搜索也可以慢慢添加回去，如果遇到了第一种那就真的没办法了。&lt;/p>
-&lt;h2 id="参考资料">参考资料&lt;/h2>
-&lt;style>
+&lt;h2 id="参考资料">参考资料
+&lt;/h2>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -264,8 +265,8 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">deny&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">0&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="背景">背景&lt;/h2>
-&lt;p>今天清晨我刚刚起床，在迷糊中想看看半夜挂机训练的模型的效果，于是抓起笔记本开机，输密码。结果因为我没睡醒，输错了三次密码，屏幕上跳出了这个提示：&lt;/p>
+&lt;/div>&lt;h2 id="背景">背景
+&lt;/h2>&lt;p>今天清晨我刚刚起床，在迷糊中想看看半夜挂机训练的模型的效果，于是抓起笔记本开机，输密码。结果因为我没睡醒，输错了三次密码，屏幕上跳出了这个提示：&lt;/p>
 &lt;center>
 &lt;img src="https://files.furffisite.link/blogimg/20240320145104-2443a1678e465bfd578c1d40d23648a7-29fb6.jpg" alt="The account is locked due to 3 failed logins. (10 minutes left to unlock)" style="width:50%;min-width:400px;"/>
 &lt;/center>
@@ -274,8 +275,8 @@ loading="lazy"
 >银狼&lt;/a>。）&lt;/p>
 &lt;p>哇！我用了一年多的 &lt;a class="link" href="http://endeavouros.com/" target="_blank" rel="noopener"
 >EndeavourOS&lt;/a> 第一次见到这个提示。再怎么说输错三次要锁 10 分钟也太无情了吧，如果我急着用怎么办。怎么改变这个设置呢？&lt;/p>
-&lt;h2 id="faillock-配置">faillock 配置&lt;/h2>
-&lt;p>由于我不知道这个部分具体是那个模块负责的，搜索的过程还是有一些波折的。在这个过程中，我发现登录界面（greeter）由 LightDM 的 greeter &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup> 提供，登录验证由 Pluggable Authentication Modules (PAM) &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 处理，账户锁定的部分则由 PAM 的模块&lt;code>pam_faillock.so&lt;/code>负责。前者的配置文件在 &lt;code>/etc/lightdm/&lt;/code> 文件夹下，文件名视所使用的 greeter 而定（我这里是&lt;code>slick-greeter.conf&lt;/code>），后者的配置文件是 &lt;code>/etc/security/faillock.conf&lt;/code>&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>.&lt;/p>
+&lt;h2 id="faillock-配置">faillock 配置
+&lt;/h2>&lt;p>由于我不知道这个部分具体是那个模块负责的，搜索的过程还是有一些波折的。在这个过程中，我发现登录界面（greeter）由 LightDM 的 greeter &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup> 提供，登录验证由 Pluggable Authentication Modules (PAM) &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 处理，账户锁定的部分则由 PAM 的模块&lt;code>pam_faillock.so&lt;/code>负责。前者的配置文件在 &lt;code>/etc/lightdm/&lt;/code> 文件夹下，文件名视所使用的 greeter 而定（我这里是&lt;code>slick-greeter.conf&lt;/code>），后者的配置文件是 &lt;code>/etc/security/faillock.conf&lt;/code>&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>.&lt;/p>
 &lt;p>使用 &lt;code>vim&lt;/code>、&lt;code>nano&lt;/code> 等文本编辑器以 root 权限打开 faillock 的配置文件：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -286,8 +287,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>可以发现默认的配置文件里（可能因发行版不同而有差异）已经解释了每一项配置及其作用，我们要做的只是取消对应行的注释，修改成我们想要的数值。&lt;/p>
-&lt;h3 id="账户锁定相关的配置">账户锁定相关的配置&lt;/h3>
-&lt;p>对于非共享的PC而言我觉得最重要的也就三项：&lt;code>deny&lt;/code>，&lt;code>fail_interval&lt;/code>和&lt;code>unlock_time&lt;/code>。这三项用一句话来概括就是：“&lt;code>deny&lt;/code>为&lt;code>0&lt;/code>时无论输错多少次都不会锁定账户，否则，在&lt;code>{fail_interval}&lt;/code>秒内连续密码错误&lt;code>{deny}&lt;/code>次会导致账户被锁定&lt;code>{unlock_time}&lt;/code>秒。”这三项的默认值分别是&lt;code>deny=3&lt;/code>，&lt;code>fail_interval=900&lt;/code>和&lt;code>unlock_time=600&lt;/code>&lt;/p>
+&lt;h3 id="账户锁定相关的配置">账户锁定相关的配置
+&lt;/h3>&lt;p>对于非共享的PC而言我觉得最重要的也就三项：&lt;code>deny&lt;/code>，&lt;code>fail_interval&lt;/code>和&lt;code>unlock_time&lt;/code>。这三项用一句话来概括就是：“&lt;code>deny&lt;/code>为&lt;code>0&lt;/code>时无论输错多少次都不会锁定账户，否则，在&lt;code>{fail_interval}&lt;/code>秒内连续密码错误&lt;code>{deny}&lt;/code>次会导致账户被锁定&lt;code>{unlock_time}&lt;/code>秒。”这三项的默认值分别是&lt;code>deny=3&lt;/code>，&lt;code>fail_interval=900&lt;/code>和&lt;code>unlock_time=600&lt;/code>&lt;/p>
 &lt;p>为了避免暴力破解，我没有将&lt;code>deny&lt;/code>设为 &lt;code>0&lt;/code>，以下是我的配置：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -304,10 +305,10 @@ loading="lazy"
 &lt;/div>&lt;p>因为比起默认的 10 分钟，1 分钟我觉得是兼顾了安全和便捷的选择。&lt;/p>
 &lt;p>另外，faillock 记录的登录失败次数默认是放在 &lt;code>/var/run/faillock&lt;/code> 内的，而这个文件夹处在临时文件系统 tmpfs 内，也就是说当账户因多次密码错误被锁定时，只要重启电脑就能解除锁定&lt;sup>&lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>&lt;/sup>。修改配置文件的&lt;code>dir&lt;/code>一项，将文件夹改到持久存储的文件系统内即可防止重启解除锁定（例如&lt;code>/var/lib/faillock&lt;/code>）。&lt;/p>
 &lt;p>我还试了一下，在默认情况下使用 ssh 远程登陆也是有可能触发账户锁定的（当然这个也取决于PAM的配置），当账户锁定时即使密码正确也会返回 &lt;code>Permission denied, please try again.&lt;/code>。&lt;/p>
-&lt;h3 id="root-相关的配置">root 相关的配置&lt;/h3>
-&lt;p>在默认情况下，为了防止 DOS 攻击， faillock 是不会锁定 root 账户的 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。开启 &lt;code>even_deny_root&lt;/code> 这一项则让 faillock 可以锁定 root 。使用 &lt;code>root_unlock_time&lt;/code> 可以为 root 账户单独设置锁定时间，并且设置这项会隐式开启&lt;code>even_deny_root&lt;/code>。&lt;/p>
-&lt;h3 id="日志相关的配置">日志相关的配置&lt;/h3>
-&lt;p>在命令行中使用：&lt;/p>
+&lt;h3 id="root-相关的配置">root 相关的配置
+&lt;/h3>&lt;p>在默认情况下，为了防止 DOS 攻击， faillock 是不会锁定 root 账户的 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。开启 &lt;code>even_deny_root&lt;/code> 这一项则让 faillock 可以锁定 root 。使用 &lt;code>root_unlock_time&lt;/code> 可以为 root 账户单独设置锁定时间，并且设置这项会隐式开启&lt;code>even_deny_root&lt;/code>。&lt;/p>
+&lt;h3 id="日志相关的配置">日志相关的配置
+&lt;/h3>&lt;p>在命令行中使用：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -356,8 +357,8 @@ loading="lazy"
 &lt;li>&lt;code>slient&lt;/code>：不打印 informative（信息丰富的？）消息（没试出来这个开了有什么区别）。&lt;/li>
 &lt;li>&lt;code>no_log_info&lt;/code>：不向系统日志打印 informative 消息。&lt;/li>
 &lt;/ul>
-&lt;h2 id="参考资料">参考资料&lt;/h2>
-&lt;style>
+&lt;h2 id="参考资料">参考资料
+&lt;/h2>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -387,8 +388,8 @@ loading="lazy"
 &lt;span>[6]&lt;/span>
 &lt;span>&lt;a class="link" href="https://man.archlinux.org/man/pam_faillock.8.en" target="_blank" rel="noopener"
 >pam_faillock(8) — Arch manual pages&lt;/a>&lt;a href="#ref-cite6-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;/div></description></item><item><title>【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem</title><link>https://blog.furffisite.link/p/read-papers/utsp/</link><pubDate>Tue, 12 Mar 2024 15:05:23 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/utsp/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240312193735-df25ede3714c69d2ea8b42ba9c39f7c9-755f3.jpg" alt="Featured image of post 【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem" />&lt;h2 id="论文信息">论文信息&lt;/h2>
-&lt;ul>
+&lt;/div>&lt;/div></description></item><item><title>【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem</title><link>https://blog.furffisite.link/p/read-papers/utsp/</link><pubDate>Tue, 12 Mar 2024 15:05:23 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/utsp/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240312193735-df25ede3714c69d2ea8b42ba9c39f7c9-755f3.jpg" alt="Featured image of post 【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem" />&lt;h2 id="论文信息">论文信息
+&lt;/h2>&lt;ul>
 &lt;li>标题： Unsupervised Learning for Solving the Travelling Salesman Problem&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;/li>
 &lt;li>作者： Yimeng Min, Yiwei Bai, Carla P. Gomes&lt;/li>
 &lt;li>会议： NeurIPS 2023&lt;/li>
@@ -397,8 +398,8 @@ loading="lazy"
 &lt;li>代码： &lt;a class="link" href="https://github.com/yimengmin/UTSP" target="_blank" rel="noopener"
 >https://github.com/yimengmin/UTSP&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;h2 id="utsp-算法">UTSP 算法&lt;/h2>
-&lt;p>作者认为理想的 heatmap $\mathcal{H}\in[0,1]^{n\times n}$ 应该表示TSP的最优解，即一条长度最短的汉密尔顿环路，也就是：&lt;/p>
+&lt;h2 id="utsp-算法">UTSP 算法
+&lt;/h2>&lt;p>作者认为理想的 heatmap $\mathcal{H}\in[0,1]^{n\times n}$ 应该表示 TSP 的最优解，即一条长度最短的汉密尔顿环路，也就是：&lt;/p>
 &lt;ol>
 &lt;li>$\mathcal{H}$ 作为邻接矩阵表示的图内有且仅有一条汉密尔顿环路；&lt;/li>
 &lt;li>$\mathcal{H}$ 表示的环路长度最短，即$$\min_\mathcal{H}\sum^n_{i=1}\sum^n_{j=1} \mathcal{H} _{ij}\cdot d _{ij}$$&lt;/li>
@@ -408,18 +409,18 @@ loading="lazy"
 同时作者也证明了这样形成的 heatmap 中至少有一条汉密尔顿环路，这样就满足了第一个条件的一半（有一条）。&lt;/p>
 &lt;p>至于剩下的一半（不超过一条），作者使用设计的 loss 函数鼓励网络减少环路数量：
 $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lambda_2 \sum^n _{i=1}\mathcal{H} _{ii} + \sum^n _{i=1}\sum^n _{j=1} \mathcal{H} _{ij}\cdot d _{ij}$$
-其中第一项鼓励 $\mathbb T$ 每行的和接近 $1$；第二项惩罚 $\mathcal{H}$ 中的自环；第三项对应上面的第二个条件，即让图里所有边的加权和尽可能小。最理想的情况下前两项都是$0$，$\mathcal L$等于TSP最优解的路径长度。UTSP 通过设置这样的 loss 函数，让神经网络输出的结果靠近理想的 heatmap。&lt;/p>
+其中第一项鼓励 $\mathbb T$ 每行的和接近 $1$；第二项惩罚 $\mathcal{H}$ 中的自环；第三项对应上面的第二个条件，即让图里所有边的加权和尽可能小。最理想的情况下前两项都是 $0$，$\mathcal L$等于TSP最优解的路径长度。UTSP 通过设置这样的 loss 函数，让神经网络输出的结果靠近理想的 heatmap。&lt;/p>
 &lt;p>此外，文章使用了 Scattering Attention GNN (SAG) 作为神经网络，在搜索前用 top-k 缩小搜索空间，并使用 Heat Map Guided Best-first Local Search 作为局部搜索方法。&lt;/p>
-&lt;h2 id="优势与局限性">优势与局限性&lt;/h2>
-&lt;p>根据文章，UTSP 的优势是：&lt;/p>
+&lt;h2 id="优势与局限性">优势与局限性
+&lt;/h2>&lt;p>根据文章，UTSP 的优势是：&lt;/p>
 &lt;ul>
-&lt;li>相比于有监督学习，UTSP不需要有标注的数据，相比于强化学习，UTSP的收敛速度更快（需要的样本数量更少）；&lt;/li>
+&lt;li>相比于有监督学习，UTSP 不需要有标注的数据，相比于强化学习，UTSP 的收敛速度更快（需要的样本数量更少）；&lt;/li>
 &lt;li>UTSP 直接从 heatmap 计算 loss，省去了强化学习依赖采样获得 reward 的过程；&lt;/li>
 &lt;li>通过结构设计保证输出的heatmap含有汉密尔顿环路；&lt;/li>
 &lt;li>神经网络很轻量化（TSP100 仅需两层 45k 个参数）；&lt;/li>
 &lt;li>可以有效地减小搜索空间。&lt;/li>
 &lt;/ul>
-&lt;p>我认为UTSP的局限性是：&lt;/p>
+&lt;p>我认为 UTSP 的局限性是：&lt;/p>
 &lt;ul>
 &lt;li>根据提供的实验数据，UTSP 即使有轻量化的网络，它生成 heatmap 需要的时间依然比 Att-GCRN&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup> 要长（为什么呢？）；&lt;/li>
 &lt;li>Soft indicator 是针对 TSP 的巧妙设计，只适用于解为汉密尔顿环的问题，并且 UTSP 需要针对问题精心设计 loss 函数，因此将 UTSP 迁移到别的组合优化问题时，相比于一些有监督学习和强化学习方法（分别可以通过有标签的数据和 reward 学习问题特征）需要更多工作。&lt;/li>
@@ -429,8 +430,8 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;li>在将边权重输入网络时，文章进行了预处理：$w_{ij}=e^{-d_{ij}/\tau}$，这样做除了将输入映射到 $(0,1]$ 之外，相比于直接输入 $w_{ij}=d_{ij}$ 还有什么作用嘛；&lt;/li>
 &lt;li>如果不采用 Soft indicator，实验结果会有多大变化。&lt;/li>
 &lt;/ul>
-&lt;h2 id="相关文献">相关文献&lt;/h2>
-&lt;style>
+&lt;h2 id="相关文献">相关文献
+&lt;/h2>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -443,15 +444,15 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;/div>&lt;div id="cite2" class="bib-item">
 &lt;span>[2]&lt;/span>
 &lt;span>Z.-H. Fu, K.-B. Qiu, and H. Zha, “Generalize a Small Pre-trained Model to Arbitrarily Large TSP Instances,” Proceedings of the AAAI Conference on Artificial Intelligence, vol. 35, no. 8, pp. 7474–7482, May 2021, doi: 10.1609/aaai.v35i8.16916.&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;/div></description></item><item><title>我折腾NAS的历程（四）：一些升级</title><link>https://blog.furffisite.link/p/nas-4/</link><pubDate>Sat, 09 Mar 2024 23:53:36 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-4/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240310022612-8671164f59f21e5d03de82e41e7073d5-7f2c7.jpg" alt="Featured image of post 我折腾NAS的历程（四）：一些升级" />&lt;p>之前的事情：&lt;/p>
+&lt;/div>&lt;/div></description></item><item><title>我折腾 NAS 的历程（四）：一些升级</title><link>https://blog.furffisite.link/p/nas-4/</link><pubDate>Sat, 09 Mar 2024 23:53:36 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-4/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240310022612-8671164f59f21e5d03de82e41e7073d5-7f2c7.jpg" alt="Featured image of post 我折腾 NAS 的历程（四）：一些升级" />&lt;p>之前的事情：&lt;/p>
 &lt;ul>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" >&lt;em>我折腾NAS的历程（一）&lt;/em>&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >&lt;em>我折腾NAS的历程（二）&lt;/em>&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >&lt;em>我折腾NAS的历程（三）&lt;/em>&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>本文以&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >上一篇的自组NAS&lt;/a>为基础，升级了一些配置，就性价比而言感觉这钱花得不算太值。&lt;/p>
-&lt;h2 id="硬件部分">硬件部分&lt;/h2>
-&lt;table>
+&lt;p>本文以&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >上一篇的自组 NAS&lt;/a> 为基础，升级了一些配置，就性价比而言感觉这钱花得不算太值。&lt;/p>
+&lt;h2 id="硬件部分">硬件部分
+&lt;/h2>&lt;table>
 &lt;thead>
 &lt;tr>
 &lt;th>&lt;/th>
@@ -466,7 +467,7 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;td>CPU&lt;/td>
 &lt;td>Intel&lt;/td>
 &lt;td>E5-2690 v4&lt;/td>
-&lt;td>14核 2.6GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91770/intel-xeon-processor-e52690-v4-35m-cache-2-60-ghz/specifications.html" target="_blank" rel="noopener"
+&lt;td>14 核 2.6GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91770/intel-xeon-processor-e52690-v4-35m-cache-2-60-ghz/specifications.html" target="_blank" rel="noopener"
 >规格表&lt;/a>&lt;/td>
 &lt;td>¥134（洋垃圾）&lt;/td>
 &lt;/tr>
@@ -474,7 +475,7 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;td>内存&lt;/td>
 &lt;td>Samsung&lt;/td>
 &lt;td>M386A4G40DM0-CPB&lt;/td>
-&lt;td>DDR4 2133MHz 32GB &lt;a class="link" href="https://semiconductor.samsung.com/cn/dram/module/lrdimm/m386a4g40dm0-cpb/" target="_blank" rel="noopener"
+&lt;td>DDR4 2133 MHz 32GB &lt;a class="link" href="https://semiconductor.samsung.com/cn/dram/module/lrdimm/m386a4g40dm0-cpb/" target="_blank" rel="noopener"
 >规格表&lt;/a>&lt;/td>
 &lt;td>¥155（洋垃圾）&lt;/td>
 &lt;/tr>
@@ -495,8 +496,8 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;h3 id="cpu">CPU&lt;/h3>
-&lt;p>同样是按照&lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#%e6%b5%8b%e8%af%95" >之前的&lt;/a>设置，使用&lt;code>sysbench&lt;/code>粗测的对比如下：&lt;/p>
+&lt;h3 id="cpu">CPU
+&lt;/h3>&lt;p>同样是按照&lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#%e6%b5%8b%e8%af%95" >之前的&lt;/a>设置，使用&lt;code>sysbench&lt;/code>粗测的对比如下：&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
@@ -524,20 +525,20 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;p>考虑到这两块CPU除了主频和功耗外几乎一致，性能成比例地提升确实是预料之中。也就是说我为了 30% 的性能提升多花了 157.7% 的钱，性价比不算高，
+&lt;p>考虑到这两块 CPU 除了主频和功耗外几乎一致，性能成比例地提升确实是预料之中。也就是说我为了 30% 的性能提升多花了 157.7% 的钱，性价比不算高，
 不过主频的提升对于一些多线程优化不好的任务（例如 &lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#minecraft%e6%9c%8d%e5%8a%a1%e5%99%a8-papermc" >Minecraft 服务器&lt;/a>）还是有用的。&lt;/p>
 &lt;p>此外我买到的似乎是这个商家的最后一块 E5-2690 v4，我下单后回到详情页就发现这个型号缺货了。&lt;/p>
-&lt;h3 id="内存">内存&lt;/h3>
-&lt;p>我本来认为这个32GB的内存条和之前购买的16GB内存条是兼容的，因为我在我的笔记本上用的就是8GB+32GB的非对称双通道的配置。
-内存条到货之后才发现，虽然这两条单独安装都是能正常启动的（说明两条都没坏），但是两者同时安装的时候，无论放在哪两个插槽，NAS都无法开机。
-这让我感觉很奇怪，奈何也找不到解决方法，只好当作是主板/CPU不支持，并闲置原来的16GB内存条。&lt;/p>
-&lt;h3 id="pcie转sata扩展卡">PCIE转SATA扩展卡&lt;/h3>
-&lt;p>这个是在淘宝上随便找的一个。因为我需要接的也都是机械硬盘，传输瓶颈还是在机械硬盘的读写上，所以我对速率没什么要求，能跑满机械硬盘的读速就可以。&lt;/p>
-&lt;p>至于它是不是真的值75元就不得而知了。&lt;/p>
-&lt;p>扩展完SATA口之后，机箱内一共有7个SATA接口，但是只有4个硬盘位，我想下一步应该是购买硬盘支架了。&lt;/p>
-&lt;h2 id="软件部分">软件部分&lt;/h2>
-&lt;h3 id="gitea">Gitea&lt;/h3>
-&lt;p>&lt;a class="link" href="https://about.gitea.com/" target="_blank" rel="noopener"
+&lt;h3 id="内存">内存
+&lt;/h3>&lt;p>我本来认为这个 32GB 的内存条和之前购买的 16GB 内存条是兼容的，因为我在我的笔记本上用的就是 8GB+32GB 的非对称双通道的配置。
+内存条到货之后才发现，虽然这两条单独安装都是能正常启动的（说明两条都没坏），但是两者同时安装的时候，无论放在哪两个插槽，NAS 都无法开机。
+这让我感觉很奇怪，奈何也找不到解决方法，只好当作是主板/CPU 不支持，并闲置原来的 16GB 内存条。&lt;/p>
+&lt;h3 id="pcie转sata扩展卡">PCIE转SATA扩展卡
+&lt;/h3>&lt;p>这个是在淘宝上随便找的一个。因为我需要接的也都是机械硬盘，传输瓶颈还是在机械硬盘的读写上，所以我对速率没什么要求，能跑满机械硬盘的读速就可以。&lt;/p>
+&lt;p>至于它是不是真的值 75 元就不得而知了。&lt;/p>
+&lt;p>扩展完 SATA 口之后，机箱内一共有 7 个 SATA 接口，但是只有4个硬盘位，我想下一步应该是购买硬盘支架了。&lt;/p>
+&lt;h2 id="软件部分">软件部分
+&lt;/h2>&lt;h3 id="gitea">Gitea
+&lt;/h3>&lt;p>&lt;a class="link" href="https://about.gitea.com/" target="_blank" rel="noopener"
 >Gitea&lt;/a> 是开源的代码托管平台。
 自己有时候写了一些工具项目，不想向 Github 上传的时候（担心隐私问题，以及大陆地区访问 Github 有时连接不畅），就会传到自建的 Gitea 上。&lt;/p>
 &lt;p>虽然名字和 &lt;a class="link" href="https://gitee.com/" target="_blank" rel="noopener"
@@ -548,17 +549,17 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 不用 GitLab 是因为 GitLab 的资源占用太大了，并且我也基本用不到它的 CI/CD 功能。&lt;/p>
 &lt;p>Gitea 可以直接使用 docker 镜像部署，具体参照 &lt;a class="link" href="https://docs.gitea.com/installation/install-with-docker" target="_blank" rel="noopener"
 >Gitea 官方文档&lt;/a>。&lt;/p>
-&lt;h3 id="immich">Immich&lt;/h3>
-&lt;p>&lt;a class="link" href="https://immich.app" target="_blank" rel="noopener"
->Immich&lt;/a> 是开源自建的相册服务，类似于谷歌相册，提供了图片管理、人脸识别、地图和智能搜索等功能，并且在IOS、Android和网页端都有官方的客户端。&lt;/p>
+&lt;h3 id="immich">Immich
+&lt;/h3>&lt;p>&lt;a class="link" href="https://immich.app" target="_blank" rel="noopener"
+>Immich&lt;/a> 是开源自建的相册服务，类似于谷歌相册，提供了图片管理、人脸识别、地图和智能搜索等功能，并且在 IOS、Android 和网页端都有官方的客户端。&lt;/p>
 &lt;p>这个项目各方面都挺不错的，缺点是版本更新有点太快了，最快的时候一周能发三四个版本。当然对于项目而言这是好事，是项目活跃的证明，但是对于使用体验而言就不那么好了。
 它更新的时候可能会引入 breaking changes，这就要求每次更新前都要到其 &lt;a class="link" href="https://github.com/immich-app/immich/releases" target="_blank" rel="noopener"
 >github 的发布页&lt;/a>查看升级前的注意事项，然后才能用 docker compose 拉镜像。
 拉镜像的过程也有些折磨，因为镜像实在太大了。&lt;/p>
 &lt;p>&lt;a class="link" href="https://immich.app/docs/install/docker-compose" target="_blank" rel="noopener"
 >官方文档&lt;/a>里给出了使用 docker compose 部署 Immich 的方法。&lt;/p>
-&lt;h3 id="lanraragi">LANraragi&lt;/h3>
-&lt;p>&lt;a class="link" href="https://github.com/Difegue/LANraragi" target="_blank" rel="noopener">
+&lt;h3 id="lanraragi">LANraragi
+&lt;/h3>&lt;p>&lt;a class="link" href="https://github.com/Difegue/LANraragi" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
@@ -570,26 +571,26 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 可以先找找它的替代品，找不到的话不妨有空自己动手用 golang 实现一个。&lt;/p>
 &lt;p>&lt;a class="link" href="https://sugoi.gitbook.io/lanraragi/v/dev/installing-lanraragi/docker" target="_blank" rel="noopener"
 >官方文档&lt;/a>给出了使用docker部署的方法。&lt;/p>
-&lt;h3 id="主页homer">主页（homer）&lt;/h3>
-&lt;p>NAS上运行的服务多了，每次访问服务都要输地址（无论是ip+端口还是&lt;a class="link" href="http://localhost:1313/p/nas-3/#coredns" target="_blank" rel="noopener"
->内网域名&lt;/a>）会很麻烦，于是用&lt;a class="link" href="https://github.com/bastienwirtz/homer" target="_blank" rel="noopener">
+&lt;h3 id="主页homer">主页（homer）
+&lt;/h3>&lt;p>NAS上运行的服务多了，每次访问服务都要输地址（无论是 ip + 端口还是&lt;a class="link" href="http://localhost:1313/p/nas-3/#coredns" target="_blank" rel="noopener"
+>内网域名&lt;/a>）会很麻烦，于是用 &lt;a class="link" href="https://github.com/bastienwirtz/homer" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
 &lt;/span>homer&lt;/a>
-搭建了NAS的入口页。&lt;/p>
+搭建了 NAS 的入口页。&lt;/p>
 &lt;p>由于是纯静态的网页（改完配置也不需要重新编译之类的），部署的时候进&lt;a class="link" href="https://github.com/bastienwirtz/homer/releases" target="_blank" rel="noopener"
 >项目的 release 页&lt;/a>下载编译好的 zip 文件解压，然后直接在 nginx 里添一个 server 就行，也可以改 default，让它成为路由无匹配时的默认页面。配置时只要改&lt;code>assets/config.yml&lt;/code>，在浏览器里刷新页面（可能需要在开发者工具的 networks 里 Disable Cache）就能看到更改了。&lt;/p>
-&lt;h3 id="百度网盘客户端">百度网盘客户端&lt;/h3>
-&lt;p>之前在复习备考的时候，有很多考研资料是通过百度网盘流传的。
+&lt;h3 id="百度网盘客户端">百度网盘客户端
+&lt;/h3>&lt;p>之前在复习备考的时候，有很多考研资料是通过百度网盘流传的。
 又因为百度网盘的限速，和它的一些操作让我不是很想在本机安装它的客户端，催生了我在 NAS 上部署其客户端的需求。
-一搜果然有大佬做好了百度网盘客户端的docker镜像，其中之一是&lt;a class="link" href="https://github.com/gshang2017/docker/tree/master/baidunetdisk" target="_blank" rel="noopener">
+一搜果然有大佬做好了百度网盘客户端的 docker 镜像，其中之一是&lt;a class="link" href="https://github.com/gshang2017/docker/tree/master/baidunetdisk" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
-&lt;/span>gshang2017做的&lt;/a>
+&lt;/span>gshang2017 做的&lt;/a>
 。&lt;/p>
 &lt;p>把指令转换成&lt;code>docker-compose.yaml&lt;/code>文件，然后&lt;code>docker compose up -d&lt;/code>，不出意外用浏览器访问 NAS 的 5800 端口就能看到登录界面了。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -630,13 +631,13 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">NOVNC_LANGUAGE=&amp;#34;zh_Hans&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>因为这个镜像是以官方的linux客户端为基础制作的，功能基本上与之相同。除了广告点不开（这是好事）之外我在使用过程中没有遇到什么问题。&lt;/p>
-&lt;h3 id="饥荒服务器">饥荒服务器&lt;/h3>
-&lt;p>我的舍友想要联机玩&lt;a class="link" href="https://www.klei.com/games/dont-starve-together" target="_blank" rel="noopener"
->饥荒（Don&amp;rsquo;t Starve (Together)）&lt;/a>，于是拜托我在NAS上搭了一个饥荒服务器（不过我自己没什么兴趣就是啦）。&lt;/p>
+&lt;/div>&lt;p>因为这个镜像是以官方的 linux 客户端为基础制作的，功能基本上与之相同。除了广告点不开（这是好事）之外我在使用过程中没有遇到什么问题。&lt;/p>
+&lt;h3 id="饥荒服务器">饥荒服务器
+&lt;/h3>&lt;p>我的舍友想要联机玩&lt;a class="link" href="https://www.klei.com/games/dont-starve-together" target="_blank" rel="noopener"
+>饥荒（Don&amp;rsquo;t Starve (Together)）&lt;/a>，于是拜托我在 NAS 上搭了一个饥荒服务器（不过我自己没什么兴趣就是啦）。&lt;/p>
 &lt;p>我在 Docker 上没找到下载量较多的镜像，于是按照&lt;a class="link" href="https://zhuanlan.zhihu.com/p/457714222" target="_blank" rel="noopener"
->知乎&lt;/a>和&lt;a class="link" href="https://dontstarve.fandom.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers" target="_blank" rel="noopener"
->Fandom wiki的教程&lt;/a>搭建了环境（配置起来还挺麻烦），然后写了&lt;code>dnst.service&lt;/code>让它作为 systemd 服务运行和自启动：&lt;/p>
+>知乎&lt;/a>和 &lt;a class="link" href="https://dontstarve.fandom.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers" target="_blank" rel="noopener"
+>Fandom wiki 的教程&lt;/a>搭建了环境（配置起来还挺麻烦），然后写了&lt;code>dnst.service&lt;/code>让它作为 systemd 服务运行和自启动：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -673,24 +674,24 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">WantedBy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">multi-user.target&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="虚拟化kvm">虚拟化（KVM）&lt;/h3>
-&lt;p>关于虚拟机，我之前只用过图形界面的 VirtualBox，这是我第一次接触 Linux 服务器上常用的 Kernel-based Virtual Machine（KVM）。
+&lt;/div>&lt;h3 id="虚拟化kvm">虚拟化（KVM）
+&lt;/h3>&lt;p>关于虚拟机，我之前只用过图形界面的 VirtualBox，这是我第一次接触 Linux 服务器上常用的 Kernel-based Virtual Machine（KVM）。
 我是按照&lt;a class="link" href="https://linux.how2shout.com/how-to-install-kvm-on-ubuntu-20-04-lts-server/" target="_blank" rel="noopener"
 >这篇教程&lt;/a>在服务器上安装的KVM，按照&lt;a class="link" href="https://computingforgeeks.com/install-kvm-qemu-virt-manager-arch-manjar/" target="_blank" rel="noopener"
 >这篇教程&lt;/a>在本机（Arch Linux）安装了Virtual Machine Manager。&lt;/p>
 &lt;p>目前只是在虚拟机里装好了 Ubuntu 系统，还没有深入折腾。&lt;/p></description></item><item><title>Steam Deck 折腾记录</title><link>https://blog.furffisite.link/p/steamdeck-tweaking/</link><pubDate>Mon, 19 Feb 2024 20:12:35 +0800</pubDate><guid>https://blog.furffisite.link/p/steamdeck-tweaking/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240220134919-e7ed5ace1e94b03d7e56a619a0f7a6d7-5ca68.jpg" alt="Featured image of post Steam Deck 折腾记录" />&lt;p>考研初试结束后，我在淘宝上给自己买了个 64GB 的 LCD 版 Steam Deck，当时（2023年12月底）花了￥2885.90.&lt;/p>
-&lt;h2 id="扩容硬盘与恢复系统">扩容硬盘与恢复系统&lt;/h2>
-&lt;p>我是为了省钱才买的 64GB 版本，但是 64GB 的外存显然不够用，所以我又买了一块 2230 尺寸的 2TB NVMe 硬盘（西数 SN740），硬盘+散热片共花费 ￥744.90.
+&lt;h2 id="扩容硬盘与恢复系统">扩容硬盘与恢复系统
+&lt;/h2>&lt;p>我是为了省钱才买的 64GB 版本，但是 64GB 的外存显然不够用，所以我又买了一块 2230 尺寸的 2TB NVMe 硬盘（西数 SN740），硬盘+散热片共花费 ￥744.90.
 这样算下来购买 64GB 版本自己加硬盘比直接买商家改的 2TB 版本划算且更有保障。&lt;/p>
 &lt;p>下面是更换硬盘及其后续操作的步骤。&lt;/p>
-&lt;h3 id="第一步备份存档">第一步：备份存档&lt;/h3>
-&lt;p>如果是刚到手的新机，或者有硬盘盒支持拆下来的64GB的硬盘的话倒也不必要这一步。
-如果拿到手之后已经玩了一段时间，游戏不支持steam云存档（或者各种原因导致没有同步成功），且手边没有硬盘盒的话，一定要在更换硬盘之前备份一下Steam Deck上的游戏存档。&lt;/p>
+&lt;h3 id="第一步备份存档">第一步：备份存档
+&lt;/h3>&lt;p>如果是刚到手的新机，或者有硬盘盒支持拆下来的 64GB 的硬盘的话倒也不必要这一步。
+如果拿到手之后已经玩了一段时间，游戏不支持 steam 云存档（或者各种原因导致没有同步成功），且手边没有硬盘盒的话，一定要在更换硬盘之前备份一下 Steam Deck 上的游戏存档。&lt;/p>
 &lt;p>进入 SteamOS 的桌面模式后插入 U 盘，使用指令或图形界面复制文件夹 &lt;code>/home/deck/.local/share/Steam/steamapps/compatdata&lt;/code> 到 U 盘内。&lt;/p>
-&lt;h3 id="第二步更换硬盘">第二步：更换硬盘&lt;/h3>
-&lt;p>更换硬盘的操作可以直接参考 iFixit 的教程 &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>。&lt;/p>
-&lt;h3 id="第三步恢复steamos">第三步：恢复SteamOS&lt;/h3>
-&lt;p>这部分的操作可以参考 Steam 官方的教程 &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>，我在此记录一下我踩到的坑：&lt;/p>
+&lt;h3 id="第二步更换硬盘">第二步：更换硬盘
+&lt;/h3>&lt;p>更换硬盘的操作可以直接参考 iFixit 的教程 &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>。&lt;/p>
+&lt;h3 id="第三步恢复steamos">第三步：恢复SteamOS
+&lt;/h3>&lt;p>这部分的操作可以参考 Steam 官方的教程 &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>，我在此记录一下我踩到的坑：&lt;/p>
 &lt;ol>
 &lt;li>Steam 提供的镜像不能使用 &lt;a class="link" href="https://www.ventoy.net/cn/" target="_blank" rel="noopener"
 >Ventoy&lt;/a> 启动，只能老老实实用工具（&lt;a class="link" href="https://rufus.ie/en/" target="_blank" rel="noopener"
@@ -700,8 +701,8 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;li>我最开始用的是 U 盘，但是在 Steam Deck 上从 U 盘启动时在黑屏卡住了，后面在 reddit 用户的建议下 &lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> 换用了 microSD 卡（三星 EVOPlus 64GB）才顺利进入桌面（不知是 hub 的问题还是 U 盘的问题，踩这个坑让我多花了两三个小时）。&lt;/li>
 &lt;/ol>
 &lt;p>恢复好系统后就可以弹出 U 盘或 microSD 卡，从硬盘启动了，之后系统初始化的步骤和刚拿到机器时的一样。&lt;/p>
-&lt;h3 id="第四步硬盘分区">第四步：硬盘分区&lt;/h3>
-&lt;p>进入桌面模式，使用 KDE Partition Manager 按照需求调整分区，如果有双系统需求的要给 Windows 预留好安装空间（我留了250GB），并且把两个系统共享的游戏文件分区格式化为 ntfs 文件系统。&lt;/p>
+&lt;h3 id="第四步硬盘分区">第四步：硬盘分区
+&lt;/h3>&lt;p>进入桌面模式，使用 KDE Partition Manager 按照需求调整分区，如果有双系统需求的要给 Windows 预留好安装空间（我留了 250GB），并且把两个系统共享的游戏文件分区格式化为 NTFS 文件系统。&lt;/p>
 &lt;p>我的分区方案如下：&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20240220125355-b3bb2fb3802a325bab7097c5a8e3f7a2-6db4b.png"
 loading="lazy"
@@ -715,39 +716,40 @@ alt="home分区使用情况"
 &lt;p>然后配置开机自动挂载，这算是 Linux 用户的基操吧，我就不赘述了，可以参考 &lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a> &lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>。&lt;/p>
 &lt;p>配置好之后重启（或者使用 &lt;code>sudo mount -a&lt;/code> 挂载新分区），进入 Steam 在新分区上创建游戏库即可。&lt;/p>
 &lt;hr>
-&lt;h2 id="安装双系统">安装双系统&lt;/h2>
-&lt;p>首先要明确自己有没有在 Steam Deck 上安装双系统的需求，我要装 Windows 是因为：&lt;/p>
+&lt;h2 id="安装双系统">安装双系统
+&lt;/h2>&lt;p>首先要明确自己有没有在 Steam Deck 上安装双系统的需求，我要装 Windows 是因为：&lt;/p>
 &lt;ul>
 &lt;li>有些 Windows 游戏不支持 SteamOS；&lt;/li>
 &lt;li>对于非 Steam 平台的游戏，使其在 SteamOS 上正常运行需要耗费一定的精力。&lt;/li>
 &lt;/ul>
-&lt;h3 id="第一步安装-windows">第一步：安装 Windows&lt;/h3>
-&lt;p>AtlasOS 相当于非官方的精简版 Windows，我觉得在侧重于游戏的 Steam Deck 上安装这个非常合适，LinusTechTips 也出过一期视频介绍它 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。
+&lt;h3 id="第一步安装-windows">第一步：安装 Windows
+&lt;/h3>&lt;p>AtlasOS 相当于非官方的精简版 Windows，我觉得在侧重于游戏的 Steam Deck 上安装这个非常合适，LinusTechTips 也出过一期视频介绍它 &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>。
 至于视频评论里提到的安全性问题我倒不太担心，因为我在这上面无非就是运行 Steam 和一些游戏，我知道自己在做什么，要是真出了问题重装就行。&lt;/p>
 &lt;p>安装 AtlasOS 的步骤参见 &lt;a id='ref-cite7-1' href='#cite7'>[7]&lt;/a>。我激活 Windows 时用的是学校的 KMS 服务。&lt;/p>
 &lt;p>&lt;strong>注意&lt;/strong>：安装 Windows 时使用的 ISO 文件只能从这个页面生成的链接下载，否则 Windows 版本对不上，到后面使用 AME Wizard 的时候会报错。
 我踩中了这个坑，浪费了一个小时。&lt;/p>
-&lt;h3 id="第二步安装驱动">第二步：安装驱动&lt;/h3>
-&lt;p>Steam Deck 上刚装好的 Windows 系统时没有音频输出的，原因是缺少相关驱动。
+&lt;h3 id="第二步安装驱动">第二步：安装驱动
+&lt;/h3>&lt;p>Steam Deck 上刚装好的 Windows 系统时没有音频输出的，原因是缺少相关驱动。
 此时要按照 Steam 的指南 &lt;sup>&lt;a id='ref-cite8-1' href='#cite8'>[8]&lt;/a>&lt;/sup> 下载并安装里面提供的所有驱动。&lt;/p>
 &lt;p>可是装完驱动后我发现屏幕亮度的调节还是存在一些问题：Windows 里调整亮度的范围比 SteamOS 的小好多，不过这不太影响日常使用，所以我就没管了。&lt;/p>
-&lt;h3 id="第三步双系统的常见问题">第三步：双系统的常见问题&lt;/h3>
-&lt;p>目前遇到两个，这是安装双系统的计算机都会遇到的问题，并非 Steam Deck 独有的：&lt;/p>
+&lt;h3 id="第三步双系统的常见问题">第三步：双系统的常见问题
+&lt;/h3>&lt;p>目前遇到两个，这是安装双系统的计算机都会遇到的问题，并非 Steam Deck 独有的：&lt;/p>
 &lt;ol>
 &lt;li>双系统时间不一致，解决方法可以参考 &lt;a id='ref-cite9-1' href='#cite9'>[9]&lt;/a>；&lt;/li>
-&lt;li>双系统无法共享蓝牙设备，解决方法参考 &lt;a id='ref-cite10-1' href='#cite10'>[10]&lt;/a>。&lt;/li>
+&lt;li>双系统无法共享蓝牙设备，解决方法参考 &lt;a id='ref-cite10-1' href='#cite10'>[10]&lt;/a>；&lt;/li>
+&lt;li>在 Linux 内无法访问双系统共享磁盘，解决方法是关闭 Windows 的快速启动，参见 &lt;a id='ref-cite11-1' href='#cite11'>[11]&lt;/a>。&lt;/li>
 &lt;/ol>
-&lt;h3 id="第四步安装辅助工具">第四步：安装辅助工具&lt;/h3>
-&lt;p>Steam Deck Tools &lt;sup>&lt;a id='ref-cite11-1' href='#cite11'>[11]&lt;/a>&lt;/sup> 提供了改善在 Steam Deck 上使用 Windows 体验的一系列工具，包括手柄模拟，性能监视器，TDP控制等。
+&lt;h3 id="第四步安装辅助工具">第四步：安装辅助工具
+&lt;/h3>&lt;p>Steam Deck Tools &lt;sup>&lt;a id='ref-cite12-1' href='#cite12'>[12]&lt;/a>&lt;/sup> 提供了改善在 Steam Deck 上使用 Windows 体验的一系列工具，包括手柄模拟，性能监视器，TDP控制等。
 其中手柄模拟（Steam Controller）我觉得是必要的。&lt;/p>
 &lt;hr>
-&lt;h2 id="相关问题">相关问题&lt;/h2>
-&lt;h3 id="steamos更新后引导消失">SteamOS更新后引导消失&lt;/h3>
-&lt;p>近日我更新了 SteamOS 版本，更新后 SteamOS 从启动项菜单消失了，最终按照 &lt;a id='ref-cite12-1' href='#cite12'>[12]&lt;/a> 提供的修复方法成功恢复启动项。&lt;/p>
+&lt;h2 id="相关问题">相关问题
+&lt;/h2>&lt;h3 id="steamos更新后引导消失">SteamOS更新后引导消失
+&lt;/h3>&lt;p>近日我更新了 SteamOS 版本，更新后 SteamOS 从启动项菜单消失了，最终按照 &lt;a id='ref-cite13-1' href='#cite13'>[13]&lt;/a> 提供的修复方法成功恢复启动项。&lt;/p>
 &lt;hr>
-&lt;h2 id="相关资料">相关资料&lt;/h2>
-&lt;h3 id="参考资料">参考资料&lt;/h3>
-&lt;style>
+&lt;h2 id="相关资料">相关资料
+&lt;/h2>&lt;h3 id="参考资料">参考资料
+&lt;/h3>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -795,15 +797,19 @@ alt="home分区使用情况"
 >Linux 与 Windows 双系统共享蓝牙鼠标 - 南浦月&lt;/a>&lt;a href="#ref-cite10-1">⤶&lt;/a>&lt;/span>
 &lt;/div>&lt;div id="cite11" class="bib-item">
 &lt;span>[11]&lt;/span>
-&lt;span>&lt;a class="link" href="https://steam-deck-tools.ayufan.dev/" target="_blank" rel="noopener"
->README | (Windows) Steam Deck Tools&lt;/a>&lt;a href="#ref-cite11-1">⤶&lt;/a>&lt;/span>
+&lt;span>&lt;a class="link" href="https://www.howtohi.com/zh-CN/ultimate-guide-how-to-turn-off-fast-startup-in-windows-10-11.html" target="_blank" rel="noopener"
+>终极指南：如何在 Windows 10/11 中关闭快速启动 - HowToHi&lt;/a>&lt;a href="#ref-cite11-1">⤶&lt;/a>&lt;/span>
 &lt;/div>&lt;div id="cite12" class="bib-item">
 &lt;span>[12]&lt;/span>
+&lt;span>&lt;a class="link" href="https://steam-deck-tools.ayufan.dev/" target="_blank" rel="noopener"
+>README | (Windows) Steam Deck Tools&lt;/a>&lt;a href="#ref-cite12-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite13" class="bib-item">
+&lt;span>[13]&lt;/span>
 &lt;span>&lt;a class="link" href="https://www.bilibili.com/read/cv26620174/" target="_blank" rel="noopener"
->Steamdeck双系统系统引导通用修复指南——以SteamOS更新掉引导为例 - 哔哩哔哩&lt;/a>&lt;a href="#ref-cite12-1">⤶&lt;/a>&lt;/span>
+>Steamdeck双系统系统引导通用修复指南——以SteamOS更新掉引导为例 - 哔哩哔哩&lt;/a>&lt;a href="#ref-cite13-1">⤶&lt;/a>&lt;/span>
 &lt;/div>&lt;/div>
-&lt;h3 id="其它资料">其它资料&lt;/h3>
-&lt;ul>
+&lt;h3 id="其它资料">其它资料
+&lt;/h3>&lt;ul>
 &lt;li>&lt;a class="link" href="https://store.steampowered.com/steamdeck" target="_blank" rel="noopener"
 >Steam Deck™&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://store.steampowered.com/greatondeck" target="_blank" rel="noopener"
@@ -823,65 +829,65 @@ alt="home分区使用情况"
 &lt;/ul></description></item><item><title>关于实验记录的管理</title><link>https://blog.furffisite.link/p/experiment-record-management/</link><pubDate>Tue, 26 Dec 2023 18:07:49 +0800</pubDate><guid>https://blog.furffisite.link/p/experiment-record-management/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240101025358-39157c666fdfaedad07996f1f3e91a67-39937.jpg" alt="Featured image of post 关于实验记录的管理" />&lt;p>我因为之前做实验时习惯不好（一边训练一边改代码），没有保留好实验记录惹出了一些麻烦（不知道发布的模型具体是怎么训练出来的），觉得有必要确立几条原则防止以后再出现类似的情况。
 为了确保每次实验都是完全可复现的，以下是我的想法：&lt;/p>
 &lt;ol>
-&lt;li>使用git管理实验代码版本，在程序内强制要求长时间训练模型前commit所有修改，并且在commit记录内写清楚每次做出的更改；&lt;/li>
-&lt;li>使用&lt;code>logging&lt;/code>模块替代&lt;code>print&lt;/code>，以将带时间戳的记录同时输出到控制台和log文件；&lt;/li>
+&lt;li>使用 git 管理实验代码版本，在程序内强制要求长时间训练模型前 commit 所有修改，并且在 commit 记录内写清楚每次做出的更改；&lt;/li>
+&lt;li>使用&lt;code>logging&lt;/code>模块替代&lt;code>print&lt;/code>，以将带时间戳的记录同时输出到控制台和 log 文件；&lt;/li>
 &lt;li>在程序运行前输出所有超参数与运行时间；&lt;/li>
-&lt;li>在训练时使用运行时间与commit id的前几位创建文件夹，并将此次训练产生的所有文件都组织到这个文件夹内，测试记录可以和模型放在一起。&lt;/li>
-&lt;li>固定并输出random seed；&lt;/li>
+&lt;li>在训练时使用运行时间与 commit id 的前几位创建文件夹，并将此次训练产生的所有文件都组织到这个文件夹内，测试记录可以和模型放在一起。&lt;/li>
+&lt;li>固定并输出 random seed；&lt;/li>
 &lt;li>使用服务器训练时应及时下载训练记录。&lt;/li>
 &lt;/ol>
-&lt;h2 id="实现">实现&lt;/h2>
-&lt;p>原本想自己实现的，这个时候发现了 meta 开源的 &lt;a class="link" href="https://hydra.cc/" target="_blank" rel="noopener"
+&lt;h2 id="实现">实现
+&lt;/h2>&lt;p>原本想自己实现的，这个时候发现了 meta 开源的 &lt;a class="link" href="https://hydra.cc/" target="_blank" rel="noopener"
 >Hydra&lt;/a> 库，似乎它提供的功能能实现其中几个想法。&lt;/p></description></item><item><title>考研经历 - 准备初试</title><link>https://blog.furffisite.link/p/kaoyan-stage1/</link><pubDate>Mon, 25 Dec 2023 11:02:45 +0800</pubDate><guid>https://blog.furffisite.link/p/kaoyan-stage1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20231226003721-76bafcf83bb54ee4b8d8524cc179b790-e34bc.jpg" alt="Featured image of post 考研经历 - 准备初试" />&lt;p>本文旨在回顾我这三个月准备考研的经历。无论结果如何，我想给自己留下一份奋斗的记录，如果能帮到后来者那就更好了。&lt;/p>
-&lt;h2 id="背景">背景&lt;/h2>
-&lt;p>在五月份的时候，我知道我处在保研排名的边缘，有一定可能获取不到推免资格，于是我在当时购买了几本参考书，并且复习了一小段时间的高等数学。
+&lt;h2 id="背景">背景
+&lt;/h2>&lt;p>在五月份的时候，我知道我处在保研排名的边缘，有一定可能获取不到推免资格，于是我在当时购买了几本参考书，并且复习了一小段时间的高等数学。
 但是随着夏令营、预推免和毕业实习等工作的推进，我动摇了，一度认为自己真的能成功保研，完全将复习考研抛之脑后。
-等到我反应过来的时候，已经是2023年9月18日，学院公布推免指标分配方案的时候，其中我的专业的推免指标仅为同学院其余两个专业的二分之一与三分之一（总人数相近），远低于我的预期。
+等到我反应过来的时候，已经是 2023 年 9 月 18 日，学院公布推免指标分配方案的时候，其中我的专业的推免指标仅为同学院其余两个专业的二分之一与三分之一（总人数相近），远低于我的预期。
 以公布的名额数量来算，推免名额轮不到我，这时我才清醒——保研这条路我肯定是走不通了。&lt;/p>
 &lt;p>考研是12月23日，当时已经是9月18日，也就是说留给我的复习时间仅有三个月，如何合理安排复习时间，最大化我的考研分数，便是我当时需要解决的问题。&lt;/p>
-&lt;h2 id="调查阶段">调查阶段&lt;/h2>
-&lt;h3 id="调整心态">调整心态&lt;/h3>
-&lt;p>无法保研的信息让当时的我陷入了绝望，感觉已经无路可走了——因为在当时的我看来考研真的好难，而我又没有进入工作的心理准备（更何况还是在互联网寒冬的当下），出国对家里造成的经济负担又太大了。
+&lt;h2 id="调查阶段">调查阶段
+&lt;/h2>&lt;h3 id="调整心态">调整心态
+&lt;/h3>&lt;p>无法保研的信息让当时的我陷入了绝望，感觉已经无路可走了——因为在当时的我看来考研真的好难，而我又没有进入工作的心理准备（更何况还是在互联网寒冬的当下），出国对家里造成的经济负担又太大了。
 我当时一度有过轻生的念头，好在我没有任何实施它的勇气，这时调整好心态，重新振作起来是最重要的。
 在家人和朋友们的帮助下，我逐渐看开了，意识到考研可能没有想象中的那样艰难，于是确立了考研的目标。&lt;/p>
-&lt;h3 id="确定目标">确定目标&lt;/h3>
-&lt;p>在努力复习的同时，选择一个好的目标院校同样重要，因为10月初就要报名了。
+&lt;h3 id="确定目标">确定目标
+&lt;/h3>&lt;p>在努力复习的同时，选择一个好的目标院校同样重要，因为 10 月初就要报名了。
 别的考研同学可以通过之前几个月的复习时间找准自己的定位，从而决定好一个匹配自己水平的学校。
 相较于他们，我只能在两周的时间内确定一个我通过仅仅三个月的复习时间有较大把握考上的学校和专业。&lt;/p>
 &lt;p>首先排除本校，经过保研这事我已经不想在本校待着了（更何况学校挺热门的……不好考）。
 在用爬虫抓取了&lt;a class="link" href="https://yz.chsi.com.cn/zsml/zyfx_search.jsp" target="_blank" rel="noopener"
 >研招网的专业目录&lt;/a>并在本地筛选后，我筛选出了几个目标，包括北京邮电大学、东南大学（简称东大）等。
 考虑到我的复习时间和之前预推免的情况，在与家人沟通、参考了网络上一些在读或毕业学长学姐的经验帖后，我最终选择了相对比较好考的东南大学-蒙纳士大学苏州联合研究生院（简称东蒙）。&lt;/p>
-&lt;p>好考是有原因的——因为是中外合办的学院，学费相较于别的学校和学院贵很多（6.2万元/年）&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>，所以竞争对手相对较少，往年的分数线低&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>，报考-录取比也较低&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup>。&lt;/p>
-&lt;h3 id="分析现状">分析现状&lt;/h3>
-&lt;p>东蒙电子信息专硕的考试科目是 101 思想政治理论、201 英语（一）、301 数学（一）和 935 计算机专业基础（东南大学自命题）。
+&lt;p>好考是有原因的——因为是中外合办的学院，学费相较于别的学校和学院贵很多&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>，所以竞争对手相对较少，往年的分数线低&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>，报考-录取比也较低&lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup>。&lt;/p>
+&lt;h3 id="分析现状">分析现状
+&lt;/h3>&lt;p>东蒙电子信息专硕的考试科目是 101 思想政治理论、201 英语（一）、301 数学（一）和 935 计算机专业基础（东南大学自命题）。
 935的考纲会在东大计算机学院官网发布&lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>，包括操作系统、计算机组成原理、数据结构，其中操作系统占比最大。&lt;/p>
 &lt;p>知道了要考什么，接下来就要分析现状了，依此分配复习时间。&lt;/p>
 &lt;p>我当时的状况是：高数只看完极限和一元函数的微分学，其余学科完全没复习。
-我的优势是英语不错：六级分数 605，英语一真题的选择题大多能在一个小时内做完，且扣分在8分以内，所以几乎不用太多时间复习英语。
-935要考的三门我掌握的也不错，只需要回顾一下知识点，做一些题即可。
+我的优势是英语不错：六级分数 605，英语一真题的选择题大多能在一个小时内做完，且扣分在 8 分以内，所以几乎不用太多时间复习英语。
+935 要考的三门我掌握的也不错，只需要回顾一下知识点，做一些题即可。
 我的劣势是我背书很难背下来，因此以背书为主的政治于我而言较为困难。&lt;/p>
-&lt;h2 id="复习">复习&lt;/h2>
-&lt;p>我的基础复习阶段大概是9月20日-11月中旬，大约两个月时间。因为复习的时间有限，各科的复习是同时进行的。
-强化和冲刺阶段是11月中旬一直到考试前。&lt;/p>
-&lt;h3 id="数学一">数学（一）&lt;/h3>
-&lt;p>数学一分为三个子科目：高等数学、线性代数、概率论与数理统计，占比最大的是高等数学，因此在复习数学时要着重准备高等数学。&lt;/p>
-&lt;p>在同学的推荐下，我高数部分跟的是张宇的课，张宇的优点是在基础阶段讲的很全面，也会顺带着讲一些技巧，适合我这种时间紧张的人；线性代数部分最开始跟的是李永乐，但是没听下去，后来就转汤家凤了；概率论部分没有看课，只是看书回忆自己大一学的东西。在看课的同时，做题巩固也很重要，我的节奏是看完一章的课就把《张宇 1000 题》对应的章节的A、B、C部分做完，C部分的题做不出来的暂时也不用深究。&lt;/p>
-&lt;p>在强化阶段主要写之前不会写的C组题，C组题做完了就做真题，同时看重点/常考知识点的强化课程（来不及全看完了），例如高等数学的中值定理、无穷级数、线性代数的二次型等。&lt;/p>
-&lt;p>冲刺阶段接着做真题，以及张宇的8套预测卷和4套终极预测卷。&lt;/p>
+&lt;h2 id="复习">复习
+&lt;/h2>&lt;p>我的基础复习阶段大概是 9 月 20 日- 11 月中旬，大约两个月时间。因为复习的时间有限，各科的复习是同时进行的。
+强化和冲刺阶段是 11 月中旬一直到考试前。&lt;/p>
+&lt;h3 id="数学一">数学（一）
+&lt;/h3>&lt;p>数学一分为三个子科目：高等数学、线性代数、概率论与数理统计，占比最大的是高等数学，因此在复习数学时要着重准备高等数学。&lt;/p>
+&lt;p>在同学的推荐下，我高数部分跟的是张宇的课，张宇的优点是在基础阶段讲的很全面，也会顺带着讲一些技巧，适合我这种时间紧张的人；线性代数部分最开始跟的是李永乐，但是没听下去，后来就转汤家凤了；概率论部分没有看课，只是看书回忆自己大一学的东西。在看课的同时，做题巩固也很重要，我的节奏是看完一章的课就把《张宇 1000 题》对应的章节的 A、B、C 部分做完，C 部分的题做不出来的暂时也不用深究。&lt;/p>
+&lt;p>在强化阶段主要写之前不会写的C 组题，C 组题做完了就做真题，同时看重点/常考知识点的强化课程（来不及全看完了），例如高等数学的中值定理、无穷级数、线性代数的二次型等。&lt;/p>
+&lt;p>冲刺阶段接着做真题，以及张宇的 8 套预测卷和 4 套终极预测卷。&lt;/p>
 &lt;ul>
-&lt;li>参考书目：张宇基础 30 讲、张宇 1000 题、数学一真题、张宇8套预测卷、张宇4套终极预测卷&lt;/li>
+&lt;li>参考书目：张宇基础 30 讲、张宇 1000 题、数学一真题、张宇 8 套预测卷、张宇 4 套终极预测卷&lt;/li>
 &lt;/ul>
-&lt;h3 id="英语一">英语（一）&lt;/h3>
-&lt;p>如上文所述，我只要做真题的选择题就可以了，平时可以带着用app背考研词汇。
+&lt;h3 id="英语一">英语（一）
+&lt;/h3>&lt;p>如上文所述，我只要做真题的选择题就可以了，平时可以带着用 app 背考研词汇。
 冲刺阶段再补一补小作文的格式和大作文的写法。&lt;/p>
 &lt;ul>
 &lt;li>参考书目：英语一真题集&lt;/li>
 &lt;/ul>
-&lt;h3 id="计算机专业基础自命题">计算机专业基础（自命题）&lt;/h3>
-&lt;p>935是东南大学的自命题科目，包括操作系统、计算机组成原理、数据结构三个部分。
+&lt;h3 id="计算机专业基础自命题">计算机专业基础（自命题）
+&lt;/h3>&lt;p>935 是东南大学的自命题科目，包括操作系统、计算机组成原理、数据结构三个部分。
 准备自命题科目的难点是资料很少，并且相比于统考科目，老师出题也比较随心。
-根据往年上岸的学长学姐的经验帖，复习935可以看408的相关资料，课也可以直接跟王道的408课程。
+根据往年上岸的学长学姐的经验帖，复习 935 可以看 408 的相关资料，课也可以直接跟王道的 408 课程。
 因此我复习用的资料主要是王道考研的系列书籍。&lt;/p>
 &lt;p>东南大学给出了下面四本书作为参考书目：&lt;/p>
 &lt;ol>
@@ -891,9 +897,9 @@ alt="home分区使用情况"
 &lt;li>《计算机组成原理（第2版）》，任国林，ISBN 978-7-121-33462-7，2018.1&lt;/li>
 &lt;/ol>
 &lt;p>前三本我觉得用处不大，而计算机组成原理这部分据说是由任国林老师亲自命题，所以他写的教材是很有必要看的。&lt;/p>
-&lt;p>到了强化和冲刺阶段我做了408的真题，至于935的真题我没找到资源就没做。&lt;/p>
+&lt;p>到了强化和冲刺阶段我做了 408 的真题，至于 935 的真题我没找到资源就没做。&lt;/p>
 &lt;ul>
-&lt;li>参考书目：王道考研系列 操作系统/数据结构、计算机组成原理（任国林 著）、408真题、935真题（如果能找到的话）&lt;/li>
+&lt;li>参考书目：王道考研系列 操作系统/数据结构、计算机组成原理（任国林 著）、408 真题、935 真题（如果能找到的话）&lt;/li>
 &lt;li>视频课：
 &lt;a class="link" href="https://www.bilibili.com/video/BV1ps4y1d73V" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-tv" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -920,14 +926,14 @@ alt="home分区使用情况"
 &lt;/span>王道计算机考研 数据结构&lt;/a>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="思想政治理论">思想政治理论&lt;/h3>
-&lt;p>政治这门课我跟的是徐涛的课，在基础阶段一边看课一边刷选择题。&lt;/p>
+&lt;h3 id="思想政治理论">思想政治理论
+&lt;/h3>&lt;p>政治这门课我跟的是徐涛的课，在基础阶段一边看课一边刷选择题。&lt;/p>
 &lt;p>到了冲刺阶段，等肖八出来就写肖八的选择题，肖四出来后狂背客观题，今年肖秀荣老师几乎全押中了（考前还不信，没想到肖老师真的这么厉害）。&lt;/p>
 &lt;ul>
-&lt;li>参考书目：考研政治核心考案（徐涛）、肖1000、肖八、肖四&lt;/li>
+&lt;li>参考书目：考研政治核心考案（徐涛）、肖 1000、肖八、肖四&lt;/li>
 &lt;/ul>
-&lt;h2 id="相关资料">相关资料&lt;/h2>
-&lt;style>
+&lt;h2 id="相关资料">相关资料
+&lt;/h2>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -949,9 +955,9 @@ alt="home分区使用情况"
 &lt;span>[4]&lt;/span>
 &lt;span>&lt;a class="link" href="https://cse.seu.edu.cn/2023/0913/c24628a464355/page.psp" target="_blank" rel="noopener"
 >东南大学计算机科学与工程学院 - 2024年计算机科学与工程学院硕士研究生入学考试930、935考试大纲&lt;/a>&lt;a href="#ref-cite4-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;/div></description></item><item><title>【RL学习笔记】深度Q学习算法与经验回放</title><link>https://blog.furffisite.link/p/deep-q-learning/</link><pubDate>Tue, 22 Aug 2023 10:51:10 +0800</pubDate><guid>https://blog.furffisite.link/p/deep-q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230822110113-5ef18ab6cfb63d5a730bbd8e077231e7-6ba69.jpg" alt="Featured image of post 【RL学习笔记】深度Q学习算法与经验回放" />&lt;h2 id="深度q学习算法">深度Q学习算法&lt;/h2>
-&lt;h3 id="理论">理论&lt;/h3>
-&lt;p>深度Q学习算法（Deep Q-Learning Algorithm）是将Q表格替换为神经网络的Q学习算法，由 DeepMind 的 Mnih et al. &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>提出。
+&lt;/div>&lt;/div></description></item><item><title>【RL学习笔记】深度Q学习算法与经验回放</title><link>https://blog.furffisite.link/p/deep-q-learning/</link><pubDate>Tue, 22 Aug 2023 10:51:10 +0800</pubDate><guid>https://blog.furffisite.link/p/deep-q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230822110113-5ef18ab6cfb63d5a730bbd8e077231e7-6ba69.jpg" alt="Featured image of post 【RL学习笔记】深度Q学习算法与经验回放" />&lt;h2 id="深度q学习算法">深度Q学习算法
+&lt;/h2>&lt;h3 id="理论">理论
+&lt;/h3>&lt;p>深度Q学习算法（Deep Q-Learning Algorithm）是将 Q 表格替换为神经网络的 Q 学习算法，由 DeepMind 的 Mnih et al. &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>提出。
 Q表格本质上是一个函数 $f: S\times A \rightarrow \mathbb{R}$，我们自然也可以使用神经网络构造这个函数，让它可以处理连续的状态和动作。此外，使用神经网络还有一个好处：我们可以向神经网络输入实例信息 $m\in M$ ，使之可以跨实例学习函数 $f: M\times S\times A\rightarrow \mathbb{R}$ 。也就是说，Agent可以将其在实例 $m_1,~m_2,~\ldots~m_n$上 学习到的经验迁移到未曾见过的实例 $m_{n+1}$ 上，增强模型的泛化性能，减少其探索新实例所需的时间。&lt;/p>
 &lt;p>网络更新方程的设计
 （以 &lt;a class="link" href="https://en.wikipedia.org/wiki/Bellman_equation" target="_blank" rel="noopener"
@@ -966,8 +972,8 @@ $$\lim_{t\rightarrow \infty}\Delta Q(s_t, a_t) = 0$$&lt;/p>
 &lt;p>也就是说，训练的目标应当是最小化 $\Delta Q(s_t, a_t)$，即目标函数为：
 $$L(\theta) = \mathrm{MSE}(Q(s_t, a_t),~\gamma\max_{j\in A} Q(s_{t+1},j) + r_t)$$
 其中的 $\mathrm{MSE}$ 也可以替换为其它的损失函数。&lt;/p>
-&lt;h3 id="实现">实现&lt;/h3>
-&lt;p>下面以&lt;a class="link" href="https://gymnasium.farama.org/environments/classic_control/cart_pole/" target="_blank" rel="noopener"
+&lt;h3 id="实现">实现
+&lt;/h3>&lt;p>下面以&lt;a class="link" href="https://gymnasium.farama.org/environments/classic_control/cart_pole/" target="_blank" rel="noopener"
 >CartPole-v1环境&lt;/a>为例编写训练程序。&lt;/p>
 &lt;p>引入相关的库以及定义一些超参数：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1052,7 +1058,7 @@ $$L(\theta) = \mathrm{MSE}(Q(s_t, a_t),~\gamma\max_{j\in A} Q(s_{t+1},j) + r_t)$
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">criterion&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">SmoothL1Loss&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1"># 发现L1的效果比L2要好&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>训练过程（原环境提供的reward恒为1，信息太少，因此这里改用自定义的reward，在倾角过大或位置过远时进行惩罚）：&lt;/p>
+&lt;/div>&lt;p>训练过程（原环境提供的 reward 恒为 1，信息太少，因此这里改用自定义的 reward，在倾角过大或位置过远时进行惩罚）：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1183,20 +1189,20 @@ loading="lazy"
 &lt;p>完整的程序见&lt;a class="link" href="https://gist.github.com/Furffico/7ce3f2ef1dc0bc42536d2a178c5c5a92#file-cartpole-py" target="_blank" rel="noopener"
 >Github Gist&lt;/a>，模型权重可以从&lt;a class="link" href="https://files.furffisite.link/files/cartpole.ckpt" target="_blank" rel="noopener"
 >这里&lt;/a>下载（虽然自己训练一个也不费事）。&lt;/p>
-&lt;h2 id="经验回放">经验回放&lt;/h2>
-&lt;h3 id="理论-1">理论&lt;/h3>
-&lt;p>上面的训练Q网络的方式存在一些问题，例如&lt;/p>
+&lt;h2 id="经验回放">经验回放
+&lt;/h2>&lt;h3 id="理论-1">理论
+&lt;/h3>&lt;p>上面的训练 Q 网络的方式存在一些问题，例如&lt;/p>
 &lt;ol>
 &lt;li>样本的利用率低：每次采样只对应一次前向传播，采样得到的样本未被充分利用；&lt;/li>
 &lt;li>样本的时序关联性大：每次采样在时间上是高度相关的，上一次采样的末状态就是下一次采样的初始状态，影响训练效果；&lt;/li>
 &lt;li>训练速度慢：每次前向传播只传播一组数据，速度较慢。&lt;/li>
 &lt;/ol>
-&lt;p>为了缓解上述问题，Mnih et al. 在提出深度Q学习的同时也提出了经验回放（Experience Replay）策略&lt;sup>&lt;a id='ref-cite2-2' href='#cite2'>[2]&lt;/a>&lt;/sup>。
+&lt;p>为了缓解上述问题，Mnih et al.&lt;sup>&lt;a id='ref-cite2-2' href='#cite2'>[2]&lt;/a>&lt;/sup> 在提出深度 Q 学习的同时也提出了经验回放（Experience Replay）策略。
 其主要思想是将采样与训练分离，采样时在记忆中保存采样的记录，训练时随机从记忆中选取样本进行前向与反向传播，从而降低样本间的时序关联性与提高样本利用率。&lt;/p>
-&lt;p>注意到在算法中，每一步训练需要四个值：当前状态 $s_t$、动作 $a_t$、回报 $r_t$ 以及采取动作后的状态 $s_{t+1}$，因此每一次采样后只需要在记忆中保存这四个值，称为experience四元组 $e_t=(s_t,~a_t,~r_t,~s_{t+1})$。&lt;/p>
-&lt;h3 id="实现-1">实现&lt;/h3>
-&lt;p>库、超参数、网络结构以及推理部分均沿用上面的代码以便比较，只替换训练部分，然后新增Experience类与Memory类用于存储和管理样本。
-以下是Experience类与Memory类的代码，这里使用队列存储最新的&lt;code>batch_size*10&lt;/code>条记录：&lt;/p>
+&lt;p>注意到在算法中，每一步训练需要四个值：当前状态 $s_t$、动作 $a_t$、回报 $r_t$ 以及采取动作后的状态 $s_{t+1}$，因此每一次采样后只需要在记忆中保存这四个值，称为 experience 四元组 $e_t=(s_t,~a_t,~r_t,~s_{t+1})$。&lt;/p>
+&lt;h3 id="实现-1">实现
+&lt;/h3>&lt;p>库、超参数、网络结构以及推理部分均沿用上面的代码以便比较，只替换训练部分，然后新增 Experience 类与 Memory 类用于存储和管理样本。
+以下是 Experience 类与 Memory 类的代码，这里使用队列存储最新的 &lt;code>batch_size*10&lt;/code> 条记录：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1370,17 +1376,17 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">torch&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">save&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">net&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">state_dict&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="s2">&amp;#34;cartpole-replay.ckpt&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>完整程序见&lt;a class="link" href="https://gist.github.com/Furffico/7ce3f2ef1dc0bc42536d2a178c5c5a92#file-cartpole-replay-py" target="_blank" rel="noopener"
->Github Gist&lt;/a>，运行程序，发现两个程序在&lt;code>batch_size=128&lt;/code>和&lt;code>epochs=5000&lt;/code>的情况下，原来的程序在我的轻薄本上需要训练3分钟，而得益于批处理的训练过程以及采样数的减少，有经验回放的训练只要15秒就能达到更好的效果。&lt;/p>
+&lt;/div>&lt;p>完整程序见 &lt;a class="link" href="https://gist.github.com/Furffico/7ce3f2ef1dc0bc42536d2a178c5c5a92#file-cartpole-replay-py" target="_blank" rel="noopener"
+>Github Gist&lt;/a>，运行程序，发现两个程序在&lt;code>batch_size=128&lt;/code>和&lt;code>epochs=5000&lt;/code>的情况下，原来的程序在我的轻薄本上需要训练 3 分钟，而得益于批处理的训练过程以及采样数的减少，有经验回放的训练只要 15 秒就能达到更好的效果。&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230823103323-8b5eae7fdc273354106f2effa166ee3c-fc680.gif"
 loading="lazy"
 >&lt;/p>
-&lt;p>继续增加&lt;code>batch_size&lt;/code>或&lt;code>epochs&lt;/code>，效果更佳。以下是&lt;code>batch_size=256&lt;/code>、&lt;code>epochs=5000&lt;/code>的结果，训练只花了28秒。&lt;/p>
+&lt;p>继续增加&lt;code>batch_size&lt;/code>或&lt;code>epochs&lt;/code>，效果更佳。以下是&lt;code>batch_size=256&lt;/code>、&lt;code>epochs=5000&lt;/code>的结果，训练只花了 28 秒。&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230823104647-a0f9ec917be67b838120250cf737771a-fcc8c.gif"
 loading="lazy"
 >&lt;/p>
-&lt;h2 id="参考文献">参考文献&lt;/h2>
-&lt;style>
+&lt;h2 id="参考文献">参考文献
+&lt;/h2>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -1394,41 +1400,41 @@ loading="lazy"
 &lt;span>[2]&lt;/span>
 &lt;span>Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G., Graves, A., Riedmiller, M., Fidjeland, A. K., Ostrovski, G., Petersen, S., Beattie, C., Sadik, A., Antonoglou, I., King, H., Kumaran, D., Wierstra, D., Legg, S., &amp;amp; Hassabis, D. (2015). Human-level control through deep reinforcement learning. Nature, 518(7540), Article 7540. &lt;a class="link" href="https://doi.org/10.1038/nature14236" target="_blank" rel="noopener"
 >https://doi.org/10.1038/nature14236&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;a href="#ref-cite2-2">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;/div></description></item><item><title>我折腾NAS的历程（一）：树莓派</title><link>https://blog.furffisite.link/p/nas-1/</link><pubDate>Mon, 21 Aug 2023 14:46:05 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821143533-8f90300e7a87f5103e8c13359c0ce9a7-a82cd.jpg" alt="Featured image of post 我折腾NAS的历程（一）：树莓派" />&lt;p>我开始折腾NAS的原因很简单——笔记本的存储空间不够了，当时固态硬盘的价格远没有现在这么便宜，移动硬盘随身携带有点麻烦，所以就想给硬盘连上网，这样只要有网就能访问。&lt;/p>
-&lt;p>当时是2021年3月，我手边有闲置的树莓派Raspberry Pi 3B+（19年花￥279买的），于是一个很朴素的想法就形成了——买一个SATA-USB的硬盘盒连接机械硬盘，再给树莓派连上网线，做成一个简陋的NAS（后来才知道有NAS这个名字）。我后来也的确是这么操作的，硬盘盒买的绿联的，花了￥99。使用后发现树莓派3B+的USB2.0接口太慢了，于是半年后（2021.9）加钱买了带USB3的树莓派4B，花了￥578（当时这个价格已经很贵了，想不通为什么自己那个时候决定要买），所以这一套不算硬盘的价格是￥677。&lt;/p>
-&lt;p>我使用的操作系统是树莓派官方提供的&lt;a class="link" href="https://www.raspberrypi.com/software/operating-systems/" target="_blank" rel="noopener"
+&lt;/div>&lt;/div></description></item><item><title>我折腾 NAS 的历程（一）：树莓派</title><link>https://blog.furffisite.link/p/nas-1/</link><pubDate>Mon, 21 Aug 2023 14:46:05 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-1/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821143533-8f90300e7a87f5103e8c13359c0ce9a7-a82cd.jpg" alt="Featured image of post 我折腾 NAS 的历程（一）：树莓派" />&lt;p>我开始折腾NAS的原因很简单——笔记本的存储空间不够了，当时固态硬盘的价格远没有现在这么便宜，移动硬盘随身携带有点麻烦，所以就想给硬盘连上网，这样只要有网就能访问。&lt;/p>
+&lt;p>当时是2021年3月，我手边有闲置的树莓派 3B+（19 年花 ￥279 买的），于是一个很朴素的想法就形成了——买一个 SATA-USB 的硬盘盒连接机械硬盘，再给树莓派连上网线，做成一个简陋的 NAS（后来才知道有 NAS 这个名字）。我后来也的确是这么操作的，硬盘盒买的绿联的，花了￥99。使用后发现树莓派 3B+ 的 USB2.0 接口太慢了，于是半年后（2021.9）买了带 USB3 的树莓派4B，花了￥578（当时这个价格已经很贵了，想不通为什么自己那个时候决定要买），所以这一套不算硬盘的价格是￥677。&lt;/p>
+&lt;p>我使用的操作系统是树莓派官方提供的 &lt;a class="link" href="https://www.raspberrypi.com/software/operating-systems/" target="_blank" rel="noopener"
 >Raspbian&lt;/a>，在上面安装了&lt;/p>
 &lt;ol>
 &lt;li>samba（文件服务）、&lt;/li>
 &lt;li>&lt;a class="link" href="https://github.com/Furffico/bililiveRecorder" target="_blank" rel="noopener"
 >自己写的录播姬&lt;/a>、&lt;/li>
 &lt;li>&lt;a class="link" href="https://hub.docker.com/r/p3terx/aria2-pro" target="_blank" rel="noopener"
->aria2&lt;/a>（BT下载）、&lt;/li>
+>aria2&lt;/a>（BT 下载）、&lt;/li>
 &lt;li>Coredns（因为学校的DNS服务器挂过一次）。&lt;/li>
 &lt;/ol>
-&lt;p>我认为树莓派作为NAS主要的优点是：&lt;/p>
+&lt;p>我认为树莓派作为 NAS 主要的优点是：&lt;/p>
 &lt;ul>
 &lt;li>结构简单，插电就能用，且易于携带；&lt;/li>
 &lt;li>耗电量很低；&lt;/li>
-&lt;li>自带GPIO接口，可以外接一些LED或LCD 1602显示服务器状态等，或是增加传感器以收集数据，这对于“折腾类”玩家又是一个可折腾的点。&lt;/li>
+&lt;li>自带 GPIO 接口，可以外接一些 LED 或 LCD 1602 显示服务器状态等，或是增加传感器以收集数据，这对于“折腾类”玩家又是一个可折腾的点。&lt;/li>
 &lt;/ul>
 &lt;p>缺点是：&lt;/p>
 &lt;ul>
-&lt;li>第一，它的cpu是32位arm架构的，这导致许多没有提供32位arm版本的程序它都无法运行，例如qbittorrent、数据库、jellyfin等，而受限于其性能，从源代码编译这条路也不简单（当然也可以使用docker buildx跨平台编译，但是当时的我还不会搞这些）；&lt;/li>
+&lt;li>第一，它的 CPU 是 32 位 arm 架构的，这导致许多没有提供 32 位 arm 版本的程序它都无法运行，例如 qbittorrent、数据库、jellyfin 等，而受限于其性能，从源代码编译这条路也不简单（当然也可以使用 docker buildx 跨平台编译，但是当时的我还不会搞这些）；&lt;/li>
 &lt;li>第二，性能太弱；&lt;/li>
 &lt;li>第三，性价比不高。&lt;/li>
 &lt;/ul>
-&lt;p>相较于其优点，它的缺点还是太突出了，于是我在一年后（2022.10）换了&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >amd64架构的NAS&lt;/a>。&lt;/p></description></item><item><title>我折腾NAS的历程（二）：淘宝工控机</title><link>https://blog.furffisite.link/p/nas-2/</link><pubDate>Sun, 20 Aug 2023 10:22:44 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-2/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821152623-0e0e9fdf80c6f1c9ffeee0f80f808e1e-60da9.jpg" alt="Featured image of post 我折腾NAS的历程（二）：淘宝工控机" />&lt;p>时值2022年国庆节，我在淘宝翻了很久，找x86/amd64的NAS方案，最终相中了淘宝某家店卖的“青春版黑群晖”，CPU+主板+风扇+4GB 内存+亚克力外壳一共只要￥285，外带黑群晖的引导盘。这个价格很吸引我，于是我没过多考虑就下单了。&lt;/p>
-&lt;p>货到之后发现这个主板似乎是工控机里拆出来的，CPU是12年Q1出的Atom D2550。主板上只有一个SATA口，其余的被拆掉了，于是商家增加了一个SATA转M.2接口的板子插在（疑似）M.2口上，这样就能支持双硬盘了。因为我想让硬盘完全用来存储数据，所以我又花￥56.9买了一个64GB的小U盘用来存储操作系统。&lt;/p>
-&lt;p>操作系统选的是Ubuntu Server 16.04，理由是相较于商家提供的黑群晖，我更熟悉Ubuntu。软件和服务方面安装了samba、jellyfin、qbittorrent、coredns等。&lt;/p>
-&lt;p>这个价格我很是满意，但是这台NAS的性能不比树莓派高多少，毕竟是十年前的处理器，导致它在一些高负载的情况下（例如Jellyfin使用ffmpeg转码播放视频）有些力不从心，播放时异常卡顿，所以在今年六月的时候趁购物节&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >自己组了一台&lt;/a>。换了新的之后发现，性能上去了，能同时跑的服务就多了很多，可以真的把它当作一台服务器来用了。&lt;/p></description></item><item><title>我折腾NAS的历程（三）：捡垃圾自组</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾NAS的历程（三）：捡垃圾自组" />&lt;p>组这台NAS前的事情：&lt;/p>
+&lt;p>相较于其优点，它的缺点还是太突出了，于是我在一年后（2022.10）换了&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >amd64架构的NAS&lt;/a>。&lt;/p></description></item><item><title>我折腾 NAS 的历程（二）：淘宝工控机</title><link>https://blog.furffisite.link/p/nas-2/</link><pubDate>Sun, 20 Aug 2023 10:22:44 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-2/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230821152623-0e0e9fdf80c6f1c9ffeee0f80f808e1e-60da9.jpg" alt="Featured image of post 我折腾 NAS 的历程（二）：淘宝工控机" />&lt;p>时值 2022 年国庆节，我在淘宝翻了很久，找 x86/amd64 的 NAS 方案，最终相中了淘宝某家店卖的“青春版黑群晖”，CPU+主板+风扇+4GB 内存+亚克力外壳一共只要 ￥285，外带黑群晖的引导盘。这个价格很吸引我，于是我没过多考虑就下单了。&lt;/p>
+&lt;p>货到之后发现这个主板似乎是工控机里拆出来的，CPU 是 12 年 Q1 出的 Atom D2550。主板上只有一个 SATA 口，其余的被拆掉了，于是商家增加了一个 SATA 转 M.2 接口的板子插在（疑似）M.2 口上，这样就能支持双硬盘了。因为我想让硬盘完全用来存储数据，所以我又花 ￥56.9 买了一个 64GB 的小 U 盘用来存储操作系统。&lt;/p>
+&lt;p>操作系统选的是 Ubuntu Server 16.04，理由是相较于商家提供的黑群晖，我更熟悉 Ubuntu。软件和服务方面安装了 samba、jellyfin、qbittorrent、coredns 等。&lt;/p>
+&lt;p>这个价格我很是满意，但是这台 NAS 的性能不比树莓派高多少，毕竟是十年前的处理器，导致它在一些高负载的情况下（例如 Jellyfin 使用 ffmpeg 转码播放视频）有些力不从心，播放时异常卡顿，所以在今年六月的时候趁购物节&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >自己组了一台&lt;/a>。换了新的之后发现，性能上去了，能同时跑的服务就多了很多，可以真的把它当作一台服务器来用了。&lt;/p></description></item><item><title>我折腾 NAS 的历程（三）：捡垃圾自组</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾 NAS 的历程（三）：捡垃圾自组" />&lt;p>组这台 NAS 前的事情：&lt;/p>
 &lt;ul>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" >&lt;em>我折腾NAS的历程（一）&lt;/em>&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >&lt;em>我折腾NAS的历程（二）&lt;/em>&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;h2 id="理论">理论&lt;/h2>
-&lt;h3 id="装机配置单">装机配置单&lt;/h3>
-&lt;table>
+&lt;h2 id="理论">理论
+&lt;/h2>&lt;h3 id="装机配置单">装机配置单
+&lt;/h3>&lt;table>
 &lt;thead>
 &lt;tr>
 &lt;th>&lt;/th>
@@ -1444,7 +1450,7 @@ loading="lazy"
 &lt;td>CPU&lt;/td>
 &lt;td>Intel&lt;/td>
 &lt;td>E5-2660 v4&lt;/td>
-&lt;td>14核 2.0GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91772/intel-xeon-processor-e52660-v4-35m-cache-2-00-ghz/specifications.html" target="_blank" rel="noopener"
+&lt;td>14 核 2.0GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91772/intel-xeon-processor-e52660-v4-35m-cache-2-00-ghz/specifications.html" target="_blank" rel="noopener"
 >规格表&lt;/a>&lt;/td>
 &lt;td>¥52（洋垃圾）&lt;/td>
 &lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=653447092309" target="_blank" rel="noopener"
@@ -1501,13 +1507,13 @@ loading="lazy"
 &lt;td>机箱&lt;/td>
 &lt;td>invasion&lt;/td>
 &lt;td>invasion X1&lt;/td>
-&lt;td>4盘位ITX&lt;/td>
+&lt;td>4盘位 ITX&lt;/td>
 &lt;td>¥244&lt;/td>
 &lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=631276021464" target="_blank" rel="noopener"
 >link&lt;/a>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>CPU散热器&lt;/td>
+&lt;td>CPU 散热器&lt;/td>
 &lt;td>零下30度&lt;/td>
 &lt;td>-&lt;/td>
 &lt;td>-&lt;/td>
@@ -1519,7 +1525,7 @@ loading="lazy"
 &lt;td>机箱风扇&lt;/td>
 &lt;td>航嘉&lt;/td>
 &lt;td>MVP120&lt;/td>
-&lt;td>1500RPM，支持PWM&lt;/td>
+&lt;td>1500 RPM，支持 PWM&lt;/td>
 &lt;td>¥75.95（三只装）&lt;/td>
 &lt;td>&lt;a class="link" href="https://detail.tmall.com/item.htm?id=657878805031" target="_blank" rel="noopener"
 >link&lt;/a>&lt;/td>
@@ -1535,32 +1541,32 @@ loading="lazy"
 &lt;/tbody>
 &lt;/table>
 &lt;p>*笔记本上拆下来的&lt;/p>
-&lt;h3 id="攒机理念">攒机理念&lt;/h3>
-&lt;p>目标：&lt;strong>省钱、性能还行、体积小、静音、保留一定的可升级性、尽量一手&lt;/strong>。&lt;/p>
-&lt;p>关于CPU，我在&lt;a class="link" href="https://www.cpubenchmark.net" target="_blank" rel="noopener"
+&lt;h3 id="攒机理念">攒机理念
+&lt;/h3>&lt;p>目标：&lt;strong>省钱、性能还行、体积小、静音、保留一定的可升级性、尽量一手&lt;/strong>。&lt;/p>
+&lt;p>关于 CPU，我在&lt;a class="link" href="https://www.cpubenchmark.net" target="_blank" rel="noopener"
 >CPUbenchmark&lt;/a>上按照跑分结果在E5的一系列洋垃圾型号中从高到低翻，最后看中了 E5-2660 v4。选择它有以下几点理由：&lt;/p>
 &lt;ol>
 &lt;li>其功耗相比与同系列其它型号较低；&lt;/li>
-&lt;li>E5-2660 v4为2016 Q4推出的，相对v3和v2要新一点；&lt;/li>
-&lt;li>其性价比在同型号中较高，52元16005分，相较于2690 v3的68元16505分更实惠。&lt;/li>
+&lt;li>E5-2660 v4 为 2016 Q4 推出的，相对 v3 和 v2 要新一点；&lt;/li>
+&lt;li>其性价比在同型号中较高，52 元 16005 分，相较于2690 v3 的 68 元 16505 分更实惠。&lt;/li>
 &lt;/ol>
-&lt;p>CPU定下来了之后，主板和内存也就相应的决定了。之所以主板不选二手是因为我想省点事，对于二手市场上可能遇到的众多问题我目前没有任何应对经验。而选择ITX是为了满足体积小的要求，毕竟宿舍里放不下太多东西。&lt;/p>
-&lt;p>关于系统盘，之前给笔记本升级外存的时候拆下来的原装SSD可以直接给它用。就算是买一个全新的也不会太贵，256GB买个二线厂的SSD应该也够用了。
-在装系统、进BIOS时显卡是必要的，作为服务器CPU的E5-2660 v4没有核心显卡，因此这里依然需要一张显卡。上淘宝一搜果然有卖亮机卡的，16元的价格也就不用纠结值不值了，能亮就行。为了能看到视频输出我还买了一个二十多的HDMI采集卡以代替显示器，事实证明二十块的画质果然不行。
-电源不敢买二手的，怕出问题。500W的电源相对于目前的整机功耗明显是过剩的，但这也为以后的升级保留了余量。
-最后是机箱，综合以上要求，机箱应该是体积小、轻便、便宜的多盘位ITX机箱，在淘宝上翻了一大圈只看到这一款同时满足这几点的。别的型号，例如蜗牛星际、御夫座、天箭座等都太贵了或者散热容量太小。两百多的机箱我觉得还是贵了点，可是也没找到更好的选择。&lt;/p>
-&lt;p>关于可升级性，这套配置中，CPU可以升级为24686分的E5-2699 v4（在价格降下来之后），还有三个位置可以加内存条，显卡可以升级，机箱和电源以后也能用于装游戏电脑。&lt;/p>
-&lt;h2 id="实践">实践&lt;/h2>
-&lt;h3 id="装机过程">装机过程&lt;/h3>
-&lt;p>装机过程中遇到的问题有四：&lt;/p>
+&lt;p>CPU 定下来了之后，主板和内存也就相应的决定了。之所以主板不选二手是因为我想省点事，对于二手市场上可能遇到的众多问题我目前没有任何应对经验。而选择 ITX 是为了满足体积小的要求，毕竟宿舍里放不下太多东西。&lt;/p>
+&lt;p>关于系统盘，之前给笔记本升级外存的时候拆下来的原装 SSD 可以直接给它用。就算是买一个全新的也不会太贵，256GB 买个二线厂的 SSD 应该也够用了。
+在装系统、进 BIOS 时显卡是必要的，作为服务器 CPU 的 E5-2660 v4 没有核心显卡，因此这里依然需要一张显卡。上淘宝一搜果然有卖亮机卡的，16 元的价格也就不用纠结值不值了，能亮就行。为了能看到视频输出我还买了一个二十多的 HDMI 采集卡以代替显示器，事实证明二十块的画质果然不行。
+电源不敢买二手的，怕出问题。500W 的电源相对于目前的整机功耗明显是过剩的，但这也为以后的升级保留了余量。
+最后是机箱，综合以上要求，机箱应该是体积小、轻便、便宜的多盘位 ITX 机箱，在淘宝上翻了一大圈只看到这一款同时满足这几点的。别的型号，例如蜗牛星际、御夫座、天箭座等都太贵了或者散热容量太小。两百多的机箱我觉得还是贵了点，可是也没找到更好的选择。&lt;/p>
+&lt;p>关于可升级性，这套配置中，CPU 可以升级为 24686 分的 E5-2699 v4（在价格降下来之后），还有三个位置可以加内存条，显卡可以升级，机箱和电源以后也能用于装游戏电脑。&lt;/p>
+&lt;h2 id="实践">实践
+&lt;/h2>&lt;h3 id="装机过程">装机过程
+&lt;/h3>&lt;p>装机过程中遇到的问题有四：&lt;/p>
 &lt;ol>
-&lt;li>CPU散热器的螺丝是弯的（可能是制造问题），要用钳子扳直了才能安装；&lt;/li>
-&lt;li>机箱自带的硬盘笼和主板电源插槽有2mm左右的overlap，装完之后硬盘笼有一点点变形。得益于硬盘架的减震机构，这个变形产生的影响不大；&lt;/li>
-&lt;li>主板下部的插槽和机箱风扇有冲突，前面板USB-3的线插不进去，但对于NAS而言这根线不插问题也不大；&lt;/li>
-&lt;li>华南金牌的这款主板的主板风扇插槽只有3针，不支持PWM，直接插MVP120的话满转速噪音非常大。我最后用一拖三的线把所有风扇都接到了支持PWM的CPU风扇插槽上，这样就安静了很多（之后又进BIOS调整了一下温度-转速曲线）。&lt;/li>
+&lt;li>CPU 散热器的螺丝是弯的（可能是制造问题），要用钳子扳直了才能安装；&lt;/li>
+&lt;li>机箱自带的硬盘笼和主板电源插槽有 2mm 左右的 overlap，装完之后硬盘笼有一点点变形。得益于硬盘架的减震机构，这个变形产生的影响不大；&lt;/li>
+&lt;li>主板下部的插槽和机箱风扇有冲突，前面板 USB-3 的线插不进去，但对于 NAS 而言这根线不插问题也不大；&lt;/li>
+&lt;li>华南金牌的这款主板的主板风扇插槽只有 3 针，不支持 PWM，直接插 MVP120 的话满转速噪音非常大。我最后用一拖三的线把所有风扇都接到了支持 PWM 的 CPU 风扇插槽上，这样就安静了很多（之后又进BIOS 调整了一下温度-转速曲线）。&lt;/li>
 &lt;/ol>
-&lt;h3 id="操作系统">操作系统&lt;/h3>
-&lt;p>因为我最熟悉的Linux发行版是Ubuntu，所以我安装了Ubuntu 22.04.2 LTS（服务器版）。&lt;/p>
+&lt;h3 id="操作系统">操作系统
+&lt;/h3>&lt;p>因为我最熟悉的 Linux 发行版是 Ubuntu，所以我安装了 Ubuntu 22.04.2 LTS（服务器版）。&lt;/p>
 &lt;p>系统盘分区如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1580,9 +1586,9 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">swap 958271488 1000214527 41943040 20G Linux swap
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="测试">测试&lt;/h3>
-&lt;p>整机待机时CPU核心平均温度为30°C，满载时为55°C，说明散热还是有很大的余量的。服务正常运行时插座上测量到的功率在68W左右，CPU满载时约140W。&lt;/p>
-&lt;p>使用sysbench的测试结果如下，和我现役的游戏本相比我觉得这个成绩还算可以接受：&lt;/p>
+&lt;/div>&lt;h3 id="测试">测试
+&lt;/h3>&lt;p>整机待机时 CPU 核心平均温度为 30°C，满载时为 55°C，说明散热还是有很大的余量的。服务正常运行时插座上测量到的功率在 68W 左右，CPU满载时约 140W。&lt;/p>
+&lt;p>使用 sysbench 的测试结果如下，和我现役的游戏本相比我觉得这个成绩还算可以接受：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1649,10 +1655,10 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> execution time (avg/stddev): 599.9078/0.00
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="软件部分">软件部分&lt;/h2>
-&lt;h3 id="docker">Docker&lt;/h3>
-&lt;p>最先安装的是Docker，因为有了Docker之后别的应用都可以使用Docker镜像安装和管理。&lt;/p>
-&lt;p>在Ubuntu上安装Docker只需使用官方提供的安装脚本&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>：&lt;/p>
+&lt;/div>&lt;h2 id="软件部分">软件部分
+&lt;/h2>&lt;h3 id="docker">Docker
+&lt;/h3>&lt;p>最先安装的是 Docker，因为有了 Docker 之后别的应用都可以使用 Docker 镜像安装和管理。&lt;/p>
+&lt;p>在 Ubuntu 上安装Docker只需使用官方提供的安装脚本&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1663,8 +1669,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo sh get-docker.sh
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="修改docker数据位置">修改Docker数据位置&lt;/h4>
-&lt;p>Docker的数据默认储存在&lt;code>/var/lib/docker&lt;/code>内，我想将其移到&lt;code>/srv&lt;/code>文件系统内，操作如下：&lt;/p>
+&lt;/div>&lt;h4 id="修改docker数据位置">修改Docker数据位置
+&lt;/h4>&lt;p>Docker 的数据默认储存在 &lt;code>/var/lib/docker&lt;/code> 内，我想将其移到 &lt;code>/srv&lt;/code> 文件系统内，操作如下：&lt;/p>
 &lt;ol>
 &lt;li>关闭&lt;code>docker&lt;/code>服务：&lt;code>systemctl stop docker&lt;/code>&lt;/li>
 &lt;li>移动文件：&lt;code>sudo mv /var/lib/docker /srv/&lt;/code>&lt;/li>
@@ -1672,10 +1678,10 @@ loading="lazy"
 &lt;li>修改配置文件，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加配置：&lt;code>{&amp;quot;data-root&amp;quot;: &amp;quot;/srv/docker&amp;quot;}&lt;/code>&lt;/li>
 &lt;li>启动&lt;code>docker&lt;/code>服务：&lt;code>systemctl start docker&lt;/code>&lt;/li>
 &lt;/ol>
-&lt;h4 id="使用docker国内镜像源">使用Docker国内镜像源&lt;/h4>
-&lt;p>阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 &lt;a class="link" href="https://aliyun.com" target="_blank" rel="noopener"
+&lt;h4 id="使用docker国内镜像源">使用Docker国内镜像源
+&lt;/h4>&lt;p>阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 &lt;a class="link" href="https://aliyun.com" target="_blank" rel="noopener"
 >https://aliyun.com&lt;/a> 登录阿里云帐号，然后在 &lt;strong>控制台 &amp;gt; 容器镜像服务 &amp;gt; 镜像工具 &amp;gt; 镜像加速器&lt;/strong> 处可以获取加速器的地址及修改镜像源的方法。&lt;/p>
-&lt;p>此外也有一些开放的镜像源，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加如下属性&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>：&lt;/p>
+&lt;p>此外也有一些开放的镜像源，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加如下属性 &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1699,8 +1705,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>修改后使用 &lt;code>systemctl restart docker&lt;/code> 重启docker服务即可。&lt;/p>
-&lt;h4 id="手动下载镜像">手动下载镜像&lt;/h4>
-&lt;p>如果替换了镜像源之后也拉不动镜像的话，可以试试 &lt;a class="link" href="https://github.com/moby/moby" target="_blank" rel="noopener"
+&lt;h4 id="手动下载镜像">手动下载镜像
+&lt;/h4>&lt;p>如果替换了镜像源之后也拉不动镜像的话，可以试试 &lt;a class="link" href="https://github.com/moby/moby" target="_blank" rel="noopener"
 >Moby Project&lt;/a> 提供的镜像下载脚本下载镜像：&lt;a class="link" href="https://github.com/moby/moby/blob/master/contrib/download-frozen-image-v2.sh" target="_blank" rel="noopener"
 >link&lt;/a>&lt;/p>
 &lt;p>使用例：&lt;/p>
@@ -1741,9 +1747,9 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Loaded image: alpine:latest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>即可让docker导入镜像。&lt;/p>
-&lt;h3 id="samba">samba&lt;/h3>
-&lt;div class="highlight">&lt;div class="chroma">
+&lt;/div>&lt;p>即可让 docker 导入镜像。&lt;/p>
+&lt;h3 id="samba">samba
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
@@ -1751,7 +1757,7 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo apt install samba
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>安装后使用&lt;code>smbpasswd -a &amp;lt;username&amp;gt;&lt;/code>为用户添加samba的访问密码，其中&lt;code>&amp;lt;username&amp;gt;&lt;/code>必须为已经在Linux内注册的用户。&lt;/p>
+&lt;/div>&lt;p>安装后使用&lt;code>smbpasswd -a &amp;lt;username&amp;gt;&lt;/code>为用户添加 samba 的访问密码，其中&lt;code>&amp;lt;username&amp;gt;&lt;/code>必须为已经在 Linux 内注册的用户。&lt;/p>
 &lt;p>配置文件为&lt;code>/etc/samba/smb.conf&lt;/code>，配置项可参考&lt;a class="link" href="https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html" target="_blank" rel="noopener"
 >官方文档&lt;/a>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1772,12 +1778,12 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">valid users = &amp;lt;users&amp;gt;
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="jellyfin">jellyfin&lt;/h3>
-&lt;p>jellyfin是数字媒体管理与串流软件，它支持浏览器、Android、iOS、Android TV等许多客户端，可以在这些客户端上便捷地观看服务端存储的内容，这也是我攒这台NAS的主要目的。E5-2660 v4的性能足以支持jellyfin流畅编解码超高清资源（软解，不过目前看来也没有专门为这个买GPU的必要了）。&lt;/p>
+&lt;/div>&lt;h3 id="jellyfin">jellyfin
+&lt;/h3>&lt;p>jellyfin 是数字媒体管理与串流软件，它支持浏览器、Android、iOS、Android TV 等许多客户端，可以在这些客户端上便捷地观看服务端存储的内容，这也是我攒这台 NAS 的主要目的。E5-2660 v4 的性能足以支持 jellyfin 流畅编解码超高清资源（软解，不过目前看来也没有专门为这个买 GPU 的必要了）。&lt;/p>
 &lt;p>可以使用&lt;a class="link" href="https://hub.docker.com/r/jellyfin/jellyfin" target="_blank" rel="noopener"
->官方的docker镜像&lt;/a>或者&lt;a class="link" href="https://hub.docker.com/r/linuxserver/jellyfin" target="_blank" rel="noopener"
->linuxserver.io制作的镜像&lt;/a>来安装jellyfin。&lt;/p>
-&lt;p>为了便于我管理和配置，所有的Docker容器都将使用docker compose启动。这是jellyfin的&lt;code>docker-compose.yaml&lt;/code>：&lt;/p>
+>官方的 docker 镜像&lt;/a>或者&lt;a class="link" href="https://hub.docker.com/r/linuxserver/jellyfin" target="_blank" rel="noopener"
+>linuxserver.io 制作的镜像&lt;/a>来安装 jellyfin。&lt;/p>
+&lt;p>为了便于我管理和配置，所有的 Docker 容器都将使用 docker compose 启动。这是 jellyfin 的&lt;code>docker-compose.yaml&lt;/code>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1832,8 +1838,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">8G&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="qbittorrent">qbittorrent&lt;/h3>
-&lt;p>qbittorrent是用于bt下载的软件。linuxserver.io也打包了qbittorrent的镜像，使用这个镜像运行即可。我的&lt;code>docker-compose.yaml&lt;/code>如下：&lt;/p>
+&lt;/div>&lt;h3 id="qbittorrent">qbittorrent
+&lt;/h3>&lt;p>qbittorrent 是用于 bt 下载的软件。linuxserver.io 也打包了 qbittorrent 的镜像，使用这个镜像运行即可。我的&lt;code>docker-compose.yaml&lt;/code>如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1894,11 +1900,11 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">1G&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="frpc">frpc&lt;/h3>
-&lt;p>内网穿透工具的客户端，我用的是&lt;a class="link" href="https://hub.docker.com/r/snowdreamtech/frpc" target="_blank" rel="noopener"
+&lt;/div>&lt;h3 id="frpc">frpc
+&lt;/h3>&lt;p>内网穿透工具的客户端，我用的是&lt;a class="link" href="https://hub.docker.com/r/snowdreamtech/frpc" target="_blank" rel="noopener"
 >下载量最高的镜像&lt;/a>。&lt;/p>
-&lt;h3 id="coredns">coredns&lt;/h3>
-&lt;p>DNS服务器，因为学校的DNS以前崩过，所以装一个备用。&lt;a class="link" href="https://hub.docker.com/r/coredns/coredns" target="_blank" rel="noopener"
+&lt;h3 id="coredns">coredns
+&lt;/h3>&lt;p>DNS 服务器，因为学校的 DNS 以前崩过，所以装一个备用。&lt;a class="link" href="https://hub.docker.com/r/coredns/coredns" target="_blank" rel="noopener"
 >官方镜像&lt;/a>即可。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1940,7 +1946,7 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">100M&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>53端口可能和ubuntu的systemd-resolved服务冲突，在启动容器前需要先关闭这个服务：&lt;/p>
+&lt;/div>&lt;p>53 端口可能和 ubuntu 的 systemd-resolved 服务冲突，在启动容器前需要先关闭这个服务：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1951,7 +1957,7 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo systemctl stop systemd-resolved
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>coredns结合nginx/Apache转发与一些路由器的设置就可以实现内网域名（不用记端口号了），例如：&lt;/p>
+&lt;/div>&lt;p>coredns 结合 nginx/Apache 转发与一些路由器的设置就可以实现内网域名（不用记端口号了），例如：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1996,29 +2002,29 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这样在局域网直接访问 &lt;code>http://jellyfin.server.local&lt;/code> 就可以进入jellyfin的界面了。&lt;/p>
-&lt;p>&lt;em>注：关闭systemd-resolved服务之后在使用KVM时可能会遇到一些问题。&lt;/em>&lt;/p>
-&lt;h3 id="grafana--prometheus">Grafana &amp;amp; Prometheus&lt;/h3>
-&lt;p>&lt;a class="link" href="https://grafana.com/" target="_blank" rel="noopener"
->Grafana&lt;/a>和&lt;a class="link" href="https://prometheus.io/" target="_blank" rel="noopener"
->Prometheus&lt;/a>这两个开源软件组合在一起可以用来监控服务器状态（不过在自用的NAS上搞这个可能意义不大）。之前没了解过这些软件，因此这部分完全是按照&lt;a class="link" href="https://geekflare.com/prometheus-grafana-setup-for-linux/" target="_blank" rel="noopener"
->教程&lt;/a>安装的，其中Grafana不涉及数据收集，可以在Docker容器中运行。&lt;/p>
-&lt;p>除了这两个软件，我还安装了&lt;a class="link" href="https://github.com/prometheus/node_exporter" target="_blank" rel="noopener"
->node exporter&lt;/a>和&lt;a class="link" href="https://github.com/google/cadvisor" target="_blank" rel="noopener"
->cadvisor&lt;/a>，分别收集服务器系统与Docker容器的统计信息。&lt;/p>
-&lt;p>装好之后，我以node exporter为基础改出了这样的dashboard：
+&lt;/div>&lt;p>这样在局域网直接访问 &lt;code>http://jellyfin.server.local&lt;/code> 就可以进入 jellyfin 的界面了。&lt;/p>
+&lt;p>&lt;em>注：关闭 systemd-resolved 服务之后在使用 KVM 时可能会遇到一些问题。&lt;/em>&lt;/p>
+&lt;h3 id="grafana--prometheus">Grafana &amp;amp; Prometheus
+&lt;/h3>&lt;p>&lt;a class="link" href="https://grafana.com/" target="_blank" rel="noopener"
+>Grafana&lt;/a> 和 &lt;a class="link" href="https://prometheus.io/" target="_blank" rel="noopener"
+>Prometheus&lt;/a> 这两个开源软件组合在一起可以用来监控服务器状态（不过在自用的 NAS 上搞这个可能意义不大）。之前没了解过这些软件，因此这部分完全是按照&lt;a class="link" href="https://geekflare.com/prometheus-grafana-setup-for-linux/" target="_blank" rel="noopener"
+>教程&lt;/a>安装的，其中 Grafana 不涉及数据收集，可以在 Docker 容器中运行。&lt;/p>
+&lt;p>除了这两个软件，我还安装了 &lt;a class="link" href="https://github.com/prometheus/node_exporter" target="_blank" rel="noopener"
+>node exporter&lt;/a> 和 &lt;a class="link" href="https://github.com/google/cadvisor" target="_blank" rel="noopener"
+>cadvisor&lt;/a>，分别收集服务器系统与 Docker 容器的统计信息。&lt;/p>
+&lt;p>装好之后，我以 node exporter 为基础改出了这样的 dashboard：
 &lt;img src="https://files.furffisite.link/blogimg/20230623223905-8a11623bf1549c06e503742374b7f39c-d92f1.png"
 loading="lazy"
 >&lt;/p>
-&lt;h3 id="数据库">数据库&lt;/h3>
-&lt;p>有一些服务（例如&lt;a class="link" href="https://github.com/go-gitea/gitea" target="_blank" rel="noopener"
->gitea&lt;/a>和自己写的爬虫）的数据是存储在数据库中的，我比较喜欢将这些数据放在同一个数据库服务端内（而非给每个有需要的应用都运行一个数据库），以便于数据的管理，同时减少系统占用。&lt;/p>
-&lt;p>关于关系型数据库，我使用的是&lt;a class="link" href="https://mariadb.org/" target="_blank" rel="noopener"
->mariadb&lt;/a>（MySQL的一个衍生版本）。关于镜像的版本，建议使用一个固定的版本号（而非latest），因为在不同版本的mariadb之间迁移数据还是比较麻烦的。&lt;/p>
-&lt;p>关于数据库的管理端，我以前常用的是&lt;a class="link" href="https://www.phpmyadmin.net/" target="_blank" rel="noopener"
->phpmyadmin&lt;/a>，这次想试试别的，所以使用了&lt;a class="link" href="https://hub.docker.com/_/mariadb" target="_blank" rel="noopener"
->官方docker镜像页&lt;/a>里提到的&lt;a class="link" href="https://hub.docker.com/_/adminer" target="_blank" rel="noopener"
->adminer&lt;/a>。其功能虽不如phpmyadmin丰富，界面也不如它美观，但是我平时会用到的基础操作（建表、查看数据、SQL查询、导出数据）它都有，缺少的功能可以直接用SQL语句凑嘛~&lt;/p>
+&lt;h3 id="数据库">数据库
+&lt;/h3>&lt;p>有一些服务（例如 &lt;a class="link" href="https://github.com/go-gitea/gitea" target="_blank" rel="noopener"
+>gitea&lt;/a> 和自己写的爬虫）的数据是存储在数据库中的，我比较喜欢将这些数据放在同一个数据库服务端内（而非给每个有需要的应用都运行一个数据库），以便于数据的管理，同时减少系统占用。&lt;/p>
+&lt;p>关于关系型数据库，我使用的是 &lt;a class="link" href="https://mariadb.org/" target="_blank" rel="noopener"
+>mariadb&lt;/a>（MySQL的一个衍生版本）。关于镜像的版本，建议使用一个固定的版本号（而非 latest），因为在不同版本的 mariadb 之间迁移数据还是比较麻烦的。&lt;/p>
+&lt;p>关于数据库的管理端，我以前常用的是 &lt;a class="link" href="https://www.phpmyadmin.net/" target="_blank" rel="noopener"
+>phpmyadmin&lt;/a>，这次想试试别的，所以使用了 &lt;a class="link" href="https://hub.docker.com/_/mariadb" target="_blank" rel="noopener"
+>官方docker镜像页&lt;/a> 里提到的 &lt;a class="link" href="https://hub.docker.com/_/adminer" target="_blank" rel="noopener"
+>adminer&lt;/a>。其功能虽不如 phpmyadmin 丰富，界面也不如它美观，但是我平时会用到的基础操作（建表、查看数据、SQL 查询、导出数据）它都有，缺少的功能可以直接用 SQL 语句凑嘛~&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -2061,18 +2067,18 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">8080&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">8080&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>如果服务需要，也可以使用docker运行非关系型数据库&lt;a class="link" href="https://www.mongodb.com/" target="_blank" rel="noopener"
->MongoDB&lt;/a>和&lt;a class="link" href="https://redis.io/" target="_blank" rel="noopener"
+&lt;/div>&lt;p>如果服务需要，也可以使用 docker 运行非关系型数据库 &lt;a class="link" href="https://www.mongodb.com/" target="_blank" rel="noopener"
+>MongoDB&lt;/a> 和 &lt;a class="link" href="https://redis.io/" target="_blank" rel="noopener"
 >redis&lt;/a>。&lt;/p>
-&lt;h3 id="minecraft服务器-papermc">Minecraft服务器 （papermc）&lt;/h3>
-&lt;p>选了docker hub里搜索排名靠前的 &lt;a class="link" href="https://hub.docker.com/r/marctv/minecraft-papermc-server" target="_blank" rel="noopener"
+&lt;h3 id="minecraft-服务器-papermc">Minecraft 服务器 （papermc）
+&lt;/h3>&lt;p>选了 docker hub 里搜索排名靠前的 &lt;a class="link" href="https://hub.docker.com/r/marctv/minecraft-papermc-server" target="_blank" rel="noopener"
 >marctv/minecraft-papermc-server&lt;/a>。&lt;/p>
 &lt;p>用了之后才发现，&lt;a class="link" href="https://papermc.io/" target="_blank" rel="noopener"
->papermc&lt;/a>是&lt;a class="link" href="https://www.spigotmc.org/" target="_blank" rel="noopener"
->SpigotMC&lt;/a>的分支，旨在提供原生Minecraft的体验。也就是说它不支持以前我在玩Minecraft时耳熟能详的那些Forge版mod，只支持服务器端的bukkit插件（plugin）。好处是相比与Forge服务器占用更小，并且不挑客户端，只要客户端Minecraft版本和服务器一致就能连上。
-配置好之后，使用frpc转发25565端口到公网，就可以愉快地和朋友们一起玩啦。&lt;/p>
-&lt;h4 id="后台管理">后台管理&lt;/h4>
-&lt;p>在docker-compose.yaml中对应的service配置里加上&lt;/p>
+>papermc&lt;/a> 是 &lt;a class="link" href="https://www.spigotmc.org/" target="_blank" rel="noopener"
+>SpigotMC&lt;/a> 的分支，旨在提供原生 Minecraft 的体验。也就是说它不支持以前我在玩 Minecraft 时耳熟能详的那些 Forge 版 mod，只支持服务器端的 bukkit 插件（plugin）。好处是相比与 Forge 服务器占用更小，并且不挑客户端，只要客户端 Minecraft 版本和服务器一致就能连上。
+配置好之后，使用 frpc 转发 25565 端口到公网，就可以愉快地和朋友们一起玩啦。&lt;/p>
+&lt;h4 id="后台管理">后台管理
+&lt;/h4>&lt;p>在 docker-compose.yaml 中对应的 service 配置里加上&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2104,13 +2110,13 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>进入服务器后台，使用指令管理服务器。&lt;/p>
-&lt;h4 id="配置">配置&lt;/h4>
-&lt;p>papermc相比于原版服务端修复了活塞相关的一些“特性”，例如使用活塞复制物品等，并在配置文件中默认限制这些行为，导致刷地毯机/破基岩等原版可行的操作在papermc服务端内不可用。当然这样对于服主而言确实可以防止玩家做出越界的行为，但是对于我这种只有几个朋友在一起玩的服务器，就不需要限制这些了。关闭限制的方式很简单，修改数据目录下的&lt;code>paper.yml&lt;/code>，将&lt;code>allow-headless-pistons&lt;/code>、&lt;code>allow-permanent-block-break-exploits&lt;/code>和&lt;code>allow-piston-duplication&lt;/code>三项设置为&lt;code>true&lt;/code>即可。&lt;/p>
-&lt;h4 id="安装插件">安装插件&lt;/h4>
-&lt;p>Papermc支持的插件可以在 &lt;a class="link" href="https://hangar.papermc.io/" target="_blank" rel="noopener"
+&lt;h4 id="配置">配置
+&lt;/h4>&lt;p>papermc 相比于原版服务端修复了活塞相关的一些“特性”，例如使用活塞复制物品等，并在配置文件中默认限制这些行为，导致刷地毯机/破基岩等原版可行的操作在 papermc 服务端内不可用。当然这样对于服主而言确实可以防止玩家做出越界的行为，但是对于我这种只有几个朋友在一起玩的服务器，就不需要限制这些了。关闭限制的方式很简单，修改数据目录下的&lt;code>paper.yml&lt;/code>，将&lt;code>allow-headless-pistons&lt;/code>、&lt;code>allow-permanent-block-break-exploits&lt;/code>和&lt;code>allow-piston-duplication&lt;/code>三项设置为&lt;code>true&lt;/code>即可。&lt;/p>
+&lt;h4 id="安装插件">安装插件
+&lt;/h4>&lt;p>Papermc 支持的插件可以在 &lt;a class="link" href="https://hangar.papermc.io/" target="_blank" rel="noopener"
 >Hanger&lt;/a>、&lt;a class="link" href="https://dev.bukkit.org/bukkit-plugins" target="_blank" rel="noopener"
 >bukkit&lt;/a>或&lt;a class="link" href="https://www.spigotmc.org/resources/" target="_blank" rel="noopener"
->SpigotMC&lt;/a>下载。下载对应版本的jar文件放到 /data/plugins 文件夹下（或者直接使用 wget/curl 下载），然后重启服务器，在启动时如果新增的插件没有报错误信息，那大概率是没问题的。&lt;/p>
+>SpigotMC&lt;/a>下载。下载对应版本的 jar 文件放到 /data/plugins 文件夹下（或者直接使用 wget/curl 下载），然后重启服务器，在启动时如果新增的插件没有报错误信息，那大概率是没问题的。&lt;/p>
 &lt;p>目前加了这些插件：&lt;/p>
 &lt;ul>
 &lt;li>Minepacks：背包插件；&lt;/li>
@@ -2134,10 +2140,10 @@ loading="lazy"
 &lt;li>LaggRemover：减少服务器卡顿；&lt;/li>
 &lt;li>BlueMap: 地图插件，提供了美观的在线3D地图；&lt;/li>
 &lt;li>&lt;a class="link" href="https://github.com/Cubxity/UnifiedMetrics" target="_blank" rel="noopener"
->UnifiedMetrics&lt;/a>：数据收集插件，支持前述的Prometheus。&lt;/li>
+>UnifiedMetrics&lt;/a>：数据收集插件，支持前述的 Prometheus。&lt;/li>
 &lt;/ul>
-&lt;h2 id="参考资料">参考资料&lt;/h2>
-&lt;style>
+&lt;h2 id="参考资料">参考资料
+&lt;/h2>&lt;style>
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
 .bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
@@ -2151,8 +2157,8 @@ loading="lazy"
 &lt;span>[2]&lt;/span>
 &lt;span>Docker 换源 - 腾讯云开发者社区 | &lt;a class="link" href="https://cloud.tencent.com/developer/article/1769231" target="_blank" rel="noopener"
 >https://cloud.tencent.com/developer/article/1769231&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;/div></description></item><item><title>【RL学习笔记】Q学习算法</title><link>https://blog.furffisite.link/p/q-learning/</link><pubDate>Thu, 18 May 2023 15:05:05 +0800</pubDate><guid>https://blog.furffisite.link/p/q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg" alt="Featured image of post 【RL学习笔记】Q学习算法" />&lt;h2 id="算法">算法&lt;/h2>
-&lt;p>Q学习算法（Q-Learning Algorithm）的思路比较简单：使用Q函数记录&lt;strong>每一个状态下每一个动作（action）的期望最大总回报（reward）&lt;/strong>，即Q值。在推理时贪心地选择当前状态Q值最大的动作，从而达到最大化期望总回报的目的。当问题的状态与动作均为离散时，Q函数可以使用表格记录，这个表格也称为Q表格（Q-Table）。&lt;/p>
+&lt;/div>&lt;/div></description></item><item><title>【RL学习笔记】Q学习算法</title><link>https://blog.furffisite.link/p/q-learning/</link><pubDate>Thu, 18 May 2023 15:05:05 +0800</pubDate><guid>https://blog.furffisite.link/p/q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230518191643-b6c8849bfb006d40abef7203bb5e15a0-18b9a.jpg" alt="Featured image of post 【RL学习笔记】Q学习算法" />&lt;h2 id="算法">算法
+&lt;/h2>&lt;p>Q 学习算法（Q-Learning Algorithm）的思路比较简单：使用 Q 函数记录&lt;strong>每一个状态下每一个动作（action）的期望最大总回报（reward）&lt;/strong>，即 Q 值。在推理时贪心地选择当前状态 Q 值最大的动作，从而达到最大化期望总回报的目的。当问题的状态与动作均为离散时，Q 函数可以使用表格记录，这个表格也称为 Q 表格（Q-Table）。&lt;/p>
 &lt;p>设：&lt;/p>
 &lt;ul>
 &lt;li>问题的状态空间为 $S = {1,~2,~\ldots, m}$；&lt;/li>
@@ -2161,9 +2167,9 @@ loading="lazy"
 &lt;li>学习率 $\eta\in [0,1]$；&lt;/li>
 &lt;li>回报衰减率 $\gamma\in [0,1]$。&lt;/li>
 &lt;/ul>
-&lt;p>则Q学习算法的流程如下：&lt;/p>
+&lt;p>则 Q 学习算法的流程如下：&lt;/p>
 &lt;ol>
-&lt;li>初始化Q表格为零矩阵 $Q=O_{m\times n}$；&lt;/li>
+&lt;li>初始化 Q 表格为零矩阵 $Q=O_{m\times n}$；&lt;/li>
 &lt;li>设初始时间 $t = 0$，状态为 $s_t = s_0$；&lt;/li>
 &lt;li>选择动作 $a_t$：取随机数 $r\in[0,1]$，若 $r&amp;lt;\epsilon$，则当前为探索阶段，从 $A$ 随机选取一个动作；否则 $a_t = \argmax_{j\in A} Q_{s_t, j}$；&lt;/li>
 &lt;li>与环境交互，执行动作 $a_t$，并获得状态 $s_{t+1}$、回报 $r_t$；&lt;/li>
@@ -2173,11 +2179,11 @@ $$Q_{s_t, a_t} \leftarrow (1-\eta) Q_{s_t, a_t} + \eta(\gamma\max_{j\in A} Q_{s_
 其中 $\max Q_{s_{t+1},j}$ 为 转移后的状态 $s_{t+1}$ 下最大的Q值，加上 $r_t$，组成转移前状态 $s_t$ 下 $a_t$ 操作的Q值。将其与原来的 $Q_{s_t, a_t}$ 加权平均就得到了更新后的Q值。&lt;/li>
 &lt;li>时间 $t\leftarrow t+1$，回到第 3 步。&lt;/li>
 &lt;/ol>
-&lt;h2 id="实现">实现&lt;/h2>
-&lt;h3 id="frozen-lake">Frozen Lake&lt;/h3>
-&lt;p>以 &lt;a class="link" href="https://gymnasium.farama.org/" target="_blank" rel="noopener"
+&lt;h2 id="实现">实现
+&lt;/h2>&lt;h3 id="frozen-lake">Frozen Lake
+&lt;/h3>&lt;p>以 &lt;a class="link" href="https://gymnasium.farama.org/" target="_blank" rel="noopener"
 >Gym&lt;/a> 的 &lt;a class="link" href="https://gymnasium.farama.org/environments/toy_text/frozen_lake/" target="_blank" rel="noopener"
->Frozen Lake&lt;/a> 环境为例，其状态空间与动作空间都是离散的，因此适合使用Q表格。这个环境共有 $4^2=16$ 种状态，4种动作，分别对应上下左右四个移动方向。环境中&lt;code>slippery&lt;/code>引入的不确定性太大（每次行动只有$1/3$的概率能真正前往指定的方向），因此这里创建环境时&lt;code>is_slippery&lt;/code>一项设为&lt;code>False&lt;/code>。&lt;/p>
+>Frozen Lake&lt;/a> 环境为例，其状态空间与动作空间都是离散的，因此适合使用 Q 表格。这个环境共有 $4^2=16$ 种状态，4 种动作，分别对应上下左右四个移动方向。环境中&lt;code>slippery&lt;/code>引入的不确定性太大（每次行动只有$1/3$的概率能真正前往指定的方向），因此这里创建环境时&lt;code>is_slippery&lt;/code>一项设为&lt;code>False&lt;/code>。&lt;/p>
 &lt;p>实现如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -2255,9 +2261,9 @@ $$Q_{s_t, a_t} \leftarrow (1-\eta) Q_{s_t, a_t} + \eta(\gamma\max_{j\in A} Q_{s_
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">state&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">info&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">env&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reset&lt;/span>&lt;span class="p">()&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>原环境提供的回报函数所含的信息较少（仅在抵达终点时为1，其余情况均为0），不利于算法的收敛，因此我在实现中重新设计了回报函数。
+&lt;/div>&lt;p>原环境提供的回报函数所含的信息较少（仅在抵达终点时为 1，其余情况均为 0），不利于算法的收敛，因此我在实现中重新设计了回报函数。
 此外，训练时采用线性衰减的探索阈值 $\epsilon$ ，即训练初期倾向于探索（exploration），后期倾向于开发（exploitation）。&lt;/p>
-&lt;p>训练时每轮的t与该轮获得的总reward的折线图如下：&lt;/p>
+&lt;p>训练时每轮的 t 与该轮获得的总 reward 的折线图如下：&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230518182030-919e874eac177ca3e790e7ee6f3046de-a01ac.png"
 loading="lazy"
 >&lt;/p>
@@ -2269,42 +2275,42 @@ loading="lazy"
 >Cliff Walking&lt;/a>、&lt;a class="link" href="https://gymnasium.farama.org/environments/toy_text/taxi/" target="_blank" rel="noopener"
 >Taxi&lt;/a> 与 &lt;a class="link" href="https://gymnasium.farama.org/environments/toy_text/blackjack/" target="_blank" rel="noopener"
 >Blackjack&lt;/a>。但是，随着问题规模的增大，训练步数也需要相应地增加。&lt;/p>
-&lt;h3 id="cliff-walking">Cliff Walking&lt;/h3>
-&lt;p>这个环境有48种状态和4种动作，因此Q表格内共有192项。以下是训练了 10,000 步的结果（平均每项52步）：&lt;/p>
+&lt;h3 id="cliff-walking">Cliff Walking
+&lt;/h3>&lt;p>这个环境有 48 种状态和 4 种动作，因此 Q 表格内共有192项。以下是训练了 10,000 步的结果（平均每项 52 步）：&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230518183755-c54395a25e87cd173c7c9b80b5e60d30-35491.gif"
 loading="lazy"
 >&lt;/p>
-&lt;h3 id="taxi">Taxi&lt;/h3>
-&lt;p>这个环境有500种状态和6种动作，对应Q表格的3000项。以下是训练了 200,000 步的结果（平均每项67步）：&lt;/p>
+&lt;h3 id="taxi">Taxi
+&lt;/h3>&lt;p>这个环境有 500 种状态和 6 种动作，对应 Q 表格的 3000 项。以下是训练了 200,000 步的结果（平均每项 67 步）：&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230518185029-6e6e54510ded0b9180a5d99c54ee3756-689cf.gif"
 loading="lazy"
 >
 &lt;img src="https://files.furffisite.link/blogimg/20230518214938-1806f73fe873209df4641d6007f123e8-43ce4.png"
 loading="lazy"
 >&lt;/p>
-&lt;h3 id="blackjack">Blackjack&lt;/h3>
-&lt;p>Blackjack 有 $32\times 11\times 2=704$ 种状态和 $2$ 种动作，在处理时需要将离散的状态向量映射到非负整数域内。
+&lt;h3 id="blackjack">Blackjack
+&lt;/h3>&lt;p>Blackjack 有 $32\times 11\times 2=704$ 种状态和 $2$ 种动作，在处理时需要将离散的状态向量映射到非负整数域内。
 这个游戏的状态转移存在不确定性，即使是充分训练（$5\times 10^6$ 步）的Q表格也只能将胜率从完全随机时的 28.2% 提升到 39.3%。&lt;/p>
-&lt;h2 id="分析">分析&lt;/h2>
-&lt;h3 id="优点">优点&lt;/h3>
-&lt;ul>
+&lt;h2 id="分析">分析
+&lt;/h2>&lt;h3 id="优点">优点
+&lt;/h3>&lt;ul>
 &lt;li>算法简单，易于理解和实现。&lt;/li>
 &lt;/ul>
-&lt;h3 id="局限性">局限性&lt;/h3>
-&lt;ul>
-&lt;li>基于Q表格的Q学习算法只能处理输入输出都是离散的问题；&lt;/li>
-&lt;li>基于Q表格的Q学习算法不能跨实例学习，即在遇到新的问题实例时，需要从0开始重新探索；&lt;/li>
-&lt;li>基于Q表格的Q学习算法难以处理训练过程中没有见过的状态；&lt;/li>
-&lt;li>当状态空间或动作空间很大时，Q表格的规模也会很大，从而需要更长的学习时间。&lt;/li>
+&lt;h3 id="局限性">局限性
+&lt;/h3>&lt;ul>
+&lt;li>基于 Q 表格的 Q 学习算法只能处理输入输出都是离散的问题；&lt;/li>
+&lt;li>基于 Q 表格的 Q 学习算法不能跨实例学习，即在遇到新的问题实例时，需要从 0 开始重新探索；&lt;/li>
+&lt;li>基于 Q 表格的 Q 学习算法难以处理训练过程中没有见过的状态；&lt;/li>
+&lt;li>当状态空间或动作空间很大时，Q 表格的规模也会很大，从而需要更长的学习时间。&lt;/li>
 &lt;/ul>
-&lt;p>上述问题可以通过引入神经网络缓解，即深度Q学习算法（Deep Q-Learning Algorithm）。&lt;/p></description></item><item><title>解决Linux系统深色模式下的Zotero显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;p>因为Linux端的Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
->AUR&lt;/a>）中有一部分元素的样式是由GTK控制的，因此当系统的GTK主题为深色主题时，Zotero的界面会呈现为这个样子：
+&lt;p>上述问题可以通过引入神经网络缓解，即深度 Q 学习算法（Deep Q-Learning Algorithm）。&lt;/p></description></item><item><title>解决 Linux 系统深色模式下的 Zotero 显示问题</title><link>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</link><pubDate>Sat, 13 May 2023 13:12:27 +0800</pubDate><guid>https://blog.furffisite.link/p/linux-darkmode-zotero-gui-issue/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240527150719-58fa3bf91a709e8e208c96720f0aeca2-547a4.jpg" alt="Featured image of post 解决 Linux 系统深色模式下的 Zotero 显示问题" />&lt;p>因为 Linux 端的 Zotero（&lt;a class="link" href="https://aur.archlinux.org/packages/zotero-bin" target="_blank" rel="noopener"
+>AUR&lt;/a>）中有一部分元素的样式是由 GTK 控制的，因此当系统的 GTK 主题为深色主题时，Zotero 的界面会呈现为这个样子：
 &lt;img src="https://files.furffisite.link/blogimg/2023-05-13_13-32-08.png"
 loading="lazy"
 >&lt;/p>
 &lt;p>这不是很好看，并且部分区域内文字和背景色的对比度很低，导致文字难以阅读。&lt;/p>
 &lt;p>根据&lt;a class="link" href="https://forums.zotero.org/discussion/98693/theme-issue-some-parts-of-zoteros-gui-on-linux-are-controlled-by-gtk" target="_blank" rel="noopener"
->这个帖子&lt;/a>，解决方案是通过环境变量在程序启动时指定其使用的GTK主题，也就是：&lt;/p>
+>这个帖子&lt;/a>，解决方案是通过环境变量在程序启动时指定其使用的 GTK 主题，也就是：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2313,7 +2319,7 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ &lt;span class="nv">GTK_THEME&lt;/span>&lt;span class="o">=&lt;/span>Pop-light zotero
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>反映到Desktop文件上（通常位于&lt;code>/usr/share/applications/&lt;/code>和&lt;code>~/.local/share/applications/&lt;/code>），就是在启动指令（Exec项）前加入&lt;code>env GTK_THEME=Pop-light&lt;/code>。&lt;/p>
+&lt;/div>&lt;p>反映到 Desktop 文件上（通常位于&lt;code>/usr/share/applications/&lt;/code>和&lt;code>~/.local/share/applications/&lt;/code>），就是在启动指令（Exec 项）前加入&lt;code>env GTK_THEME=Pop-light&lt;/code>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2330,8 +2336,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">...&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这样操作后，通过应用启动器打开的Zotero就不会有问题了。&lt;/p></description></item><item><title>在Python中导入当前路径下的所有模块</title><link>https://blog.furffisite.link/p/python-import-directory-modules/</link><pubDate>Thu, 11 May 2023 12:22:54 +0800</pubDate><guid>https://blog.furffisite.link/p/python-import-directory-modules/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163144-c5d0b19ce502665b1891ef8c78c5b839-32aa3.jpg" alt="Featured image of post 在Python中导入当前路径下的所有模块" />&lt;h2 id="问题背景">问题背景&lt;/h2>
-&lt;p>在使用Python的Flask框架开发Web应用的过程中，一个基本的服务端程序结构如下：&lt;/p>
+&lt;/div>&lt;p>这样操作后，通过应用启动器打开的 Zotero 就不会有问题了。&lt;/p></description></item><item><title>在Python中导入当前路径下的所有模块</title><link>https://blog.furffisite.link/p/python-import-directory-modules/</link><pubDate>Thu, 11 May 2023 12:22:54 +0800</pubDate><guid>https://blog.furffisite.link/p/python-import-directory-modules/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163144-c5d0b19ce502665b1891ef8c78c5b839-32aa3.jpg" alt="Featured image of post 在Python中导入当前路径下的所有模块" />&lt;h2 id="问题背景">问题背景
+&lt;/h2>&lt;p>在使用 Python 的 Flask 框架开发 Web 应用的过程中，一个基本的服务端程序结构如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -2368,8 +2374,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>可以按照这种模式无限添加处理视图（handler），但是随着项目增大，这种将所有 handler 都放在一个py文件里的模式显然是不合适的，这时可以使用 &lt;a class="link" href="https://dormousehole.readthedocs.io/en/latest/tutorial/views.html" target="_blank" rel="noopener"
->blueprint&lt;/a> 将每个handler（或一组handler）放在互相独立的文件里。&lt;/p>
+&lt;/div>&lt;p>可以按照这种模式无限添加处理视图（handler），但是随着项目增大，这种将所有 handler 都放在一个 py 文件里的模式显然是不合适的，这时可以使用 &lt;a class="link" href="https://dormousehole.readthedocs.io/en/latest/tutorial/views.html" target="_blank" rel="noopener"
+>blueprint&lt;/a> 将每个 handler（或一组 handler）放在互相独立的文件里。&lt;/p>
 &lt;p>项目结构如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -2442,7 +2448,7 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">blueprint&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Blueprint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;api&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 为了在程序启动过程中能运行两个handler文件，需要在这里import它们&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 为了在程序启动过程中能运行两个 handler 文件，需要在这里 import 它们&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">.&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">login&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">.&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">register&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
@@ -2472,8 +2478,8 @@ loading="lazy"
 >E402&lt;/a>）。&lt;/li>
 &lt;/ol>
 &lt;p>于是就自然而然地想到了：&lt;strong>如何在模块初始化时自动导入当前路径下的所有子模块呢？&lt;/strong>&lt;/p>
-&lt;h2 id="解决方法">解决方法&lt;/h2>
-&lt;p>将&lt;code>services/__init__.py&lt;/code>改为这样：&lt;/p>
+&lt;h2 id="解决方法">解决方法
+&lt;/h2>&lt;p>将&lt;code>services/__init__.py&lt;/code>改为这样：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2496,8 +2502,8 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">importlib&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">import_module&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;.&amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="n">spec&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="原理探究">原理探究&lt;/h2>
-&lt;p>可以通过pdb或 &lt;code>print&lt;/code> 获得这段程序所涉及变量的值：&lt;/p>
+&lt;/div>&lt;h2 id="原理探究">原理探究
+&lt;/h2>&lt;p>可以通过 pdb 或 &lt;code>print&lt;/code> 获得这段程序所涉及变量的值：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2516,36 +2522,37 @@ loading="lazy"
 pkgutil模块的&lt;a class="link" href="https://docs.python.org/3/library/pkgutil.html#pkgutil.iter_modules" target="_blank" rel="noopener"
 >iter_modules&lt;/a>函数会找到提供的path下的所有子模块，在这里就是&lt;code>login&lt;/code>与&lt;code>register&lt;/code>，并返回它们的 &lt;a class="link" href="https://docs.python.org/3/library/pkgutil.html#pkgutil.ModuleInfo" target="_blank" rel="noopener"
 >ModuleInfo&lt;/a>。&lt;/p>
-&lt;p>在for循环内提取ModuleInfo的name，得到模块的名字，加上前缀&lt;code>.&lt;/code>，即当前目录下的对应子模块。最后使用importlib的&lt;a class="link" href="https://docs.python.org/3/library/importlib.html#importlib.import_module" target="_blank" rel="noopener"
->import_module&lt;/a>函数导入子模块（即运行子模块的代码，将handler注册到router上）。这样无论增加多少handler文件，&lt;code>__init__.py&lt;/code>都可以找到并加载它们。&lt;/p></description></item><item><title>使用starship定制终端提示符</title><link>https://blog.furffisite.link/p/use-starship/</link><pubDate>Fri, 06 Jan 2023 16:24:31 +0800</pubDate><guid>https://blog.furffisite.link/p/use-starship/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230109230402-9ec5accbc75f863015a4dca68f9f9870-cc3be.jpg" alt="Featured image of post 使用starship定制终端提示符" />&lt;p>&lt;a class="link" href="https://starship.rs/" target="_blank" rel="noopener"
+&lt;p>在 for 循环内提取 ModuleInfo 的 name，得到模块的名字，加上前缀&lt;code>.&lt;/code>，即当前目录下的对应子模块。
+最后使用 importlib 的 &lt;a class="link" href="https://docs.python.org/3/library/importlib.html#importlib.import_module" target="_blank" rel="noopener"
+>import_module&lt;/a> 函数导入子模块（即运行子模块的代码，将 handler 注册到 router 上）。这样无论增加多少 handler 文件，&lt;code>__init__.py&lt;/code> 都可以找到并加载它们。&lt;/p></description></item><item><title>使用starship定制终端提示符</title><link>https://blog.furffisite.link/p/use-starship/</link><pubDate>Fri, 06 Jan 2023 16:24:31 +0800</pubDate><guid>https://blog.furffisite.link/p/use-starship/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230109230402-9ec5accbc75f863015a4dca68f9f9870-cc3be.jpg" alt="Featured image of post 使用starship定制终端提示符" />&lt;p>&lt;a class="link" href="https://starship.rs/" target="_blank" rel="noopener"
 >starship&lt;/a>&lt;a class="link" href="https://github.com/starship/starship" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
 &lt;/span>&lt;/a>
-是使用Rust编写的轻量且迅速的终端提示符程序，其功能和作用与&lt;a class="link" href="https://ohmyz.sh/" target="_blank" rel="noopener"
+是使用 Rust 编写的轻量且迅速的终端提示符程序，其功能和作用与 &lt;a class="link" href="https://ohmyz.sh/" target="_blank" rel="noopener"
 >Oh My Zsh&lt;/a>&lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener">
 &lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 &lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 &lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 &lt;/svg>
 &lt;/span>&lt;/a>
-相似，但是相比于Oh My Zsh，starship具有以下优点：&lt;/p>
+相似，但是相比于 Oh My Zsh，starship 具有以下优点：&lt;/p>
 &lt;ol>
-&lt;li>starship是跨平台跨终端的，其支持Bash、Zsh、Fish等十几种终端，甚至包括Windows的PowerShell与cmd；&lt;/li>
-&lt;li>使用编译型语言Rust编写的starship在运行速度上优于基于shell script的Oh My Zsh；&lt;/li>
-&lt;li>starship的自定义配置方法比Oh My Zsh简单。&lt;/li>
+&lt;li>starship 是跨平台跨终端的，其支持 Bash、Zsh、Fish 等十几种终端，甚至包括 Windows 的 PowerShell 与 cmd；&lt;/li>
+&lt;li>使用编译型语言 Rust 编写的 starship 在运行速度上优于基于 shell script 的 Oh My Zsh；&lt;/li>
+&lt;li>starship 的自定义配置方法比 Oh My Zsh 简单。&lt;/li>
 &lt;/ol>
-&lt;p>先上图，以下是我所习惯的配置的效果图。除当前用户、hostname和当前工作路径外，starship还显示了git状态、相关软件的版本、进程的返回码、运行时间、已用内存/虚拟内存和当前时间等信息。starfish是通过当前工作目录下的文件名判断应当展示哪些模组的，所以当我创建文件之后提示符上也就多出了相关软件的信息。&lt;/p>
+&lt;p>先上图，以下是我所习惯的配置的效果图。除当前用户、hostname 和当前工作路径外，starship 还显示了 git 状态、相关软件的版本、进程的返回码、运行时间、已用内存/虚拟内存和当前时间等信息。starfish 是通过当前工作目录下的文件名判断应当展示哪些模组的，所以当我创建文件之后提示符上也就多出了相关软件的信息。&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230106203308-193e5d500a6dd22eab5f893f5cd189f9-2ce2a.png"
 loading="lazy"
 >&lt;/p>
-&lt;p>下文将简述starship的安装方法，并给出我的配置文件。&lt;/p>
-&lt;h2 id="安装">安装&lt;/h2>
-&lt;p>本文仅适用于在Linux下的bash和zsh终端安装starship，在其它终端的安装方法请参见&lt;a class="link" href="https://starship.rs/zh-CN/guide/#%F0%9F%9A%80-%E5%AE%89%E8%A3%85" target="_blank" rel="noopener"
->starship的官方文档&lt;/a>。&lt;/p>
-&lt;p>首先使用官方脚本在Linux系统内安装starship程序：&lt;/p>
+&lt;p>下文将简述 starship 的安装方法，并给出我的配置文件。&lt;/p>
+&lt;h2 id="安装">安装
+&lt;/h2>&lt;p>本文仅适用于在 Linux 下的 bash 和 zsh 终端安装 starship，在其它终端的安装方法请参见 &lt;a class="link" href="https://starship.rs/zh-CN/guide/#%F0%9F%9A%80-%E5%AE%89%E8%A3%85" target="_blank" rel="noopener"
+>starship 的官方文档&lt;/a>。&lt;/p>
+&lt;p>首先使用官方脚本在 Linux 系统内安装 starship 程序：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2554,8 +2561,8 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ curl -sS https://starship.rs/install.sh &lt;span class="p">|&lt;/span> sh
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这时如果在终端输入&lt;code>starship -V&lt;/code>能看到starship的版本信息，就说明程序安装成功了。&lt;/p>
-&lt;p>然后需要配置终端程序，使其能使用starship作为提示符。在&lt;code>~/.bashrc&lt;/code>（bash终端）或&lt;code>~/.zshrc&lt;/code>（zsh终端）内加入这一行即可：&lt;/p>
+&lt;/div>&lt;p>这时如果在终端输入&lt;code>starship -V&lt;/code>能看到 starship 的版本信息，就说明程序安装成功了。&lt;/p>
+&lt;p>然后需要配置终端程序，使其能使用 starship 作为提示符。在&lt;code>~/.bashrc&lt;/code>（bash 终端）或&lt;code>~/.zshrc&lt;/code>（zsh 终端）内加入这一行即可：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2564,23 +2571,23 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">eval&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>starship init bash&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="配置">配置&lt;/h2>
-&lt;p>starship的配置文件是&lt;code>~/.config/starship.toml&lt;/code>，你也可以通过设置环境变量&lt;code>STARSHIP_CONFIG&lt;/code>改变此文件的位置。在终端输入&lt;code>starship config&lt;/code>可以直接打开该文件。&lt;/p>
-&lt;p>由后缀名可知，starship的配置文件为TOML文件，遵守TOML语法，关于TOML语法本文就不赘述了，若需要了解详情请移步&lt;a class="link" href="https://toml.io/cn/" target="_blank" rel="noopener"
->TOML官网&lt;/a>。&lt;/p>
-&lt;p>starship是分模块的结构，starship生成的提示符中的每一个部分都对应starship的一个模块，你可以使用&lt;code>starship explain&lt;/code>指令查看各模块的说明及其运行时间，例如以我当前的配置输入该命令后效果如下：&lt;/p>
+&lt;/div>&lt;h2 id="配置">配置
+&lt;/h2>&lt;p>starship的配置文件是&lt;code>~/.config/starship.toml&lt;/code>，你也可以通过设置环境变量&lt;code>STARSHIP_CONFIG&lt;/code>改变此文件的位置。在终端输入&lt;code>starship config&lt;/code>可以直接打开该文件。&lt;/p>
+&lt;p>由后缀名可知，starship 的配置文件为 TOML 文件，遵守 TOML 语法，关于 TOML 语法本文就不赘述了，若需要了解详情请移步 &lt;a class="link" href="https://toml.io/cn/" target="_blank" rel="noopener"
+>TOML 官网&lt;/a>。&lt;/p>
+&lt;p>starship 是分模块的结构，starship 生成的提示符中的每一个部分都对应 starship 的一个模块，你可以使用&lt;code>starship explain&lt;/code>指令查看各模块的说明及其运行时间，例如以我当前的配置输入该命令后效果如下：&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230106221937-dc59edf0c7890819bbebff31fdf566e2-1269a.png"
 loading="lazy"
 >&lt;/p>
-&lt;p>关于如何自定义配置，starship的官方文档已经写的很完善了，参见 &lt;a class="link" href="https://starship.rs/zh-CN/config/" target="_blank" rel="noopener"
+&lt;p>关于如何自定义配置，starship 的官方文档已经写的很完善了，参见 &lt;a class="link" href="https://starship.rs/zh-CN/config/" target="_blank" rel="noopener"
 >https://starship.rs/zh-CN/config/&lt;/a>。&lt;/p>
-&lt;p>starship在官方文档里已经给出了&lt;a class="link" href="https://starship.rs/presets/" target="_blank" rel="noopener"
->一些预设&lt;/a>，你可以以你喜欢的预设为基础进行定制，例如我的配置就是在Bracketed Segments和Nerd Font Symbols预设之上按照自己的习惯所做的更改。我的&lt;code>starship.toml&lt;/code>如下：&lt;/p>
-&lt;p>另外，使用Nerd Font Symbols需要Nerd Font，请前往 &lt;a class="link" href="https://www.nerdfonts.com/font-downloads" target="_blank" rel="noopener"
+&lt;p>starship 在官方文档里已经给出了&lt;a class="link" href="https://starship.rs/presets/" target="_blank" rel="noopener"
+>一些预设&lt;/a>，你可以以你喜欢的预设为基础进行定制，例如我的配置就是在 Bracketed Segments 和 Nerd Font Symbols 预设之上按照自己的习惯所做的更改。我的&lt;code>starship.toml&lt;/code>如下：&lt;/p>
+&lt;p>另外，使用 Nerd Font Symbols 需要 Nerd Font，请前往 &lt;a class="link" href="https://www.nerdfonts.com/font-downloads" target="_blank" rel="noopener"
 >https://www.nerdfonts.com/font-downloads&lt;/a> 下载你习惯的字体对应的图标字体，并在虚拟终端中将其设为默认字体。&lt;/p>
 &lt;script src="https://gist.github.com/Furffico/f63e63cc192d77ca3c6bb5347f0a1d63.js">&lt;/script>
-&lt;h2 id="相关问题">相关问题&lt;/h2>
-&lt;p>在使用Anaconda管理Python的虚拟环境时，Anaconda会自动在提示符前加上当前虚拟环境的名称，如&lt;code>(base)&lt;/code>，这与starship冲突了（且starship的conda模块提供了相同的功能），因此需要使用如下指令禁用Anaconda的这个功能。&lt;/p>
+&lt;h2 id="相关问题">相关问题
+&lt;/h2>&lt;p>在使用 Anaconda 管理 Python 的虚拟环境时，Anaconda 会自动在提示符前加上当前虚拟环境的名称，如&lt;code>(base)&lt;/code>，这与 starship 冲突了（且 starship 的 conda 模块提供了相同的功能），因此需要使用如下指令禁用 Anaconda 的这个功能。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2589,20 +2596,20 @@ loading="lazy"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ conda config --set changeps1 False
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description></item><item><title>利用透明度通道制作QQ内表里不一的图片</title><link>https://blog.furffisite.link/p/qq-duplicity-image/</link><pubDate>Tue, 03 Jan 2023 23:51:54 +0800</pubDate><guid>https://blog.furffisite.link/p/qq-duplicity-image/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230104022542-b692e6e89157626a929575a0b97e5583-3e819.jpg" alt="Featured image of post 利用透明度通道制作QQ内表里不一的图片" />&lt;style>
+&lt;/div></description></item><item><title>利用透明度通道制作 QQ 内表里不一的图片</title><link>https://blog.furffisite.link/p/qq-duplicity-image/</link><pubDate>Tue, 03 Jan 2023 23:51:54 +0800</pubDate><guid>https://blog.furffisite.link/p/qq-duplicity-image/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230104022542-b692e6e89157626a929575a0b97e5583-3e819.jpg" alt="Featured image of post 利用透明度通道制作 QQ 内表里不一的图片" />&lt;style>
 .special-bg{ background-color: #fff }
 :root[data-scheme="dark"] img.special-bg{ background-color: #000 }
 div#gallery { text-align: center; width: 100%; }
 div#gallery img{ width:32%; }
 &lt;/style>
-&lt;p>今天在QQ看到一张图，这张图在预览下看到的和查看图片时看到的内容不一样。虽然不是第一次见这种图了，但是今天在摸鱼的时候无事可做，就研究了一下它的原理。&lt;/p>
-&lt;p>这张图是这样的：左图为它在聊天界面的样子，典型的吃🍑场景，点开大图之后看到的却是右图的样子（笑）。
-中间的图片为嵌入的原图，如果您开启了暗色模式（桌面端可以在页面右下角切换），您看到中图的应该和右图一样，反之则和左图一样。
+&lt;p>今天在 QQ 看到一张图，这张图在预览下看到的和查看图片时看到的内容不一样。虽然不是第一次见这种图了，但是今天在摸鱼的时候无事可做，就研究了一下它的原理。&lt;/p>
+&lt;p>这张图是这样的：左图为它在聊天界面的样子，典型的吃桃场景，点开大图之后看到的却是右图的样子（笑）。
+中间的图片为嵌入的原图，如果您开启了暗色模式（桌面端可以在页面左下角切换），您看到中图的应该和右图一样，反之则和左图一样。
 原图可以在&lt;a class="link" href="https://files.furffisite.link/blogimg/20230104004027-f02f6c487a9b47035c62d6dc44708f5f-23d76.png" target="_blank" rel="noopener"
 >这里&lt;/a>获取。&lt;/p>
 &lt;img class="special-bg" src="https://files.furffisite.link/blogimg/20230104004803-e708ee71f6c9a2ed72525e41a5a50f83-c8ae2.png" loading="lazy" />
-&lt;h2 id="原理">原理&lt;/h2>
-&lt;p>这种图的原理并不难猜，肯定利用了png图片的透明度通道，使其在不同背景色下能呈现出不同的效果。下面求解一下它是怎么制作出来的：
+&lt;h2 id="原理">原理
+&lt;/h2>&lt;p>这种图的原理并不难猜，肯定利用了 png 图片的透明度通道，使其在不同背景色下能呈现出不同的效果。下面求解一下它是怎么制作出来的：
 （因为这里只涉及图像的像素变换，为简化表示，以下的每个变量都表示单个像素单个通道的值，且定义域为$[0,1]$.）&lt;/p>
 &lt;p>设在聊天界面看到的图像（表图）灰度为$c$，点开大图后看到的图像（里图）为$h$，待求量为生成的图像的灰度$g$与透明度$a$。&lt;/p>
 &lt;p>在聊天界面的图像是目标图像和白色背景的混合，也就是$$(1-a) + g\cdot a = c.$$
@@ -2610,8 +2617,8 @@ div#gallery img{ width:32%; }
 &lt;p>解出来就是$$a=1+h-c,~g=h/a.$$&lt;/p>
 &lt;p>又因为解需要满足$a,g\in(0,1]$，所以$c$和$h$需要满足不等式$$h\le c&amp;lt;1+h$$
 右侧当且仅当$c=1,~h=0$时不成立。&lt;/p>
-&lt;h2 id="实现">实现&lt;/h2>
-&lt;p>这个程序实现起来没有什么难度，python代码如下（需要Pillow与numpy）。需要注意的是，为了满足上面的不等式，在程序中需要重新分配两张原图的灰度的范围。&lt;/p>
+&lt;h2 id="实现">实现
+&lt;/h2>&lt;p>这个程序实现起来没有什么难度，python 代码如下（需要 Pillow 与 numpy）。需要注意的是，为了满足上面的不等式，在程序中需要重新分配两张原图的灰度的范围。&lt;/p>
 &lt;!-- &lt;script src="https://gist.github.com/Furffico/c17003dabdcd382ebd22672415fdc8ae.js">&lt;/script>
 -->
 &lt;div class="highlight">&lt;div class="chroma">
@@ -2684,10 +2691,10 @@ div#gallery img{ width:32%; }
 &lt;img class="special-bg" src="https://files.furffisite.link/blogimg/20230104021105-ac757580dd8f0556361deaff45f67cdb-9ae31.png" />
 &lt;img src="https://files.furffisite.link/blogimg/20230104021111-465e5a2c48fa8b8aa79af65f297f2a38-342fa.png" />
 &lt;/div>
-&lt;p>注：在QQ发送此类图片时，一定要选择发送原图，否则QQ可能会在压缩过程中去掉透明度通道，导致其失效。&lt;/p></description></item><item><title>如何将LaTeX内超出文本宽度的浮动体居中</title><link>https://blog.furffisite.link/p/latex-widefloat-centering/</link><pubDate>Sat, 24 Dec 2022 12:38:21 +0800</pubDate><guid>https://blog.furffisite.link/p/latex-widefloat-centering/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163659-9e52e93f3d72fae5e3a97613e49e921f-97fa4.jpg" alt="Featured image of post 如何将LaTeX内超出文本宽度的浮动体居中" />&lt;p>如何在$\LaTeX$中将超出文本宽度的浮动体（表格/图片）居中？这个问题我曾多次遇到过，但是没有一次记得怎么解决，每次都需要谷歌。今天也碰到了这个情况，因此将解决方案记录备忘。&lt;/p>
-&lt;p>我看到的最优雅的解决方案出自$\TeX$的&lt;a class="link" href="https://tex.stackexchange.com/" target="_blank" rel="noopener"
->StackExchange&lt;/a>中的&lt;a class="link" href="https://tex.stackexchange.com/a/430904" target="_blank" rel="noopener"
->这篇回答&lt;/a>。只要在浮动体内减少左右边距即可，也就是下列示例的第3-4行：&lt;/p>
+&lt;p>注：在 QQ 发送此类图片时，一定要选择发送原图，否则 QQ 可能会在压缩过程中去掉透明度通道，导致其失效。&lt;/p></description></item><item><title>如何将LaTeX内超出文本宽度的浮动体居中</title><link>https://blog.furffisite.link/p/latex-widefloat-centering/</link><pubDate>Sat, 24 Dec 2022 12:38:21 +0800</pubDate><guid>https://blog.furffisite.link/p/latex-widefloat-centering/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230511163659-9e52e93f3d72fae5e3a97613e49e921f-97fa4.jpg" alt="Featured image of post 如何将LaTeX内超出文本宽度的浮动体居中" />&lt;p>如何在$\LaTeX$中将超出文本宽度的浮动体（表格/图片）居中？这个问题我曾多次遇到过，但是没有一次记得怎么解决，每次都需要谷歌。今天也碰到了这个情况，因此将解决方案记录备忘。&lt;/p>
+&lt;p>我看到的最优雅的解决方案出自 $\TeX$ 的 &lt;a class="link" href="https://tex.stackexchange.com/" target="_blank" rel="noopener"
+>StackExchange&lt;/a> 中的&lt;a class="link" href="https://tex.stackexchange.com/a/430904" target="_blank" rel="noopener"
+>这篇回答&lt;/a>。只要在浮动体内减少左右边距即可，也就是下列示例的第 3-4 行：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2712,24 +2719,24 @@ div#gallery img{ width:32%; }
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/202212312230698.png?x-oss-process=style/common"
 loading="lazy"
 alt="效果图"
->&lt;/p></description></item><item><title>使用阿里云OSS存储服务+CloudFlare配置图床</title><link>https://blog.furffisite.link/p/imagebed-oss-conf/</link><pubDate>Tue, 20 Dec 2022 01:48:09 +0800</pubDate><guid>https://blog.furffisite.link/p/imagebed-oss-conf/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/202212251307965.jpg" alt="Featured image of post 使用阿里云OSS存储服务+CloudFlare配置图床" />&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>今天想给我这个博客加一张图片，但是把图片文件和博客的文章放在一起，内容管理比较麻烦，并且会增大git仓库的体积。因此我就想到了使用图床分流博客中的图片。&lt;/p>
-&lt;p>在网上搜索了一些图床服务，发现国内免费的图床服务要么访问慢（因为源服务器在海外），要么不稳定（存在关站/被墙或者转为付费的可能），而国外著名的图床imgur在国内也处于半墙的状态。于是就想到了使用云计算厂商提供的OSS对象存储服务，虽然收费但是对于我这种有计划长时间运营下去的博客而言，图床的可靠性是最重要的。我可不想因为图站挂掉导致我在未来的某一天要重新找到再上传这些图片。&lt;/p>
-&lt;p>在看了阿里云、腾讯云和华为云三家之后我选择了阿里云，因为阿里云有每月5GB存储和外网流量的的免费额度，请求费用也就每万次一毛钱，对于我这种刚开的小站而言，存储、流量和请求都不会很大（如果被攻击那就是另一回事了，还望您手下留情）。关于阿里云的定价详情可以查看阿里云的&lt;a class="link" href="https://www.aliyun.com/price/product#/oss/detail/ossbag" target="_blank" rel="noopener"
+>&lt;/p></description></item><item><title>使用阿里云 OSS 存储服务 + CloudFlare 配置图床</title><link>https://blog.furffisite.link/p/imagebed-oss-conf/</link><pubDate>Tue, 20 Dec 2022 01:48:09 +0800</pubDate><guid>https://blog.furffisite.link/p/imagebed-oss-conf/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/202212251307965.jpg" alt="Featured image of post 使用阿里云 OSS 存储服务 + CloudFlare 配置图床" />&lt;h2 id="前言">前言
+&lt;/h2>&lt;p>今天想给我这个博客加一张图片，但是把图片文件和博客的文章放在一起，内容管理比较麻烦，并且会增大 git 仓库的体积。因此我就想到了使用图床分流博客中的图片。&lt;/p>
+&lt;p>在网上搜索了一些图床服务，发现国内免费的图床服务要么访问慢（因为源服务器在海外），要么不稳定（存在关站/被墙或者转为付费的可能），而国外著名的图床 imgur 在国内也处于半墙的状态。于是就想到了使用云计算厂商提供的 OSS 对象存储服务，虽然收费但是对于我这种有计划长时间运营下去的博客而言，图床的可靠性是最重要的。我可不想因为图站挂掉导致我在未来的某一天要重新找到再上传这些图片。&lt;/p>
+&lt;p>在看了阿里云、腾讯云和华为云三家之后我选择了阿里云，因为阿里云有每月 5GB 存储和外网流量的的免费额度，请求费用也就每万次一毛钱，对于我这种刚开的小站而言，存储、流量和请求都不会很大（如果被攻击那就是另一回事了，还望您手下留情）。关于阿里云的定价详情可以查看阿里云的&lt;a class="link" href="https://www.aliyun.com/price/product#/oss/detail/ossbag" target="_blank" rel="noopener"
 >价格计算器&lt;/a>。&lt;/p>
 &lt;p>然后我就按照&lt;a class="link" href="https://www.antmoe.com/posts/3f5daa8e/" target="_blank" rel="noopener"
 >这篇博文&lt;/a>的步骤搭建了图床，途中遇到了原文没有提及的许多问题，所以在这里记录一下完整的步骤、我遇到的问题与解决方案。&lt;/p>
-&lt;h2 id="主要操作流程">主要操作流程&lt;/h2>
-&lt;ol>
+&lt;h2 id="主要操作流程">主要操作流程
+&lt;/h2>&lt;ol>
 &lt;li>
-&lt;p>&lt;strong>创建Bucket&lt;/strong>：开通OSS并创建Bucket。创建Bucket时选择海外的地域（如果在别的地域没有服务器的话，建议使用香港），存储类型选择标准存储即可，&lt;b style="color:red">读写权限一定要选择私有&lt;/b>，其余的附加服务按需启用（有的得加钱）。创建完成后可以向Bucket中上传一张图片作为测试图。&lt;/p>
+&lt;p>&lt;strong>创建Bucket&lt;/strong>：开通 OSS 并创建 Bucket。创建 Bucket 时选择海外的地域（如果在别的地域没有服务器的话，建议使用香港），存储类型选择标准存储即可，&lt;b style="color:red">读写权限一定要选择私有&lt;/b>，其余的附加服务按需启用（有的得加钱）。创建完成后可以向 Bucket 中上传一张图片作为测试图。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>配置访问权限&lt;/strong>：进入&lt;strong>权限控制 -&amp;gt; Bucket授权策略&lt;/strong>面板，添加授权，配置如下图。&lt;/p>
+&lt;p>&lt;strong>配置访问权限&lt;/strong>：进入&lt;strong>权限控制 -&amp;gt; Bucket 授权策略&lt;/strong>面板，添加授权，配置如下图。&lt;/p>
 &lt;p>&lt;img src="https://files.furffisite.link/blogimg/202212312338802.png"
 loading="lazy"
 >&lt;/p>
-&lt;p>IP字段填写的是CloudFlare的节点IP，列表如下（来自&lt;a class="link" href="https://zhuanlan.zhihu.com/p/143219668" target="_blank" rel="noopener"
+&lt;p>IP 字段填写的是 CloudFlare 的节点 IP，列表如下（来自&lt;a class="link" href="https://zhuanlan.zhihu.com/p/143219668" target="_blank" rel="noopener"
 >知乎专栏&lt;/a>）：&lt;/p>
 &lt;pre>&lt;code> 173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,
 141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,
@@ -2741,43 +2748,43 @@ loading="lazy"
 &lt;/code>&lt;/pre>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>配置CDN&lt;/strong>：在CloudFlare的DNS管理面板添加CNAME记录，目标设为Bucket的域名（可以在Bucket的&lt;strong>概览&lt;/strong>界面找到），代理状态设为已代理，否则CDN不起作用。
+&lt;p>&lt;strong>配置 CDN&lt;/strong>：在 CloudFlare 的 DNS 管理面板添加 CNAME 记录，目标设为 Bucket 的域名（可以在 Bucket 的&lt;strong>概览&lt;/strong>界面找到），代理状态设为已代理，否则 CDN 不起作用。
 &lt;img src="https://files.furffisite.link/blogimg/202212312309953.png"
 loading="lazy"
 >&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>绑定域名&lt;/strong>：在阿里云的&lt;strong>Bucket配置-&amp;gt;域名管理&lt;/strong>界面绑定你刚设置的域名，这时阿里云需要验证域名的所有权，按照其所说的在CloudFlare的DNS管理处添加指定TXT记录即可。&lt;/p>
+&lt;p>&lt;strong>绑定域名&lt;/strong>：在阿里云的 &lt;strong>Bucket 配置 -&amp;gt; 域名管理&lt;/strong>界面绑定你刚设置的域名，这时阿里云需要验证域名的所有权，按照其所说的在 CloudFlare 的 DNS 管理处添加指定 TXT 记录即可。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>创建并添加证书&lt;/strong>：在CloudFlare的配置面板的&lt;strong>SSL/TLS-&amp;gt;源服务器&lt;/strong>处，选择创建证书。创建之后会告诉你源证书与私钥，这个界面暂时不要动。打开刚才在阿里云控制台绑定证书的界面，选择&lt;strong>证书托管&lt;/strong>，并&lt;strong>上传SSL证书&lt;/strong>，这时会打开&lt;strong>SSL证书&lt;/strong>的界面，选择&lt;strong>上传证书&lt;/strong>，并将CloudFlare给出的源证书和密钥复制到上传证书的对应字段处（证书名字随便设），然后确定。这时切换回&lt;strong>上传SSL证书&lt;/strong>，应该就能在证书名称处看到刚刚设置的证书名字了（看不到的话重开一下这个界面试试），选中，然后点下方的上传即可。&lt;/p>
+&lt;p>&lt;strong>创建并添加证书&lt;/strong>：在 CloudFlare 的配置面板的 &lt;strong>SSL/TLS -&amp;gt; 源服务器&lt;/strong>处，选择创建证书。创建之后会告诉你源证书与私钥，这个界面暂时不要动。打开刚才在阿里云控制台绑定证书的界面，选择&lt;strong>证书托管&lt;/strong>，并&lt;strong>上传 SSL 证书&lt;/strong>，这时会打开&lt;strong>SSL 证书&lt;/strong>的界面，选择&lt;strong>上传证书&lt;/strong>，并将 CloudFlare 给出的源证书和密钥复制到上传证书的对应字段处（证书名字随便设），然后确定。这时切换回&lt;strong>上传 SSL 证书&lt;/strong>，应该就能在证书名称处看到刚刚设置的证书名字了（看不到的话重开一下这个界面试试），选中，然后点下方的上传即可。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;p>这时就已经可以通过你设置的域名访问刚才上传的测试图片了。假如测试图片&lt;code>filename.jpg&lt;/code>存储在OSS的&lt;code>folder&lt;/code>文件夹下，你设置的域名为&lt;code>image.example.org&lt;/code>，则访问路径为&lt;code>https://image.example.org/folder/filename.jpg&lt;/code>。&lt;/p>
-&lt;h2 id="安全性配置">安全性配置&lt;/h2>
-&lt;ol>
-&lt;li>&lt;strong>跨域设置&lt;/strong>：在阿里云OSS的&lt;strong>数据安全-&amp;gt;跨域设置&lt;/strong>中创建跨域规则，来源设置为你的网站的地址。为了能让网站在本地测试时也能正常展示图片，建议同时添加&lt;code>localhost:*&lt;/code>与&lt;code>127.0.0.1:*&lt;/code>。&lt;/li>
-&lt;li>&lt;strong>防盗链设置&lt;/strong>：和跨域设置类似。不同之处在于Referer是包含请求协议的，所以类似于&lt;code>example.org&lt;/code>或&lt;code>localhost:*&lt;/code>等不包括协议的配置是无效的，需要改为&lt;code>https://example.com&lt;/code>或&lt;code>*://localhost:*&lt;/code>；需要注意的是&lt;code>*.example.org&lt;/code>虽然是有效的，但是没有指定https协议，安全起见最好改为&lt;code>https://*.example.org&lt;/code>。&lt;/li>
+&lt;p>这时就已经可以通过你设置的域名访问刚才上传的测试图片了。假如测试图片&lt;code>filename.jpg&lt;/code>存储在 OSS 的&lt;code>folder&lt;/code>文件夹下，你设置的域名为&lt;code>image.example.org&lt;/code>，则访问路径为&lt;code>https://image.example.org/folder/filename.jpg&lt;/code>。&lt;/p>
+&lt;h2 id="安全性配置">安全性配置
+&lt;/h2>&lt;ol>
+&lt;li>&lt;strong>跨域设置&lt;/strong>：在阿里云 OSS 的&lt;strong>数据安全 -&amp;gt; 跨域设置&lt;/strong>中创建跨域规则，来源设置为你的网站的地址。为了能让网站在本地测试时也能正常展示图片，建议同时添加&lt;code>localhost:*&lt;/code>与&lt;code>127.0.0.1:*&lt;/code>。&lt;/li>
+&lt;li>&lt;strong>防盗链设置&lt;/strong>：和跨域设置类似。不同之处在于 Referer 是包含请求协议的，所以类似于&lt;code>example.org&lt;/code>或&lt;code>localhost:*&lt;/code>等不包括协议的配置是无效的，需要改为&lt;code>https://example.com&lt;/code>或&lt;code>*://localhost:*&lt;/code>；需要注意的是&lt;code>*.example.org&lt;/code>虽然是有效的，但是没有指定 https 协议，安全起见最好改为&lt;code>https://*.example.org&lt;/code>。&lt;/li>
 &lt;/ol>
-&lt;h2 id="picgo-配置">PicGo 配置&lt;/h2>
-&lt;p>&lt;a class="link" href="https://molunerfinn.com/PicGo/" target="_blank" rel="noopener"
->PicGo&lt;/a>是一款快速上传图片到图床，并自动复制图片URL到剪贴板的工具，你可以在&lt;a class="link" href="https://github.com/Molunerfinn/PicGo/releases/" target="_blank" rel="noopener"
->Github的release页&lt;/a>获取该程序。&lt;/p>
+&lt;h2 id="picgo-配置">PicGo 配置
+&lt;/h2>&lt;p>&lt;a class="link" href="https://molunerfinn.com/PicGo/" target="_blank" rel="noopener"
+>PicGo&lt;/a> 是一款快速上传图片到图床，并自动复制图片URL到剪贴板的工具，你可以在 &lt;a class="link" href="https://github.com/Molunerfinn/PicGo/releases/" target="_blank" rel="noopener"
+>Github 的 release 页&lt;/a>获取该程序。&lt;/p>
 &lt;ol>
 &lt;li>
-&lt;p>&lt;strong>权限设置&lt;/strong>：在阿里云的&lt;strong>权限控制 -&amp;gt; Bucket授权策略&lt;/strong>面板新增授权，配置如下：
+&lt;p>&lt;strong>权限设置&lt;/strong>：在阿里云的&lt;strong>权限控制 -&amp;gt; Bucket 授权策略&lt;/strong>面板新增授权，配置如下：
 &lt;img src="https://files.furffisite.link/blogimg/202301010016963.png"
 loading="lazy"
 >&lt;/p>
-&lt;p>如果当前没有RAM子帐号，请点击&lt;strong>右上角头像-&amp;gt;访问控制&lt;/strong>，然后在左侧的&lt;strong>身份管理-&amp;gt;用户&lt;/strong>处创建一个子帐号。创建完成后在子帐号的详情页&lt;strong>创建AccessKey&lt;/strong>，得到AccessKey的KeyID与KeySecret，保留备用。&lt;/p>
+&lt;p>如果当前没有RAM子帐号，请点击&lt;strong>右上角头像 -&amp;gt; 访问控制&lt;/strong>，然后在左侧的&lt;strong>身份管理 -&amp;gt; 用户&lt;/strong>处创建一个子帐号。创建完成后在子帐号的详情页&lt;strong>创建 AccessKey&lt;/strong>，得到 AccessKey 的 KeyID 与KeySecret，保留备用。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>上传配置&lt;/strong>：打开PicGo主界面，在&lt;strong>图床设置-&amp;gt;阿里云OSS&lt;/strong>内填写对应的表单项。“KeyID”与“KeySecret”即刚才获取的子帐号AccessKey的KeyID与KeySecret，“设定Bucket”为Bucket的名称，“存储区域”为Bucket所在区域（与Bucket域名内的值统一，例如&lt;code>oss-cn-hongkong&lt;/code>），自定义域名填写你设置的域名，其余两项按需填写即可。配置完成后点击确定并设为默认图床。&lt;/p>
+&lt;p>&lt;strong>上传配置&lt;/strong>：打开 PicGo 主界面，在&lt;strong>图床设置 -&amp;gt; 阿里云 OSS&lt;/strong> 内填写对应的表单项。“KeyID” 与 “KeySecret” 即刚才获取的子帐号 AccessKey 的 KeyID 与 KeySecret，“设定 Bucket”为 Bucket 的名称，“存储区域”为 Bucket 所在区域（与 Bucket 域名内的值统一，例如&lt;code>oss-cn-hongkong&lt;/code>），自定义域名填写你设置的域名，其余两项按需填写即可。配置完成后点击确定并设为默认图床。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;p>注：如果你使用的桌面环境是KDE Plasma，可能需要在PicGo设置内打开“使用内置剪贴板上传”一项，否则无法正常从剪贴板直接上传图片。我使用的Linux发行版是KDE Neon，其它发行版/桌面环境/操作系统尚未测试。&lt;/p></description></item><item><title>关于</title><link>https://blog.furffisite.link/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/about/</guid><description>&lt;p>我是一个地球人，不是外星人👽。&lt;small>（懒，先这样吧）&lt;/small>&lt;/p></description></item><item><title>搜索</title><link>https://blog.furffisite.link/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/search/</guid><description/></item><item><title>文章归档</title><link>https://blog.furffisite.link/archives/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/archives/</guid><description/></item><item><title>相册</title><link>https://blog.furffisite.link/gallery/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/gallery/</guid><description>&lt;p>我拍的一些照片，未经允许请勿转载。&lt;/p>
-&lt;h2 id="photos">photos&lt;/h2>
-&lt;script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous">&lt;/script>
+&lt;p>注：如果你使用的桌面环境是 KDE Plasma，可能需要在 PicGo 设置内打开“使用内置剪贴板上传”一项，否则无法正常从剪贴板直接上传图片。我使用的 Linux 发行版是 KDE Neon，其它发行版/桌面环境/操作系统尚未测试。&lt;/p></description></item><item><title>关于</title><link>https://blog.furffisite.link/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/about/</guid><description>&lt;p>我是一个地球人，不是外星人👽。&lt;small>（懒，先这样吧）&lt;/small>&lt;/p></description></item><item><title>搜索</title><link>https://blog.furffisite.link/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/search/</guid><description/></item><item><title>文章归档</title><link>https://blog.furffisite.link/archives/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/archives/</guid><description/></item><item><title>相册</title><link>https://blog.furffisite.link/gallery/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.furffisite.link/gallery/</guid><description>&lt;p>我拍的一些照片，未经允许请勿转载。&lt;/p>
+&lt;h2 id="photos">photos
+&lt;/h2>&lt;script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous">&lt;/script>
 &lt;script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" integrity="sha256-sv0FpYm7s9wU5OAD8AzZGhVXlvKBUQvjoJjL435kS1o=" crossorigin="anonymous">&lt;/script>
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css" integrity="sha256-YBy2rK4TkyaeKbMYUy56/rUERtR7sMEmkQvDr9EuHUQ=" crossorigin="anonymous">
 &lt;script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js">&lt;/script>
@@ -2853,8 +2860,8 @@ Fancybox.bind('[data-fancybox="photos-gallery"]');
 });
 });
 &lt;/script>
-&lt;h2 id="genshin-impact">genshin impact&lt;/h2>
-&lt;div id="genshin-gallery">&lt;a id="genshin-gallery-img01" data-fancybox="genshin-gallery" data-caption="璃月 - 璃月港" href="https://files.furffisite.link/gallery/20230303180154-bd2212b538e1e28cf34a6ece3975c5cf-35ac8.jpg?x-oss-process=style/gallery">
+&lt;h2 id="genshin-impact">genshin impact
+&lt;/h2>&lt;div id="genshin-gallery">&lt;a id="genshin-gallery-img01" data-fancybox="genshin-gallery" data-caption="璃月 - 璃月港" href="https://files.furffisite.link/gallery/20230303180154-bd2212b538e1e28cf34a6ece3975c5cf-35ac8.jpg?x-oss-process=style/gallery">
 &lt;img alt="璃月 - 璃月港" src="https://files.furffisite.link/gallery/20230303180154-bd2212b538e1e28cf34a6ece3975c5cf-35ac8.jpg?x-oss-process=style/gallery-thumbnail" loading="lazy"/>
 &lt;/a>&lt;a id="genshin-gallery-img02" data-fancybox="genshin-gallery" data-caption="璃月 - 归离原" href="https://files.furffisite.link/gallery/20230303180154-a94ff575e785aad8d64452e1b6f4d166-7ec8b.jpg?x-oss-process=style/gallery">
 &lt;img alt="璃月 - 归离原" src="https://files.furffisite.link/gallery/20230303180154-a94ff575e785aad8d64452e1b6f4d166-7ec8b.jpg?x-oss-process=style/gallery-thumbnail" loading="lazy"/>
