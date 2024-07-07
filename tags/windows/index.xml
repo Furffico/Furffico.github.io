@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Windows on Furffiblog</title><link>https://blog.furffisite.link/tags/windows/</link><description>Recent content in Windows on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 05 Jul 2024 10:57:02 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/windows/index.xml" rel="self" type="application/rss+xml"/><item><title>个人常用的新 Windows 11 系统的配置过程</title><link>https://blog.furffisite.link/p/windows-setup/</link><pubDate>Fri, 05 Jul 2024 10:57:02 +0800</pubDate><guid>https://blog.furffisite.link/p/windows-setup/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240707215654-5c276c9ae1c98340521bf56811f4b765-87c36.jpg" alt="Featured image of post 个人常用的新 Windows 11 系统的配置过程" />&lt;h2 id="验机">验机
+&lt;/h2>&lt;p>在完成 Windows 初始配置，进入桌面后的第一件事是验机，即确保笔记本的配置符合厂家的宣传、确保笔记本没有暗病等。&lt;/p>
+&lt;p>在外观上的验机步骤在开机前应当已经完成了，例如包装正常、外观无划痕、首次开机必须接入电源等。
+但是，我们并不能从外观看出笔记本的配置信息，因此，需要在进入系统后使用相关软件检测笔记本的硬件配置。这些工具例如：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://www.cpuid.com/softwares/cpu-z.html" target="_blank" rel="noopener"
+>CPU-Z&lt;/a>：检测主要硬件信息（CPU/主板/内存显卡）；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.aida64.com/downloads" target="_blank" rel="noopener"
+>AIDA-64&lt;/a>：检测所有硬件信息；&lt;/li>
+&lt;li>&lt;a class="link" href="https://crystalmark.info/en/software/crystaldiskinfo/" target="_blank" rel="noopener"
+>CrystalDiskInfo&lt;/a>: 查看硬盘信息和状态；&lt;/li>
+&lt;li>……&lt;/li>
+&lt;/ul>
+&lt;p>这类工具软件都已经被DIY爱好者中著名的&lt;a class="link" href="https://www.tbtool.cn/" target="_blank" rel="noopener"
+>图吧工具箱&lt;/a>和&lt;a class="link" href="http://www.kbtool.cn/" target="_blank" rel="noopener"
+>卡硬工具箱&lt;/a>收录，所以也可以直接下载使用这些工具箱用于检测硬件。
+对于办公用的笔记本而言这些验机软件是无用的，因此较为推荐的做法是将其程序放在 U 盘里，验新机的时候只需插入这个 U 盘，运行这些程序即可。&lt;/p>
+&lt;h2 id="清理">清理
+&lt;/h2>&lt;p>对于新系统而言，需要清理的只有预装软件和开机启动项&lt;/p>
+&lt;ul>
+&lt;li>清理预装软件：右键 Windows 徽标 -&amp;gt; “安装的应用” -&amp;gt; 遍历列表并卸载用不上的预装应用；&lt;/li>
+&lt;li>清理开机启动项：右键 Windows 徽标 -&amp;gt; “任务管理器” -&amp;gt; 启动应用 -&amp;gt; 遍历列表并卸载用不上的预装应用。&lt;/li>
+&lt;/ul>
+&lt;h2 id="设置-windows">设置 Windows
+&lt;/h2>&lt;h3 id="硬盘分区">硬盘分区
+&lt;/h3>&lt;p>因为有些品牌的笔记本出厂是自带 &lt;a class="link" href="https://learn.microsoft.com/zh-cn/windows/security/operating-system-security/data-protection/bitlocker/" target="_blank" rel="noopener"
+>BitLocker&lt;/a> 分区加密的，而常用的 &lt;a class="link" href="https://www.diskgenius.cn/" target="_blank" rel="noopener"
+>DiskGenius&lt;/a> 等第三方的分区助手似乎并不支持 BitLocker 加密的分区，所以我这里使用 Windows 自带的硬盘管理功能管理硬盘分区。
+Windows 的硬盘管理功能可以直接通过 Windows 徽标的右键菜单打开。&lt;/p>
+&lt;p>在“磁盘管理”中，使用 右键 -&amp;gt; 删除卷 删除出厂预分配的带盘符的分区（不带盘符的恢复分区最好别删），然后使用右键 Windows 分区 -&amp;gt; 扩展卷或者压缩卷，以调整 Windows 分区的大小。我订购的笔记本内置了一块 1 TB 的固态硬盘，我的空间分配方案如下：&lt;/p>
+&lt;ul>
+&lt;li>Windows 分区（300 GiB），用于存放 Windows 系统、应用程序和开发环境；&lt;/li>
+&lt;li>Data 分区（200 GiB），用于存放学习资料、代码和照片等数据；&lt;/li>
+&lt;li>Extra 分区（剩余的 451 GiB），用于存放可以从互联网重复下载的资源，例如 Steam 游戏库、预训练模型权重和数据集等。&lt;/li>
+&lt;/ul>
+&lt;p>这里没有给 Linux 系统留空间是因为新的笔记本内有一个空的 &lt;a class="link" href="https://zh.wikipedia.org/zh-cn/M.2" target="_blank" rel="noopener"
+>M.2&lt;/a> NVME 硬盘位，我准备把旧笔记本内的固态硬盘拆了放在这里作为 Linux 系统的系统盘。&lt;/p>
+&lt;h3 id="开始菜单">开始菜单
+&lt;/h3>&lt;ul>
+&lt;li>清理开始菜单：点击 Windows 徽标打开开始菜单 -&amp;gt; 删除开始菜单内不需要的应用图标&lt;/li>
+&lt;li>展示更多项目：进入设置 -&amp;gt; “个性化” -&amp;gt; “开始” -&amp;gt; 选择“更多固定项”&lt;/li>
+&lt;li>管理电源按钮左侧的图标：进入设置 -&amp;gt; “个性化” -&amp;gt; “开始” -&amp;gt; “文件夹” -&amp;gt; 开启需要显示在电源按钮左侧的图标（我选择了设置、文件资源管理器、下载和个人文件夹）&lt;/li>
+&lt;/ul>
+&lt;h3 id="任务栏">任务栏
+&lt;/h3>&lt;ul>
+&lt;li>任务栏居左：进入设置 -&amp;gt; “个性化” -&amp;gt; “任务栏” -&amp;gt; “任务栏行为” -&amp;gt; “任务栏对齐方式” -&amp;gt; “靠左”&lt;/li>
+&lt;li>搜索框改为搜索图标：&amp;hellip; -&amp;gt; “任务栏” -&amp;gt; “任务栏项” -&amp;gt; “搜索” -&amp;gt; “仅搜索图标”&lt;/li>
+&lt;li>关闭小组件：&amp;hellip; -&amp;gt; “任务栏项” -&amp;gt; “小组件” -&amp;gt; 设为关闭&lt;/li>
+&lt;/ul>
+&lt;h3 id="鼠标指针样式">鼠标指针样式
+&lt;/h3>&lt;p>个人认为默认的白色指针不好看，并且在白底黑字、文字和指针大小相近的情况下，有时会混进文字里难以分辨。&lt;/p>
+&lt;ul>
+&lt;li>更改鼠标指针样式：进入设置 -&amp;gt; “辅助功能” -&amp;gt; “鼠标指针与触控” -&amp;gt; “鼠标指针样式” -&amp;gt; 我个人更喜欢第四项 “自定义” -&amp;gt; 从给出的颜色中选一个（不满意的话也可以选择其它颜色）&lt;/li>
+&lt;/ul>
+&lt;h3 id="语言">语言
+&lt;/h3>&lt;ul>
+&lt;li>添加英文输入法（便于写代码）：进入设置 -&amp;gt; “时间和语言” -&amp;gt; “语言和区域” -&amp;gt; “添加语言” -&amp;gt; 搜索并选择“英语（美国）”&lt;/li>
+&lt;li>添加日文输入法（有时会用到）：&amp;hellip; -&amp;gt; “添加语言” -&amp;gt; 搜索并选择“日语”&lt;/li>
+&lt;/ul>
+&lt;h3 id="个人数据存储位置">个人数据存储位置
+&lt;/h3>&lt;p>这一步的目的是将一部分个人数据的保存位置从系统盘更改至 D 盘。不过这个操作只能迁移一部分数据，对于 AppData 内的文件则无能为力。&lt;/p>
+&lt;ul>
+&lt;li>进入个人文件夹 -&amp;gt; 右键“文档/音乐/图片/视频/下载” -&amp;gt; “属性” -&amp;gt; “位置”标签页 -&amp;gt; 点击“移动” -&amp;gt; 选择 D 盘内的目标文件夹 -&amp;gt; “确定”&lt;/li>
+&lt;li>进入设置 -&amp;gt; “系统” -&amp;gt; “存储” -&amp;gt; “保存新内容的地方” -&amp;gt; 将中间四项的存储位置从 C 盘更改为 D 盘&lt;/li>
+&lt;/ul>
+&lt;h2 id="安装软件">安装软件
+&lt;/h2>&lt;h3 id="工具">工具
+&lt;/h3>&lt;p>目前只安装了这些，我在之后发现的和用到的好用小工具也会更新到这个列表里。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://github.com/microsoft/PowerToys" target="_blank" rel="noopener"
+>PowerToys&lt;/a> (&lt;a class="link" href="https://apps.microsoft.com/detail/xp89dcgq3k6vld" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a>)：开源的 Windows 小工具合集；&lt;/li>
+&lt;li>&lt;a class="link" href="https://zh.snipaste.com/" target="_blank" rel="noopener"
+>Snipaste&lt;/a> (&lt;a class="link" href="https://apps.microsoft.com/detail/9p1wxpkb68kx" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a>)：截图/贴图工具；&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/0x7c13/Notepads" target="_blank" rel="noopener"
+>Notepads App&lt;/a> (&lt;a class="link" href="https://apps.microsoft.com/detail/9nhl4nsc67wm" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a>)：更美观的记事本平替；&lt;/li>
+&lt;li>&lt;a class="link" href="https://potplayer.daum.net/" target="_blank" rel="noopener"
+>PotPlayer&lt;/a> (&lt;a class="link" href="https://apps.microsoft.com/detail/xp8bsbgqw2dks0" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a>)：媒体播放器；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.bandisoft.com/bandizip/" target="_blank" rel="noopener"
+>Bandizip&lt;/a> (&lt;a class="link" href="https://apps.microsoft.com/detail/9p2w3w81sppb" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a>)：好用的压缩软件；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.sumatrapdfreader.org/free-pdf-reader" target="_blank" rel="noopener"
+>Sumatra PDF&lt;/a>（&lt;a class="link" href="https://www.sumatrapdfreader.org/download-free-pdf-viewer" target="_blank" rel="noopener"
+>Download&lt;/a>）：轻量级 PDF 阅读器；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.zotero.org/" target="_blank" rel="noopener"
+>Zotero&lt;/a>（&lt;a class="link" href="https://www.zotero.org/download/" target="_blank" rel="noopener"
+>Download&lt;/a>）：文献管理/阅读工具；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.mactype.net/" target="_blank" rel="noopener"
+>MacType&lt;/a>：Windows 字体渲染优化。&lt;/li>
+&lt;/ul>
+&lt;h3 id="开发环境">开发环境
+&lt;/h3>&lt;p>后续我主要的开发工作还是会在 Linux 系统中进行，因此在 Windows 系统里只装这些应该就够了。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://code.visualstudio.com/" target="_blank" rel="noopener"
+>Visual Studio Code&lt;/a>：代码编辑器；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.python.org/downloads/" target="_blank" rel="noopener"
+>Python&lt;/a>：Python 解释器；&lt;/li>
+&lt;li>&lt;a class="link" href="https://scoop.sh/" target="_blank" rel="noopener"
+>Scoop&lt;/a>：Windows 的第三方包管理工具；
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Set-ExecutionPolicy&lt;/span> &lt;span class="n">-ExecutionPolicy&lt;/span> &lt;span class="n">RemoteSigned&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Invoke-RestMethod&lt;/span> &lt;span class="n">-Uri&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">//&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">scoop&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">sh&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Invoke-Expression&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>&lt;a class="link" href="https://git-scm.com/" target="_blank" rel="noopener"
+>Git&lt;/a> + &lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
+>hugo&lt;/a>：版本管理 + 写博客用的。
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">scoop&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">git&lt;/span> &lt;span class="n">go&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul></description></item></channel></rss>

@@ -57,7 +57,7 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;/div>&lt;/div></description></item><item><title>【RL学习笔记】深度Q学习算法与经验回放</title><link>https://blog.furffisite.link/p/deep-q-learning/</link><pubDate>Tue, 22 Aug 2023 10:51:10 +0800</pubDate><guid>https://blog.furffisite.link/p/deep-q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230822110113-5ef18ab6cfb63d5a730bbd8e077231e7-6ba69.jpg" alt="Featured image of post 【RL学习笔记】深度Q学习算法与经验回放" />&lt;h2 id="深度q学习算法">深度Q学习算法
 &lt;/h2>&lt;h3 id="理论">理论
 &lt;/h3>&lt;p>深度Q学习算法（Deep Q-Learning Algorithm）是将 Q 表格替换为神经网络的 Q 学习算法，由 DeepMind 的 Mnih et al. &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>提出。
-Q表格本质上是一个函数 $f: S\times A \rightarrow \mathbb{R}$，我们自然也可以使用神经网络构造这个函数，让它可以处理连续的状态和动作。此外，使用神经网络还有一个好处：我们可以向神经网络输入实例信息 $m\in M$ ，使之可以跨实例学习函数 $f: M\times S\times A\rightarrow \mathbb{R}$ 。也就是说，Agent可以将其在实例 $m_1,~m_2,~\ldots~m_n$上 学习到的经验迁移到未曾见过的实例 $m_{n+1}$ 上，增强模型的泛化性能，减少其探索新实例所需的时间。&lt;/p>
+Q表格本质上是一个函数 $f: S\times A \rightarrow \mathbb{R}$，我们自然也可以使用神经网络构造这个函数，让它可以处理连续的状态和动作。此外，使用神经网络还有一个好处：我们可以向神经网络输入实例信息 $m\in M$ ，使之可以跨实例学习函数 $f: M\times S\times A\rightarrow \mathbb{R}$ 。也就是说，Agent可以将其在实例 $m_1,&lt;del>m_2,&lt;/del>\ldots~m_n$上 学习到的经验迁移到未曾见过的实例 $m_{n+1}$ 上，增强模型的泛化性能，减少其探索新实例所需的时间。&lt;/p>
 &lt;p>网络更新方程的设计
 （以 &lt;a class="link" href="https://en.wikipedia.org/wiki/Bellman_equation" target="_blank" rel="noopener"
 >Bellman 方程&lt;/a> 为基础）：
@@ -503,8 +503,8 @@ loading="lazy"
 &lt;/h2>&lt;p>Q 学习算法（Q-Learning Algorithm）的思路比较简单：使用 Q 函数记录&lt;strong>每一个状态下每一个动作（action）的期望最大总回报（reward）&lt;/strong>，即 Q 值。在推理时贪心地选择当前状态 Q 值最大的动作，从而达到最大化期望总回报的目的。当问题的状态与动作均为离散时，Q 函数可以使用表格记录，这个表格也称为 Q 表格（Q-Table）。&lt;/p>
 &lt;p>设：&lt;/p>
 &lt;ul>
-&lt;li>问题的状态空间为 $S = {1,~2,~\ldots, m}$；&lt;/li>
-&lt;li>问题的动作空间为 $A = {1,~2,~\ldots, n}$；&lt;/li>
+&lt;li>问题的状态空间为 $S = {1,&lt;del>2,&lt;/del>\ldots, m}$；&lt;/li>
+&lt;li>问题的动作空间为 $A = {1,&lt;del>2,&lt;/del>\ldots, n}$；&lt;/li>
 &lt;li>探索阈值为 $\epsilon\in [0,1]$（推理时 $\epsilon = 0$）；&lt;/li>
 &lt;li>学习率 $\eta\in [0,1]$；&lt;/li>
 &lt;li>回报衰减率 $\gamma\in [0,1]$。&lt;/li>

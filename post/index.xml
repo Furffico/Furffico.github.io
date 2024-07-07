@@ -1,4 +1,129 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Furffiblog</title><link>https://blog.furffisite.link/post/</link><description>Recent content in Posts on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 23 May 2024 16:01:12 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Apple Music 曲库迁移</title><link>https://blog.furffisite.link/p/applemusic-transfer/</link><pubDate>Thu, 23 May 2024 16:01:12 +0800</pubDate><guid>https://blog.furffisite.link/p/applemusic-transfer/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240523203808-9f4a7d937672d53fbc1a7174037c6f64-581fc.jpg" alt="Featured image of post Apple Music 曲库迁移" />&lt;h2 id="背景">背景
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Furffiblog</title><link>https://blog.furffisite.link/post/</link><description>Recent content in Posts on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 05 Jul 2024 10:57:02 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/post/index.xml" rel="self" type="application/rss+xml"/><item><title>个人常用的新 Windows 11 系统的配置过程</title><link>https://blog.furffisite.link/p/windows-setup/</link><pubDate>Fri, 05 Jul 2024 10:57:02 +0800</pubDate><guid>https://blog.furffisite.link/p/windows-setup/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240707215654-5c276c9ae1c98340521bf56811f4b765-87c36.jpg" alt="Featured image of post 个人常用的新 Windows 11 系统的配置过程" />&lt;h2 id="验机">验机
+&lt;/h2>&lt;p>在完成 Windows 初始配置，进入桌面后的第一件事是验机，即确保笔记本的配置符合厂家的宣传、确保笔记本没有暗病等。&lt;/p>
+&lt;p>在外观上的验机步骤在开机前应当已经完成了，例如包装正常、外观无划痕、首次开机必须接入电源等。
+但是，我们并不能从外观看出笔记本的配置信息，因此，需要在进入系统后使用相关软件检测笔记本的硬件配置。这些工具例如：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://www.cpuid.com/softwares/cpu-z.html" target="_blank" rel="noopener"
+>CPU-Z&lt;/a>：检测主要硬件信息（CPU/主板/内存显卡）；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.aida64.com/downloads" target="_blank" rel="noopener"
+>AIDA-64&lt;/a>：检测所有硬件信息；&lt;/li>
+&lt;li>&lt;a class="link" href="https://crystalmark.info/en/software/crystaldiskinfo/" target="_blank" rel="noopener"
+>CrystalDiskInfo&lt;/a>: 查看硬盘信息和状态；&lt;/li>
+&lt;li>……&lt;/li>
+&lt;/ul>
+&lt;p>这类工具软件都已经被DIY爱好者中著名的&lt;a class="link" href="https://www.tbtool.cn/" target="_blank" rel="noopener"
+>图吧工具箱&lt;/a>和&lt;a class="link" href="http://www.kbtool.cn/" target="_blank" rel="noopener"
+>卡硬工具箱&lt;/a>收录，所以也可以直接下载使用这些工具箱用于检测硬件。
+对于办公用的笔记本而言这些验机软件是无用的，因此较为推荐的做法是将其程序放在 U 盘里，验新机的时候只需插入这个 U 盘，运行这些程序即可。&lt;/p>
+&lt;h2 id="清理">清理
+&lt;/h2>&lt;p>对于新系统而言，需要清理的只有预装软件和开机启动项&lt;/p>
+&lt;ul>
+&lt;li>清理预装软件：右键 Windows 徽标 -&amp;gt; “安装的应用” -&amp;gt; 遍历列表并卸载用不上的预装应用；&lt;/li>
+&lt;li>清理开机启动项：右键 Windows 徽标 -&amp;gt; “任务管理器” -&amp;gt; 启动应用 -&amp;gt; 遍历列表并卸载用不上的预装应用。&lt;/li>
+&lt;/ul>
+&lt;h2 id="设置-windows">设置 Windows
+&lt;/h2>&lt;h3 id="硬盘分区">硬盘分区
+&lt;/h3>&lt;p>因为有些品牌的笔记本出厂是自带 &lt;a class="link" href="https://learn.microsoft.com/zh-cn/windows/security/operating-system-security/data-protection/bitlocker/" target="_blank" rel="noopener"
+>BitLocker&lt;/a> 分区加密的，而常用的 &lt;a class="link" href="https://www.diskgenius.cn/" target="_blank" rel="noopener"
+>DiskGenius&lt;/a> 等第三方的分区助手似乎并不支持 BitLocker 加密的分区，所以我这里使用 Windows 自带的硬盘管理功能管理硬盘分区。
+Windows 的硬盘管理功能可以直接通过 Windows 徽标的右键菜单打开。&lt;/p>
+&lt;p>在“磁盘管理”中，使用 右键 -&amp;gt; 删除卷 删除出厂预分配的带盘符的分区（不带盘符的恢复分区最好别删），然后使用右键 Windows 分区 -&amp;gt; 扩展卷或者压缩卷，以调整 Windows 分区的大小。我订购的笔记本内置了一块 1 TB 的固态硬盘，我的空间分配方案如下：&lt;/p>
+&lt;ul>
+&lt;li>Windows 分区（300 GiB），用于存放 Windows 系统、应用程序和开发环境；&lt;/li>
+&lt;li>Data 分区（200 GiB），用于存放学习资料、代码和照片等数据；&lt;/li>
+&lt;li>Extra 分区（剩余的 451 GiB），用于存放可以从互联网重复下载的资源，例如 Steam 游戏库、预训练模型权重和数据集等。&lt;/li>
+&lt;/ul>
+&lt;p>这里没有给 Linux 系统留空间是因为新的笔记本内有一个空的 &lt;a class="link" href="https://zh.wikipedia.org/zh-cn/M.2" target="_blank" rel="noopener"
+>M.2&lt;/a> NVME 硬盘位，我准备把旧笔记本内的固态硬盘拆了放在这里作为 Linux 系统的系统盘。&lt;/p>
+&lt;h3 id="开始菜单">开始菜单
+&lt;/h3>&lt;ul>
+&lt;li>清理开始菜单：点击 Windows 徽标打开开始菜单 -&amp;gt; 删除开始菜单内不需要的应用图标&lt;/li>
+&lt;li>展示更多项目：进入设置 -&amp;gt; “个性化” -&amp;gt; “开始” -&amp;gt; 选择“更多固定项”&lt;/li>
+&lt;li>管理电源按钮左侧的图标：进入设置 -&amp;gt; “个性化” -&amp;gt; “开始” -&amp;gt; “文件夹” -&amp;gt; 开启需要显示在电源按钮左侧的图标（我选择了设置、文件资源管理器、下载和个人文件夹）&lt;/li>
+&lt;/ul>
+&lt;h3 id="任务栏">任务栏
+&lt;/h3>&lt;ul>
+&lt;li>任务栏居左：进入设置 -&amp;gt; “个性化” -&amp;gt; “任务栏” -&amp;gt; “任务栏行为” -&amp;gt; “任务栏对齐方式” -&amp;gt; “靠左”&lt;/li>
+&lt;li>搜索框改为搜索图标：&amp;hellip; -&amp;gt; “任务栏” -&amp;gt; “任务栏项” -&amp;gt; “搜索” -&amp;gt; “仅搜索图标”&lt;/li>
+&lt;li>关闭小组件：&amp;hellip; -&amp;gt; “任务栏项” -&amp;gt; “小组件” -&amp;gt; 设为关闭&lt;/li>
+&lt;/ul>
+&lt;h3 id="鼠标指针样式">鼠标指针样式
+&lt;/h3>&lt;p>个人认为默认的白色指针不好看，并且在白底黑字、文字和指针大小相近的情况下，有时会混进文字里难以分辨。&lt;/p>
+&lt;ul>
+&lt;li>更改鼠标指针样式：进入设置 -&amp;gt; “辅助功能” -&amp;gt; “鼠标指针与触控” -&amp;gt; “鼠标指针样式” -&amp;gt; 我个人更喜欢第四项 “自定义” -&amp;gt; 从给出的颜色中选一个（不满意的话也可以选择其它颜色）&lt;/li>
+&lt;/ul>
+&lt;h3 id="语言">语言
+&lt;/h3>&lt;ul>
+&lt;li>添加英文输入法（便于写代码）：进入设置 -&amp;gt; “时间和语言” -&amp;gt; “语言和区域” -&amp;gt; “添加语言” -&amp;gt; 搜索并选择“英语（美国）”&lt;/li>
+&lt;li>添加日文输入法（有时会用到）：&amp;hellip; -&amp;gt; “添加语言” -&amp;gt; 搜索并选择“日语”&lt;/li>
+&lt;/ul>
+&lt;h3 id="个人数据存储位置">个人数据存储位置
+&lt;/h3>&lt;p>这一步的目的是将一部分个人数据的保存位置从系统盘更改至 D 盘。不过这个操作只能迁移一部分数据，对于 AppData 内的文件则无能为力。&lt;/p>
+&lt;ul>
+&lt;li>进入个人文件夹 -&amp;gt; 右键“文档/音乐/图片/视频/下载” -&amp;gt; “属性” -&amp;gt; “位置”标签页 -&amp;gt; 点击“移动” -&amp;gt; 选择 D 盘内的目标文件夹 -&amp;gt; “确定”&lt;/li>
+&lt;li>进入设置 -&amp;gt; “系统” -&amp;gt; “存储” -&amp;gt; “保存新内容的地方” -&amp;gt; 将中间四项的存储位置从 C 盘更改为 D 盘&lt;/li>
+&lt;/ul>
+&lt;h2 id="安装软件">安装软件
+&lt;/h2>&lt;h3 id="工具">工具
+&lt;/h3>&lt;p>目前只安装了这些，我在之后发现的和用到的好用小工具也会更新到这个列表里。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://github.com/microsoft/PowerToys" target="_blank" rel="noopener"
+>PowerToys&lt;/a> (&lt;a class="link" href="https://apps.microsoft.com/detail/xp89dcgq3k6vld" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a>)：开源的 Windows 小工具合集；&lt;/li>
+&lt;li>&lt;a class="link" href="https://zh.snipaste.com/" target="_blank" rel="noopener"
+>Snipaste&lt;/a> (&lt;a class="link" href="https://apps.microsoft.com/detail/9p1wxpkb68kx" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a>)：截图/贴图工具；&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/0x7c13/Notepads" target="_blank" rel="noopener"
+>Notepads App&lt;/a> (&lt;a class="link" href="https://apps.microsoft.com/detail/9nhl4nsc67wm" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a>)：更美观的记事本平替；&lt;/li>
+&lt;li>&lt;a class="link" href="https://potplayer.daum.net/" target="_blank" rel="noopener"
+>PotPlayer&lt;/a> (&lt;a class="link" href="https://apps.microsoft.com/detail/xp8bsbgqw2dks0" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a>)：媒体播放器；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.bandisoft.com/bandizip/" target="_blank" rel="noopener"
+>Bandizip&lt;/a> (&lt;a class="link" href="https://apps.microsoft.com/detail/9p2w3w81sppb" target="_blank" rel="noopener"
+>Microsoft Store&lt;/a>)：好用的压缩软件；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.sumatrapdfreader.org/free-pdf-reader" target="_blank" rel="noopener"
+>Sumatra PDF&lt;/a>（&lt;a class="link" href="https://www.sumatrapdfreader.org/download-free-pdf-viewer" target="_blank" rel="noopener"
+>Download&lt;/a>）：轻量级 PDF 阅读器；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.zotero.org/" target="_blank" rel="noopener"
+>Zotero&lt;/a>（&lt;a class="link" href="https://www.zotero.org/download/" target="_blank" rel="noopener"
+>Download&lt;/a>）：文献管理/阅读工具；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.mactype.net/" target="_blank" rel="noopener"
+>MacType&lt;/a>：Windows 字体渲染优化。&lt;/li>
+&lt;/ul>
+&lt;h3 id="开发环境">开发环境
+&lt;/h3>&lt;p>后续我主要的开发工作还是会在 Linux 系统中进行，因此在 Windows 系统里只装这些应该就够了。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://code.visualstudio.com/" target="_blank" rel="noopener"
+>Visual Studio Code&lt;/a>：代码编辑器；&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.python.org/downloads/" target="_blank" rel="noopener"
+>Python&lt;/a>：Python 解释器；&lt;/li>
+&lt;li>&lt;a class="link" href="https://scoop.sh/" target="_blank" rel="noopener"
+>Scoop&lt;/a>：Windows 的第三方包管理工具；
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Set-ExecutionPolicy&lt;/span> &lt;span class="n">-ExecutionPolicy&lt;/span> &lt;span class="n">RemoteSigned&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">Invoke-RestMethod&lt;/span> &lt;span class="n">-Uri&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">//&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">scoop&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">sh&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">Invoke-Expression&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>&lt;a class="link" href="https://git-scm.com/" target="_blank" rel="noopener"
+>Git&lt;/a> + &lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
+>hugo&lt;/a>：版本管理 + 写博客用的。
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">scoop&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">git&lt;/span> &lt;span class="n">go&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul></description></item><item><title>Apple Music 曲库迁移</title><link>https://blog.furffisite.link/p/applemusic-transfer/</link><pubDate>Thu, 23 May 2024 16:01:12 +0800</pubDate><guid>https://blog.furffisite.link/p/applemusic-transfer/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240523203808-9f4a7d937672d53fbc1a7174037c6f64-581fc.jpg" alt="Featured image of post Apple Music 曲库迁移" />&lt;h2 id="背景">背景
 &lt;/h2>&lt;p>刚上大学的时候，我考虑到日区的 Apple Music 版本可选的歌曲更多，而且各种服务也更给力&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>。
 于是我就开通了日区的会员，因为有学生优惠，每月也就花 580 &lt;strong>日元&lt;/strong>（约 25 人民币）。
 但现在毕业在即，我开始怀疑我到研究生阶段还能不能继续享受这个优惠。而日区会员原价要每月 1080 日元（约 50 人民币），这超出我的可接受范围了。
@@ -958,7 +1083,7 @@ alt="home分区使用情况"
 &lt;/div>&lt;/div></description></item><item><title>【RL学习笔记】深度Q学习算法与经验回放</title><link>https://blog.furffisite.link/p/deep-q-learning/</link><pubDate>Tue, 22 Aug 2023 10:51:10 +0800</pubDate><guid>https://blog.furffisite.link/p/deep-q-learning/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230822110113-5ef18ab6cfb63d5a730bbd8e077231e7-6ba69.jpg" alt="Featured image of post 【RL学习笔记】深度Q学习算法与经验回放" />&lt;h2 id="深度q学习算法">深度Q学习算法
 &lt;/h2>&lt;h3 id="理论">理论
 &lt;/h3>&lt;p>深度Q学习算法（Deep Q-Learning Algorithm）是将 Q 表格替换为神经网络的 Q 学习算法，由 DeepMind 的 Mnih et al. &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>提出。
-Q表格本质上是一个函数 $f: S\times A \rightarrow \mathbb{R}$，我们自然也可以使用神经网络构造这个函数，让它可以处理连续的状态和动作。此外，使用神经网络还有一个好处：我们可以向神经网络输入实例信息 $m\in M$ ，使之可以跨实例学习函数 $f: M\times S\times A\rightarrow \mathbb{R}$ 。也就是说，Agent可以将其在实例 $m_1,~m_2,~\ldots~m_n$上 学习到的经验迁移到未曾见过的实例 $m_{n+1}$ 上，增强模型的泛化性能，减少其探索新实例所需的时间。&lt;/p>
+Q表格本质上是一个函数 $f: S\times A \rightarrow \mathbb{R}$，我们自然也可以使用神经网络构造这个函数，让它可以处理连续的状态和动作。此外，使用神经网络还有一个好处：我们可以向神经网络输入实例信息 $m\in M$ ，使之可以跨实例学习函数 $f: M\times S\times A\rightarrow \mathbb{R}$ 。也就是说，Agent可以将其在实例 $m_1,&lt;del>m_2,&lt;/del>\ldots~m_n$上 学习到的经验迁移到未曾见过的实例 $m_{n+1}$ 上，增强模型的泛化性能，减少其探索新实例所需的时间。&lt;/p>
 &lt;p>网络更新方程的设计
 （以 &lt;a class="link" href="https://en.wikipedia.org/wiki/Bellman_equation" target="_blank" rel="noopener"
 >Bellman 方程&lt;/a> 为基础）：
@@ -2161,8 +2286,8 @@ loading="lazy"
 &lt;/h2>&lt;p>Q 学习算法（Q-Learning Algorithm）的思路比较简单：使用 Q 函数记录&lt;strong>每一个状态下每一个动作（action）的期望最大总回报（reward）&lt;/strong>，即 Q 值。在推理时贪心地选择当前状态 Q 值最大的动作，从而达到最大化期望总回报的目的。当问题的状态与动作均为离散时，Q 函数可以使用表格记录，这个表格也称为 Q 表格（Q-Table）。&lt;/p>
 &lt;p>设：&lt;/p>
 &lt;ul>
-&lt;li>问题的状态空间为 $S = {1,~2,~\ldots, m}$；&lt;/li>
-&lt;li>问题的动作空间为 $A = {1,~2,~\ldots, n}$；&lt;/li>
+&lt;li>问题的状态空间为 $S = {1,&lt;del>2,&lt;/del>\ldots, m}$；&lt;/li>
+&lt;li>问题的动作空间为 $A = {1,&lt;del>2,&lt;/del>\ldots, n}$；&lt;/li>
 &lt;li>探索阈值为 $\epsilon\in [0,1]$（推理时 $\epsilon = 0$）；&lt;/li>
 &lt;li>学习率 $\eta\in [0,1]$；&lt;/li>
 &lt;li>回报衰减率 $\gamma\in [0,1]$。&lt;/li>
