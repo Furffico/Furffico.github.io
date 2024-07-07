@@ -26,7 +26,7 @@ $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lam
 &lt;ul>
 &lt;li>相比于有监督学习，UTSP 不需要有标注的数据，相比于强化学习，UTSP 的收敛速度更快（需要的样本数量更少）；&lt;/li>
 &lt;li>UTSP 直接从 heatmap 计算 loss，省去了强化学习依赖采样获得 reward 的过程；&lt;/li>
-&lt;li>通过结构设计保证输出的heatmap含有汉密尔顿环路；&lt;/li>
+&lt;li>通过结构设计保证输出的 heatmap 含有汉密尔顿环路；&lt;/li>
 &lt;li>神经网络很轻量化（TSP100 仅需两层 45k 个参数）；&lt;/li>
 &lt;li>可以有效地减小搜索空间。&lt;/li>
 &lt;/ul>
