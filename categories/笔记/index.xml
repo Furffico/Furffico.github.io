@@ -1,4 +1,102 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>笔记 on Furffiblog</title><link>https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/</link><description>Recent content in 笔记 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 05 Jul 2024 10:57:02 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>个人常用的新 Windows 11 系统的配置过程</title><link>https://blog.furffisite.link/p/windows-setup/</link><pubDate>Fri, 05 Jul 2024 10:57:02 +0800</pubDate><guid>https://blog.furffisite.link/p/windows-setup/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240707215654-5c276c9ae1c98340521bf56811f4b765-87c36.jpg" alt="Featured image of post 个人常用的新 Windows 11 系统的配置过程" />&lt;h2 id="验机">验机
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>笔记 on Furffiblog</title><link>https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/</link><description>Recent content in 笔记 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 08 Jul 2024 12:33:03 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>【读论文】An End-to-End Submodular Framework for Data-Efficient In-Context Learning</title><link>https://blog.furffisite.link/p/read-papers/div-s3/</link><pubDate>Mon, 08 Jul 2024 12:33:03 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/div-s3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240709193826-409d3c5c4adf797af0b0d55992852fce-5194f.jpg" alt="Featured image of post 【读论文】An End-to-End Submodular Framework for Data-Efficient In-Context Learning" />&lt;p>This blog post is completely written in English, just for practicing my English writing skills. Please let me know if there is any suggestions.&lt;/p>
+&lt;hr>
+&lt;h2 id="basic-information">Basic Information
+&lt;/h2>&lt;ul>
+&lt;li>Title： &lt;strong>An End-to-End Submodular Framework for Data-Efficient In-Context Learning&lt;/strong> &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;/li>
+&lt;li>Authors： Lilly Kumari, Shengjie Wang, Arnav Das, Tianyi Zhou, Jeff Bilmes&lt;/li>
+&lt;li>Conference： &lt;a class="link" href="https://2024.naacl.org/" target="_blank" rel="noopener"
+>NAACL 2024&lt;/a>&lt;/li>
+&lt;li>Open Access： &lt;a class="link" href="https://aclanthology.org/2024.findings-naacl.209" target="_blank" rel="noopener"
+>https://aclanthology.org/2024.findings-naacl.209&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-problem-to-solve">The Problem to Solve
+&lt;/h2>&lt;p>&lt;strong>The problem of annotating, selecting and ordering in-context exemplars for Large Language Models (LLMs).&lt;/strong>&lt;/p>
+&lt;p>The In-Context Learning (ICL) performance of LLMs is largely affected by the selection and ordering of in-context exemplars, which makes it necessary to develop a methodology to select the in-context exemplars according to the query.&lt;/p>
+&lt;h2 id="the-proposed-algorithm">The Proposed Algorithm
+&lt;/h2>&lt;p>In reality, the most of the data we have are unannotated data, &lt;em>i.e.&lt;/em> queries without answers, some recent methods &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup> suggest to select and annotate a subset from an unannotated huge dataset
+$\mathcal X_\mathrm{unlabeled}$ to form a small annotated dataset $\mathcal X_\mathrm{labeled}$, and to choose the in-context exemplars from this subset during evaluation. This passage followed this paradigm, and proposed &lt;strong>Div-S3&lt;/strong>, a two-stage data-efficient learning-free framework for exemplar selection.&lt;/p>
+&lt;ul>
+&lt;li>The first stage (&lt;strong>Div&lt;/strong>): Exemplar Annotation, from $\mathcal X_\mathrm{unlabeled}$ to $\mathcal X_\mathrm{labeled}$.&lt;/li>
+&lt;li>The second stage (&lt;strong>S3&lt;/strong>): Exemplar Retrieval, from $\mathcal X_\mathrm{labeled}$ and query set $Q$ to get in-context exemplars $\mathcal D_\mathrm{context}$.&lt;/li>
+&lt;/ul>
+&lt;h3 id="exemplar-annotation">Exemplar Annotation
+&lt;/h3>&lt;p>&lt;strong>Problem Definition.&lt;/strong>
+The first stage of &lt;em>Div-S3&lt;/em>, as mentioned above, selects from unannotated data $\mathcal X_\mathrm{unlabeled}$ and let &lt;em>homo sapiens&lt;/em> do the annotations to make an informative and diverse subset $\mathcal X_\mathrm{labeled}$, with the constraint of $|\mathcal X_\mathrm{labeled}| \ll |\mathcal X_\mathrm{unlabeled}|$. This is a process similar to one iteration of pool-based active learning. With the objective of diversity and reducing redundancy, this can also be formulated as a set optimization problem &lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> as follows:
+$$\max_{A\subset \mathcal X_\mathrm{unlabeled},|A|\le k} f(A),$$
+where $k$ is a hyperparameter representing the annotation budget, $f:~2^{\mathcal X_\mathrm{unlabeled}}\rightarrow\mathbb R$ is a submodular function mapping all subsets of $\mathcal X_\mathrm{unlabeled}$ to the respective score of each subset. The higher the score, the better the subset is.&lt;/p>
+&lt;blockquote>
+&lt;p>The submodular function must satisfy the properties of monotone and decreasing marginal profit, &lt;em>i.e.&lt;/em>, respectively,
+$$\begin{aligned}\forall A\subseteq T, \quad&amp;amp;f(A) \le f(T), \\ \forall A\subset T,~ \forall x\not\in T, \quad&amp;amp;f(\{x\}|A) \ge f(\{x\}|T), \end{aligned}$$
+where $f(\{x\}|T) = f(\{x\}\cup T) - f(T)$ is the marginal profit of adding $\{x\}$ to $T$.&lt;/p>
+&lt;/blockquote>
+&lt;p>The authors set the submodular function to be &lt;em>facility location&lt;/em>, which is defined as
+$$f(A) = \sum_{s_i\in\mathcal X_\mathrm{unlabeled}}\max_{s_j\in A}\mathrm{sim}(s_i,s_j),$$
+where $\mathrm{sim}(\cdot,\cdot)$ denotes the cosine similarity of two queries&amp;rsquo; embeddings, generated by sentence-BERT &lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>&lt;strong>Intuitive Interpretation.&lt;/strong>
+This problem can be intuitively and geometrically interpreted as minimizing the sum of all distances between each node and its nearest selected nodes, which is a k-medoids problem and is pretty similar to k-means clustering.&lt;/p>
+&lt;p>&lt;strong>Solution.&lt;/strong>
+The authors of this paper use a greedy algorithm proposed by Nemhauser &lt;em>et al.&lt;/em> &lt;sup>&lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>&lt;/sup>, called Greedy Submodular Maximization (GSM). Its fundamental idea is to greedily select the item with the maximum marginal profit for $k$ iterations, &lt;em>i.e.&lt;/em>
+$$A\leftarrow A\cup \{\argmax_{v\in V, v\not\in A} f(A\cup \{v\}) - f(A) \}.$$
+Considering the time spent in calculating $f$, this is an algorithm with the time complexity of $O((nk)^2)$. The paper says it&amp;rsquo;s $O(n^2+nk)$ but I beg to differ as it seems to have ignored the time complexity of calculating $f$, which is $\Theta(nm)$ with pre-calculated similarity matrix, where $m=0,1,\ldots,k-1$ in the iterations. But I agree with the authors that the algorithm can be accelerated by techniques like caching and priority queues, &lt;em>etc.&lt;/em>&lt;/p>
+&lt;h3 id="exemplar-retrieval">Exemplar Retrieval
+&lt;/h3>&lt;p>Exemplar retrieval is intended to find the best in-context exemplars $\mathcal D_\mathrm{context}$ for the given query set $Q$ from $\mathcal X_\mathrm{labeled}$. Previous similarity-based methods usually yield in-context exemplars with redundant information. To reduce such redundancy, the authors formalize exemplar retrieval as a conditional submodular subset selection problem. The purpose of this stage is to &amp;ldquo;obtain a set of exemplars that are not only relevant to the test query but also encompass diverse aspects crucial for aiding the LLM in the target task&amp;rdquo; &lt;sup>&lt;a id='ref-cite1-2' href='#cite1'>[1]&lt;/a>&lt;/sup>. They come up with a two-phase method called Submodular Span Summarization (S3), which was published prior to this paper &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>.&lt;/p>
+&lt;h4 id="phase-1-of-s3">Phase 1 of S3
+&lt;/h4>&lt;p>&lt;strong>Problem Definition.&lt;/strong>
+This phase targets to select a relatively large subset relevant to the query set $Q$, but might be redundant.
+The original problem might be difficult to solve, so the paper considered solving the dual problem of it:
+$$\min_{A\subseteq V - Q,|A|\ge k_1}f(A|Q),$$
+which is a cardinality-constrained submodular minimization problem. The authors use $m_Q(A) = \sum_{a\in A}f(a|Q)$ to approximate $f(A|Q)$, which is an upper bound of $f(A|Q)$.&lt;/p>
+&lt;p>&lt;strong>Solution.&lt;/strong>
+Although the paper doesn&amp;rsquo;t state it clearly, I think the algorithm to solve this problem, given the approximation, is to select $k_1$ exemplars with minimal values of $f(a|Q)$ from $A$. And this algorithm matches the time complexity $O(k+k\log k_1)$ stated in Appendix B, if ignoring the time for calculating $f$.&lt;/p>
+&lt;h4 id="phase-2-of-s3">Phase 2 of S3
+&lt;/h4>&lt;p>This stage is intended to select the most representative exemplars from the result of phase 1, and is mathematically the same as &lt;a class="link" href="#exemplar-annotation" >Exemplar Annotation&lt;/a>:
+$$\max_{A\subset A_Q,|A|\le k_2} f(A),$$
+where $A_Q$ is the set of selected exemplars from phase 1.
+Optionally, we can apply a knapsack constraint on the problem, and solve it with a modified version of GSM.&lt;/p>
+&lt;h2 id="comments">Comments
+&lt;/h2>&lt;p>The authors proposed a learning-free framework named &lt;strong>Div-S3&lt;/strong> to select in-context exemplars from unlabeled datasets, and evaluated its effectiveness with ablation experiments across 7 Natural Language Processing (NLP) tasks and 5 LLMs. Although the algorithm doesn&amp;rsquo;t take ordering into consideration, the paper proves its insensitiveness to the order of exemplars.&lt;/p>
+&lt;p>However, from my perspective, I still have some problems related to the paper:&lt;/p>
+&lt;ul>
+&lt;li>In Exemplar Retrieval stage, what&amp;rsquo;s the meaning of computing $f(Q)$ against all unlabeled data $\mathcal X_\mathrm{unlabeled}$. Given that $\mathcal X_\mathrm{labeled}$ is a representative subset of $\mathcal X_\mathrm{unlabeled}$, would it be computationally better to calculate $f(Q)$ and $f(a|Q)$ only against $\mathcal X_\mathrm{labeled}\cup Q$?&lt;/li>
+&lt;li>What&amp;rsquo;s the purpose of dealing with the queries as a whole (query set $Q$), instead of retrieving the best exemplars for each query $q$?&lt;/li>
+&lt;li>The experiments didn&amp;rsquo;t cover the comparison of Div-S3 with some recent algorithms, especially the learning-based ones.&lt;/li>
+&lt;li>Will the algorithm averagely perform better if we handcraft a rule to arrange the selected exemplars? Also, in Figure 3, the variances do not seem to be small.&lt;/li>
+&lt;/ul>
+&lt;h2 id="references">References
+&lt;/h2>&lt;style>
+.bibliography { display: table; font-size: medium; line-height: normal; }
+.bib-item { display: table-row; }
+.bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
+.bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
+&lt;/style>
+&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
+&lt;span>[1]&lt;/span>
+&lt;span>L. Kumari, S. Wang, A. Das, T. Zhou, and J. Bilmes, “An End-to-End Submodular Framework for Data-Efficient In-Context Learning,” in Findings of the Association for Computational Linguistics: NAACL 2024, K. Duh, H. Gomez, and S. Bethard, Eds., Mexico City, Mexico: Association for Computational Linguistics, Jun. 2024, pp. 3293–3308. Accessed: Jul. 02, 2024. [Online]. Available: &lt;a class="link" href="https://aclanthology.org/2024.findings-naacl.209" target="_blank" rel="noopener"
+>https://aclanthology.org/2024.findings-naacl.209&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;a href="#ref-cite1-2">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite2" class="bib-item">
+&lt;span>[2]&lt;/span>
+&lt;span>H. Su et al., “Selective Annotation Makes Language Models Better Few-Shot Learners,” presented at the The Eleventh International Conference on Learning Representations, Sep. 2022. Accessed: May 30, 2024. [Online]. Available: &lt;a class="link" href="https://openreview.net/forum?id=qY1hlv7gwg" target="_blank" rel="noopener"
+>https://openreview.net/forum?id=qY1hlv7gwg&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite3" class="bib-item">
+&lt;span>[3]&lt;/span>
+&lt;span>S. C. H. Hoi, R. Jin, J. Zhu, and M. R. Lyu, “Batch mode active learning and its application to medical image classification,” in Proceedings of the 23rd international conference on Machine learning, in ICML ’06. New York, NY, USA: Association for Computing Machinery, Jun. 2006, pp. 417–424. doi: 10.1145/1143844.1143897.&lt;a href="#ref-cite3-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite4" class="bib-item">
+&lt;span>[4]&lt;/span>
+&lt;span>N. Reimers and I. Gurevych, “Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks.” arXiv, Aug. 27, 2019. Accessed: Jul. 08, 2024. [Online]. Available: &lt;a class="link" href="http://arxiv.org/abs/1908.10084" target="_blank" rel="noopener"
+>http://arxiv.org/abs/1908.10084&lt;/a>&lt;a href="#ref-cite4-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite5" class="bib-item">
+&lt;span>[5]&lt;/span>
+&lt;span>G. L. Nemhauser, L. A. Wolsey, and M. L. Fisher, “An analysis of approximations for maximizing submodular set functions—I,” Mathematical programming, vol. 14, pp. 265–294, 1978.&lt;a href="#ref-cite5-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;div id="cite6" class="bib-item">
+&lt;span>[6]&lt;/span>
+&lt;span>L. Kumari and J. Bilmes, “Submodular Span, with Applications to Conditional Data Summarization,” Proceedings of the AAAI Conference on Artificial Intelligence, vol. 35, no. 14, Art. no. 14, May 2021, doi: 10.1609/aaai.v35i14.17465.&lt;a href="#ref-cite6-1">⤶&lt;/a>&lt;/span>
+&lt;/div>&lt;/div>
+&lt;!--
+{{#- And it is formulated as a submodular span optimization problem:
+$$\begin{aligned}&amp;\max_{A\subseteq V - Q} |A| \\\\ \mathrm{s.t.}\quad&amp;f(A\cup Q) - f(Q)\le\epsilon\end{aligned},$$
+where $\epsilon>0$ is a hyperparameter controlling the relevance level.
+This can be interpreted as maximizing the marginal -#}}
+--></description></item><item><title>个人常用的新 Windows 11 系统的配置过程</title><link>https://blog.furffisite.link/p/windows-setup/</link><pubDate>Fri, 05 Jul 2024 10:57:02 +0800</pubDate><guid>https://blog.furffisite.link/p/windows-setup/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240707215654-5c276c9ae1c98340521bf56811f4b765-87c36.jpg" alt="Featured image of post 个人常用的新 Windows 11 系统的配置过程" />&lt;h2 id="验机">验机
 &lt;/h2>&lt;p>在完成 Windows 初始配置，进入桌面后的第一件事是验机，即确保笔记本的配置符合厂家的宣传、确保笔记本没有暗病等。&lt;/p>
 &lt;p>在外观上的验机步骤在开机前应当已经完成了，例如包装正常、外观无划痕、首次开机必须接入电源等。
 但是，我们并不能从外观看出笔记本的配置信息，因此，需要在进入系统后使用相关软件检测笔记本的硬件配置。这些工具例如：&lt;/p>
