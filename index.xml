@@ -97,7 +97,20 @@ Windows 的硬盘管理功能可以直接通过 Windows 徽标的右键菜单打
 &lt;li>&lt;a class="link" href="https://code.visualstudio.com/" target="_blank" rel="noopener"
 >Visual Studio Code&lt;/a>：代码编辑器；&lt;/li>
 &lt;li>&lt;a class="link" href="https://www.python.org/downloads/" target="_blank" rel="noopener"
->Python&lt;/a>：Python 解释器；&lt;/li>
+>Python&lt;/a>：Python 解释器；
+&lt;ul>
+&lt;li>Pip 换源：
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">pip config &lt;span class="nb">set&lt;/span> global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
 &lt;li>&lt;a class="link" href="https://scoop.sh/" target="_blank" rel="noopener"
 >Scoop&lt;/a>：Windows 的第三方包管理工具；
 &lt;div class="highlight">&lt;div class="chroma">
