@@ -1,4 +1,309 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Furffiblog</title><link>https://blog.furffisite.link/post/</link><description>Recent content in Posts on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 08 Jul 2024 12:33:03 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/post/index.xml" rel="self" type="application/rss+xml"/><item><title>【读论文】An End-to-End Submodular Framework for Data-Efficient In-Context Learning</title><link>https://blog.furffisite.link/p/read-papers/div-s3/</link><pubDate>Mon, 08 Jul 2024 12:33:03 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/div-s3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240709193826-409d3c5c4adf797af0b0d55992852fce-5194f.jpg" alt="Featured image of post 【读论文】An End-to-End Submodular Framework for Data-Efficient In-Context Learning" />&lt;p>This blog post is completely written in English, just for practicing my English writing skills. Please let me know if there is any suggestions.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Furffiblog</title><link>https://blog.furffisite.link/post/</link><description>Recent content in Posts on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 20 Oct 2024 17:05:46 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/post/index.xml" rel="self" type="application/rss+xml"/><item><title>用 Python 写一个简单的单页面静态网站生成器</title><link>https://blog.furffisite.link/p/liveserver/</link><pubDate>Sun, 20 Oct 2024 17:05:46 +0800</pubDate><guid>https://blog.furffisite.link/p/liveserver/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20241020234336-67f7ee39e8f8df0b.jpg" alt="Featured image of post 用 Python 写一个简单的单页面静态网站生成器" />&lt;p>我最初的任务是基于已有的模板给我之前参与的论文做一个 project page，选用的模板是 &lt;a class="link" href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener"
+>eliahuhorwitz/Academic-project-page-template&lt;/a>。然而，这个模板是纯 HTML 的，在涉及到列表（例如作者列表）时需要手动复制粘贴并逐一修改内容，这不仅繁琐，也不便于后续的修改（例如改展示格式，或是迁移到别的项目）。我偷懒的天性不允许我这样做（好麻烦啊😫），于是我萌生了一个自然的想法：将HTML修改为模板，使用程序渲染模板得到最终的静态页面。&lt;/p>
+&lt;h2 id="第一版基础功能">第一版：基础功能
+&lt;/h2>&lt;p>这时，我的想法比较简单：使用 Python 标准库里的 &lt;a class="link" href="https://docs.python.org/3/library/tomllib.html" target="_blank" rel="noopener"
+>&lt;code>tomllib (python&amp;gt;=3.11)&lt;/code>&lt;/a> 读取 toml 文件作为 context，并使用 &lt;a class="link" href="https://jinja.palletsprojects.com/en/3.0.x/" target="_blank" rel="noopener"
+>jinja&lt;/a> 读取模板进行渲染，最后将渲染结果输出到 html 文件里。代码实现也非常简洁，仅包含几行代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">jinja2&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Environment&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FileSystemLoader&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">target_folder&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;./dist&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">env&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Environment&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">loader&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">FileSystemLoader&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;./template&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span>&lt;span class="n">autoescape&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">with&lt;/span> &lt;span class="nb">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;./config.toml&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;rb&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">config_file&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">config&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">tomllib&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">load&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">config_file&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">page&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">env&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_template&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;index.html&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">render&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">config&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">with&lt;/span> &lt;span class="nb">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">join&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">target_folder&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;index.html&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="s1">&amp;#39;w&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">f&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">write&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">page&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>作为输入的toml文件类似于这样：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">paper&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">title&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">conference&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">abstract&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[[&lt;/span>&lt;span class="nx">paper&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">authors&lt;/span>&lt;span class="p">]]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">name&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">symbols&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">......&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>通过结合 TOML 配置文件与 Jinja 模板中的循环和判断语句，我们可以将编辑 HTML 的工作转换为编辑配置文件。相较于直接编辑 HTML，后者显然更为简便。&lt;/p>
+&lt;p>给以上的代码加上一些处理静态文件的逻辑，例如：&lt;/p>
+&lt;ol>
+&lt;li>构建前清除目标文件夹&lt;/li>
+&lt;li>构建时从指定文件夹复制文件到目标文件夹&lt;/li>
+&lt;/ol>
+&lt;p>那怎么预览构建结果呢？我当时的做法是在 &lt;code>./dist&lt;/code> 中使用以下指令启动一个 Python 的简易文件服务器：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ python3 -m http.server
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后，再编写&lt;a class="link" href="https://github.com/ai4co/reevo/blob/7fcf3878943629c08a38983bbab1b1822f5a924b/docs/publish.sh" target="_blank" rel="noopener"
+>一点 bash 脚本&lt;/a>实现一键部署到 GitHub Pages，即可形成一个简易的单页面静态网站生成器，这便是&lt;a class="link" href="https://github.com/ai4co/reevo/blob/27f4bcd57034bdf82dff76f91b2cf4c1575f4c6f/docs/build.py" target="_blank" rel="noopener"
+>第一版&lt;/a>。&lt;/p>
+&lt;h2 id="第二版监测文件更改并自动构建">第二版：监测文件更改并自动构建
+&lt;/h2>&lt;p>在开发过程中，我很快发现第一版存在一个显著问题：每次修改模板或配置后，都需要手动执行构建命令并刷新页面。
+我针对前者的解决方案是使用 &lt;code>watch&lt;/code> 指令每隔一秒执行一次构建脚本，例如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ watch -d -n1 python3 build.py
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>但是，我认为这样的解决方法不是很优雅，于是就想着，能不能由构建脚本持续监测文件更改，并在有需要的时候自动构建呢？答案当然是可以的。互联网对此给出了四种方案：&lt;/p>
+&lt;ol>
+&lt;li>使用 &lt;a class="link" href="https://python-watchdog.readthedocs.io/en/stable/index.html" target="_blank" rel="noopener"
+>watchdog 库&lt;/a>&lt;/li>
+&lt;li>使用 &lt;a class="link" href="https://pypi.org/project/inotify/" target="_blank" rel="noopener"
+>inotify 库&lt;/a> （仅限 Linux）&lt;/li>
+&lt;li>计算文件散列值，判断是否修改&lt;/li>
+&lt;li>使用 os 库获取文件修改时间，判断是否修改&lt;/li>
+&lt;/ol>
+&lt;p>前两种方法最为便捷，可以直接利用已有的库；第三种方法通过计算文件散列值来判断文件是否修改，虽然，能准确获知文件内容是否变化（其余三种只是监测更改文件的操作），但是，资源消耗较大；第四种方法通过获取文件修改时间来判断文件是否修改，易于理解且实现简单。最终，我选择了第四种方法：&lt;/p>
+&lt;p>首先，定义 &lt;code>all_filepaths&lt;/code> 函数（generator）获取给定所有目录下的所有路径，这里需要返回文件夹是因为文件夹的最后修改时间可以反映该文件夹内是否有文件被移动或删除。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">all_filepaths&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">paths&lt;/span>&lt;span class="p">):&lt;/span> &lt;span class="c1"># 获取指定目录下的所有路径，包括文件和文件夹&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">path&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">paths&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="ow">not&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">exists&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="p">):&lt;/span> &lt;span class="c1"># 如果路径不存在，跳过&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">pass&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">elif&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">isfile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="p">):&lt;/span> &lt;span class="c1"># 如果是文件，直接返回文件路径&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">yield&lt;/span> &lt;span class="n">path&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">else&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="c1"># 如果是文件夹，遍历文件夹内的所有文件和子文件夹&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">root&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">_&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">files&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">walk&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">yield&lt;/span> &lt;span class="n">root&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">yield from&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">join&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">root&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">file&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">file&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">files&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>接下来，定义一个函数 &lt;code>build_on_change&lt;/code>，循环获取文件的最后更改时间，并判断文件是否被更改。如果检测到文件在上次构建之后有更改，则执行 &lt;code>build&lt;/code> 函数重新构建页面。此处将 &lt;code>last_update&lt;/code> 初值设为零,可以确保程序启动后会立刻触发一次构建。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">build_on_change&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">paths&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">**&lt;/span>&lt;span class="n">build_kwargs&lt;/span>&lt;span class="p">):&lt;/span> &lt;span class="c1"># 监听文件更改并自动构建页面&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">last_update&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">0.0&lt;/span> &lt;span class="c1"># 初始化最后更新时间为0，确保程序启动后立即触发一次构建&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="kc">True&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">filepath&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">all_filepaths&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">paths&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">last_modified_at&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">stat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">filepath&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">st_mtime&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">last_modified_at&lt;/span> &lt;span class="o">&amp;gt;=&lt;/span> &lt;span class="n">last_update&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">build&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">**&lt;/span>&lt;span class="n">build_kwargs&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">last_update&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">time&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">time&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">break&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">time&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sleep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># 每隔1秒检查一次文件更改&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>通过以上代码，仅需 20 行即可实现 Python 原生的自动监测文件更改的功能（当然，调库更快，但是需要安装依赖）。
+最后，只需再编写少量代码，利用 &lt;code>sys.argv&lt;/code> 获取命令行参数，并在程序入口处区分&lt;strong>单次构建&lt;/strong>和&lt;strong>自动更新&lt;/strong>（预览）两种模式，这便是第二版。&lt;/p>
+&lt;h2 id="第三版集成静态文件服务器自动刷新页面">第三版：集成静态文件服务器+自动刷新页面
+&lt;/h2>&lt;p>尽管第二版解决了“手动执行构建命令并刷新页面”的部分问题，但保存后仍需手动刷新页面，这一痛点依然存在。第三版的目标便是彻底解决这一问题。&lt;/p>
+&lt;p>先把每次需要手动启动的 &lt;code>http.server&lt;/code> 集成到脚本里来：直接修改&lt;a class="link" href="https://docs.python.org/3/library/http.server.html#http.server.SimpleHTTPRequestHandler.do_GET" target="_blank" rel="noopener"
+>&lt;code>http.server&lt;/code> 官方文档里的示例代码&lt;/a>，然后加上 &lt;a class="link" href="https://docs.python.org/3/library/threading.html#threading.Thread" target="_blank" rel="noopener"
+>Threading 标准库&lt;/a>使其以守护线程的方式运行（主程序退出时自动结束，无需手动终止）。这仅需 10 行代码（不包括空行）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">start_server_daemon&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;127.0.0.1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">port&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">8123&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">directory&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;./dist&amp;#34;&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kn">from&lt;/span> &lt;span class="nn">threading&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Thread&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kn">import&lt;/span> &lt;span class="nn">http.server&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="nn">socketserver&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">start_server&lt;/span>&lt;span class="p">():&lt;/span> &lt;span class="c1"># 创建一个简单的HTTP服务器，绑定到指定的IP和端口&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">with&lt;/span> &lt;span class="n">socketserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">TCPServer&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="n">ip&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">port&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">http&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">server&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">SimpleHTTPRequestHandler&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">httpd&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;Serving live preview at http://&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">ip&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">:&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">port&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">httpd&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">serve_forever&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1"># 启动服务器并保持运行&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 创建一个守护线程，当主线程退出时，守护线程也会自动退出&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">t&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Thread&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">target&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">start_server&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">daemon&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">t&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">start&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>接下来，我们探讨如何实现页面的自动刷新功能。换言之，服务器如何通知浏览器内容已更新呢？
+&lt;a class="link" href="https://docs.python.org/3/library/http.server.html#http.server.SimpleHTTPRequestHandler.do_GET" target="_blank" rel="noopener"
+>&lt;code>http.server&lt;/code> 的官方文档&lt;/a>内同样提供了答案：在其提供文件时，会在 response header 中加入&lt;a class="link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Last-Modified" target="_blank" rel="noopener"
+>&lt;code>Last-Modified&lt;/code> header&lt;/a>，这个header的时间戳来源于文件系统记录的最后更改时间。由于我的程序只会全量构建，所以 &lt;code>dist&lt;/code> 目录内的所有文件的最后修改时间必定与最后一次构建的时间相同。&lt;/p>
+&lt;p>基于此，我们只需在浏览器中用 JavaScript 轮询服务器上的某个文件（我这里是在自动更新模式下额外创建一个空文件），获取其 header 内的 &lt;code>Last-Modified&lt;/code>，判断页面是否更新，如果更新了就调用 &lt;code>window.location.reload()&lt;/code> 刷新页面即可。&lt;/p>
+&lt;p>Python 部分只需要创建上述的空文件，以及在模板的 context 中加入是否启用自动刷新的参数即可。模板内需要加入如下 javascript 代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="cl">&lt;span class="p">(&lt;/span>&lt;span class="kd">function&lt;/span>&lt;span class="p">(){&lt;/span> &lt;span class="c1">// 防止命名冲突
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kd">let&lt;/span> &lt;span class="nx">last_updated&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nb">Date&lt;/span>&lt;span class="p">();&lt;/span> &lt;span class="c1">// 初始化为当前时间
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kr">const&lt;/span> &lt;span class="nx">dummy_file_path&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;/{{preview_mode.dummy_file_path}}&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 模板渲染时填充空文件名称
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kr">const&lt;/span> &lt;span class="nx">refresh_on_change&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">()&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// 定义函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">fetch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">dummy_file_path&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">then&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">res&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">last_modified&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nb">Date&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">res&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">headers&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Last-Modified&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">last_updated&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="nx">last_modified&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">window&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">location&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">reload&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">setInterval&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">refresh_on_change&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1000&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 每一秒检查一次是否更新
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">})();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>当然，这段 JavaScript 代码需要放在 &lt;code>&amp;lt;script&amp;gt;&lt;/code> 标签内，同时在模板中确保只有自动更新启用时才会渲染这个标签。这便是第三版。&lt;/p>
+&lt;h2 id="第四版最小化生成的文件">第四版：最小化生成的文件
+&lt;/h2>&lt;p>通过模板引擎渲染生成的 html 文件，常常会包含大量的空白字符、引号和注释等冗余元素。这些元素虽然在开发阶段有助于提升代码的可读性与维护性，但在实际网页加载过程中，它们却显著增加了文件的体积，进而拖慢了网页的加载速度。为了优化页面加载性能，我们有必要在构建完成后，对这些冗余字符进行精简处理，以缩减文件大小。&lt;/p>
+&lt;p>这一优化策略同样适用于 css 文件，不同的是，css 文件中的冗余字符往往遵循特定的模式，可以直接运用正则表达式进行匹配与去除，我的代码如下（这段代码并不全面，但是它已经能显著缩小文件的体积，于我而言，这样就够了）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">re&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">minify_css&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">filepath&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">content&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">filepath&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s1">&amp;#39;r&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">read&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">minimized&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">re&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sub&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">r&lt;/span>&lt;span class="s1">&amp;#39; *\n *|/\*.*?\*/&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">content&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">minimized&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">re&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sub&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">r&lt;/span>&lt;span class="s1">&amp;#39;; *(?=})|(?&amp;lt;=:) +| +(?={)&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">minimized&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">with&lt;/span> &lt;span class="nb">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">filepath&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;w&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">f&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">write&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">minimized&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">filepath&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s2">&amp;#34;:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="sa">f&lt;/span>&lt;span class="s1">&amp;#39;reduced from &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">content&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s1"> Bytes to &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">minimized&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s1"> Bytes&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>而 html 的规则复杂，有的空格和换行符的移除会影响页面的呈现效果（例如 &lt;code>&amp;lt;pre&amp;gt;&lt;/code> 标签的内容）。因此，在处理 html 文件时，相比于自己实现，我决定使用 &lt;a class="link" href="https://htmlmin.readthedocs.io/en/latest/" target="_blank" rel="noopener"
+>htmlmin 库&lt;/a>的实现。代码如下，注意其中的 &lt;code>remove_all_empty_space=True&lt;/code> 也会在一定情况下影响页面的呈现，例如，两个 &lt;code>&amp;lt;span&amp;gt;&lt;/code> 标签之间的空格也会被移除，对于这种情况需要去掉这个参数，或是在 css 或 &lt;code>style&lt;/code> 属性中加入 &lt;a class="link" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin" target="_blank" rel="noopener"
+>&lt;code>margin-right&lt;/code>&lt;/a> 创造空隙。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">htmlmin.main&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">minify&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">minify_html&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">filepath&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">content&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">filepath&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s1">&amp;#39;r&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">read&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">minimized&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">minify&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">content&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">remove_comments&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">remove_all_empty_space&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">with&lt;/span> &lt;span class="nb">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">filepath&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;w&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">f&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">write&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">minimized&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">filepath&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s2">&amp;#34;:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="sa">f&lt;/span>&lt;span class="s1">&amp;#39;reduced from &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">content&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s1"> Bytes to &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">minimized&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s1"> Bytes&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>至于 JavaScript 文件，由于在这个项目中我自己写的 js 代码很少，且都已经嵌入 html 文件，而外部库都是通过 CDN 引入的，加载的大多是优化过的文件，因此我并没有考虑对 js 文件做最小化。&lt;/p>
+&lt;p>最后，在构建后利用之前写的 &lt;code>all_filepaths&lt;/code> 函数遍历 &lt;code>dist&lt;/code> 文件夹内的所有文件，根据扩展名判断对应的最小化方法，然后调用相应的函数最小化即可。因为这里的最小化是为了部署服务的，所以在预览模式下不会执行这段代码。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="n">path&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">all_filepaths&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">target_folder&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="ow">not&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">isfile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">continue&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">extension&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">basename&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">rsplit&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;.&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">lower&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1"># 获取文件扩展名&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">extension&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s2">&amp;#34;css&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">minify_css&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">elif&lt;/span> &lt;span class="n">extension&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="s1">&amp;#39;html&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;svg&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;xml&amp;#39;&lt;/span>&lt;span class="p">}:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">minify_html&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>综合上述所有功能，便得到了第四版，也是&lt;a class="link" href="https://github.com/ai4co/reevo/blob/30e87a43e05bce6a8ccb42b9d453a89f6d4a1740/docs/build.py" target="_blank" rel="noopener"
+>目前的最终版&lt;/a>。&lt;/p>
+&lt;h2 id="总结">总结
+&lt;/h2>&lt;p>回顾这个流程，最初我只是想偷个懒，没想到最终付出的时间比原本不偷懒还要多。然而，考虑到在这个过程中我的收获，我觉得这个时间花的还是很值得的。例如，我之前在用现成的 live server 时，从未想过这个功能的实现可以如此简单（当然我的实现也比较糙就是了）。同时，这次的经验、编写的脚本和模板，到以后做单页面静态网站或者新的论文的 project page 时也都可以派上用场。&lt;/p>
+&lt;p>当然，我也知道市面上有很多现成的静态网站生成工具，例如基于 Python 的 &lt;a class="link" href="https://docs.getpelican.com/en/latest/" target="_blank" rel="noopener"
+>Pelican&lt;/a>，基于 Ruby 的 &lt;a class="link" href="https://jekyllrb.com/" target="_blank" rel="noopener"
+>Jekyll&lt;/a> 和我构建这个博客所使用的基于 Golang 的 &lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
+>hugo&lt;/a>，问题是它们都是针对多页面的内容向网站，它们的项目结构也比较复杂，对于我的单页面、仅有两张图片的 project page 而言，确实显得有些大材小用。因此，我选择了自力更生，过程虽然曲折，但收获颇丰。&lt;/p></description></item><item><title>【读论文】An End-to-End Submodular Framework for Data-Efficient In-Context Learning</title><link>https://blog.furffisite.link/p/read-papers/div-s3/</link><pubDate>Mon, 08 Jul 2024 12:33:03 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/div-s3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240709193826-409d3c5c4adf797af0b0d55992852fce-5194f.jpg" alt="Featured image of post 【读论文】An End-to-End Submodular Framework for Data-Efficient In-Context Learning" />&lt;p>This blog post is completely written in English, just for practicing my English writing skills. Please let me know if there is any suggestions.&lt;/p>
 &lt;hr>
 &lt;h2 id="basic-information">Basic Information
 &lt;/h2>&lt;ul>
