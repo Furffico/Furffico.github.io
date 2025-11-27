@@ -122,7 +122,6 @@ el.innerText = '当前浏览器不支持 Web Components，无法展示交互式�
 &lt;/h3&gt;&lt;p&gt;嵌入层的作用，是把上一节得到的离散整数 ID 转换成模型内部可以操作的稠密向量表示。形式化地看，它可以被视为一个从 token ID 到向量空间的映射
 $f: \{0, 1, \ldots, (V-1)\} \rightarrow \mathbb{R}^d$，其中 $V$ 是词表大小，$d$ 是模型内部向量（即 embedding）的维度。对于每一个 token ID，$f(t)$ 都给出一个唯一的 embedding 向量，在训练过程中逐渐学到这个 token 的语义及其典型使用环境。&lt;/p&gt;
 &lt;p&gt;从实现角度看，这个映射由一块可学习参数矩阵 $E \in \mathbb{R}^{V\times d}$ 来承载：可以把它理解为一个「词表大小为 $V$、每行维度为 $d$ 的大表」。在推理时，模型并不会真的构造 one-hot 向量，而是直接以 token ID 作为索引，从矩阵 $E$ 中取出对应行，作为该 token 的向量表示，这就是常说的 embedding lookup。&lt;/p&gt;
-&lt;p&gt;至此，我们已经得到了长度为 $L$、维度为 $d$ 的向量序列，可以作为任意序列模型的输入（包括循环神经网络）。接下来本文将聚焦于当前大语言模型最常用的一种：&lt;strong&gt;基于 Transformer 的自回归语言模型&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;为了直观感受这些高维向量是如何捕捉语义信息的，我基于 plotly 绘制了 GPT-2 (small) &lt;sup&gt;&lt;a id='ref-cite5-6' href='#cite5'&gt;[5]&lt;/a&gt;&lt;/sup&gt; 模型中所有 token embedding 的 t-SNE 降维可视化图。你可以缩放、悬浮查看每个点对应的 token：&lt;/p&gt;
 &lt;center&gt;
 &lt;div id="plotly-figure-6" class="plotly-graph-div" style="aspect-ratio: 1; width: 100%;"&gt;
@@ -187,6 +186,7 @@ class="c-collapsible__body is-collapsed"
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;p&gt;至此，我们已经得到了长度为 $L$、维度为 $d$ 的向量序列，可以作为任意序列模型的输入（包括循环神经网络）。接下来本文将聚焦于当前大语言模型最常用的一种：&lt;strong&gt;基于 Transformer 的自回归语言模型&lt;/strong&gt;。&lt;/p&gt;
 &lt;h2 id="总览-transformer"&gt;&lt;a id="transformer-overview"&gt;&lt;/a&gt; 总览 Transformer
 &lt;/h2&gt;&lt;p&gt;在跟着 Embedding 进入 Transformer 的结构之前，我们先解决三个问题：「&lt;a class="link" href="#what-is-transformer" &gt;什么是 Transformer&lt;/a&gt;」、「&lt;a class="link" href="#why-transformer" &gt;为什么是 Transformer&lt;/a&gt;」与「&lt;a class="link" href="#encoder-decoder" &gt;Encoder 和 Decoder 的异同&lt;/a&gt;」。&lt;/p&gt;
 &lt;h3 id="什么是-transformer"&gt;&lt;a id="what-is-transformer"&gt;&lt;/a&gt; 什么是 Transformer
@@ -745,34 +745,32 @@ style="width: 60%; height: auto;"
 你可以把它们看成「当前模型对每个位置的语义理解」，这一层的任务就是在此基础上再做一次全局信息路由与非线性变换。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;LayerNorm&lt;/strong&gt;&lt;br&gt;
-在 &lt;strong&gt;Pre-LN 结构&lt;/strong&gt; 中，这一层并不是直接把 $H^{(l-1)}$ 丢进多头注意力，而是先对每个 Token 的向量做一次 &lt;strong&gt;LayerNorm&lt;/strong&gt;：&lt;br&gt;
+&lt;p&gt;&lt;a class="link" href="#layernorm" &gt;&lt;strong&gt;LayerNorm&lt;/strong&gt;&lt;/a&gt; &lt;!-- 在 **Pre-LN 结构** 中，这一层并不是直接把 $H^{(l-1)}$ 丢进多头注意力，而是先对每个 Token 的向量做一次 **LayerNorm**： --&gt; &lt;br&gt;
 对于 &lt;code&gt;The&lt;/code&gt;、&lt;code&gt;capital&lt;/code&gt;、&lt;code&gt;city&lt;/code&gt; 等每个位置的 Token，各自根据隐状态 $H^{(l-1)}_i$ 在特征维度上的均值和方差做归一化，再对每个维度 $j$ 乘上可学习的缩放系数 $\gamma_j$ 并加上偏置 $\beta_j$，得到的结果记作 $\tilde H^{(l-1)}_i$，它们将作为本层注意力子层的输入。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;多头自注意力：MHA + RoPE + Mask&lt;/strong&gt;&lt;br&gt;
-接下来是本层的「&lt;strong&gt;多头自注意力子层&lt;/strong&gt;」：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a class="link" href="#mha" &gt;多头自注意力&lt;/a&gt;：&lt;a class="link" href="#multi-head-attention" &gt;MH&lt;/a&gt;&lt;a class="link" href="#attention" &gt;A&lt;/a&gt; + &lt;a class="link" href="#rope" &gt;RoPE&lt;/a&gt; + &lt;a class="link" href="#causal-mask" &gt;因果掩码&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;对每个注意力头，分别从 $\tilde H^{(l-1)}_i$ 通过可学习的参数线性投影出 $Q, K, V$（实际部署时还会通过 KV Cache、批量调度等手段避免重复计算前缀、提升吞吐，这些属于系统实现层面的优化，本文不展开）；&lt;/li&gt;
-&lt;li&gt;在 $Q, K$ 上应用 &lt;strong&gt;RoPE&lt;/strong&gt;：把 $Q, K$ 的维度两两分为一组，对不同 Token 和不同子空间应用不同角度的旋转作为位置编码，让注意力分数只依赖 Token 之间的相对位移；&lt;/li&gt;
-&lt;li&gt;在注意力分数矩阵上施加 &lt;strong&gt;因果掩码（Causal Mask）&lt;/strong&gt;：
+&lt;li&gt;在 $Q, K$ 上应用 &lt;a class="link" href="#rope" &gt;&lt;strong&gt;RoPE&lt;/strong&gt;&lt;/a&gt;：把 $Q, K$ 的维度两两分为一组，对不同 Token 和不同子空间应用不同角度的旋转作为位置编码，让注意力分数只依赖 Token 之间的相对位移；&lt;/li&gt;
+&lt;li&gt;在注意力分数矩阵上施加&lt;a class="link" href="#causal-mask" &gt;&lt;strong&gt;因果掩码&lt;/strong&gt;&lt;/a&gt;：
 让 &lt;code&gt;city&lt;/code&gt; 在这一层只能看到 &lt;code&gt;[The, capital, city]&lt;/code&gt; 三个 Token；
 对位置 &lt;code&gt;is&lt;/code&gt;，它可以看到 &lt;code&gt;[The, capital, city, of, China, is]&lt;/code&gt;，但看不到后面还没生成的 Token。&lt;/li&gt;
-&lt;li&gt;每个头各自完成一次带 RoPE 和因果掩码的自注意力，得到六个位置的上下文向量，再在特征维上拼接，通过输出线性层合并成本层注意力的输出 $\Delta_{\text{attn}}$。&lt;/li&gt;
-&lt;li&gt;最后，把这个输出与原始输入 $H^{(l-1)}$ 相加（残差连接），得到 $H^{(l)}_{\text{attn}} = H^{(l-1)} + \Delta_{\text{attn}}.$&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#multi-head-attention" &gt;&lt;strong&gt;每个头&lt;/strong&gt;&lt;/a&gt;各自完成一次带 &lt;a class="link" href="#rope" &gt;RoPE&lt;/a&gt; 和&lt;a class="link" href="#causal-mask" &gt;因果掩码&lt;/a&gt;的&lt;a class="link" href="#self-attention" &gt;&lt;strong&gt;自&lt;/strong&gt;&lt;/a&gt;&lt;a class="link" href="#attention" &gt;&lt;strong&gt;注意力&lt;/strong&gt;&lt;/a&gt;，得到六个位置的上下文向量，再在特征维上拼接，通过输出线性层合并成本层注意力的输出 $\Delta_{\text{attn}}$。&lt;/li&gt;
+&lt;li&gt;最后，把这个输出与原始输入 $H^{(l-1)}$ 相加（&lt;a class="link" href="#residual-connection" &gt;残差连接&lt;/a&gt;），得到 $H^{(l)}_{\text{attn}} = H^{(l-1)} + \Delta_{\text{attn}}.$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;在直觉上，可以理解为：在这一层里，&lt;code&gt;is&lt;/code&gt; 会查看前面所有的 Token，结合当前上下文，对自己在这一步该承载什么信息做一次加权汇总；此外，原来的表示 $H^{(l-1)}_i$ 通过残差连接被完整保留下来，给梯度留出一条稳定的直通路径。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;LayerNorm + 前馈网络&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a class="link" href="#layernorm" &gt;LayerNorm&lt;/a&gt; + &lt;a class="link" href="#ffn" &gt;前馈网络&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;先对注意力子层的输出 $H^{(l)}_{\text{attn}}$ 做一次 &lt;strong&gt;LayerNorm&lt;/strong&gt; 得到 $\tilde H^{(l)}_{\text{attn}}$，保证送入前馈网络的输入在尺度上也是稳定的；&lt;/li&gt;
+&lt;li&gt;先对注意力子层的输出 $H^{(l)}_{\text{attn}}$ 做一次 &lt;strong&gt;&lt;a class="link" href="#layernorm" &gt;LayerNorm&lt;/a&gt;&lt;/strong&gt; 得到 $\tilde H^{(l)}_{\text{attn}}$，保证送入前馈网络的输入在尺度上也是稳定的；&lt;/li&gt;
 &lt;li&gt;对每个位置各自应用同一组两层感知机：先升维、过一次激活函数 $\phi$，再降回原来的维度 $$ \Delta_{\text{FFN}} = W^{(l)}_2 \phi\big(W^{(l)}_1 \tilde H^{(l)}_{\text{attn}, i} + \mathbf b^{(l)}_1\big) + \mathbf b^{(l)}_2.$$&lt;/li&gt;
-&lt;li&gt;最后再和这一层的输入做一次残差相加，得到这一层最终的输出 $H^{(l)}_i = H^{(l)}_{\text{attn}} + \Delta_{\text{FFN}}.$&lt;/li&gt;
+&lt;li&gt;最后再和这一层的输入做一次&lt;a class="link" href="#residual-connection" &gt;残差相加&lt;/a&gt;，得到这一层最终的输出 $H^{(l)}_i = H^{(l)}_{\text{attn}} + \Delta_{\text{FFN}}.$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;把上面的「LayerNorm → MHA + RoPE + 因果掩码 → 残差连接 → LayerNorm → 前馈网络 → 残差连接」视作一个基本单元，沿深度方向堆叠几十层之后，最后一个位置的 Token &lt;code&gt;is&lt;/code&gt; 会在每一层中回看前面的 &lt;code&gt;[The, capital, city, of, China]&lt;/code&gt;，在全局范围内不断重组、强化与当前预测相关的上下文线索；同时，每一层的 FFN 又在局部为当前 Token 提供更抽象、更任务相关的特征变换。等到整段 &lt;code&gt;[The, capital, city, of, China, is]&lt;/code&gt; 最终到达输出层时，输出的隐状态是经过多层 Transformer 共同塑造出的高维表示，这为后续 Logits 的计算提供了充足的信息。&lt;/p&gt;
+&lt;p&gt;把上面的「&lt;a class="link" href="#layernorm" &gt;LayerNorm&lt;/a&gt; → &lt;a class="link" href="#mha" &gt;MHA&lt;/a&gt; + &lt;a class="link" href="#rope" &gt;RoPE&lt;/a&gt; + &lt;a class="link" href="#causal-mask" &gt;因果掩码&lt;/a&gt; → &lt;a class="link" href="#residual-connection" &gt;残差连接&lt;/a&gt; → &lt;a class="link" href="#layernorm" &gt;LayerNorm&lt;/a&gt; → &lt;a class="link" href="#ffn" &gt;前馈网络&lt;/a&gt; → &lt;a class="link" href="#residual-connection" &gt;残差连接&lt;/a&gt;」视作一个基本单元，沿深度方向堆叠几十层之后，最后一个位置的 Token &lt;code&gt;is&lt;/code&gt; 会在每一层中回看前面的 &lt;code&gt;[The, capital, city, of, China]&lt;/code&gt;，在全局范围内不断重组、强化与当前预测相关的上下文线索；同时，每一层的 FFN 又在局部为当前 Token 提供更抽象、更任务相关的特征变换。等到整段 &lt;code&gt;[The, capital, city, of, China, is]&lt;/code&gt; 最终到达输出层时，输出的隐状态是经过多层 Transformer 共同塑造出的高维表示，这为后续 Logits 的计算提供了充足的信息。&lt;/p&gt;
 &lt;h2 id="输出从向量到文本"&gt;&lt;a id="output"&gt;&lt;/a&gt; 输出：从向量到文本
 &lt;/h2&gt;&lt;p&gt;经过多层 Transformer 的处理，输入序列的最后一个 Token 已经被编码为一个高维的隐状态向量，其中聚合了生成下一个词所需的上下文信息。接下来，我们需要将这个连续的向量表示转换回人类可读的离散文本。这个过程主要包含三个步骤：&lt;a class="link" href="#unembedding" &gt;逆嵌入（Unembedding）&lt;/a&gt;、&lt;a class="link" href="#sampling" &gt;采样（Sampling）&lt;/a&gt; 和 &lt;a class="link" href="#detokenization" &gt;逆分词（Detokenization）&lt;/a&gt;。&lt;/p&gt;
 &lt;h3 id="逆嵌入unembedding"&gt;&lt;a id="unembedding"&gt;&lt;/a&gt; 逆嵌入（Unembedding）
@@ -781,15 +779,15 @@ style="width: 60%; height: auto;"
 &lt;p&gt;经过温度调整后的完整概率计算公式为 $$\mathbf p_i = \mathrm{softmax}\left(\frac{1}{T}\cdot W_U\cdot\mathrm{LayerNorm}(\mathbf h^{(L)}_i)\right),$$
 其中 $\mathbf p_i \in \mathbb{R}^{V}$ 是第 $(i+1)$ 个输入 Token 的概率分布。直观地看，温度 $T$ 起到了调节分布集中程度的作用：当 $T &amp;lt; 1$ 时，原本得分较高的 Token 的概率会被进一步放大，分布变得尖锐，信息熵降低，在采样时倾向于选择最稳妥的词，适合推理或问答；当 $T &amp;gt; 1$ 时，分布趋于平坦，信息熵升高，原本概率较低的 Token 也有了被选中的机会，这增加了生成结果的多样性，适合创意写作。&lt;/p&gt;
 &lt;h3 id="采样sampling"&gt;&lt;a id="sampling"&gt;&lt;/a&gt; 采样（Sampling）
-&lt;/h3&gt;&lt;p&gt;得到了概率分布 $\mathbf p$ 之后，最后一步就是根据这个分布选择一个具体的 Token ID 作为当前的输出，并将其拼接到输入序列的末尾，开始下一轮的循环。这个过程决定了模型生成的性格，主要有&lt;strong&gt;确定性&lt;/strong&gt;和&lt;strong&gt;随机性&lt;/strong&gt;两大类策略。&lt;/p&gt;
-&lt;p&gt;在早期的序列生成模型（如机器翻译）中，&lt;strong&gt;束搜索（Beam Search）&lt;/strong&gt; 曾经是标配。它不局限于眼下的这一步，而是时刻维护 $k$ 个候选序列（Beam），每一步都搜索所有可能的扩展路径并保留得分最高的 $k$ 个，试图找到全局最优解。然而，在现代的 Decoder-only 大模型中，Beam Search 的使用频率大大降低了。原因主要有二：一是它需要同时维护 $k$ 份 KV Cache，显存和计算开销成倍增加，对于长文本生成难以承受；二是研究发现，在开放式生成中，概率最高的全局最优解往往也是最平庸、最容易陷入重复循环（Repetition Loop）的文本 &lt;sup&gt;&lt;a id='ref-cite27-5' href='#cite27'&gt;[27]&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;得到了概率分布 $\mathbf p$ 之后，最后一步就是根据这个分布选择一个具体的 Token ID 作为当前的输出，并将其拼接到输入序列的末尾，开始下一轮的循环。这个过程决定了模型生成的风格，主要有&lt;strong&gt;确定性&lt;/strong&gt;和&lt;strong&gt;随机性&lt;/strong&gt;两大类策略。&lt;/p&gt;
+&lt;p&gt;在早期的序列生成模型（如机器翻译）中，&lt;strong&gt;束搜索（Beam Search）&lt;/strong&gt; 曾经是标配。它不局限于眼下的这一步，而是时刻维护 $k$ 个候选序列（Beam），每一步都搜索所有可能的扩展路径并保留得分最高的 $k$ 个，试图找到全局最优解。然而，在现代的 Decoder-only 大模型中，Beam Search 的使用频率大大降低了。原因主要有二：一是它需要同时维护 $k$ 份 KV Cache，显存和计算开销成倍增加，对于长文本生成难以承受；二是研究发现，在开放式生成中，概率最高的全局最优解往往也是最平庸、最容易陷入重复循环的文本 &lt;sup&gt;&lt;a id='ref-cite27-5' href='#cite27'&gt;[27]&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
 &lt;p&gt;因此，现在的 LLM 推理主要采用&lt;strong&gt;单步解码&lt;/strong&gt;策略，其中最基础的就是&lt;strong&gt;贪心搜索（Greedy Search）&lt;/strong&gt;：在每一步直接选择概率最大的那个 Token。这种策略计算效率最高，适合数学推理、代码生成等追求唯一正确解的任务；但对于创意写作，它的结果是确定的，且不受温度的控制，因此可能会显得过于死板和枯燥。&lt;/p&gt;
 &lt;p&gt;为了让生成更像人类，我们通常会引入&lt;strong&gt;随机采样&lt;/strong&gt;，即从概率分布中随机抽取下一个 Token。最常用的策略有两种：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Top-k 采样&lt;/strong&gt; &lt;sup&gt;&lt;a id='ref-cite28-3' href='#cite28'&gt;[28]&lt;/a&gt;&lt;/sup&gt;：只从概率最高的前 $k$ 个 Token 里进行采样。这虽然排除了长尾的离谱选项，但 $k$ 值是固定的，无法适应模型信心变化（在不确定时 $k$ 太小会丢掉合理选项，在确定时 $k$ 太大又会引入噪声）。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Top-p (Nucleus) 采样&lt;/strong&gt; &lt;sup&gt;&lt;a id='ref-cite27-6' href='#cite27'&gt;[27]&lt;/a&gt;&lt;/sup&gt;：这是目前最主流的方法。它不固定候选词的数量，而是选择概率总和达到 $p$（例如 0.9）的最小 Token 集合。这是一种动态的策略：当模型很确定时（分布尖锐），候选集可能只有 1-2 个词；当模型不确定时（分布平坦），候选集会自动扩展到几十个词。这种方式完美平衡了生成的多样性和合理性。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;在实际应用中，通常会将温度与 Top-p 结合使用，先用 Temperature 调整分布形状，再用 Top-p 截断长尾，最后在候选集合内根据重新归一化后的概率分布进行采样。&lt;/p&gt;
+&lt;p&gt;在实际应用中，通常会将温度与 Top-p 结合使用，先用温度调整分布形状，再用 Top-p 截断长尾，最后在候选集合内根据重新归一化后的概率分布进行采样。&lt;/p&gt;
 &lt;h3 id="逆分词-detokenization"&gt;&lt;a id="detokenization"&gt;&lt;/a&gt; 逆分词 (Detokenization)
 &lt;/h3&gt;&lt;p&gt;当模型通过采样选定了一个 Token ID（例如 11618）之后，我们通过查阅分词器的词表将其还原为对应的文本片段（例如 &amp;quot; Beijing&amp;quot;）。这个过程即&lt;strong&gt;逆分词（Detokenization）&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;对于 BPE 类分词器 &lt;sup&gt;&lt;a id='ref-cite2-6' href='#cite2'&gt;[2]&lt;/a&gt;&lt;/sup&gt;，这个过程本质上是字节序列的拼接。模型不断生成新的 Token，我们将这些 Token 对应的字符串依次追加到输出缓冲区中。需要注意的是，由于 BPE 可能会把一个完整的 Unicode 字符切分成多个字节，有时刚生成的 Token 只是一个不完整的字节片段（如汉字 Unicode 编码的前半部分），此时直接解码会产生乱码。因此，稳健的实现通常会维护一个字节缓冲区，只有当缓冲区内的字节能组成合法的 Unicode 字符时才进行解码并展示给用户。&lt;/p&gt;
