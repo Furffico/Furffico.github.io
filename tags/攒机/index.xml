@@ -1,966 +1,966 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>攒机 on Furffiblog</title><link>https://blog.furffisite.link/tags/%E6%94%92%E6%9C%BA/</link><description>Recent content in 攒机 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 09 Mar 2024 23:53:36 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/%E6%94%92%E6%9C%BA/index.xml" rel="self" type="application/rss+xml"/><item><title>我折腾 NAS 的历程（四）：一些升级</title><link>https://blog.furffisite.link/p/nas-4/</link><pubDate>Sat, 09 Mar 2024 23:53:36 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-4/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240310022612-8671164f59f21e5d03de82e41e7073d5-7f2c7.jpg" alt="Featured image of post 我折腾 NAS 的历程（四）：一些升级" />&lt;p>之前的事情：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" >&lt;em>我折腾NAS的历程（一）&lt;/em>&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >&lt;em>我折腾NAS的历程（二）&lt;/em>&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >&lt;em>我折腾NAS的历程（三）&lt;/em>&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>本文以&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" >上一篇的自组 NAS&lt;/a> 为基础，升级了一些配置，就性价比而言感觉这钱花得不算太值。&lt;/p>
-&lt;h2 id="硬件部分">硬件部分
-&lt;/h2>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>&lt;/th>
-&lt;th>品牌&lt;/th>
-&lt;th>型号&lt;/th>
-&lt;th>参数&lt;/th>
-&lt;th>购买价&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>CPU&lt;/td>
-&lt;td>Intel&lt;/td>
-&lt;td>E5-2690 v4&lt;/td>
-&lt;td>14 核 2.6GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91770/intel-xeon-processor-e52690-v4-35m-cache-2-60-ghz/specifications.html" target="_blank" rel="noopener"
->规格表&lt;/a>&lt;/td>
-&lt;td>¥134（洋垃圾）&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>内存&lt;/td>
-&lt;td>Samsung&lt;/td>
-&lt;td>M386A4G40DM0-CPB&lt;/td>
-&lt;td>DDR4 2133 MHz 32GB &lt;a class="link" href="https://semiconductor.samsung.com/cn/dram/module/lrdimm/m386a4g40dm0-cpb/" target="_blank" rel="noopener"
->规格表&lt;/a>&lt;/td>
-&lt;td>¥155（洋垃圾）&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>接口扩展&lt;/td>
-&lt;td>（主控）Marvell&lt;/td>
-&lt;td>88SE9215&lt;/td>
-&lt;td>PCIe2.0x1 转 SATAx4 &lt;a class="link" href="https://www.marvell.com/content/dam/marvell/en/public-collateral/storage/marvell-storage-88se92xx-product-brief-2012-04.pdf" target="_blank" rel="noopener"
->规格表&lt;/a>&lt;/td>
-&lt;td>¥75&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>总计&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>¥364&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h3 id="cpu">CPU
-&lt;/h3>&lt;p>同样是按照&lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#%e6%b5%8b%e8%af%95" >之前的&lt;/a>设置，使用&lt;code>sysbench&lt;/code>粗测的对比如下：&lt;/p>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>CPU&lt;/th>
-&lt;th>主频&lt;/th>
-&lt;th>TDP&lt;/th>
-&lt;th>&lt;strong>Events/s&lt;/strong>&lt;/th>
-&lt;th>&lt;strong>Avg. Latency&lt;/strong>&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>E5-2660 v4&lt;/td>
-&lt;td>2.0 GHz&lt;/td>
-&lt;td>105 W&lt;/td>
-&lt;td>17251.86&lt;/td>
-&lt;td>1.62 ms&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>E5-2690 v4&lt;/td>
-&lt;td>2.6 GHz (+30%)&lt;/td>
-&lt;td>135 W (+28.6%)&lt;/td>
-&lt;td>22860.48 (+32.5%)&lt;/td>
-&lt;td>1.22 ms (-24.7%)&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;p>考虑到这两块 CPU 除了主频和功耗外几乎一致，性能成比例地提升确实是预料之中。也就是说我为了 30% 的性能提升多花了 157.7% 的钱，性价比不算高，
-不过主频的提升对于一些多线程优化不好的任务（例如 &lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#minecraft%e6%9c%8d%e5%8a%a1%e5%99%a8-papermc" >Minecraft 服务器&lt;/a>）还是有用的。&lt;/p>
-&lt;p>此外我买到的似乎是这个商家的最后一块 E5-2690 v4，我下单后回到详情页就发现这个型号缺货了。&lt;/p>
-&lt;h3 id="内存">内存
-&lt;/h3>&lt;p>我本来认为这个 32GB 的内存条和之前购买的 16GB 内存条是兼容的，因为我在我的笔记本上用的就是 8GB+32GB 的非对称双通道的配置。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>攒机 on Furffiblog</title><link>https://blog.furffisite.link/tags/%E6%94%92%E6%9C%BA/</link><description>Recent content in 攒机 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 09 Mar 2024 23:53:36 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/%E6%94%92%E6%9C%BA/index.xml" rel="self" type="application/rss+xml"/><item><title>我折腾 NAS 的历程（四）：一些升级</title><link>https://blog.furffisite.link/p/nas-4/</link><pubDate>Sat, 09 Mar 2024 23:53:36 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-4/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240310022612-8671164f59f21e5d03de82e41e7073d5-7f2c7.jpg" alt="Featured image of post 我折腾 NAS 的历程（四）：一些升级" /&gt;&lt;p&gt;之前的事情：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" &gt;&lt;em&gt;我折腾NAS的历程（一）&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" &gt;&lt;em&gt;我折腾NAS的历程（二）&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" &gt;&lt;em&gt;我折腾NAS的历程（三）&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文以&lt;a class="link" href="https://blog.furffisite.link/p/nas-3" &gt;上一篇的自组 NAS&lt;/a&gt; 为基础，升级了一些配置，就性价比而言感觉这钱花得不算太值。&lt;/p&gt;
+&lt;h2 id="硬件部分"&gt;硬件部分
+&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;品牌&lt;/th&gt;
+&lt;th&gt;型号&lt;/th&gt;
+&lt;th&gt;参数&lt;/th&gt;
+&lt;th&gt;购买价&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CPU&lt;/td&gt;
+&lt;td&gt;Intel&lt;/td&gt;
+&lt;td&gt;E5-2690 v4&lt;/td&gt;
+&lt;td&gt;14 核 2.6GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91770/intel-xeon-processor-e52690-v4-35m-cache-2-60-ghz/specifications.html" target="_blank" rel="noopener"
+&gt;规格表&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;¥134（洋垃圾）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;内存&lt;/td&gt;
+&lt;td&gt;Samsung&lt;/td&gt;
+&lt;td&gt;M386A4G40DM0-CPB&lt;/td&gt;
+&lt;td&gt;DDR4 2133 MHz 32GB &lt;a class="link" href="https://semiconductor.samsung.com/cn/dram/module/lrdimm/m386a4g40dm0-cpb/" target="_blank" rel="noopener"
+&gt;规格表&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;¥155（洋垃圾）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;接口扩展&lt;/td&gt;
+&lt;td&gt;（主控）Marvell&lt;/td&gt;
+&lt;td&gt;88SE9215&lt;/td&gt;
+&lt;td&gt;PCIe2.0x1 转 SATAx4 &lt;a class="link" href="https://www.marvell.com/content/dam/marvell/en/public-collateral/storage/marvell-storage-88se92xx-product-brief-2012-04.pdf" target="_blank" rel="noopener"
+&gt;规格表&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;¥75&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;总计&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;¥364&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="cpu"&gt;CPU
+&lt;/h3&gt;&lt;p&gt;同样是按照&lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#%e6%b5%8b%e8%af%95" &gt;之前的&lt;/a&gt;设置，使用&lt;code&gt;sysbench&lt;/code&gt;粗测的对比如下：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;CPU&lt;/th&gt;
+&lt;th&gt;主频&lt;/th&gt;
+&lt;th&gt;TDP&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Events/s&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Avg. Latency&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;E5-2660 v4&lt;/td&gt;
+&lt;td&gt;2.0 GHz&lt;/td&gt;
+&lt;td&gt;105 W&lt;/td&gt;
+&lt;td&gt;17251.86&lt;/td&gt;
+&lt;td&gt;1.62 ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;E5-2690 v4&lt;/td&gt;
+&lt;td&gt;2.6 GHz (+30%)&lt;/td&gt;
+&lt;td&gt;135 W (+28.6%)&lt;/td&gt;
+&lt;td&gt;22860.48 (+32.5%)&lt;/td&gt;
+&lt;td&gt;1.22 ms (-24.7%)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;考虑到这两块 CPU 除了主频和功耗外几乎一致，性能成比例地提升确实是预料之中。也就是说我为了 30% 的性能提升多花了 157.7% 的钱，性价比不算高，
+不过主频的提升对于一些多线程优化不好的任务（例如 &lt;a class="link" href="https://blog.furffisite.link/p/nas-3/#minecraft%e6%9c%8d%e5%8a%a1%e5%99%a8-papermc" &gt;Minecraft 服务器&lt;/a&gt;）还是有用的。&lt;/p&gt;
+&lt;p&gt;此外我买到的似乎是这个商家的最后一块 E5-2690 v4，我下单后回到详情页就发现这个型号缺货了。&lt;/p&gt;
+&lt;h3 id="内存"&gt;内存
+&lt;/h3&gt;&lt;p&gt;我本来认为这个 32GB 的内存条和之前购买的 16GB 内存条是兼容的，因为我在我的笔记本上用的就是 8GB+32GB 的非对称双通道的配置。
 内存条到货之后才发现，虽然这两条单独安装都是能正常启动的（说明两条都没坏），但是两者同时安装的时候，无论放在哪两个插槽，NAS 都无法开机。
-这让我感觉很奇怪，奈何也找不到解决方法，只好当作是主板/CPU 不支持，并闲置原来的 16GB 内存条。&lt;/p>
-&lt;h3 id="pcie转sata扩展卡">PCIE转SATA扩展卡
-&lt;/h3>&lt;p>这个是在淘宝上随便找的一个。因为我需要接的也都是机械硬盘，传输瓶颈还是在机械硬盘的读写上，所以我对速率没什么要求，能跑满机械硬盘的读速就可以。&lt;/p>
-&lt;p>至于它是不是真的值 75 元就不得而知了。&lt;/p>
-&lt;p>扩展完 SATA 口之后，机箱内一共有 7 个 SATA 接口，但是只有4个硬盘位，我想下一步应该是购买硬盘支架了。&lt;/p>
-&lt;h2 id="软件部分">软件部分
-&lt;/h2>&lt;h3 id="gitea">Gitea
-&lt;/h3>&lt;p>&lt;a class="link" href="https://about.gitea.com/" target="_blank" rel="noopener"
->Gitea&lt;/a> 是开源的代码托管平台。
-自己有时候写了一些工具项目，不想向 Github 上传的时候（担心隐私问题，以及大陆地区访问 Github 有时连接不畅），就会传到自建的 Gitea 上。&lt;/p>
-&lt;p>虽然名字和 &lt;a class="link" href="https://gitee.com/" target="_blank" rel="noopener"
->Gitee&lt;/a> 只差一个字母，但是它们应该没有任何关系。
+这让我感觉很奇怪，奈何也找不到解决方法，只好当作是主板/CPU 不支持，并闲置原来的 16GB 内存条。&lt;/p&gt;
+&lt;h3 id="pcie转sata扩展卡"&gt;PCIE转SATA扩展卡
+&lt;/h3&gt;&lt;p&gt;这个是在淘宝上随便找的一个。因为我需要接的也都是机械硬盘，传输瓶颈还是在机械硬盘的读写上，所以我对速率没什么要求，能跑满机械硬盘的读速就可以。&lt;/p&gt;
+&lt;p&gt;至于它是不是真的值 75 元就不得而知了。&lt;/p&gt;
+&lt;p&gt;扩展完 SATA 口之后，机箱内一共有 7 个 SATA 接口，但是只有4个硬盘位，我想下一步应该是购买硬盘支架了。&lt;/p&gt;
+&lt;h2 id="软件部分"&gt;软件部分
+&lt;/h2&gt;&lt;h3 id="gitea"&gt;Gitea
+&lt;/h3&gt;&lt;p&gt;&lt;a class="link" href="https://about.gitea.com/" target="_blank" rel="noopener"
+&gt;Gitea&lt;/a&gt; 是开源的代码托管平台。
+自己有时候写了一些工具项目，不想向 Github 上传的时候（担心隐私问题，以及大陆地区访问 Github 有时连接不畅），就会传到自建的 Gitea 上。&lt;/p&gt;
+&lt;p&gt;虽然名字和 &lt;a class="link" href="https://gitee.com/" target="_blank" rel="noopener"
+&gt;Gitee&lt;/a&gt; 只差一个字母，但是它们应该没有任何关系。
 类似的自建代码托管平台还有 &lt;a class="link" href="https://about.gitlab.com/" target="_blank" rel="noopener"
->GitLab&lt;/a> 和 &lt;a class="link" href="https://gogs.io/" target="_blank" rel="noopener"
->Gogs&lt;/a>等。
-不用 GitLab 是因为 GitLab 的资源占用太大了，并且我也基本用不到它的 CI/CD 功能。&lt;/p>
-&lt;p>Gitea 可以直接使用 docker 镜像部署，具体参照 &lt;a class="link" href="https://docs.gitea.com/installation/install-with-docker" target="_blank" rel="noopener"
->Gitea 官方文档&lt;/a>。&lt;/p>
-&lt;h3 id="immich">Immich
-&lt;/h3>&lt;p>&lt;a class="link" href="https://immich.app" target="_blank" rel="noopener"
->Immich&lt;/a> 是开源自建的相册服务，类似于谷歌相册，提供了图片管理、人脸识别、地图和智能搜索等功能，并且在 IOS、Android 和网页端都有官方的客户端。&lt;/p>
-&lt;p>这个项目各方面都挺不错的，缺点是版本更新有点太快了，最快的时候一周能发三四个版本。当然对于项目而言这是好事，是项目活跃的证明，但是对于使用体验而言就不那么好了。
+&gt;GitLab&lt;/a&gt; 和 &lt;a class="link" href="https://gogs.io/" target="_blank" rel="noopener"
+&gt;Gogs&lt;/a&gt;等。
+不用 GitLab 是因为 GitLab 的资源占用太大了，并且我也基本用不到它的 CI/CD 功能。&lt;/p&gt;
+&lt;p&gt;Gitea 可以直接使用 docker 镜像部署，具体参照 &lt;a class="link" href="https://docs.gitea.com/installation/install-with-docker" target="_blank" rel="noopener"
+&gt;Gitea 官方文档&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id="immich"&gt;Immich
+&lt;/h3&gt;&lt;p&gt;&lt;a class="link" href="https://immich.app" target="_blank" rel="noopener"
+&gt;Immich&lt;/a&gt; 是开源自建的相册服务，类似于谷歌相册，提供了图片管理、人脸识别、地图和智能搜索等功能，并且在 IOS、Android 和网页端都有官方的客户端。&lt;/p&gt;
+&lt;p&gt;这个项目各方面都挺不错的，缺点是版本更新有点太快了，最快的时候一周能发三四个版本。当然对于项目而言这是好事，是项目活跃的证明，但是对于使用体验而言就不那么好了。
 它更新的时候可能会引入 breaking changes，这就要求每次更新前都要到其 &lt;a class="link" href="https://github.com/immich-app/immich/releases" target="_blank" rel="noopener"
->github 的发布页&lt;/a>查看升级前的注意事项，然后才能用 docker compose 拉镜像。
-拉镜像的过程也有些折磨，因为镜像实在太大了。&lt;/p>
-&lt;p>&lt;a class="link" href="https://immich.app/docs/install/docker-compose" target="_blank" rel="noopener"
->官方文档&lt;/a>里给出了使用 docker compose 部署 Immich 的方法。&lt;/p>
-&lt;h3 id="lanraragi">LANraragi
-&lt;/h3>&lt;p>&lt;a class="link" href="https://github.com/Difegue/LANraragi" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-&lt;/svg>
-&lt;/span>LANraragi&lt;/a>
+&gt;github 的发布页&lt;/a&gt;查看升级前的注意事项，然后才能用 docker compose 拉镜像。
+拉镜像的过程也有些折磨，因为镜像实在太大了。&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://immich.app/docs/install/docker-compose" target="_blank" rel="noopener"
+&gt;官方文档&lt;/a&gt;里给出了使用 docker compose 部署 Immich 的方法。&lt;/p&gt;
+&lt;h3 id="lanraragi"&gt;LANraragi
+&lt;/h3&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/Difegue/LANraragi" target="_blank" rel="noopener"&gt;
+&lt;span style="display:inline-block; vertical-align:top; height:2em;"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"&gt;
+&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/&gt;
+&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /&gt;
+&lt;/svg&gt;
+&lt;/span&gt;LANraragi&lt;/a&gt;
 是用 Perl 语言编写的自建漫画库和漫画阅读器。
-优势是通过浏览器访问，且支持直接从 zip、tar.gz 等压缩文件/归档文件读取图片，而不用手动解压。&lt;/p>
-&lt;p>缺点是它对 unicode 的支持不太好，我觉得 Lanraragi 在管理漫画方面的功能也比较欠缺，不算特别好用。
-可以先找找它的替代品，找不到的话不妨有空自己动手用 golang 实现一个。&lt;/p>
-&lt;p>&lt;a class="link" href="https://sugoi.gitbook.io/lanraragi/v/dev/installing-lanraragi/docker" target="_blank" rel="noopener"
->官方文档&lt;/a>给出了使用docker部署的方法。&lt;/p>
-&lt;h3 id="主页homer">主页（homer）
-&lt;/h3>&lt;p>NAS上运行的服务多了，每次访问服务都要输地址（无论是 ip + 端口还是&lt;a class="link" href="http://localhost:1313/p/nas-3/#coredns" target="_blank" rel="noopener"
->内网域名&lt;/a>）会很麻烦，于是用 &lt;a class="link" href="https://github.com/bastienwirtz/homer" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-&lt;/svg>
-&lt;/span>homer&lt;/a>
-搭建了 NAS 的入口页。&lt;/p>
-&lt;p>由于是纯静态的网页（改完配置也不需要重新编译之类的），部署的时候进&lt;a class="link" href="https://github.com/bastienwirtz/homer/releases" target="_blank" rel="noopener"
->项目的 release 页&lt;/a>下载编译好的 zip 文件解压，然后直接在 nginx 里添一个 server 就行，也可以改 default，让它成为路由无匹配时的默认页面。配置时只要改&lt;code>assets/config.yml&lt;/code>，在浏览器里刷新页面（可能需要在开发者工具的 networks 里 Disable Cache）就能看到更改了。&lt;/p>
-&lt;h3 id="百度网盘客户端">百度网盘客户端
-&lt;/h3>&lt;p>之前在复习备考的时候，有很多考研资料是通过百度网盘流传的。
+优势是通过浏览器访问，且支持直接从 zip、tar.gz 等压缩文件/归档文件读取图片，而不用手动解压。&lt;/p&gt;
+&lt;p&gt;缺点是它对 unicode 的支持不太好，我觉得 Lanraragi 在管理漫画方面的功能也比较欠缺，不算特别好用。
+可以先找找它的替代品，找不到的话不妨有空自己动手用 golang 实现一个。&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://sugoi.gitbook.io/lanraragi/v/dev/installing-lanraragi/docker" target="_blank" rel="noopener"
+&gt;官方文档&lt;/a&gt;给出了使用docker部署的方法。&lt;/p&gt;
+&lt;h3 id="主页homer"&gt;主页（homer）
+&lt;/h3&gt;&lt;p&gt;NAS上运行的服务多了，每次访问服务都要输地址（无论是 ip + 端口还是&lt;a class="link" href="http://localhost:1313/p/nas-3/#coredns" target="_blank" rel="noopener"
+&gt;内网域名&lt;/a&gt;）会很麻烦，于是用 &lt;a class="link" href="https://github.com/bastienwirtz/homer" target="_blank" rel="noopener"&gt;
+&lt;span style="display:inline-block; vertical-align:top; height:2em;"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"&gt;
+&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/&gt;
+&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /&gt;
+&lt;/svg&gt;
+&lt;/span&gt;homer&lt;/a&gt;
+搭建了 NAS 的入口页。&lt;/p&gt;
+&lt;p&gt;由于是纯静态的网页（改完配置也不需要重新编译之类的），部署的时候进&lt;a class="link" href="https://github.com/bastienwirtz/homer/releases" target="_blank" rel="noopener"
+&gt;项目的 release 页&lt;/a&gt;下载编译好的 zip 文件解压，然后直接在 nginx 里添一个 server 就行，也可以改 default，让它成为路由无匹配时的默认页面。配置时只要改&lt;code&gt;assets/config.yml&lt;/code&gt;，在浏览器里刷新页面（可能需要在开发者工具的 networks 里 Disable Cache）就能看到更改了。&lt;/p&gt;
+&lt;h3 id="百度网盘客户端"&gt;百度网盘客户端
+&lt;/h3&gt;&lt;p&gt;之前在复习备考的时候，有很多考研资料是通过百度网盘流传的。
 又因为百度网盘的限速，和它的一些操作让我不是很想在本机安装它的客户端，催生了我在 NAS 上部署其客户端的需求。
-一搜果然有大佬做好了百度网盘客户端的 docker 镜像，其中之一是&lt;a class="link" href="https://github.com/gshang2017/docker/tree/master/baidunetdisk" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-&lt;/svg>
-&lt;/span>gshang2017 做的&lt;/a>
-。&lt;/p>
-&lt;p>把指令转换成&lt;code>docker-compose.yaml&lt;/code>文件，然后&lt;code>docker compose up -d&lt;/code>，不出意外用浏览器访问 NAS 的 5800 端口就能看到登录界面了。&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">services&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">baidunetdisk&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">johngong/baidunetdisk:latest&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./config:/config&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">&amp;lt;path to downloads&amp;gt;:/config/baidunetdiskdownload&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">baidunetdisk&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">5800&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">5800&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># web&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">5900&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">5900&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># vnc&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">unless-stopped&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">environment&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">VNC_PASSWORD=12345678&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">USER_ID=1000&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">GROUP_ID=1000&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">NOVNC_LANGUAGE=&amp;#34;zh_Hans&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>因为这个镜像是以官方的 linux 客户端为基础制作的，功能基本上与之相同。除了广告点不开（这是好事）之外我在使用过程中没有遇到什么问题。&lt;/p>
-&lt;h3 id="饥荒服务器">饥荒服务器
-&lt;/h3>&lt;p>我的舍友想要联机玩&lt;a class="link" href="https://www.klei.com/games/dont-starve-together" target="_blank" rel="noopener"
->饥荒（Don&amp;rsquo;t Starve (Together)）&lt;/a>，于是拜托我在 NAS 上搭了一个饥荒服务器（不过我自己没什么兴趣就是啦）。&lt;/p>
-&lt;p>我在 Docker 上没找到下载量较多的镜像，于是按照&lt;a class="link" href="https://zhuanlan.zhihu.com/p/457714222" target="_blank" rel="noopener"
->知乎&lt;/a>和 &lt;a class="link" href="https://dontstarve.fandom.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers" target="_blank" rel="noopener"
->Fandom wiki 的教程&lt;/a>搭建了环境（配置起来还挺麻烦），然后写了&lt;code>dnst.service&lt;/code>让它作为 systemd 服务运行和自启动：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="k">[Unit]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Description&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">DoNotStarveTogether Server&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">After&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">network.target&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">[Service]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">User&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">steam&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Group&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">steam&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Type&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">simple&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">WorkingDirectory&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">/home/steam&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">ExecStart&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">/home/steam/rundst.sh&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">TimeoutStopSec&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">2min&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Restart&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">always&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">[Install]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">WantedBy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">multi-user.target&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h3 id="虚拟化kvm">虚拟化（KVM）
-&lt;/h3>&lt;p>关于虚拟机，我之前只用过图形界面的 VirtualBox，这是我第一次接触 Linux 服务器上常用的 Kernel-based Virtual Machine（KVM）。
+一搜果然有大佬做好了百度网盘客户端的 docker 镜像，其中之一是&lt;a class="link" href="https://github.com/gshang2017/docker/tree/master/baidunetdisk" target="_blank" rel="noopener"&gt;
+&lt;span style="display:inline-block; vertical-align:top; height:2em;"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"&gt;
+&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/&gt;
+&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /&gt;
+&lt;/svg&gt;
+&lt;/span&gt;gshang2017 做的&lt;/a&gt;
+。&lt;/p&gt;
+&lt;p&gt;把指令转换成&lt;code&gt;docker-compose.yaml&lt;/code&gt;文件，然后&lt;code&gt;docker compose up -d&lt;/code&gt;，不出意外用浏览器访问 NAS 的 5800 端口就能看到登录界面了。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;services&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;baidunetdisk&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;johngong/baidunetdisk:latest&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;volumes&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;./config:/config&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;&amp;lt;path to downloads&amp;gt;:/config/baidunetdiskdownload&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;container_name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;baidunetdisk&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;ports&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;5800&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;5800&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;# web&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;5900&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;5900&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;# vnc&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;restart&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;unless-stopped&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;environment&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;VNC_PASSWORD=12345678&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;USER_ID=1000&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;GROUP_ID=1000&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;NOVNC_LANGUAGE=&amp;#34;zh_Hans&amp;#34;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;因为这个镜像是以官方的 linux 客户端为基础制作的，功能基本上与之相同。除了广告点不开（这是好事）之外我在使用过程中没有遇到什么问题。&lt;/p&gt;
+&lt;h3 id="饥荒服务器"&gt;饥荒服务器
+&lt;/h3&gt;&lt;p&gt;我的舍友想要联机玩&lt;a class="link" href="https://www.klei.com/games/dont-starve-together" target="_blank" rel="noopener"
+&gt;饥荒（Don&amp;rsquo;t Starve (Together)）&lt;/a&gt;，于是拜托我在 NAS 上搭了一个饥荒服务器（不过我自己没什么兴趣就是啦）。&lt;/p&gt;
+&lt;p&gt;我在 Docker 上没找到下载量较多的镜像，于是按照&lt;a class="link" href="https://zhuanlan.zhihu.com/p/457714222" target="_blank" rel="noopener"
+&gt;知乎&lt;/a&gt;和 &lt;a class="link" href="https://dontstarve.fandom.com/wiki/Guides/Don%E2%80%99t_Starve_Together_Dedicated_Servers" target="_blank" rel="noopener"
+&gt;Fandom wiki 的教程&lt;/a&gt;搭建了环境（配置起来还挺麻烦），然后写了&lt;code&gt;dnst.service&lt;/code&gt;让它作为 systemd 服务运行和自启动：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-ini" data-lang="ini"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;[Unit]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;Description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;DoNotStarveTogether Server&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;After&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;network.target&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;[Service]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;User&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;steam&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;Group&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;steam&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;Type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;simple&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;WorkingDirectory&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/home/steam&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;ExecStart&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/home/steam/rundst.sh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;TimeoutStopSec&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;2min&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;Restart&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;always&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;[Install]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;WantedBy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;multi-user.target&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="虚拟化kvm"&gt;虚拟化（KVM）
+&lt;/h3&gt;&lt;p&gt;关于虚拟机，我之前只用过图形界面的 VirtualBox，这是我第一次接触 Linux 服务器上常用的 Kernel-based Virtual Machine（KVM）。
 我是按照&lt;a class="link" href="https://linux.how2shout.com/how-to-install-kvm-on-ubuntu-20-04-lts-server/" target="_blank" rel="noopener"
->这篇教程&lt;/a>在服务器上安装的KVM，按照&lt;a class="link" href="https://computingforgeeks.com/install-kvm-qemu-virt-manager-arch-manjar/" target="_blank" rel="noopener"
->这篇教程&lt;/a>在本机（Arch Linux）安装了Virtual Machine Manager。&lt;/p>
-&lt;p>目前只是在虚拟机里装好了 Ubuntu 系统，还没有深入折腾。&lt;/p></description></item><item><title>我折腾 NAS 的历程（三）：捡垃圾自组</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾 NAS 的历程（三）：捡垃圾自组" />&lt;p>组这台 NAS 前的事情：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" >&lt;em>我折腾NAS的历程（一）&lt;/em>&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" >&lt;em>我折腾NAS的历程（二）&lt;/em>&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="理论">理论
-&lt;/h2>&lt;h3 id="装机配置单">装机配置单
-&lt;/h3>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>&lt;/th>
-&lt;th>品牌&lt;/th>
-&lt;th>型号&lt;/th>
-&lt;th>参数&lt;/th>
-&lt;th>购买价&lt;/th>
-&lt;th>购买链接&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>CPU&lt;/td>
-&lt;td>Intel&lt;/td>
-&lt;td>E5-2660 v4&lt;/td>
-&lt;td>14 核 2.0GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91772/intel-xeon-processor-e52660-v4-35m-cache-2-00-ghz/specifications.html" target="_blank" rel="noopener"
->规格表&lt;/a>&lt;/td>
-&lt;td>¥52（洋垃圾）&lt;/td>
-&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=653447092309" target="_blank" rel="noopener"
->link&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>内存&lt;/td>
-&lt;td>Samsung&lt;/td>
-&lt;td>M393A2G40DB0-CPB&lt;/td>
-&lt;td>DDR4 2133MHz 16GB &lt;a class="link" href="https://semiconductor.samsung.com/dram/module/rdimm/m393a2g40db0-cpb/" target="_blank" rel="noopener"
->规格表&lt;/a>&lt;/td>
-&lt;td>¥92（洋垃圾）&lt;/td>
-&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=655661217770" target="_blank" rel="noopener"
->link&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>主板&lt;/td>
-&lt;td>华南金牌&lt;/td>
-&lt;td>X99-4MF&lt;/td>
-&lt;td>ITX DDR4x4 SATAx3 &lt;a class="link" href="http://www.huananzhi.com/more.php?lm=10&amp;amp;id=784" target="_blank" rel="noopener"
->规格表&lt;/a>&lt;/td>
-&lt;td>¥268&lt;/td>
-&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=584879880832" target="_blank" rel="noopener"
->link&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>系统盘&lt;/td>
-&lt;td>SKHynix&lt;/td>
-&lt;td>HFS512GDE9X084N&lt;/td>
-&lt;td>512GB NVME&lt;/td>
-&lt;td>¥0*&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>显卡&lt;/td>
-&lt;td>NVIDIA&lt;/td>
-&lt;td>GeForce 605&lt;/td>
-&lt;td>&lt;a class="link" href="https://www.nvidia.com/en-us/geforce/graphics-cards/geforce-605-oem/specifications/" target="_blank" rel="noopener"
->规格表&lt;/a>&lt;/td>
-&lt;td>¥16（亮机卡）&lt;/td>
-&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=704690006685" target="_blank" rel="noopener"
->link&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>电源&lt;/td>
-&lt;td>航嘉&lt;/td>
-&lt;td>GX500&lt;/td>
-&lt;td>500W ATX 白牌&lt;/td>
-&lt;td>¥191.92&lt;/td>
-&lt;td>&lt;a class="link" href="https://detail.tmall.com/item.htm?id=592122962211" target="_blank" rel="noopener"
->link&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>机箱&lt;/td>
-&lt;td>invasion&lt;/td>
-&lt;td>invasion X1&lt;/td>
-&lt;td>4盘位 ITX&lt;/td>
-&lt;td>¥244&lt;/td>
-&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=631276021464" target="_blank" rel="noopener"
->link&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>CPU 散热器&lt;/td>
-&lt;td>零下30度&lt;/td>
-&lt;td>-&lt;/td>
-&lt;td>-&lt;/td>
-&lt;td>¥38.7&lt;/td>
-&lt;td>&lt;a class="link" href="https://item.taobao.com/item.htm?id=543496686865" target="_blank" rel="noopener"
->link&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>机箱风扇&lt;/td>
-&lt;td>航嘉&lt;/td>
-&lt;td>MVP120&lt;/td>
-&lt;td>1500 RPM，支持 PWM&lt;/td>
-&lt;td>¥75.95（三只装）&lt;/td>
-&lt;td>&lt;a class="link" href="https://detail.tmall.com/item.htm?id=657878805031" target="_blank" rel="noopener"
->link&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>总计&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>¥978.57&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;p>*笔记本上拆下来的&lt;/p>
-&lt;h3 id="攒机理念">攒机理念
-&lt;/h3>&lt;p>目标：&lt;strong>省钱、性能还行、体积小、静音、保留一定的可升级性、尽量一手&lt;/strong>。&lt;/p>
-&lt;p>关于 CPU，我在&lt;a class="link" href="https://www.cpubenchmark.net" target="_blank" rel="noopener"
->CPUbenchmark&lt;/a>上按照跑分结果在E5的一系列洋垃圾型号中从高到低翻，最后看中了 E5-2660 v4。选择它有以下几点理由：&lt;/p>
-&lt;ol>
-&lt;li>其功耗相比与同系列其它型号较低；&lt;/li>
-&lt;li>E5-2660 v4 为 2016 Q4 推出的，相对 v3 和 v2 要新一点；&lt;/li>
-&lt;li>其性价比在同型号中较高，52 元 16005 分，相较于2690 v3 的 68 元 16505 分更实惠。&lt;/li>
-&lt;/ol>
-&lt;p>CPU 定下来了之后，主板和内存也就相应的决定了。之所以主板不选二手是因为我想省点事，对于二手市场上可能遇到的众多问题我目前没有任何应对经验。而选择 ITX 是为了满足体积小的要求，毕竟宿舍里放不下太多东西。&lt;/p>
-&lt;p>关于系统盘，之前给笔记本升级外存的时候拆下来的原装 SSD 可以直接给它用。就算是买一个全新的也不会太贵，256GB 买个二线厂的 SSD 应该也够用了。
+&gt;这篇教程&lt;/a&gt;在服务器上安装的KVM，按照&lt;a class="link" href="https://computingforgeeks.com/install-kvm-qemu-virt-manager-arch-manjar/" target="_blank" rel="noopener"
+&gt;这篇教程&lt;/a&gt;在本机（Arch Linux）安装了Virtual Machine Manager。&lt;/p&gt;
+&lt;p&gt;目前只是在虚拟机里装好了 Ubuntu 系统，还没有深入折腾。&lt;/p&gt;</description></item><item><title>我折腾 NAS 的历程（三）：捡垃圾自组</title><link>https://blog.furffisite.link/p/nas-3/</link><pubDate>Sun, 18 Jun 2023 13:58:40 +0800</pubDate><guid>https://blog.furffisite.link/p/nas-3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230618181015-7e414fb06bb70924b269f0ca2a5ba8f6-28296.jpg" alt="Featured image of post 我折腾 NAS 的历程（三）：捡垃圾自组" /&gt;&lt;p&gt;组这台 NAS 前的事情：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://blog.furffisite.link/p/nas-1" &gt;&lt;em&gt;我折腾NAS的历程（一）&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://blog.furffisite.link/p/nas-2" &gt;&lt;em&gt;我折腾NAS的历程（二）&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="理论"&gt;理论
+&lt;/h2&gt;&lt;h3 id="装机配置单"&gt;装机配置单
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;品牌&lt;/th&gt;
+&lt;th&gt;型号&lt;/th&gt;
+&lt;th&gt;参数&lt;/th&gt;
+&lt;th&gt;购买价&lt;/th&gt;
+&lt;th&gt;购买链接&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CPU&lt;/td&gt;
+&lt;td&gt;Intel&lt;/td&gt;
+&lt;td&gt;E5-2660 v4&lt;/td&gt;
+&lt;td&gt;14 核 2.0GHz &lt;a class="link" href="https://www.intel.cn/content/www/cn/zh/products/sku/91772/intel-xeon-processor-e52660-v4-35m-cache-2-00-ghz/specifications.html" target="_blank" rel="noopener"
+&gt;规格表&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;¥52（洋垃圾）&lt;/td&gt;
+&lt;td&gt;&lt;a class="link" href="https://item.taobao.com/item.htm?id=653447092309" target="_blank" rel="noopener"
+&gt;link&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;内存&lt;/td&gt;
+&lt;td&gt;Samsung&lt;/td&gt;
+&lt;td&gt;M393A2G40DB0-CPB&lt;/td&gt;
+&lt;td&gt;DDR4 2133MHz 16GB &lt;a class="link" href="https://semiconductor.samsung.com/dram/module/rdimm/m393a2g40db0-cpb/" target="_blank" rel="noopener"
+&gt;规格表&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;¥92（洋垃圾）&lt;/td&gt;
+&lt;td&gt;&lt;a class="link" href="https://item.taobao.com/item.htm?id=655661217770" target="_blank" rel="noopener"
+&gt;link&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;主板&lt;/td&gt;
+&lt;td&gt;华南金牌&lt;/td&gt;
+&lt;td&gt;X99-4MF&lt;/td&gt;
+&lt;td&gt;ITX DDR4x4 SATAx3 &lt;a class="link" href="http://www.huananzhi.com/more.php?lm=10&amp;amp;id=784" target="_blank" rel="noopener"
+&gt;规格表&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;¥268&lt;/td&gt;
+&lt;td&gt;&lt;a class="link" href="https://item.taobao.com/item.htm?id=584879880832" target="_blank" rel="noopener"
+&gt;link&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;系统盘&lt;/td&gt;
+&lt;td&gt;SKHynix&lt;/td&gt;
+&lt;td&gt;HFS512GDE9X084N&lt;/td&gt;
+&lt;td&gt;512GB NVME&lt;/td&gt;
+&lt;td&gt;¥0*&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;显卡&lt;/td&gt;
+&lt;td&gt;NVIDIA&lt;/td&gt;
+&lt;td&gt;GeForce 605&lt;/td&gt;
+&lt;td&gt;&lt;a class="link" href="https://www.nvidia.com/en-us/geforce/graphics-cards/geforce-605-oem/specifications/" target="_blank" rel="noopener"
+&gt;规格表&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;¥16（亮机卡）&lt;/td&gt;
+&lt;td&gt;&lt;a class="link" href="https://item.taobao.com/item.htm?id=704690006685" target="_blank" rel="noopener"
+&gt;link&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;电源&lt;/td&gt;
+&lt;td&gt;航嘉&lt;/td&gt;
+&lt;td&gt;GX500&lt;/td&gt;
+&lt;td&gt;500W ATX 白牌&lt;/td&gt;
+&lt;td&gt;¥191.92&lt;/td&gt;
+&lt;td&gt;&lt;a class="link" href="https://detail.tmall.com/item.htm?id=592122962211" target="_blank" rel="noopener"
+&gt;link&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;机箱&lt;/td&gt;
+&lt;td&gt;invasion&lt;/td&gt;
+&lt;td&gt;invasion X1&lt;/td&gt;
+&lt;td&gt;4盘位 ITX&lt;/td&gt;
+&lt;td&gt;¥244&lt;/td&gt;
+&lt;td&gt;&lt;a class="link" href="https://item.taobao.com/item.htm?id=631276021464" target="_blank" rel="noopener"
+&gt;link&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CPU 散热器&lt;/td&gt;
+&lt;td&gt;零下30度&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;¥38.7&lt;/td&gt;
+&lt;td&gt;&lt;a class="link" href="https://item.taobao.com/item.htm?id=543496686865" target="_blank" rel="noopener"
+&gt;link&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;机箱风扇&lt;/td&gt;
+&lt;td&gt;航嘉&lt;/td&gt;
+&lt;td&gt;MVP120&lt;/td&gt;
+&lt;td&gt;1500 RPM，支持 PWM&lt;/td&gt;
+&lt;td&gt;¥75.95（三只装）&lt;/td&gt;
+&lt;td&gt;&lt;a class="link" href="https://detail.tmall.com/item.htm?id=657878805031" target="_blank" rel="noopener"
+&gt;link&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;总计&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;¥978.57&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;*笔记本上拆下来的&lt;/p&gt;
+&lt;h3 id="攒机理念"&gt;攒机理念
+&lt;/h3&gt;&lt;p&gt;目标：&lt;strong&gt;省钱、性能还行、体积小、静音、保留一定的可升级性、尽量一手&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;关于 CPU，我在&lt;a class="link" href="https://www.cpubenchmark.net" target="_blank" rel="noopener"
+&gt;CPUbenchmark&lt;/a&gt;上按照跑分结果在E5的一系列洋垃圾型号中从高到低翻，最后看中了 E5-2660 v4。选择它有以下几点理由：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;其功耗相比与同系列其它型号较低；&lt;/li&gt;
+&lt;li&gt;E5-2660 v4 为 2016 Q4 推出的，相对 v3 和 v2 要新一点；&lt;/li&gt;
+&lt;li&gt;其性价比在同型号中较高，52 元 16005 分，相较于2690 v3 的 68 元 16505 分更实惠。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;CPU 定下来了之后，主板和内存也就相应的决定了。之所以主板不选二手是因为我想省点事，对于二手市场上可能遇到的众多问题我目前没有任何应对经验。而选择 ITX 是为了满足体积小的要求，毕竟宿舍里放不下太多东西。&lt;/p&gt;
+&lt;p&gt;关于系统盘，之前给笔记本升级外存的时候拆下来的原装 SSD 可以直接给它用。就算是买一个全新的也不会太贵，256GB 买个二线厂的 SSD 应该也够用了。
 在装系统、进 BIOS 时显卡是必要的，作为服务器 CPU 的 E5-2660 v4 没有核心显卡，因此这里依然需要一张显卡。上淘宝一搜果然有卖亮机卡的，16 元的价格也就不用纠结值不值了，能亮就行。为了能看到视频输出我还买了一个二十多的 HDMI 采集卡以代替显示器，事实证明二十块的画质果然不行。
 电源不敢买二手的，怕出问题。500W 的电源相对于目前的整机功耗明显是过剩的，但这也为以后的升级保留了余量。
-最后是机箱，综合以上要求，机箱应该是体积小、轻便、便宜的多盘位 ITX 机箱，在淘宝上翻了一大圈只看到这一款同时满足这几点的。别的型号，例如蜗牛星际、御夫座、天箭座等都太贵了或者散热容量太小。两百多的机箱我觉得还是贵了点，可是也没找到更好的选择。&lt;/p>
-&lt;p>关于可升级性，这套配置中，CPU 可以升级为 24686 分的 E5-2699 v4（在价格降下来之后），还有三个位置可以加内存条，显卡可以升级，机箱和电源以后也能用于装游戏电脑。&lt;/p>
-&lt;h2 id="实践">实践
-&lt;/h2>&lt;h3 id="装机过程">装机过程
-&lt;/h3>&lt;p>装机过程中遇到的问题有四：&lt;/p>
-&lt;ol>
-&lt;li>CPU 散热器的螺丝是弯的（可能是制造问题），要用钳子扳直了才能安装；&lt;/li>
-&lt;li>机箱自带的硬盘笼和主板电源插槽有 2mm 左右的 overlap，装完之后硬盘笼有一点点变形。得益于硬盘架的减震机构，这个变形产生的影响不大；&lt;/li>
-&lt;li>主板下部的插槽和机箱风扇有冲突，前面板 USB-3 的线插不进去，但对于 NAS 而言这根线不插问题也不大；&lt;/li>
-&lt;li>华南金牌的这款主板的主板风扇插槽只有 3 针，不支持 PWM，直接插 MVP120 的话满转速噪音非常大。我最后用一拖三的线把所有风扇都接到了支持 PWM 的 CPU 风扇插槽上，这样就安静了很多（之后又进BIOS 调整了一下温度-转速曲线）。&lt;/li>
-&lt;/ol>
-&lt;h3 id="操作系统">操作系统
-&lt;/h3>&lt;p>因为我最熟悉的 Linux 发行版是 Ubuntu，所以我安装了 Ubuntu 22.04.2 LTS（服务器版）。&lt;/p>
-&lt;p>系统盘分区如下：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;span class="lnt">6
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Mountpoint Start End Sectors Size Type
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/boot/efi 2048 2203647 2201600 1G EFI System
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/ 2203648 107061247 104857600 50G Linux filesystem
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/home 107061248 211918847 104857600 50G Linux filesystem
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/srv 211918848 958271487 746352640 355.9G Linux filesystem
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">swap 958271488 1000214527 41943040 20G Linux swap
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h3 id="测试">测试
-&lt;/h3>&lt;p>整机待机时 CPU 核心平均温度为 30°C，满载时为 55°C，说明散热还是有很大的余量的。服务正常运行时插座上测量到的功率在 68W 左右，CPU满载时约 140W。&lt;/p>
-&lt;p>使用 sysbench 的测试结果如下，和我现役的游戏本相比我觉得这个成绩还算可以接受：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;span class="lnt">21
-&lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;span class="lnt">25
-&lt;/span>&lt;span class="lnt">26
-&lt;/span>&lt;span class="lnt">27
-&lt;/span>&lt;span class="lnt">28
-&lt;/span>&lt;span class="lnt">29
-&lt;/span>&lt;span class="lnt">30
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Running the test with following options:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Number of threads: 28
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Initializing random number generator from current time
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Prime numbers limit: 10000
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Initializing worker threads...
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Threads started!
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">CPU speed:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> events per second: 17251.86
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">General statistics:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> total time: 600.0017s
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> total number of events: 10351174
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Latency (ms):
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> min: 1.22
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> avg: 1.62
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> max: 82.58
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 95th percentile: 1.64
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> sum: 16797418.36
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Threads fairness:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> events (avg/stddev): 369684.7857/436.76
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> execution time (avg/stddev): 599.9078/0.00
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h2 id="软件部分">软件部分
-&lt;/h2>&lt;h3 id="docker">Docker
-&lt;/h3>&lt;p>最先安装的是 Docker，因为有了 Docker 之后别的应用都可以使用 Docker 镜像安装和管理。&lt;/p>
-&lt;p>在 Ubuntu 上安装Docker只需使用官方提供的安装脚本&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ curl -fsSL https://get.docker.com -o get-docker.sh
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo sh get-docker.sh
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h4 id="修改docker数据位置">修改Docker数据位置
-&lt;/h4>&lt;p>Docker 的数据默认储存在 &lt;code>/var/lib/docker&lt;/code> 内，我想将其移到 &lt;code>/srv&lt;/code> 文件系统内，操作如下：&lt;/p>
-&lt;ol>
-&lt;li>关闭&lt;code>docker&lt;/code>服务：&lt;code>systemctl stop docker&lt;/code>&lt;/li>
-&lt;li>移动文件：&lt;code>sudo mv /var/lib/docker /srv/&lt;/code>&lt;/li>
-&lt;li>创建符号链接（以防万一）：&lt;code>sudo ln -s /srv/docker /var/lib/docker&lt;/code>&lt;/li>
-&lt;li>修改配置文件，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加配置：&lt;code>{&amp;quot;data-root&amp;quot;: &amp;quot;/srv/docker&amp;quot;}&lt;/code>&lt;/li>
-&lt;li>启动&lt;code>docker&lt;/code>服务：&lt;code>systemctl start docker&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;h4 id="使用docker国内镜像源">使用Docker国内镜像源
-&lt;/h4>&lt;p>阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 &lt;a class="link" href="https://aliyun.com" target="_blank" rel="noopener"
->https://aliyun.com&lt;/a> 登录阿里云帐号，然后在 &lt;strong>控制台 &amp;gt; 容器镜像服务 &amp;gt; 镜像工具 &amp;gt; 镜像加速器&lt;/strong> 处可以获取加速器的地址及修改镜像源的方法。&lt;/p>
-&lt;p>此外也有一些开放的镜像源，在&lt;code>/etc/docker/daemon.json&lt;/code>内添加如下属性 &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup>：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;span class="lnt">6
-&lt;/span>&lt;span class="lnt">7
-&lt;/span>&lt;span class="lnt">8
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;registry-mirrors&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;https://hub-mirror.c.163.com&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;https://ustc-edu-cn.mirror.aliyuncs.com&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;https://ghcr.io&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;https://mirror.baidubce.com&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>修改后使用 &lt;code>systemctl restart docker&lt;/code> 重启docker服务即可。&lt;/p>
-&lt;h4 id="手动下载镜像">手动下载镜像
-&lt;/h4>&lt;p>如果替换了镜像源之后也拉不动镜像的话，可以试试 &lt;a class="link" href="https://github.com/moby/moby" target="_blank" rel="noopener"
->Moby Project&lt;/a> 提供的镜像下载脚本下载镜像：&lt;a class="link" href="https://github.com/moby/moby/blob/master/contrib/download-frozen-image-v2.sh" target="_blank" rel="noopener"
->link&lt;/a>&lt;/p>
-&lt;p>使用例：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;span class="lnt">6
-&lt;/span>&lt;span class="lnt">7
-&lt;/span>&lt;span class="lnt">8
-&lt;/span>&lt;span class="lnt">9
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ wget https://raw.githubusercontent.com/moby/moby/master/contrib/download-frozen-image-v2.sh
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ bash ./download-frozen-image-v2.sh ./alpine-linux alpine:latest
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Downloading &lt;span class="s1">&amp;#39;library/alpine:latest@latest&amp;#39;&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="m">1&lt;/span> layers&lt;span class="o">)&lt;/span>...
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-#O&lt;span class="o">=&lt;/span>-# &lt;span class="c1"># #&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">############################################## 100.0%&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Download of images into &lt;span class="s1">&amp;#39;./alpine-linux&amp;#39;&lt;/span> complete.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Use something like the following to load the result into a Docker daemon:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> tar -cC &lt;span class="s1">&amp;#39;./alpine-linux&amp;#39;&lt;/span> . &lt;span class="p">|&lt;/span> docker load
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>这时镜像就已经保存到&lt;code>./alpine-linux&lt;/code>内了，然后使用&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ tar -cC &lt;span class="s1">&amp;#39;./alpine-linux&amp;#39;&lt;/span> . &lt;span class="p">|&lt;/span> docker load
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">......
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Loaded image: alpine:latest
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>即可让 docker 导入镜像。&lt;/p>
-&lt;h3 id="samba">samba
-&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo apt install samba
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>安装后使用&lt;code>smbpasswd -a &amp;lt;username&amp;gt;&lt;/code>为用户添加 samba 的访问密码，其中&lt;code>&amp;lt;username&amp;gt;&lt;/code>必须为已经在 Linux 内注册的用户。&lt;/p>
-&lt;p>配置文件为&lt;code>/etc/samba/smb.conf&lt;/code>，配置项可参考&lt;a class="link" href="https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html" target="_blank" rel="noopener"
->官方文档&lt;/a>。&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;span class="lnt">6
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">[&amp;lt;share name&amp;gt;]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">path = /path/to/folder
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">read only = no
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">browsable = yes
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">guest ok = no
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">valid users = &amp;lt;users&amp;gt;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h3 id="jellyfin">jellyfin
-&lt;/h3>&lt;p>jellyfin 是数字媒体管理与串流软件，它支持浏览器、Android、iOS、Android TV 等许多客户端，可以在这些客户端上便捷地观看服务端存储的内容，这也是我攒这台 NAS 的主要目的。E5-2660 v4 的性能足以支持 jellyfin 流畅编解码超高清资源（软解，不过目前看来也没有专门为这个买 GPU 的必要了）。&lt;/p>
-&lt;p>可以使用&lt;a class="link" href="https://hub.docker.com/r/jellyfin/jellyfin" target="_blank" rel="noopener"
->官方的 docker 镜像&lt;/a>或者&lt;a class="link" href="https://hub.docker.com/r/linuxserver/jellyfin" target="_blank" rel="noopener"
->linuxserver.io 制作的镜像&lt;/a>来安装 jellyfin。&lt;/p>
-&lt;p>为了便于我管理和配置，所有的 Docker 容器都将使用 docker compose 启动。这是 jellyfin 的&lt;code>docker-compose.yaml&lt;/code>：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;span class="lnt">21
-&lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;2.1&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">services&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">jellyfin&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">lscr.io/linuxserver/jellyfin:latest&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">jellyfin&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">environment&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">PUID=1000&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">PGID=1000&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">TZ=Asia/Shanghai&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./config:/config&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">/path/to/media:/data&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">8096&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">8096&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">8920&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">8920&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#optional&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">7359&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">7359&lt;/span>&lt;span class="l">/udp&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#optional&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">1900&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">1900&lt;/span>&lt;span class="l">/udp&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#optional&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">unless-stopped&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">deploy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">global&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpus&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;20&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">8G&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h3 id="qbittorrent">qbittorrent
-&lt;/h3>&lt;p>qbittorrent 是用于 bt 下载的软件。linuxserver.io 也打包了 qbittorrent 的镜像，使用这个镜像运行即可。我的&lt;code>docker-compose.yaml&lt;/code>如下：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;span class="lnt">21
-&lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;span class="lnt">25
-&lt;/span>&lt;span class="lnt">26
-&lt;/span>&lt;span class="lnt">27
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">services&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">qbittorrent&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">lscr.io/linuxserver/qbittorrent:latest&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">qbittorrent&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">environment&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">PUID=1000&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">PGID=1000&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">TZ=Asia/Shanghai&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">WEBUI_PORT=4823&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./config:/config&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./torrents:/torrents&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./cache:/cache&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">/path/to/downloads:/downloads&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">4823&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">4823&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># WebUI&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">6881&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">6881&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 监听端口&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">6881&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">6881&lt;/span>&lt;span class="l">/udp&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">14560-14580&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">14560-14580&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 传出端口&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">14560-14580&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">14560-14580&lt;/span>&lt;span class="l">/udp&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">unless-stopped&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">deploy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">global&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpus&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;2.0&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">1G&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h3 id="frpc">frpc
-&lt;/h3>&lt;p>内网穿透工具的客户端，我用的是&lt;a class="link" href="https://hub.docker.com/r/snowdreamtech/frpc" target="_blank" rel="noopener"
->下载量最高的镜像&lt;/a>。&lt;/p>
-&lt;h3 id="coredns">coredns
-&lt;/h3>&lt;p>DNS 服务器，因为学校的 DNS 以前崩过，所以装一个备用。&lt;a class="link" href="https://hub.docker.com/r/coredns/coredns" target="_blank" rel="noopener"
->官方镜像&lt;/a>即可。&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">services&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">coredns&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">coredns/coredns:latest&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">coredns&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./config:/config&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">command&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;-conf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;/config/Corefile&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">always&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">53&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">53&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">53&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">53&lt;/span>&lt;span class="l">/udp&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">deploy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">global&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpus&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;0.5&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">100M&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>53 端口可能和 ubuntu 的 systemd-resolved 服务冲突，在启动容器前需要先关闭这个服务：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo systemctl disable systemd-resolved
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo systemctl stop systemd-resolved
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>coredns 结合 nginx/Apache 转发与一些路由器的设置就可以实现内网域名（不用记端口号了），例如：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">### Corefile:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">......
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">server.local {
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> hosts {
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 192.168.0.xx jellyfin.server.local
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> log
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> errors
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> prometheus
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">### nginx config:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">server {
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> listen 80;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> server_name jellyfin.server.local;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> location / {
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> proxy_pass http://127.0.0.1:8096;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>这样在局域网直接访问 &lt;code>http://jellyfin.server.local&lt;/code> 就可以进入 jellyfin 的界面了。&lt;/p>
-&lt;p>&lt;em>注：关闭 systemd-resolved 服务之后在使用 KVM 时可能会遇到一些问题。&lt;/em>&lt;/p>
-&lt;h3 id="grafana--prometheus">Grafana &amp;amp; Prometheus
-&lt;/h3>&lt;p>&lt;a class="link" href="https://grafana.com/" target="_blank" rel="noopener"
->Grafana&lt;/a> 和 &lt;a class="link" href="https://prometheus.io/" target="_blank" rel="noopener"
->Prometheus&lt;/a> 这两个开源软件组合在一起可以用来监控服务器状态（不过在自用的 NAS 上搞这个可能意义不大）。之前没了解过这些软件，因此这部分完全是按照&lt;a class="link" href="https://geekflare.com/prometheus-grafana-setup-for-linux/" target="_blank" rel="noopener"
->教程&lt;/a>安装的，其中 Grafana 不涉及数据收集，可以在 Docker 容器中运行。&lt;/p>
-&lt;p>除了这两个软件，我还安装了 &lt;a class="link" href="https://github.com/prometheus/node_exporter" target="_blank" rel="noopener"
->node exporter&lt;/a> 和 &lt;a class="link" href="https://github.com/google/cadvisor" target="_blank" rel="noopener"
->cadvisor&lt;/a>，分别收集服务器系统与 Docker 容器的统计信息。&lt;/p>
-&lt;p>装好之后，我以 node exporter 为基础改出了这样的 dashboard：
+最后是机箱，综合以上要求，机箱应该是体积小、轻便、便宜的多盘位 ITX 机箱，在淘宝上翻了一大圈只看到这一款同时满足这几点的。别的型号，例如蜗牛星际、御夫座、天箭座等都太贵了或者散热容量太小。两百多的机箱我觉得还是贵了点，可是也没找到更好的选择。&lt;/p&gt;
+&lt;p&gt;关于可升级性，这套配置中，CPU 可以升级为 24686 分的 E5-2699 v4（在价格降下来之后），还有三个位置可以加内存条，显卡可以升级，机箱和电源以后也能用于装游戏电脑。&lt;/p&gt;
+&lt;h2 id="实践"&gt;实践
+&lt;/h2&gt;&lt;h3 id="装机过程"&gt;装机过程
+&lt;/h3&gt;&lt;p&gt;装机过程中遇到的问题有四：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;CPU 散热器的螺丝是弯的（可能是制造问题），要用钳子扳直了才能安装；&lt;/li&gt;
+&lt;li&gt;机箱自带的硬盘笼和主板电源插槽有 2mm 左右的 overlap，装完之后硬盘笼有一点点变形。得益于硬盘架的减震机构，这个变形产生的影响不大；&lt;/li&gt;
+&lt;li&gt;主板下部的插槽和机箱风扇有冲突，前面板 USB-3 的线插不进去，但对于 NAS 而言这根线不插问题也不大；&lt;/li&gt;
+&lt;li&gt;华南金牌的这款主板的主板风扇插槽只有 3 针，不支持 PWM，直接插 MVP120 的话满转速噪音非常大。我最后用一拖三的线把所有风扇都接到了支持 PWM 的 CPU 风扇插槽上，这样就安静了很多（之后又进BIOS 调整了一下温度-转速曲线）。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="操作系统"&gt;操作系统
+&lt;/h3&gt;&lt;p&gt;因为我最熟悉的 Linux 发行版是 Ubuntu，所以我安装了 Ubuntu 22.04.2 LTS（服务器版）。&lt;/p&gt;
+&lt;p&gt;系统盘分区如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Mountpoint Start End Sectors Size Type
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/boot/efi 2048 2203647 2201600 1G EFI System
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/ 2203648 107061247 104857600 50G Linux filesystem
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/home 107061248 211918847 104857600 50G Linux filesystem
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/srv 211918848 958271487 746352640 355.9G Linux filesystem
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;swap 958271488 1000214527 41943040 20G Linux swap
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="测试"&gt;测试
+&lt;/h3&gt;&lt;p&gt;整机待机时 CPU 核心平均温度为 30°C，满载时为 55°C，说明散热还是有很大的余量的。服务正常运行时插座上测量到的功率在 68W 左右，CPU满载时约 140W。&lt;/p&gt;
+&lt;p&gt;使用 sysbench 的测试结果如下，和我现役的游戏本相比我觉得这个成绩还算可以接受：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Running the test with following options:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Number of threads: 28
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Initializing random number generator from current time
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Prime numbers limit: 10000
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Initializing worker threads...
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Threads started!
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;CPU speed:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; events per second: 17251.86
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;General statistics:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; total time: 600.0017s
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; total number of events: 10351174
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Latency (ms):
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; min: 1.22
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; avg: 1.62
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; max: 82.58
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 95th percentile: 1.64
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; sum: 16797418.36
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Threads fairness:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; events (avg/stddev): 369684.7857/436.76
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; execution time (avg/stddev): 599.9078/0.00
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="软件部分"&gt;软件部分
+&lt;/h2&gt;&lt;h3 id="docker"&gt;Docker
+&lt;/h3&gt;&lt;p&gt;最先安装的是 Docker，因为有了 Docker 之后别的应用都可以使用 Docker 镜像安装和管理。&lt;/p&gt;
+&lt;p&gt;在 Ubuntu 上安装Docker只需使用官方提供的安装脚本&lt;sup&gt;&lt;a id='ref-cite1-3' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ curl -fsSL https://get.docker.com -o get-docker.sh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ sudo sh get-docker.sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="修改docker数据位置"&gt;修改Docker数据位置
+&lt;/h4&gt;&lt;p&gt;Docker 的数据默认储存在 &lt;code&gt;/var/lib/docker&lt;/code&gt; 内，我想将其移到 &lt;code&gt;/srv&lt;/code&gt; 文件系统内，操作如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;关闭&lt;code&gt;docker&lt;/code&gt;服务：&lt;code&gt;systemctl stop docker&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;移动文件：&lt;code&gt;sudo mv /var/lib/docker /srv/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;创建符号链接（以防万一）：&lt;code&gt;sudo ln -s /srv/docker /var/lib/docker&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;修改配置文件，在&lt;code&gt;/etc/docker/daemon.json&lt;/code&gt;内添加配置：&lt;code&gt;{&amp;quot;data-root&amp;quot;: &amp;quot;/srv/docker&amp;quot;}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;启动&lt;code&gt;docker&lt;/code&gt;服务：&lt;code&gt;systemctl start docker&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id="使用docker国内镜像源"&gt;使用Docker国内镜像源
+&lt;/h4&gt;&lt;p&gt;阿里云提供了免费的Docker镜像源的加速服务。为了使用该服务，需要在 &lt;a class="link" href="https://aliyun.com" target="_blank" rel="noopener"
+&gt;https://aliyun.com&lt;/a&gt; 登录阿里云帐号，然后在 &lt;strong&gt;控制台 &amp;gt; 容器镜像服务 &amp;gt; 镜像工具 &amp;gt; 镜像加速器&lt;/strong&gt; 处可以获取加速器的地址及修改镜像源的方法。&lt;/p&gt;
+&lt;p&gt;此外也有一些开放的镜像源，在&lt;code&gt;/etc/docker/daemon.json&lt;/code&gt;内添加如下属性 &lt;sup&gt;&lt;a id='ref-cite2-3' href='#cite2'&gt;[2]&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;#34;registry-mirrors&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="s2"&gt;&amp;#34;https://hub-mirror.c.163.com&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="s2"&gt;&amp;#34;https://ustc-edu-cn.mirror.aliyuncs.com&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="s2"&gt;&amp;#34;https://ghcr.io&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="s2"&gt;&amp;#34;https://mirror.baidubce.com&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;修改后使用 &lt;code&gt;systemctl restart docker&lt;/code&gt; 重启docker服务即可。&lt;/p&gt;
+&lt;h4 id="手动下载镜像"&gt;手动下载镜像
+&lt;/h4&gt;&lt;p&gt;如果替换了镜像源之后也拉不动镜像的话，可以试试 &lt;a class="link" href="https://github.com/moby/moby" target="_blank" rel="noopener"
+&gt;Moby Project&lt;/a&gt; 提供的镜像下载脚本下载镜像：&lt;a class="link" href="https://github.com/moby/moby/blob/master/contrib/download-frozen-image-v2.sh" target="_blank" rel="noopener"
+&gt;link&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;使用例：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ wget https://raw.githubusercontent.com/moby/moby/master/contrib/download-frozen-image-v2.sh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ bash ./download-frozen-image-v2.sh ./alpine-linux alpine:latest
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Downloading &lt;span class="s1"&gt;&amp;#39;library/alpine:latest@latest&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; layers&lt;span class="o"&gt;)&lt;/span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-#O&lt;span class="o"&gt;=&lt;/span&gt;-# &lt;span class="c1"&gt;# #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;############################################## 100.0%&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Download of images into &lt;span class="s1"&gt;&amp;#39;./alpine-linux&amp;#39;&lt;/span&gt; complete.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Use something like the following to load the result into a Docker daemon:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; tar -cC &lt;span class="s1"&gt;&amp;#39;./alpine-linux&amp;#39;&lt;/span&gt; . &lt;span class="p"&gt;|&lt;/span&gt; docker load
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这时镜像就已经保存到&lt;code&gt;./alpine-linux&lt;/code&gt;内了，然后使用&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ tar -cC &lt;span class="s1"&gt;&amp;#39;./alpine-linux&amp;#39;&lt;/span&gt; . &lt;span class="p"&gt;|&lt;/span&gt; docker load
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;......
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Loaded image: alpine:latest
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;即可让 docker 导入镜像。&lt;/p&gt;
+&lt;h3 id="samba"&gt;samba
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ sudo apt install samba
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;安装后使用&lt;code&gt;smbpasswd -a &amp;lt;username&amp;gt;&lt;/code&gt;为用户添加 samba 的访问密码，其中&lt;code&gt;&amp;lt;username&amp;gt;&lt;/code&gt;必须为已经在 Linux 内注册的用户。&lt;/p&gt;
+&lt;p&gt;配置文件为&lt;code&gt;/etc/samba/smb.conf&lt;/code&gt;，配置项可参考&lt;a class="link" href="https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html" target="_blank" rel="noopener"
+&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[&amp;lt;share name&amp;gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;path = /path/to/folder
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;read only = no
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;browsable = yes
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;guest ok = no
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;valid users = &amp;lt;users&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="jellyfin"&gt;jellyfin
+&lt;/h3&gt;&lt;p&gt;jellyfin 是数字媒体管理与串流软件，它支持浏览器、Android、iOS、Android TV 等许多客户端，可以在这些客户端上便捷地观看服务端存储的内容，这也是我攒这台 NAS 的主要目的。E5-2660 v4 的性能足以支持 jellyfin 流畅编解码超高清资源（软解，不过目前看来也没有专门为这个买 GPU 的必要了）。&lt;/p&gt;
+&lt;p&gt;可以使用&lt;a class="link" href="https://hub.docker.com/r/jellyfin/jellyfin" target="_blank" rel="noopener"
+&gt;官方的 docker 镜像&lt;/a&gt;或者&lt;a class="link" href="https://hub.docker.com/r/linuxserver/jellyfin" target="_blank" rel="noopener"
+&gt;linuxserver.io 制作的镜像&lt;/a&gt;来安装 jellyfin。&lt;/p&gt;
+&lt;p&gt;为了便于我管理和配置，所有的 Docker 容器都将使用 docker compose 启动。这是 jellyfin 的&lt;code&gt;docker-compose.yaml&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;2.1&amp;#34;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="nt"&gt;services&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;jellyfin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;lscr.io/linuxserver/jellyfin:latest&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;container_name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;jellyfin&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;environment&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;PUID=1000&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;PGID=1000&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;TZ=Asia/Shanghai&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;volumes&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;./config:/config&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;/path/to/media:/data&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;ports&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;8096&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;8096&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;8920&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;8920&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;#optional&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;7359&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;7359&lt;/span&gt;&lt;span class="l"&gt;/udp&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;#optional&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;1900&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;1900&lt;/span&gt;&lt;span class="l"&gt;/udp&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;#optional&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;restart&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;unless-stopped&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;deploy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;global&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;resources&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;limits&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;cpus&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;20&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;memory&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;8G&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="qbittorrent"&gt;qbittorrent
+&lt;/h3&gt;&lt;p&gt;qbittorrent 是用于 bt 下载的软件。linuxserver.io 也打包了 qbittorrent 的镜像，使用这个镜像运行即可。我的&lt;code&gt;docker-compose.yaml&lt;/code&gt;如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;services&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;qbittorrent&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;lscr.io/linuxserver/qbittorrent:latest&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;container_name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;qbittorrent&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;environment&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;PUID=1000&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;PGID=1000&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;TZ=Asia/Shanghai&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;WEBUI_PORT=4823&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;volumes&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;./config:/config&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;./torrents:/torrents&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;./cache:/cache&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;/path/to/downloads:/downloads&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;ports&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;4823&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;4823&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;# WebUI&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;6881&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;6881&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;# 监听端口&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;6881&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;6881&lt;/span&gt;&lt;span class="l"&gt;/udp&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;14560-14580&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;14560-14580&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;# 传出端口&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;14560-14580&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;14560-14580&lt;/span&gt;&lt;span class="l"&gt;/udp&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;restart&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;unless-stopped&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;deploy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;global&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;resources&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;limits&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;cpus&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2.0&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;memory&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;1G&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="frpc"&gt;frpc
+&lt;/h3&gt;&lt;p&gt;内网穿透工具的客户端，我用的是&lt;a class="link" href="https://hub.docker.com/r/snowdreamtech/frpc" target="_blank" rel="noopener"
+&gt;下载量最高的镜像&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id="coredns"&gt;coredns
+&lt;/h3&gt;&lt;p&gt;DNS 服务器，因为学校的 DNS 以前崩过，所以装一个备用。&lt;a class="link" href="https://hub.docker.com/r/coredns/coredns" target="_blank" rel="noopener"
+&gt;官方镜像&lt;/a&gt;即可。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;services&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;coredns&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;coredns/coredns:latest&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;container_name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;coredns&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;volumes&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;./config:/config&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;command&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;-conf&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;/config/Corefile&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;restart&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;always&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;ports&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;0.0.0.0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;53&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;53&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;0.0.0.0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;53&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;53&lt;/span&gt;&lt;span class="l"&gt;/udp&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;deploy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;global&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;resources&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;limits&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;cpus&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;0.5&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;memory&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;100M&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;53 端口可能和 ubuntu 的 systemd-resolved 服务冲突，在启动容器前需要先关闭这个服务：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ sudo systemctl disable systemd-resolved
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ sudo systemctl stop systemd-resolved
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;coredns 结合 nginx/Apache 转发与一些路由器的设置就可以实现内网域名（不用记端口号了），例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;### Corefile:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;......
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;server.local {
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; hosts {
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 192.168.0.xx jellyfin.server.local
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; log
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; errors
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; prometheus
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;### nginx config:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;server {
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; listen 80;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; server_name jellyfin.server.local;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; location / {
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; proxy_pass http://127.0.0.1:8096;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样在局域网直接访问 &lt;code&gt;http://jellyfin.server.local&lt;/code&gt; 就可以进入 jellyfin 的界面了。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;注：关闭 systemd-resolved 服务之后在使用 KVM 时可能会遇到一些问题。&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id="grafana--prometheus"&gt;Grafana &amp;amp; Prometheus
+&lt;/h3&gt;&lt;p&gt;&lt;a class="link" href="https://grafana.com/" target="_blank" rel="noopener"
+&gt;Grafana&lt;/a&gt; 和 &lt;a class="link" href="https://prometheus.io/" target="_blank" rel="noopener"
+&gt;Prometheus&lt;/a&gt; 这两个开源软件组合在一起可以用来监控服务器状态（不过在自用的 NAS 上搞这个可能意义不大）。之前没了解过这些软件，因此这部分完全是按照&lt;a class="link" href="https://geekflare.com/prometheus-grafana-setup-for-linux/" target="_blank" rel="noopener"
+&gt;教程&lt;/a&gt;安装的，其中 Grafana 不涉及数据收集，可以在 Docker 容器中运行。&lt;/p&gt;
+&lt;p&gt;除了这两个软件，我还安装了 &lt;a class="link" href="https://github.com/prometheus/node_exporter" target="_blank" rel="noopener"
+&gt;node exporter&lt;/a&gt; 和 &lt;a class="link" href="https://github.com/google/cadvisor" target="_blank" rel="noopener"
+&gt;cadvisor&lt;/a&gt;，分别收集服务器系统与 Docker 容器的统计信息。&lt;/p&gt;
+&lt;p&gt;装好之后，我以 node exporter 为基础改出了这样的 dashboard：
 &lt;img src="https://files.furffisite.link/blogimg/20230623223905-8a11623bf1549c06e503742374b7f39c-d92f1.png"
 loading="lazy"
->&lt;/p>
-&lt;h3 id="数据库">数据库
-&lt;/h3>&lt;p>有一些服务（例如 &lt;a class="link" href="https://github.com/go-gitea/gitea" target="_blank" rel="noopener"
->gitea&lt;/a> 和自己写的爬虫）的数据是存储在数据库中的，我比较喜欢将这些数据放在同一个数据库服务端内（而非给每个有需要的应用都运行一个数据库），以便于数据的管理，同时减少系统占用。&lt;/p>
-&lt;p>关于关系型数据库，我使用的是 &lt;a class="link" href="https://mariadb.org/" target="_blank" rel="noopener"
->mariadb&lt;/a>（MySQL的一个衍生版本）。关于镜像的版本，建议使用一个固定的版本号（而非 latest），因为在不同版本的 mariadb 之间迁移数据还是比较麻烦的。&lt;/p>
-&lt;p>关于数据库的管理端，我以前常用的是 &lt;a class="link" href="https://www.phpmyadmin.net/" target="_blank" rel="noopener"
->phpmyadmin&lt;/a>，这次想试试别的，所以使用了 &lt;a class="link" href="https://hub.docker.com/_/mariadb" target="_blank" rel="noopener"
->官方docker镜像页&lt;/a> 里提到的 &lt;a class="link" href="https://hub.docker.com/_/adminer" target="_blank" rel="noopener"
->adminer&lt;/a>。其功能虽不如 phpmyadmin 丰富，界面也不如它美观，但是我平时会用到的基础操作（建表、查看数据、SQL 查询、导出数据）它都有，缺少的功能可以直接用 SQL 语句凑嘛~&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">services&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">db&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">mariadb:10.11.4&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">mariadb&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">always&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">environment&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">MARIADB_ROOT_PASSWORD&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">...&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">./mariadb:/var/lib/mysql&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">3306&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">3306&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">adminer&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">adminer&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">adminer&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restart&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">always&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="m">8080&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">8080&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>如果服务需要，也可以使用 docker 运行非关系型数据库 &lt;a class="link" href="https://www.mongodb.com/" target="_blank" rel="noopener"
->MongoDB&lt;/a> 和 &lt;a class="link" href="https://redis.io/" target="_blank" rel="noopener"
->redis&lt;/a>。&lt;/p>
-&lt;h3 id="minecraft-服务器-papermc">Minecraft 服务器 （papermc）
-&lt;/h3>&lt;p>选了 docker hub 里搜索排名靠前的 &lt;a class="link" href="https://hub.docker.com/r/marctv/minecraft-papermc-server" target="_blank" rel="noopener"
->marctv/minecraft-papermc-server&lt;/a>。&lt;/p>
-&lt;p>用了之后才发现，&lt;a class="link" href="https://papermc.io/" target="_blank" rel="noopener"
->papermc&lt;/a> 是 &lt;a class="link" href="https://www.spigotmc.org/" target="_blank" rel="noopener"
->SpigotMC&lt;/a> 的分支，旨在提供原生 Minecraft 的体验。也就是说它不支持以前我在玩 Minecraft 时耳熟能详的那些 Forge 版 mod，只支持服务器端的 bukkit 插件（plugin）。好处是相比与 Forge 服务器占用更小，并且不挑客户端，只要客户端 Minecraft 版本和服务器一致就能连上。
-配置好之后，使用 frpc 转发 25565 端口到公网，就可以愉快地和朋友们一起玩啦。&lt;/p>
-&lt;h4 id="后台管理">后台管理
-&lt;/h4>&lt;p>在 docker-compose.yaml 中对应的 service 配置里加上&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">stdin_open&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">tty&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">container_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">mcserver&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>然后&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ docker compose up -d
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>之后便可以通过&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ docker attach mcserver
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>进入服务器后台，使用指令管理服务器。&lt;/p>
-&lt;h4 id="配置">配置
-&lt;/h4>&lt;p>papermc 相比于原版服务端修复了活塞相关的一些“特性”，例如使用活塞复制物品等，并在配置文件中默认限制这些行为，导致刷地毯机/破基岩等原版可行的操作在 papermc 服务端内不可用。当然这样对于服主而言确实可以防止玩家做出越界的行为，但是对于我这种只有几个朋友在一起玩的服务器，就不需要限制这些了。关闭限制的方式很简单，修改数据目录下的&lt;code>paper.yml&lt;/code>，将&lt;code>allow-headless-pistons&lt;/code>、&lt;code>allow-permanent-block-break-exploits&lt;/code>和&lt;code>allow-piston-duplication&lt;/code>三项设置为&lt;code>true&lt;/code>即可。&lt;/p>
-&lt;h4 id="安装插件">安装插件
-&lt;/h4>&lt;p>Papermc 支持的插件可以在 &lt;a class="link" href="https://hangar.papermc.io/" target="_blank" rel="noopener"
->Hanger&lt;/a>、&lt;a class="link" href="https://dev.bukkit.org/bukkit-plugins" target="_blank" rel="noopener"
->bukkit&lt;/a>或&lt;a class="link" href="https://www.spigotmc.org/resources/" target="_blank" rel="noopener"
->SpigotMC&lt;/a>下载。下载对应版本的 jar 文件放到 /data/plugins 文件夹下（或者直接使用 wget/curl 下载），然后重启服务器，在启动时如果新增的插件没有报错误信息，那大概率是没问题的。&lt;/p>
-&lt;p>目前加了这些插件：&lt;/p>
-&lt;ul>
-&lt;li>Minepacks：背包插件；&lt;/li>
-&lt;li>TreeFeller：连锁砍树；&lt;/li>
-&lt;li>worldedit：创世神插件；&lt;/li>
-&lt;li>worldguard&lt;/li>
-&lt;li>EssentialsX：正如其名，提供一些服务器的必备功能；&lt;/li>
-&lt;li>StackableItems：增加物品堆叠上限；&lt;/li>
-&lt;li>Multiverse-Core：多世界基础插件。
-&lt;ul>
-&lt;li>Multiverse-signportals：使用告示牌在多世界间传送；&lt;/li>
-&lt;li>OpenTerrainGenerator：创建不同类型世界的基础插件之一。
-&lt;ul>
-&lt;li>Skylands&lt;/li>
-&lt;li>FarFromHome&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>ViaVersion：放宽客户端版本限制；&lt;/li>
-&lt;li>LaggRemover：减少服务器卡顿；&lt;/li>
-&lt;li>BlueMap: 地图插件，提供了美观的在线3D地图；&lt;/li>
-&lt;li>&lt;a class="link" href="https://github.com/Cubxity/UnifiedMetrics" target="_blank" rel="noopener"
->UnifiedMetrics&lt;/a>：数据收集插件，支持前述的 Prometheus。&lt;/li>
-&lt;/ul>
-&lt;h2 id="参考资料">参考资料
-&lt;/h2>&lt;style>
+&gt;&lt;/p&gt;
+&lt;h3 id="数据库"&gt;数据库
+&lt;/h3&gt;&lt;p&gt;有一些服务（例如 &lt;a class="link" href="https://github.com/go-gitea/gitea" target="_blank" rel="noopener"
+&gt;gitea&lt;/a&gt; 和自己写的爬虫）的数据是存储在数据库中的，我比较喜欢将这些数据放在同一个数据库服务端内（而非给每个有需要的应用都运行一个数据库），以便于数据的管理，同时减少系统占用。&lt;/p&gt;
+&lt;p&gt;关于关系型数据库，我使用的是 &lt;a class="link" href="https://mariadb.org/" target="_blank" rel="noopener"
+&gt;mariadb&lt;/a&gt;（MySQL的一个衍生版本）。关于镜像的版本，建议使用一个固定的版本号（而非 latest），因为在不同版本的 mariadb 之间迁移数据还是比较麻烦的。&lt;/p&gt;
+&lt;p&gt;关于数据库的管理端，我以前常用的是 &lt;a class="link" href="https://www.phpmyadmin.net/" target="_blank" rel="noopener"
+&gt;phpmyadmin&lt;/a&gt;，这次想试试别的，所以使用了 &lt;a class="link" href="https://hub.docker.com/_/mariadb" target="_blank" rel="noopener"
+&gt;官方docker镜像页&lt;/a&gt; 里提到的 &lt;a class="link" href="https://hub.docker.com/_/adminer" target="_blank" rel="noopener"
+&gt;adminer&lt;/a&gt;。其功能虽不如 phpmyadmin 丰富，界面也不如它美观，但是我平时会用到的基础操作（建表、查看数据、SQL 查询、导出数据）它都有，缺少的功能可以直接用 SQL 语句凑嘛~&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;services&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;db&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;mariadb:10.11.4&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;container_name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;mariadb&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;restart&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;always&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;environment&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;MARIADB_ROOT_PASSWORD&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;...&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;volumes&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;./mariadb:/var/lib/mysql&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;ports&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;3306&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;3306&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;adminer&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;adminer&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;container_name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;adminer&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;restart&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;always&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;ports&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;8080&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;8080&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果服务需要，也可以使用 docker 运行非关系型数据库 &lt;a class="link" href="https://www.mongodb.com/" target="_blank" rel="noopener"
+&gt;MongoDB&lt;/a&gt; 和 &lt;a class="link" href="https://redis.io/" target="_blank" rel="noopener"
+&gt;redis&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id="minecraft-服务器-papermc"&gt;Minecraft 服务器 （papermc）
+&lt;/h3&gt;&lt;p&gt;选了 docker hub 里搜索排名靠前的 &lt;a class="link" href="https://hub.docker.com/r/marctv/minecraft-papermc-server" target="_blank" rel="noopener"
+&gt;marctv/minecraft-papermc-server&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;用了之后才发现，&lt;a class="link" href="https://papermc.io/" target="_blank" rel="noopener"
+&gt;papermc&lt;/a&gt; 是 &lt;a class="link" href="https://www.spigotmc.org/" target="_blank" rel="noopener"
+&gt;SpigotMC&lt;/a&gt; 的分支，旨在提供原生 Minecraft 的体验。也就是说它不支持以前我在玩 Minecraft 时耳熟能详的那些 Forge 版 mod，只支持服务器端的 bukkit 插件（plugin）。好处是相比与 Forge 服务器占用更小，并且不挑客户端，只要客户端 Minecraft 版本和服务器一致就能连上。
+配置好之后，使用 frpc 转发 25565 端口到公网，就可以愉快地和朋友们一起玩啦。&lt;/p&gt;
+&lt;h4 id="后台管理"&gt;后台管理
+&lt;/h4&gt;&lt;p&gt;在 docker-compose.yaml 中对应的 service 配置里加上&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;stdin_open&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="nt"&gt;tty&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="nt"&gt;container_name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;mcserver&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ docker compose up -d
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;之后便可以通过&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ docker attach mcserver
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;进入服务器后台，使用指令管理服务器。&lt;/p&gt;
+&lt;h4 id="配置"&gt;配置
+&lt;/h4&gt;&lt;p&gt;papermc 相比于原版服务端修复了活塞相关的一些“特性”，例如使用活塞复制物品等，并在配置文件中默认限制这些行为，导致刷地毯机/破基岩等原版可行的操作在 papermc 服务端内不可用。当然这样对于服主而言确实可以防止玩家做出越界的行为，但是对于我这种只有几个朋友在一起玩的服务器，就不需要限制这些了。关闭限制的方式很简单，修改数据目录下的&lt;code&gt;paper.yml&lt;/code&gt;，将&lt;code&gt;allow-headless-pistons&lt;/code&gt;、&lt;code&gt;allow-permanent-block-break-exploits&lt;/code&gt;和&lt;code&gt;allow-piston-duplication&lt;/code&gt;三项设置为&lt;code&gt;true&lt;/code&gt;即可。&lt;/p&gt;
+&lt;h4 id="安装插件"&gt;安装插件
+&lt;/h4&gt;&lt;p&gt;Papermc 支持的插件可以在 &lt;a class="link" href="https://hangar.papermc.io/" target="_blank" rel="noopener"
+&gt;Hanger&lt;/a&gt;、&lt;a class="link" href="https://dev.bukkit.org/bukkit-plugins" target="_blank" rel="noopener"
+&gt;bukkit&lt;/a&gt;或&lt;a class="link" href="https://www.spigotmc.org/resources/" target="_blank" rel="noopener"
+&gt;SpigotMC&lt;/a&gt;下载。下载对应版本的 jar 文件放到 /data/plugins 文件夹下（或者直接使用 wget/curl 下载），然后重启服务器，在启动时如果新增的插件没有报错误信息，那大概率是没问题的。&lt;/p&gt;
+&lt;p&gt;目前加了这些插件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Minepacks：背包插件；&lt;/li&gt;
+&lt;li&gt;TreeFeller：连锁砍树；&lt;/li&gt;
+&lt;li&gt;worldedit：创世神插件；&lt;/li&gt;
+&lt;li&gt;worldguard&lt;/li&gt;
+&lt;li&gt;EssentialsX：正如其名，提供一些服务器的必备功能；&lt;/li&gt;
+&lt;li&gt;StackableItems：增加物品堆叠上限；&lt;/li&gt;
+&lt;li&gt;Multiverse-Core：多世界基础插件。
+&lt;ul&gt;
+&lt;li&gt;Multiverse-signportals：使用告示牌在多世界间传送；&lt;/li&gt;
+&lt;li&gt;OpenTerrainGenerator：创建不同类型世界的基础插件之一。
+&lt;ul&gt;
+&lt;li&gt;Skylands&lt;/li&gt;
+&lt;li&gt;FarFromHome&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ViaVersion：放宽客户端版本限制；&lt;/li&gt;
+&lt;li&gt;LaggRemover：减少服务器卡顿；&lt;/li&gt;
+&lt;li&gt;BlueMap: 地图插件，提供了美观的在线3D地图；&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://github.com/Cubxity/UnifiedMetrics" target="_blank" rel="noopener"
+&gt;UnifiedMetrics&lt;/a&gt;：数据收集插件，支持前述的 Prometheus。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="参考资料"&gt;参考资料
+&lt;/h2&gt;&lt;style&gt;
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
-.bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
-.bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
-&lt;/style>
-&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
-&lt;span>[1]&lt;/span>
-&lt;span>Install Docker Engine on Ubuntu - Docker Docs | &lt;a class="link" href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script" target="_blank" rel="noopener"
->https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;div id="cite2" class="bib-item">
-&lt;span>[2]&lt;/span>
-&lt;span>Docker 换源 - 腾讯云开发者社区 | &lt;a class="link" href="https://cloud.tencent.com/developer/article/1769231" target="_blank" rel="noopener"
->https://cloud.tencent.com/developer/article/1769231&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;/div></description></item></channel></rss>
+.bib-item &gt; :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
+.bib-item &gt; :last-child { display: table-cell; padding-bottom: .5ex; }
+&lt;/style&gt;
+&lt;div class="bibliography"&gt;&lt;div id="cite1" class="bib-item"&gt;
+&lt;span&gt;[1]&lt;/span&gt;
+&lt;span&gt;Install Docker Engine on Ubuntu - Docker Docs | &lt;a class="link" href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script" target="_blank" rel="noopener"
+&gt;https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script&lt;/a&gt;&lt;a href="#ref-cite1-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite2" class="bib-item"&gt;
+&lt;span&gt;[2]&lt;/span&gt;
+&lt;span&gt;Docker 换源 - 腾讯云开发者社区 | &lt;a class="link" href="https://cloud.tencent.com/developer/article/1769231" target="_blank" rel="noopener"
+&gt;https://cloud.tencent.com/developer/article/1769231&lt;/a&gt;&lt;a href="#ref-cite2-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite2-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite2-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;</description></item></channel></rss>

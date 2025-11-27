@@ -1,231 +1,231 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>教程 on Furffiblog</title><link>https://blog.furffisite.link/categories/%E6%95%99%E7%A8%8B/</link><description>Recent content in 教程 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 06 Jan 2023 16:24:31 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>使用starship定制终端提示符</title><link>https://blog.furffisite.link/p/use-starship/</link><pubDate>Fri, 06 Jan 2023 16:24:31 +0800</pubDate><guid>https://blog.furffisite.link/p/use-starship/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230109230402-9ec5accbc75f863015a4dca68f9f9870-cc3be.jpg" alt="Featured image of post 使用starship定制终端提示符" />&lt;p>&lt;a class="link" href="https://starship.rs/" target="_blank" rel="noopener"
->starship&lt;/a>&lt;a class="link" href="https://github.com/starship/starship" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-&lt;/svg>
-&lt;/span>&lt;/a>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>教程 on Furffiblog</title><link>https://blog.furffisite.link/categories/%E6%95%99%E7%A8%8B/</link><description>Recent content in 教程 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 06 Jan 2023 16:24:31 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>使用starship定制终端提示符</title><link>https://blog.furffisite.link/p/use-starship/</link><pubDate>Fri, 06 Jan 2023 16:24:31 +0800</pubDate><guid>https://blog.furffisite.link/p/use-starship/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230109230402-9ec5accbc75f863015a4dca68f9f9870-cc3be.jpg" alt="Featured image of post 使用starship定制终端提示符" /&gt;&lt;p&gt;&lt;a class="link" href="https://starship.rs/" target="_blank" rel="noopener"
+&gt;starship&lt;/a&gt;&lt;a class="link" href="https://github.com/starship/starship" target="_blank" rel="noopener"&gt;
+&lt;span style="display:inline-block; vertical-align:top; height:2em;"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"&gt;
+&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/&gt;
+&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /&gt;
+&lt;/svg&gt;
+&lt;/span&gt;&lt;/a&gt;
 是使用 Rust 编写的轻量且迅速的终端提示符程序，其功能和作用与 &lt;a class="link" href="https://ohmyz.sh/" target="_blank" rel="noopener"
->Oh My Zsh&lt;/a>&lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener">
-&lt;span style="display:inline-block; vertical-align:top; height:2em;">&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-&lt;/svg>
-&lt;/span>&lt;/a>
-相似，但是相比于 Oh My Zsh，starship 具有以下优点：&lt;/p>
-&lt;ol>
-&lt;li>starship 是跨平台跨终端的，其支持 Bash、Zsh、Fish 等十几种终端，甚至包括 Windows 的 PowerShell 与 cmd；&lt;/li>
-&lt;li>使用编译型语言 Rust 编写的 starship 在运行速度上优于基于 shell script 的 Oh My Zsh；&lt;/li>
-&lt;li>starship 的自定义配置方法比 Oh My Zsh 简单。&lt;/li>
-&lt;/ol>
-&lt;p>先上图，以下是我所习惯的配置的效果图。除当前用户、hostname 和当前工作路径外，starship 还显示了 git 状态、相关软件的版本、进程的返回码、运行时间、已用内存/虚拟内存和当前时间等信息。starfish 是通过当前工作目录下的文件名判断应当展示哪些模组的，所以当我创建文件之后提示符上也就多出了相关软件的信息。&lt;/p>
-&lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230106203308-193e5d500a6dd22eab5f893f5cd189f9-2ce2a.png"
+&gt;Oh My Zsh&lt;/a&gt;&lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener"&gt;
+&lt;span style="display:inline-block; vertical-align:top; height:2em;"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"&gt;
+&lt;path stroke="none" d="M0 0h24v24H0z" fill="none"/&gt;
+&lt;path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /&gt;
+&lt;/svg&gt;
+&lt;/span&gt;&lt;/a&gt;
+相似，但是相比于 Oh My Zsh，starship 具有以下优点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;starship 是跨平台跨终端的，其支持 Bash、Zsh、Fish 等十几种终端，甚至包括 Windows 的 PowerShell 与 cmd；&lt;/li&gt;
+&lt;li&gt;使用编译型语言 Rust 编写的 starship 在运行速度上优于基于 shell script 的 Oh My Zsh；&lt;/li&gt;
+&lt;li&gt;starship 的自定义配置方法比 Oh My Zsh 简单。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;先上图，以下是我所习惯的配置的效果图。除当前用户、hostname 和当前工作路径外，starship 还显示了 git 状态、相关软件的版本、进程的返回码、运行时间、已用内存/虚拟内存和当前时间等信息。starfish 是通过当前工作目录下的文件名判断应当展示哪些模组的，所以当我创建文件之后提示符上也就多出了相关软件的信息。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://files.furffisite.link/blogimg/20230106203308-193e5d500a6dd22eab5f893f5cd189f9-2ce2a.png"
 loading="lazy"
->&lt;/p>
-&lt;p>下文将简述 starship 的安装方法，并给出我的配置文件。&lt;/p>
-&lt;h2 id="安装">安装
-&lt;/h2>&lt;p>本文仅适用于在 Linux 下的 bash 和 zsh 终端安装 starship，在其它终端的安装方法请参见 &lt;a class="link" href="https://starship.rs/zh-CN/guide/#%F0%9F%9A%80-%E5%AE%89%E8%A3%85" target="_blank" rel="noopener"
->starship 的官方文档&lt;/a>。&lt;/p>
-&lt;p>首先使用官方脚本在 Linux 系统内安装 starship 程序：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ curl -sS https://starship.rs/install.sh &lt;span class="p">|&lt;/span> sh
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>这时如果在终端输入&lt;code>starship -V&lt;/code>能看到 starship 的版本信息，就说明程序安装成功了。&lt;/p>
-&lt;p>然后需要配置终端程序，使其能使用 starship 作为提示符。在&lt;code>~/.bashrc&lt;/code>（bash 终端）或&lt;code>~/.zshrc&lt;/code>（zsh 终端）内加入这一行即可：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">eval&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>starship init bash&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h2 id="配置">配置
-&lt;/h2>&lt;p>starship的配置文件是&lt;code>~/.config/starship.toml&lt;/code>，你也可以通过设置环境变量&lt;code>STARSHIP_CONFIG&lt;/code>改变此文件的位置。在终端输入&lt;code>starship config&lt;/code>可以直接打开该文件。&lt;/p>
-&lt;p>由后缀名可知，starship 的配置文件为 TOML 文件，遵守 TOML 语法，关于 TOML 语法本文就不赘述了，若需要了解详情请移步 &lt;a class="link" href="https://toml.io/cn/" target="_blank" rel="noopener"
->TOML 官网&lt;/a>。&lt;/p>
-&lt;p>starship 是分模块的结构，starship 生成的提示符中的每一个部分都对应 starship 的一个模块，你可以使用&lt;code>starship explain&lt;/code>指令查看各模块的说明及其运行时间，例如以我当前的配置输入该命令后效果如下：&lt;/p>
-&lt;p>&lt;img src="https://files.furffisite.link/blogimg/20230106221937-dc59edf0c7890819bbebff31fdf566e2-1269a.png"
+&gt;&lt;/p&gt;
+&lt;p&gt;下文将简述 starship 的安装方法，并给出我的配置文件。&lt;/p&gt;
+&lt;h2 id="安装"&gt;安装
+&lt;/h2&gt;&lt;p&gt;本文仅适用于在 Linux 下的 bash 和 zsh 终端安装 starship，在其它终端的安装方法请参见 &lt;a class="link" href="https://starship.rs/zh-CN/guide/#%F0%9F%9A%80-%E5%AE%89%E8%A3%85" target="_blank" rel="noopener"
+&gt;starship 的官方文档&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;首先使用官方脚本在 Linux 系统内安装 starship 程序：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ curl -sS https://starship.rs/install.sh &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这时如果在终端输入&lt;code&gt;starship -V&lt;/code&gt;能看到 starship 的版本信息，就说明程序安装成功了。&lt;/p&gt;
+&lt;p&gt;然后需要配置终端程序，使其能使用 starship 作为提示符。在&lt;code&gt;~/.bashrc&lt;/code&gt;（bash 终端）或&lt;code&gt;~/.zshrc&lt;/code&gt;（zsh 终端）内加入这一行即可：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;eval&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;starship init bash&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="配置"&gt;配置
+&lt;/h2&gt;&lt;p&gt;starship的配置文件是&lt;code&gt;~/.config/starship.toml&lt;/code&gt;，你也可以通过设置环境变量&lt;code&gt;STARSHIP_CONFIG&lt;/code&gt;改变此文件的位置。在终端输入&lt;code&gt;starship config&lt;/code&gt;可以直接打开该文件。&lt;/p&gt;
+&lt;p&gt;由后缀名可知，starship 的配置文件为 TOML 文件，遵守 TOML 语法，关于 TOML 语法本文就不赘述了，若需要了解详情请移步 &lt;a class="link" href="https://toml.io/cn/" target="_blank" rel="noopener"
+&gt;TOML 官网&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;starship 是分模块的结构，starship 生成的提示符中的每一个部分都对应 starship 的一个模块，你可以使用&lt;code&gt;starship explain&lt;/code&gt;指令查看各模块的说明及其运行时间，例如以我当前的配置输入该命令后效果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://files.furffisite.link/blogimg/20230106221937-dc59edf0c7890819bbebff31fdf566e2-1269a.png"
 loading="lazy"
->&lt;/p>
-&lt;p>关于如何自定义配置，starship 的官方文档已经写的很完善了，参见 &lt;a class="link" href="https://starship.rs/zh-CN/config/" target="_blank" rel="noopener"
->https://starship.rs/zh-CN/config/&lt;/a>。&lt;/p>
-&lt;p>starship 在官方文档里已经给出了&lt;a class="link" href="https://starship.rs/presets/" target="_blank" rel="noopener"
->一些预设&lt;/a>，你可以以你喜欢的预设为基础进行定制，例如我的配置就是在 Bracketed Segments 和 Nerd Font Symbols 预设之上按照自己的习惯所做的更改。我的&lt;code>starship.toml&lt;/code>如下：&lt;/p>
-&lt;p>另外，使用 Nerd Font Symbols 需要 Nerd Font，请前往 &lt;a class="link" href="https://www.nerdfonts.com/font-downloads" target="_blank" rel="noopener"
->https://www.nerdfonts.com/font-downloads&lt;/a> 下载你习惯的字体对应的图标字体，并在虚拟终端中将其设为默认字体。&lt;/p>
-&lt;script src="https://gist.github.com/Furffico/f63e63cc192d77ca3c6bb5347f0a1d63.js">&lt;/script>
-&lt;h2 id="相关问题">相关问题
-&lt;/h2>&lt;p>在使用 Anaconda 管理 Python 的虚拟环境时，Anaconda 会自动在提示符前加上当前虚拟环境的名称，如&lt;code>(base)&lt;/code>，这与 starship 冲突了（且 starship 的 conda 模块提供了相同的功能），因此需要使用如下指令禁用 Anaconda 的这个功能。&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ conda config --set changeps1 False
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div></description></item><item><title>利用透明度通道制作 QQ 内表里不一的图片</title><link>https://blog.furffisite.link/p/qq-duplicity-image/</link><pubDate>Tue, 03 Jan 2023 23:51:54 +0800</pubDate><guid>https://blog.furffisite.link/p/qq-duplicity-image/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230104022542-b692e6e89157626a929575a0b97e5583-3e819.jpg" alt="Featured image of post 利用透明度通道制作 QQ 内表里不一的图片" />&lt;style>
+&gt;&lt;/p&gt;
+&lt;p&gt;关于如何自定义配置，starship 的官方文档已经写的很完善了，参见 &lt;a class="link" href="https://starship.rs/zh-CN/config/" target="_blank" rel="noopener"
+&gt;https://starship.rs/zh-CN/config/&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;starship 在官方文档里已经给出了&lt;a class="link" href="https://starship.rs/presets/" target="_blank" rel="noopener"
+&gt;一些预设&lt;/a&gt;，你可以以你喜欢的预设为基础进行定制，例如我的配置就是在 Bracketed Segments 和 Nerd Font Symbols 预设之上按照自己的习惯所做的更改。我的&lt;code&gt;starship.toml&lt;/code&gt;如下：&lt;/p&gt;
+&lt;p&gt;另外，使用 Nerd Font Symbols 需要 Nerd Font，请前往 &lt;a class="link" href="https://www.nerdfonts.com/font-downloads" target="_blank" rel="noopener"
+&gt;https://www.nerdfonts.com/font-downloads&lt;/a&gt; 下载你习惯的字体对应的图标字体，并在虚拟终端中将其设为默认字体。&lt;/p&gt;
+&lt;script src="https://gist.github.com/Furffico/f63e63cc192d77ca3c6bb5347f0a1d63.js"&gt;&lt;/script&gt;
+&lt;h2 id="相关问题"&gt;相关问题
+&lt;/h2&gt;&lt;p&gt;在使用 Anaconda 管理 Python 的虚拟环境时，Anaconda 会自动在提示符前加上当前虚拟环境的名称，如&lt;code&gt;(base)&lt;/code&gt;，这与 starship 冲突了（且 starship 的 conda 模块提供了相同的功能），因此需要使用如下指令禁用 Anaconda 的这个功能。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ conda config --set changeps1 False
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>利用透明度通道制作 QQ 内表里不一的图片</title><link>https://blog.furffisite.link/p/qq-duplicity-image/</link><pubDate>Tue, 03 Jan 2023 23:51:54 +0800</pubDate><guid>https://blog.furffisite.link/p/qq-duplicity-image/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20230104022542-b692e6e89157626a929575a0b97e5583-3e819.jpg" alt="Featured image of post 利用透明度通道制作 QQ 内表里不一的图片" /&gt;&lt;style&gt;
 .special-bg{ background-color: #fff }
 :root[data-scheme="dark"] img.special-bg{ background-color: #000 }
 div#gallery { text-align: center; width: 100%; }
 div#gallery img{ width:32%; }
-&lt;/style>
-&lt;p>今天在 QQ 看到一张图，这张图在预览下看到的和查看图片时看到的内容不一样。虽然不是第一次见这种图了，但是今天在摸鱼的时候无事可做，就研究了一下它的原理。&lt;/p>
-&lt;p>这张图是这样的：左图为它在聊天界面的样子，典型的吃桃场景，点开大图之后看到的却是右图的样子（笑）。
+&lt;/style&gt;
+&lt;p&gt;今天在 QQ 看到一张图，这张图在预览下看到的和查看图片时看到的内容不一样。虽然不是第一次见这种图了，但是今天在摸鱼的时候无事可做，就研究了一下它的原理。&lt;/p&gt;
+&lt;p&gt;这张图是这样的：左图为它在聊天界面的样子，典型的吃桃场景，点开大图之后看到的却是右图的样子（笑）。
 中间的图片为嵌入的原图，如果您开启了暗色模式（桌面端可以在页面左下角切换），您看到中图的应该和右图一样，反之则和左图一样。
 原图可以在&lt;a class="link" href="https://files.furffisite.link/blogimg/20230104004027-f02f6c487a9b47035c62d6dc44708f5f-23d76.png" target="_blank" rel="noopener"
->这里&lt;/a>获取。&lt;/p>
-&lt;img class="special-bg" src="https://files.furffisite.link/blogimg/20230104004803-e708ee71f6c9a2ed72525e41a5a50f83-c8ae2.png" loading="lazy" />
-&lt;h2 id="原理">原理
-&lt;/h2>&lt;p>这种图的原理并不难猜，肯定利用了 png 图片的透明度通道，使其在不同背景色下能呈现出不同的效果。下面求解一下它是怎么制作出来的：
-（因为这里只涉及图像的像素变换，为简化表示，以下的每个变量都表示单个像素单个通道的值，且定义域为$[0,1]$.）&lt;/p>
-&lt;p>设在聊天界面看到的图像（表图）灰度为$c$，点开大图后看到的图像（里图）为$h$，待求量为生成的图像的灰度$g$与透明度$a$。&lt;/p>
-&lt;p>在聊天界面的图像是目标图像和白色背景的混合，也就是$$(1-a) + g\cdot a = c.$$
-点开大图后是目标图像和黑色背景的混合，即$$0+g\cdot a = h.$$&lt;/p>
-&lt;p>解出来就是$$a=1+h-c,~g=h/a.$$&lt;/p>
-&lt;p>又因为解需要满足$a,g\in(0,1]$，所以$c$和$h$需要满足不等式$$h\le c&amp;lt;1+h$$
-右侧当且仅当$c=1,~h=0$时不成立。&lt;/p>
-&lt;h2 id="实现">实现
-&lt;/h2>&lt;p>这个程序实现起来没有什么难度，python 代码如下（需要 Pillow 与 numpy）。需要注意的是，为了满足上面的不等式，在程序中需要重新分配两张原图的灰度的范围。&lt;/p>
-&lt;!-- &lt;script src="https://gist.github.com/Furffico/c17003dabdcd382ebd22672415fdc8ae.js">&lt;/script>
--->
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;span class="lnt">21
-&lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;span class="lnt">25
-&lt;/span>&lt;span class="lnt">26
-&lt;/span>&lt;span class="lnt">27
-&lt;/span>&lt;span class="lnt">28
-&lt;/span>&lt;span class="lnt">29
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">numpy&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">np&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">PIL&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Image&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 读取图片+转灰度&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cover&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Image&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;./cover.png&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">convert&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;L&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">hidden&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Image&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;./hidden.png&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">convert&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;L&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">assert&lt;/span> &lt;span class="n">cover&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">size&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">hidden&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">size&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cover&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">asarray&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">cover&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">hidden&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">asarray&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">hidden&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 按照约束条件调整像素范围&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cover_min&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">cover_max&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cover&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">min&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">cover&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">max&lt;/span>&lt;span class="p">()&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">hidden_min&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">hidden_max&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">hidden&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">min&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">hidden&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">max&lt;/span>&lt;span class="p">()&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cd&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cover_max&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">cover_min&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">hd&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">hidden_max&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">hidden_min&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">divide_portion&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">hd&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">hd&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="mf">1.0&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="n">cd&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cover_f&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">cover&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">cover_min&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="mf">1.0&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">cd&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">divide_portion&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mi">255&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">divide_portion&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">hidden_f&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">hidden&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">hidden_min&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="mf">1.0&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">hd&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">divide_portion&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 计算&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">alpha&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">cover_f&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="n">hidden_f&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">gray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">hidden_f&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">alpha&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">alpha&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">alpha&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="mi">255&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">astype&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">uint8&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">gray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="mi">255&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">astype&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">uint8&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">result&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">stack&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">alpha&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">axis&lt;/span>&lt;span class="o">=-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 保存结果&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">img&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Image&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">fromarray&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">result&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">img&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">save&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;./output.png&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>这是随手抓的两张黑白表情包做出来的效果，顺序和上面的展示一样，您可以通过切换暗色模式查看效果：&lt;/p>
-&lt;div id="gallery">
-&lt;img src="https://files.furffisite.link/blogimg/20230104021055-4335bfe7d53a6c36ecf385e6dd745720-42087.png" />
-&lt;img class="special-bg" src="https://files.furffisite.link/blogimg/20230104021105-ac757580dd8f0556361deaff45f67cdb-9ae31.png" />
-&lt;img src="https://files.furffisite.link/blogimg/20230104021111-465e5a2c48fa8b8aa79af65f297f2a38-342fa.png" />
-&lt;/div>
-&lt;p>注：在 QQ 发送此类图片时，一定要选择发送原图，否则 QQ 可能会在压缩过程中去掉透明度通道，导致其失效。&lt;/p></description></item><item><title>使用阿里云 OSS 存储服务 + CloudFlare 配置图床</title><link>https://blog.furffisite.link/p/imagebed-oss-conf/</link><pubDate>Tue, 20 Dec 2022 01:48:09 +0800</pubDate><guid>https://blog.furffisite.link/p/imagebed-oss-conf/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/202212251307965.jpg" alt="Featured image of post 使用阿里云 OSS 存储服务 + CloudFlare 配置图床" />&lt;h2 id="前言">前言
-&lt;/h2>&lt;p>今天想给我这个博客加一张图片，但是把图片文件和博客的文章放在一起，内容管理比较麻烦，并且会增大 git 仓库的体积。因此我就想到了使用图床分流博客中的图片。&lt;/p>
-&lt;p>在网上搜索了一些图床服务，发现国内免费的图床服务要么访问慢（因为源服务器在海外），要么不稳定（存在关站/被墙或者转为付费的可能），而国外著名的图床 imgur 在国内也处于半墙的状态。于是就想到了使用云计算厂商提供的 OSS 对象存储服务，虽然收费但是对于我这种有计划长时间运营下去的博客而言，图床的可靠性是最重要的。我可不想因为图站挂掉导致我在未来的某一天要重新找到再上传这些图片。&lt;/p>
-&lt;p>在看了阿里云、腾讯云和华为云三家之后我选择了阿里云，因为阿里云有每月 5GB 存储和外网流量的的免费额度，请求费用也就每万次一毛钱，对于我这种刚开的小站而言，存储、流量和请求都不会很大（如果被攻击那就是另一回事了，还望您手下留情）。关于阿里云的定价详情可以查看阿里云的&lt;a class="link" href="https://www.aliyun.com/price/product#/oss/detail/ossbag" target="_blank" rel="noopener"
->价格计算器&lt;/a>。&lt;/p>
-&lt;p>然后我就按照&lt;a class="link" href="https://www.antmoe.com/posts/3f5daa8e/" target="_blank" rel="noopener"
->这篇博文&lt;/a>的步骤搭建了图床，途中遇到了原文没有提及的许多问题，所以在这里记录一下完整的步骤、我遇到的问题与解决方案。&lt;/p>
-&lt;h2 id="主要操作流程">主要操作流程
-&lt;/h2>&lt;ol>
-&lt;li>
-&lt;p>&lt;strong>创建Bucket&lt;/strong>：开通 OSS 并创建 Bucket。创建 Bucket 时选择海外的地域（如果在别的地域没有服务器的话，建议使用香港），存储类型选择标准存储即可，&lt;b style="color:red">读写权限一定要选择私有&lt;/b>，其余的附加服务按需启用（有的得加钱）。创建完成后可以向 Bucket 中上传一张图片作为测试图。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>配置访问权限&lt;/strong>：进入&lt;strong>权限控制 -&amp;gt; Bucket 授权策略&lt;/strong>面板，添加授权，配置如下图。&lt;/p>
-&lt;p>&lt;img src="https://files.furffisite.link/blogimg/202212312338802.png"
+&gt;这里&lt;/a&gt;获取。&lt;/p&gt;
+&lt;img class="special-bg" src="https://files.furffisite.link/blogimg/20230104004803-e708ee71f6c9a2ed72525e41a5a50f83-c8ae2.png" loading="lazy" /&gt;
+&lt;h2 id="原理"&gt;原理
+&lt;/h2&gt;&lt;p&gt;这种图的原理并不难猜，肯定利用了 png 图片的透明度通道，使其在不同背景色下能呈现出不同的效果。下面求解一下它是怎么制作出来的：
+（因为这里只涉及图像的像素变换，为简化表示，以下的每个变量都表示单个像素单个通道的值，且定义域为$[0,1]$.）&lt;/p&gt;
+&lt;p&gt;设在聊天界面看到的图像（表图）灰度为$c$，点开大图后看到的图像（里图）为$h$，待求量为生成的图像的灰度$g$与透明度$a$。&lt;/p&gt;
+&lt;p&gt;在聊天界面的图像是目标图像和白色背景的混合，也就是$$(1-a) + g\cdot a = c.$$
+点开大图后是目标图像和黑色背景的混合，即$$0+g\cdot a = h.$$&lt;/p&gt;
+&lt;p&gt;解出来就是$$a=1+h-c,~g=h/a.$$&lt;/p&gt;
+&lt;p&gt;又因为解需要满足$a,g\in(0,1]$，所以$c$和$h$需要满足不等式$$h\le c&amp;lt;1+h$$
+右侧当且仅当$c=1,~h=0$时不成立。&lt;/p&gt;
+&lt;h2 id="实现"&gt;实现
+&lt;/h2&gt;&lt;p&gt;这个程序实现起来没有什么难度，python 代码如下（需要 Pillow 与 numpy）。需要注意的是，为了满足上面的不等式，在程序中需要重新分配两张原图的灰度的范围。&lt;/p&gt;
+&lt;!-- &lt;script src="https://gist.github.com/Furffico/c17003dabdcd382ebd22672415fdc8ae.js"&gt;&lt;/script&gt;
+--&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 读取图片+转灰度&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;cover&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;./cover.png&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;convert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;L&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;hidden&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;./hidden.png&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;convert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;L&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;cover&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;cover&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;asarray&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cover&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;hidden&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;asarray&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 按照约束条件调整像素范围&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;cover_min&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cover_max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cover&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;min&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;cover&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;hidden_min&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hidden_max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;min&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cover_max&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;cover_min&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;hd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;hidden_max&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;hidden_min&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;divide_portion&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;hd&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hd&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;cd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;cover_f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cover&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cover_min&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;divide_portion&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;255&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;divide_portion&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;hidden_f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;hidden_min&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hd&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;divide_portion&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 计算&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;alpha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cover_f&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;hidden_f&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;gray&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;hidden_f&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;alpha&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;alpha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;255&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;astype&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;uint8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;gray&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gray&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;255&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;astype&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;uint8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 保存结果&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fromarray&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;./output.png&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这是随手抓的两张黑白表情包做出来的效果，顺序和上面的展示一样，您可以通过切换暗色模式查看效果：&lt;/p&gt;
+&lt;div id="gallery"&gt;
+&lt;img src="https://files.furffisite.link/blogimg/20230104021055-4335bfe7d53a6c36ecf385e6dd745720-42087.png" /&gt;
+&lt;img class="special-bg" src="https://files.furffisite.link/blogimg/20230104021105-ac757580dd8f0556361deaff45f67cdb-9ae31.png" /&gt;
+&lt;img src="https://files.furffisite.link/blogimg/20230104021111-465e5a2c48fa8b8aa79af65f297f2a38-342fa.png" /&gt;
+&lt;/div&gt;
+&lt;p&gt;注：在 QQ 发送此类图片时，一定要选择发送原图，否则 QQ 可能会在压缩过程中去掉透明度通道，导致其失效。&lt;/p&gt;</description></item><item><title>使用阿里云 OSS 存储服务 + CloudFlare 配置图床</title><link>https://blog.furffisite.link/p/imagebed-oss-conf/</link><pubDate>Tue, 20 Dec 2022 01:48:09 +0800</pubDate><guid>https://blog.furffisite.link/p/imagebed-oss-conf/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/202212251307965.jpg" alt="Featured image of post 使用阿里云 OSS 存储服务 + CloudFlare 配置图床" /&gt;&lt;h2 id="前言"&gt;前言
+&lt;/h2&gt;&lt;p&gt;今天想给我这个博客加一张图片，但是把图片文件和博客的文章放在一起，内容管理比较麻烦，并且会增大 git 仓库的体积。因此我就想到了使用图床分流博客中的图片。&lt;/p&gt;
+&lt;p&gt;在网上搜索了一些图床服务，发现国内免费的图床服务要么访问慢（因为源服务器在海外），要么不稳定（存在关站/被墙或者转为付费的可能），而国外著名的图床 imgur 在国内也处于半墙的状态。于是就想到了使用云计算厂商提供的 OSS 对象存储服务，虽然收费但是对于我这种有计划长时间运营下去的博客而言，图床的可靠性是最重要的。我可不想因为图站挂掉导致我在未来的某一天要重新找到再上传这些图片。&lt;/p&gt;
+&lt;p&gt;在看了阿里云、腾讯云和华为云三家之后我选择了阿里云，因为阿里云有每月 5GB 存储和外网流量的的免费额度，请求费用也就每万次一毛钱，对于我这种刚开的小站而言，存储、流量和请求都不会很大（如果被攻击那就是另一回事了，还望您手下留情）。关于阿里云的定价详情可以查看阿里云的&lt;a class="link" href="https://www.aliyun.com/price/product#/oss/detail/ossbag" target="_blank" rel="noopener"
+&gt;价格计算器&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;然后我就按照&lt;a class="link" href="https://www.antmoe.com/posts/3f5daa8e/" target="_blank" rel="noopener"
+&gt;这篇博文&lt;/a&gt;的步骤搭建了图床，途中遇到了原文没有提及的许多问题，所以在这里记录一下完整的步骤、我遇到的问题与解决方案。&lt;/p&gt;
+&lt;h2 id="主要操作流程"&gt;主要操作流程
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;创建Bucket&lt;/strong&gt;：开通 OSS 并创建 Bucket。创建 Bucket 时选择海外的地域（如果在别的地域没有服务器的话，建议使用香港），存储类型选择标准存储即可，&lt;b style="color:red"&gt;读写权限一定要选择私有&lt;/b&gt;，其余的附加服务按需启用（有的得加钱）。创建完成后可以向 Bucket 中上传一张图片作为测试图。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;配置访问权限&lt;/strong&gt;：进入&lt;strong&gt;权限控制 -&amp;gt; Bucket 授权策略&lt;/strong&gt;面板，添加授权，配置如下图。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://files.furffisite.link/blogimg/202212312338802.png"
 loading="lazy"
->&lt;/p>
-&lt;p>IP 字段填写的是 CloudFlare 的节点 IP，列表如下（来自&lt;a class="link" href="https://zhuanlan.zhihu.com/p/143219668" target="_blank" rel="noopener"
->知乎专栏&lt;/a>）：&lt;/p>
-&lt;pre>&lt;code> 173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,
+&gt;&lt;/p&gt;
+&lt;p&gt;IP 字段填写的是 CloudFlare 的节点 IP，列表如下（来自&lt;a class="link" href="https://zhuanlan.zhihu.com/p/143219668" target="_blank" rel="noopener"
+&gt;知乎专栏&lt;/a&gt;）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; 173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,
 141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,
 197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/12,
 172.64.0.0/13,131.0.72.0/22,103.21.244.0/22,103.22.200.0/22,
 103.31.4.0/22,104.16.0.0/12,108.162.192.0/18,131.0.72.0/22,
 141.101.64.0/18,162.158.0.0/15,172.64.0.0/13,173.245.48.0/20,
 188.114.96.0/20,190.93.240.0/20,197.234.240.0/22,198.41.128.0/17
-&lt;/code>&lt;/pre>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>配置 CDN&lt;/strong>：在 CloudFlare 的 DNS 管理面板添加 CNAME 记录，目标设为 Bucket 的域名（可以在 Bucket 的&lt;strong>概览&lt;/strong>界面找到），代理状态设为已代理，否则 CDN 不起作用。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;配置 CDN&lt;/strong&gt;：在 CloudFlare 的 DNS 管理面板添加 CNAME 记录，目标设为 Bucket 的域名（可以在 Bucket 的&lt;strong&gt;概览&lt;/strong&gt;界面找到），代理状态设为已代理，否则 CDN 不起作用。
 &lt;img src="https://files.furffisite.link/blogimg/202212312309953.png"
 loading="lazy"
->&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>绑定域名&lt;/strong>：在阿里云的 &lt;strong>Bucket 配置 -&amp;gt; 域名管理&lt;/strong>界面绑定你刚设置的域名，这时阿里云需要验证域名的所有权，按照其所说的在 CloudFlare 的 DNS 管理处添加指定 TXT 记录即可。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>创建并添加证书&lt;/strong>：在 CloudFlare 的配置面板的 &lt;strong>SSL/TLS -&amp;gt; 源服务器&lt;/strong>处，选择创建证书。创建之后会告诉你源证书与私钥，这个界面暂时不要动。打开刚才在阿里云控制台绑定证书的界面，选择&lt;strong>证书托管&lt;/strong>，并&lt;strong>上传 SSL 证书&lt;/strong>，这时会打开&lt;strong>SSL 证书&lt;/strong>的界面，选择&lt;strong>上传证书&lt;/strong>，并将 CloudFlare 给出的源证书和密钥复制到上传证书的对应字段处（证书名字随便设），然后确定。这时切换回&lt;strong>上传 SSL 证书&lt;/strong>，应该就能在证书名称处看到刚刚设置的证书名字了（看不到的话重开一下这个界面试试），选中，然后点下方的上传即可。&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;p>这时就已经可以通过你设置的域名访问刚才上传的测试图片了。假如测试图片&lt;code>filename.jpg&lt;/code>存储在 OSS 的&lt;code>folder&lt;/code>文件夹下，你设置的域名为&lt;code>image.example.org&lt;/code>，则访问路径为&lt;code>https://image.example.org/folder/filename.jpg&lt;/code>。&lt;/p>
-&lt;h2 id="安全性配置">安全性配置
-&lt;/h2>&lt;ol>
-&lt;li>&lt;strong>跨域设置&lt;/strong>：在阿里云 OSS 的&lt;strong>数据安全 -&amp;gt; 跨域设置&lt;/strong>中创建跨域规则，来源设置为你的网站的地址。为了能让网站在本地测试时也能正常展示图片，建议同时添加&lt;code>localhost:*&lt;/code>与&lt;code>127.0.0.1:*&lt;/code>。&lt;/li>
-&lt;li>&lt;strong>防盗链设置&lt;/strong>：和跨域设置类似。不同之处在于 Referer 是包含请求协议的，所以类似于&lt;code>example.org&lt;/code>或&lt;code>localhost:*&lt;/code>等不包括协议的配置是无效的，需要改为&lt;code>https://example.com&lt;/code>或&lt;code>*://localhost:*&lt;/code>；需要注意的是&lt;code>*.example.org&lt;/code>虽然是有效的，但是没有指定 https 协议，安全起见最好改为&lt;code>https://*.example.org&lt;/code>。&lt;/li>
-&lt;/ol>
-&lt;h2 id="picgo-配置">PicGo 配置
-&lt;/h2>&lt;p>&lt;a class="link" href="https://molunerfinn.com/PicGo/" target="_blank" rel="noopener"
->PicGo&lt;/a> 是一款快速上传图片到图床，并自动复制图片URL到剪贴板的工具，你可以在 &lt;a class="link" href="https://github.com/Molunerfinn/PicGo/releases/" target="_blank" rel="noopener"
->Github 的 release 页&lt;/a>获取该程序。&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>&lt;strong>权限设置&lt;/strong>：在阿里云的&lt;strong>权限控制 -&amp;gt; Bucket 授权策略&lt;/strong>面板新增授权，配置如下：
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;绑定域名&lt;/strong&gt;：在阿里云的 &lt;strong&gt;Bucket 配置 -&amp;gt; 域名管理&lt;/strong&gt;界面绑定你刚设置的域名，这时阿里云需要验证域名的所有权，按照其所说的在 CloudFlare 的 DNS 管理处添加指定 TXT 记录即可。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;创建并添加证书&lt;/strong&gt;：在 CloudFlare 的配置面板的 &lt;strong&gt;SSL/TLS -&amp;gt; 源服务器&lt;/strong&gt;处，选择创建证书。创建之后会告诉你源证书与私钥，这个界面暂时不要动。打开刚才在阿里云控制台绑定证书的界面，选择&lt;strong&gt;证书托管&lt;/strong&gt;，并&lt;strong&gt;上传 SSL 证书&lt;/strong&gt;，这时会打开&lt;strong&gt;SSL 证书&lt;/strong&gt;的界面，选择&lt;strong&gt;上传证书&lt;/strong&gt;，并将 CloudFlare 给出的源证书和密钥复制到上传证书的对应字段处（证书名字随便设），然后确定。这时切换回&lt;strong&gt;上传 SSL 证书&lt;/strong&gt;，应该就能在证书名称处看到刚刚设置的证书名字了（看不到的话重开一下这个界面试试），选中，然后点下方的上传即可。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这时就已经可以通过你设置的域名访问刚才上传的测试图片了。假如测试图片&lt;code&gt;filename.jpg&lt;/code&gt;存储在 OSS 的&lt;code&gt;folder&lt;/code&gt;文件夹下，你设置的域名为&lt;code&gt;image.example.org&lt;/code&gt;，则访问路径为&lt;code&gt;https://image.example.org/folder/filename.jpg&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id="安全性配置"&gt;安全性配置
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;跨域设置&lt;/strong&gt;：在阿里云 OSS 的&lt;strong&gt;数据安全 -&amp;gt; 跨域设置&lt;/strong&gt;中创建跨域规则，来源设置为你的网站的地址。为了能让网站在本地测试时也能正常展示图片，建议同时添加&lt;code&gt;http://localhost:*&lt;/code&gt;与&lt;code&gt;http://127.0.0.1:*&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;防盗链设置&lt;/strong&gt;：用于控制哪些网站可以引用你的资源。阿里云 OSS 的 Referer 规则&lt;strong&gt;支持不包含协议&lt;/strong&gt;的形式（如 &lt;code&gt;*.example.org&lt;/code&gt;，此时默认同时匹配 HTTP 和 HTTPS）；但为了安全起见（防止降级攻击），建议显式指定协议为 &lt;code&gt;https://*.example.org&lt;/code&gt;。为了本地调试，建议同时添加 &lt;code&gt;http://localhost:*&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="picgo-配置"&gt;PicGo 配置
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://molunerfinn.com/PicGo/" target="_blank" rel="noopener"
+&gt;PicGo&lt;/a&gt; 是一款快速上传图片到图床，并自动复制图片URL到剪贴板的工具，你可以在 &lt;a class="link" href="https://github.com/Molunerfinn/PicGo/releases/" target="_blank" rel="noopener"
+&gt;Github 的 release 页&lt;/a&gt;获取该程序。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;权限设置&lt;/strong&gt;：在阿里云的&lt;strong&gt;权限控制 -&amp;gt; Bucket 授权策略&lt;/strong&gt;面板新增授权，配置如下：
 &lt;img src="https://files.furffisite.link/blogimg/202301010016963.png"
 loading="lazy"
->&lt;/p>
-&lt;p>如果当前没有RAM子帐号，请点击&lt;strong>右上角头像 -&amp;gt; 访问控制&lt;/strong>，然后在左侧的&lt;strong>身份管理 -&amp;gt; 用户&lt;/strong>处创建一个子帐号。创建完成后在子帐号的详情页&lt;strong>创建 AccessKey&lt;/strong>，得到 AccessKey 的 KeyID 与KeySecret，保留备用。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>上传配置&lt;/strong>：打开 PicGo 主界面，在&lt;strong>图床设置 -&amp;gt; 阿里云 OSS&lt;/strong> 内填写对应的表单项。“KeyID” 与 “KeySecret” 即刚才获取的子帐号 AccessKey 的 KeyID 与 KeySecret，“设定 Bucket”为 Bucket 的名称，“存储区域”为 Bucket 所在区域（与 Bucket 域名内的值统一，例如&lt;code>oss-cn-hongkong&lt;/code>），自定义域名填写你设置的域名，其余两项按需填写即可。配置完成后点击确定并设为默认图床。&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;p>注：如果你使用的桌面环境是 KDE Plasma，可能需要在 PicGo 设置内打开“使用内置剪贴板上传”一项，否则无法正常从剪贴板直接上传图片。我使用的 Linux 发行版是 KDE Neon，其它发行版/桌面环境/操作系统尚未测试。&lt;/p></description></item></channel></rss>
+&gt;&lt;/p&gt;
+&lt;p&gt;如果当前没有RAM子帐号，请点击&lt;strong&gt;右上角头像 -&amp;gt; 访问控制&lt;/strong&gt;，然后在左侧的&lt;strong&gt;身份管理 -&amp;gt; 用户&lt;/strong&gt;处创建一个子帐号。创建完成后在子帐号的详情页&lt;strong&gt;创建 AccessKey&lt;/strong&gt;，得到 AccessKey 的 KeyID 与KeySecret，保留备用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;上传配置&lt;/strong&gt;：打开 PicGo 主界面，在&lt;strong&gt;图床设置 -&amp;gt; 阿里云 OSS&lt;/strong&gt; 内填写对应的表单项。“KeyID” 与 “KeySecret” 即刚才获取的子帐号 AccessKey 的 KeyID 与 KeySecret，“设定 Bucket”为 Bucket 的名称，“存储区域”为 Bucket 所在区域（与 Bucket 域名内的值统一，例如&lt;code&gt;oss-cn-hongkong&lt;/code&gt;），自定义域名填写你设置的域名，其余两项按需填写即可。配置完成后点击确定并设为默认图床。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;注：如果你使用的桌面环境是 KDE Plasma，可能需要在 PicGo 设置内打开“使用内置剪贴板上传”一项，否则无法正常从剪贴板直接上传图片。我使用的 Linux 发行版是 KDE Neon，其它发行版/桌面环境/操作系统尚未测试。&lt;/p&gt;</description></item></channel></rss>

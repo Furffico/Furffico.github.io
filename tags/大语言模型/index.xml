@@ -1,0 +1,924 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>大语言模型 on Furffiblog</title><link>https://blog.furffisite.link/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/</link><description>Recent content in 大语言模型 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 27 Nov 2025 22:28:14 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>大语言模型推理漫游指南：从输入文本到输出 Token</title><link>https://blog.furffisite.link/p/llm-inference-data-flow/</link><pubDate>Thu, 27 Nov 2025 22:28:14 +0800</pubDate><guid>https://blog.furffisite.link/p/llm-inference-data-flow/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20251127224212-f70ec21cfb8d90facc95b434d0e16937-341a2.jpg" alt="Featured image of post 大语言模型推理漫游指南：从输入文本到输出 Token" /&gt;&lt;p&gt;在准备涉及 &lt;strong&gt;大语言模型（Large Language Model, LLM）&lt;/strong&gt; 的面试时，我意识到，自己对自注意力、位置编码、LayerNorm 等单个组件虽然都有比较完整的理解，也大致有一套整体图景，但这些内容一直停留在脑子里零散的笔记和记忆中。这时，我联想到了《&lt;a class="link" href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank" rel="noopener"
+&gt;Computer Networking: A Top‑Down Approach&lt;/a&gt;》中的 &lt;em&gt;A Day in the Life of a Web Page Request&lt;/em&gt;。那一节通过追踪一次简单的网页请求，把分散在各章的协议栈知识串成了一条连续的数据流。本文的写作动机，正是尝试用类似的方式对大语言模型的推理过程和相关知识做一次回顾，同时在写作过程中巩固我的知识。另外，这也算是为一年又一个月没有更新的博客找一个合适的话题。&lt;/p&gt;
+&lt;p&gt;具体来说，本文会以 &amp;ldquo;Next-token Prediction&amp;rdquo; 为主线，从数据流的角度出发，按时间顺序梳理这条链路：
+从输入文本到 token 序列，从 token 到向量表示，从向量在多层 Transformer &lt;sup&gt;&lt;a id='ref-cite1-21' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt; 中的传递与变换，一直到输出层给出概率分布并采样出下一个 token。文中不会展开训练细节和工程实现，而是聚焦于模型结构本身以作为之后复习的索引。&lt;/p&gt;
+&lt;p&gt;本文将包含四个主要部分，沿着数据流向依次展开：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a class="link" href="#input" &gt;&lt;strong&gt;输入：从文本到向量&lt;/strong&gt;&lt;/a&gt;：简述&lt;a class="link" href="#ntp" &gt;自回归生成&lt;/a&gt;的模式，介绍 &lt;a class="link" href="#tokenizer" &gt;分词&lt;/a&gt; 与 &lt;a class="link" href="#embedding-layer" &gt;Embedding&lt;/a&gt; 如何将人类语言转换为机器可读的向量。&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#transformer-overview" &gt;&lt;strong&gt;总览 Transformer&lt;/strong&gt;&lt;/a&gt;：从宏观视角理解&lt;a class="link" href="#why-transformer" &gt;为什么使用 Transformer&lt;/a&gt;，以及 &lt;a class="link" href="#encoder-decoder" &gt;Encoder/Decoder 架构的选择与区别&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#transformer-structure" &gt;&lt;strong&gt;走进 Transformer&lt;/strong&gt;&lt;/a&gt;：本文将深入单一 Transformer Block 内部，详解 &lt;a class="link" href="#mha" &gt;多头自注意力&lt;/a&gt;、&lt;a class="link" href="#rope" &gt;RoPE&lt;/a&gt;、&lt;a class="link" href="#ffn" &gt;前馈网络&lt;/a&gt;、&lt;a class="link" href="#residual-connection" &gt;残差连接&lt;/a&gt; 与 &lt;a class="link" href="#layernorm" &gt;层归一化&lt;/a&gt; 等组件。&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#output" &gt;&lt;strong&gt;输出：从向量到文本&lt;/strong&gt;&lt;/a&gt;：解析如何将隐状态向量&lt;a class="link" href="#unembedding" &gt;映射回概率分布&lt;/a&gt;，并经由&lt;a class="link" href="#sampling" &gt;采样策略&lt;/a&gt;生成最终的文本回复。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="输入从文本到向量"&gt;&lt;a id="input"&gt;&lt;/a&gt; 输入：从文本到向量
+&lt;/h2&gt;&lt;p&gt;当用户按下发送按钮的那一刻，输入到对话框中的那段文本就开始了它的旅程。它被编码为比特流，在各类网络协议的协作下，经由多级交换机、路由器和服务器转发，最终抵达某个数据中心中的推理服务器。在那里，这段文本将被大语言模型处理并转化为用户看到的回复，而本文关心的，正是从文本进入模型之后的这部分过程。&lt;/p&gt;
+&lt;p&gt;在深入技术细节之前，我们先明确一下大语言模型的核心任务：&lt;a class="link" href="#ntp" &gt;预测下一个词&lt;/a&gt;。简单来说，给定一串文本（Prompt），模型的目标就是根据上文预测下一个最可能出现的单位。
+然而，大语言模型作为一种深度神经网络模型，其内部只能处理向量和矩阵，使用 Unicode 编码的离散文本数据并非神经网络可以直接处理的数据格式。为了解决这个问题，通常文本需要经过以下两步转换：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一步是通过 &lt;a class="link" href="#tokenizer" &gt;&lt;strong&gt;分词器（Tokenizer）&lt;/strong&gt;&lt;/a&gt;，将连续的字符序列切分并映射为离散的 Token 序列，并进一步表示为一串整数 ID。&lt;/li&gt;
+&lt;li&gt;第二步是通过 &lt;a class="link" href="#embedding-layer" &gt;&lt;strong&gt;嵌入（Embedding）层&lt;/strong&gt;&lt;/a&gt;，把这些整数 ID 映射为稠密向量（即 Embedding），从而得到模型可以直接处理的向量表示。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="预测下一个词与自回归生成"&gt;&lt;a id="ntp"&gt;&lt;/a&gt; 预测下一个词与自回归生成
+&lt;/h3&gt;&lt;p&gt;在进入数据处理的流程之前，我们需要先理解 LLM 的核心任务和生成机制。&lt;/p&gt;
+&lt;p&gt;大语言模型最根本的任务是&lt;strong&gt;预测下一个词（Next-token Prediction）&lt;/strong&gt;。基于这一能力，模型采用 &lt;strong&gt;自回归（Auto-Regressive）&lt;/strong&gt; 的方式进行连续文本生成：假设我们输入一段文本序列 $w_{1}, w_{2}, \dots, w_{t}$，模型的任务就是计算出下一个 Token $w_{t+1}$ 的条件概率分布 $P(w_{t+1} | w_{1}, \dots, w_{t})$。一旦模型输出了这个分布并采样得到了 $w_{t+1}$，这个新生成的 Token 就会被拼接到序列的末尾，作为下一轮推理的历史上下文。如此循环往复，直到模型生成了特殊的结束标记（End-of-Text）或达到了长度限制。&lt;/p&gt;
+&lt;p&gt;举个例子：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第一步：输入 &lt;code&gt;为什么要&lt;/code&gt; 输出 &lt;strong&gt;&lt;code&gt;演&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;第二步：输入 &lt;code&gt;为什么要演&lt;/code&gt; 输出 &lt;strong&gt;&lt;code&gt;奏&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;第三步：输入 &lt;code&gt;为什么要演奏&lt;/code&gt; 输出 &lt;strong&gt;&lt;code&gt;春&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;第四步：输入 &lt;code&gt;为什么要演奏春&lt;/code&gt; 输出 &lt;strong&gt;&lt;code&gt;日&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;第五步：输入 &lt;code&gt;为什么要演奏春日&lt;/code&gt; 输出 &lt;strong&gt;&lt;code&gt;影&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;第六步：输入 &lt;code&gt;为什么要演奏春日影&lt;/code&gt; 输出 &lt;strong&gt;&lt;code&gt;？&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;第七步：输入 &lt;code&gt;为什么要演奏春日影？&lt;/code&gt; 输出 &lt;strong&gt;&lt;code&gt;！&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;第八步：输入 &lt;code&gt;为什么要演奏春日影？！&lt;/code&gt; 输出 结束标记 &lt;code&gt;&amp;lt;|end_of_text|&amp;gt;&lt;/code&gt;，结束生成。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这种看似简单的「文字接龙」机制，是目前所有主流文本生成 AI 的基石。所有的复杂能力最终都收束于这唯一的训练目标：预测下一个词。&lt;/p&gt;
+&lt;h3 id="分词器tokenizer"&gt;&lt;a id="tokenizer"&gt;&lt;/a&gt; 分词器（Tokenizer）
+&lt;/h3&gt;&lt;p&gt;如上所述，分词器的作用是将连续的字符序列（可以是自然语言文本、对话、数学公式，也可以是代码、JSON 等任何由 Unicode 字符构成的字符串）按照预定义的词表切分成一串 Token。那么 Token 是什么呢？按照我的理解，Token 是模型能处理的基本输入单位：它可以是一个汉字，例如 &lt;code&gt;言&lt;/code&gt;；也可以是英文里的单词或词根、词缀，例如 &lt;code&gt;can&lt;/code&gt;、&lt;code&gt;un-&lt;/code&gt;、&lt;code&gt;-ing&lt;/code&gt;；还可以是标点符号 &lt;code&gt;！&lt;/code&gt;、&lt;code&gt;?&lt;/code&gt; 或者数学符号 &lt;code&gt;+&lt;/code&gt;、&lt;code&gt;=&lt;/code&gt; 等等。除此之外，还有一些功能性的特殊 Token，它们并不直接对应输入文本中的任何字符，例如标记说话角色的 &lt;code&gt;&amp;lt;|role|&amp;gt;&lt;/code&gt;，以及标识文本结束的 &lt;code&gt;&amp;lt;|end_of_text|&amp;gt;&lt;/code&gt;。需要注意的是，Token 不一定对应一个完整的语义单元，它更多是出于统计和效率考虑，从训练语料中选择的一组文本片段。&lt;/p&gt;
+&lt;p&gt;模型所能处理的 Token 由 &lt;strong&gt;词表（Vocabulary）&lt;/strong&gt; 决定，而词表会在预训练开始之前，基于训练数据集中语料的统计分布构建出来。如果将语料切分得过细，例如全部退化为单个字符，虽然这样得到的词表很小，但单个 Token 承载的信息过少，相同文本切分后的 Token 序列会变得很长，不利于训练和推理；反过来，如果切分粒度过粗，词表规模会急剧膨胀，既不利于模型充分学习每个 Token，又会显著增大嵌入层的参数量，同样影响训练和推理效率。因此，一个合适的词表构建算法对模型的整体性能至关重要。目前主流的大语言模型大多采用基于子词的做法，例如 Byte-Pair Encoding (BPE) &lt;sup&gt;&lt;a id='ref-cite2-5' href='#cite2'&gt;[2]&lt;/a&gt;&lt;/sup&gt; 和 Unigram &lt;sup&gt;&lt;a id='ref-cite3-3' href='#cite3'&gt;[3]&lt;/a&gt;&lt;/sup&gt; 等。&lt;/p&gt;
+&lt;p&gt;在具体实现中，分词往往还会包含一个轻量的预处理阶段，称为 Pre-tokenization。典型操作包括：对 Unicode 文本做规范化处理（例如统一全角/半角、大小写、标点形式），按空白或简单规则先切出初始片段，以及在英文场景下按空格粗略分词等。这个步骤的意义是先将原始文本规整为相对「干净」的字符或 Byte 序列，并根据简单的启发式规则预先切出一部分边界（例如空格、标点处分段），从而减少后续子词算法需要考虑的组合空间，也让同一段文本在训练和推理阶段的切分结果更加稳定。&lt;/p&gt;
+&lt;p&gt;这里有几个例子说明这一步发生了什么（示例基于 gpt-oss-20b &lt;sup&gt;&lt;a id='ref-cite4-5' href='#cite4'&gt;[4]&lt;/a&gt;&lt;/sup&gt; 的 Tokenizer）：
+&lt;div class="c-collapsible" id="collapsible-10"&gt;
+&lt;button
+class="c-collapsible__header"
+type="button"
+aria-expanded="false"
+aria-controls="collapsible-10-content"
+&gt;
+&lt;span class="c-collapsible__icon" aria-hidden="true"&gt;▶&lt;/span&gt;
+&lt;span class="c-collapsible__title"&gt;一些例子&lt;/span&gt;
+&lt;/button&gt;
+&lt;div
+id="collapsible-10-content"
+class="c-collapsible__body is-collapsed"
+&gt;
+&lt;ul&gt;
+&lt;li&gt;原始输入：「Internationalization is difficult and complex.」
+&lt;ul&gt;
+&lt;li&gt;Pre-tokenization：按空白和简单规则切分得到粗粒度片段&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;br&gt;
+&lt;code&gt;Internationalization&lt;/code&gt;, &lt;code&gt;Ġis&lt;/code&gt;, &lt;code&gt;Ġdifficult&lt;/code&gt;, &lt;code&gt;Ġand&lt;/code&gt;, &lt;code&gt;Ġcomplex&lt;/code&gt;, &lt;code&gt;.&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;子词切分：可以看到，长单词在这里会被进一步拆分为子词（Subwords）&lt;br&gt;
+&lt;code&gt;International&lt;/code&gt;, &lt;code&gt;ization&lt;/code&gt;, &lt;code&gt;Ġis&lt;/code&gt;, &lt;code&gt;Ġdifficult&lt;/code&gt;, &lt;code&gt;Ġand&lt;/code&gt;, &lt;code&gt;Ġcomplex&lt;/code&gt;, &lt;code&gt;.&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;最后，这些子词 Token 会查表映射为一串整数 ID：&lt;br&gt;
+&lt;code&gt;[43804, 2860, 382, 6541, 326, 8012, 13]&lt;/code&gt;，作为后续嵌入层的输入。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;原始输入：「The capital city of China is」
+&lt;ul&gt;
+&lt;li&gt;Pre-tokenization：&lt;code&gt;The&lt;/code&gt;, &lt;code&gt;Ġcapital&lt;/code&gt;, &lt;code&gt;Ġcity&lt;/code&gt;, &lt;code&gt;Ġof&lt;/code&gt;, &lt;code&gt;ĠChina&lt;/code&gt;, &lt;code&gt;Ġis&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;子词切分&lt;sup id="fnref:2"&gt;&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref"&gt;2&lt;/a&gt;&lt;/sup&gt;：&lt;code&gt;The&lt;/code&gt;, &lt;code&gt;Ġcapital&lt;/code&gt;, &lt;code&gt;Ġcity&lt;/code&gt;, &lt;code&gt;Ġof&lt;/code&gt;, &lt;code&gt;ĠChina&lt;/code&gt;, &lt;code&gt;Ġis&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;转化为整数 ID：&lt;code&gt;[976, 9029, 5030, 328, 8114, 382]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;原始输入：「为什么要演奏春日影？！！」
+&lt;ul&gt;
+&lt;li&gt;Pre-tokenization：在 gpt-oss 的分词器中，会先按 Unicode 文本切出两段&lt;br&gt;
+「为什么要演奏春日影」、「？！！」&lt;/li&gt;
+&lt;li&gt;子词切分&lt;sup id="fnref:3"&gt;&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref"&gt;3&lt;/a&gt;&lt;/sup&gt;：&lt;code&gt;为什么&lt;/code&gt;、&lt;code&gt;要&lt;/code&gt;、&lt;code&gt;演&lt;/code&gt;、&lt;code&gt;奏&lt;/code&gt;、&lt;code&gt;春&lt;/code&gt;、&lt;code&gt;日&lt;/code&gt;、&lt;code&gt;影&lt;/code&gt;、&lt;code&gt;？&lt;/code&gt;、&lt;code&gt;！！&lt;/code&gt; &lt;br&gt;可以看到，由于 &lt;code&gt;为什么&lt;/code&gt; 在语料中出现的频率较高，因此拥有一个单独的编码。&lt;/li&gt;
+&lt;li&gt;转化为整数 ID：&lt;code&gt;[39865, 7724, 24221, 154594, 26926, 2292, 5235, 4802, 24526]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;这里的 &lt;code&gt;Ġ&lt;/code&gt; (U+0120) 是 GPT 系列模型在 &lt;strong&gt;Byte-level BPE&lt;/strong&gt; 实现中的产物。为了能无缝处理任何 Unicode 文本（包括 Emoji 和生僻字）且不产生 &lt;code&gt;&amp;lt;UNK&amp;gt;&lt;/code&gt;，Tokenizer 会先将输入文本按 UTF-8 编码转为字节序列。由于直接处理原始字节流会包含许多不可打印的控制字符，GPT Tokenizer 引入了一套可逆映射，将 256 个字节值一一映射为&lt;strong&gt;可打印&lt;/strong&gt;的 Unicode 字符。在此规则下，字节 &lt;code&gt;0x20&lt;/code&gt;（空格）被映射为了 &lt;code&gt;Ġ&lt;/code&gt;，而汉字等多字节字符则会显示为多个对应的特殊字符（即示例 3 中的「乱码」）。&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;所有词都是词表中的 Token，因此不会被切分。&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:3"&gt;
+&lt;p&gt;由于 gpt-oss 使用的是 Byte-level BPE，这里实际上的输出是 &lt;code&gt;ä¸ºä»Ģä¹Ī&lt;/code&gt; &lt;code&gt;è¦ģ&lt;/code&gt; &lt;code&gt;æ¼Ķ&lt;/code&gt; &lt;code&gt;å¥ı&lt;/code&gt; &lt;code&gt;æĺ¥&lt;/code&gt; &lt;code&gt;æĹ¥&lt;/code&gt; &lt;code&gt;å½±&lt;/code&gt; &lt;code&gt;ï¼Ł&lt;/code&gt; &lt;code&gt;ï¼ģï¼ģ&lt;/code&gt;，这些「乱码」解码之后就是上面的文本了。&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;此外，我还在 LLM 的帮助下写了一个交互式小工具（基于 &lt;a class="link" href="https://svelte.dev/" target="_blank" rel="noopener"
+&gt;Svelte&lt;/a&gt; + &lt;a class="link" href="https://huggingface.co/docs/transformers.js/index" target="_blank" rel="noopener"
+&gt;transformers.js&lt;/a&gt; + &lt;a class="link" href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components" target="_blank" rel="noopener"
+&gt;Web Component&lt;/a&gt;），读者可以自己输入句子，观察分词结果与 token ID。为了降低网页中引入的文件体积，这里使用的是较小的 GPT-2 (small) &lt;sup&gt;&lt;a id='ref-cite5-5' href='#cite5'&gt;[5]&lt;/a&gt;&lt;/sup&gt; 的词表，所以&lt;strong&gt;结果会与上面的示例不同&lt;/strong&gt;。&lt;/p&gt;
+&lt;div
+id="tokenizer-playground-wrapper"
+style="font-size: 20px; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb;"
+&gt;
+&lt;script type="module" src="https://files.furffisite.link/interactive/gpt2-tokenizer.js"&gt;&lt;/script&gt;
+&lt;tokenizer-playground initial-text="Internationalization is difficult and complex.&amp;#10;为什么要演奏春日影？！！&amp;#10;The capital city of China is Beijing."&gt;&lt;/tokenizer-playground&gt;
+&lt;noscript&gt;
+您的浏览器未启用 JavaScript，无法展示交互式分词演示；可以参考上面的静态示例。
+&lt;/noscript&gt;
+&lt;/div&gt;
+&lt;script&gt;
+(function () {
+if (!('customElements' in window)) {
+var el = document.getElementById('tokenizer-playground-wrapper');
+if (el) {
+el.innerText = '当前浏览器不支持 Web Components，无法展示交互式分词演示；可以参考上面的静态示例。';
+}
+}
+})();
+&lt;/script&gt;
+&lt;h3 id="嵌入层embedding-layer"&gt;&lt;a id="embedding-layer"&gt;&lt;/a&gt; 嵌入层（Embedding Layer）
+&lt;/h3&gt;&lt;p&gt;嵌入层的作用，是把上一节得到的离散整数 ID 转换成模型内部可以操作的稠密向量表示。形式化地看，它可以被视为一个从 token ID 到向量空间的映射
+$f: \{0, 1, \ldots, (V-1)\} \rightarrow \mathbb{R}^d$，其中 $V$ 是词表大小，$d$ 是模型内部向量（即 embedding）的维度。对于每一个 token ID，$f(t)$ 都给出一个唯一的 embedding 向量，在训练过程中逐渐学到这个 token 的语义及其典型使用环境。&lt;/p&gt;
+&lt;p&gt;从实现角度看，这个映射由一块可学习参数矩阵 $E \in \mathbb{R}^{V\times d}$ 来承载：可以把它理解为一个「词表大小为 $V$、每行维度为 $d$ 的大表」。在推理时，模型并不会真的构造 one-hot 向量，而是直接以 token ID 作为索引，从矩阵 $E$ 中取出对应行，作为该 token 的向量表示，这就是常说的 embedding lookup。&lt;/p&gt;
+&lt;p&gt;至此，我们已经得到了长度为 $L$、维度为 $d$ 的向量序列，可以作为任意序列模型的输入（包括循环神经网络）。接下来本文将聚焦于当前大语言模型最常用的一种：&lt;strong&gt;基于 Transformer 的自回归语言模型&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;为了直观感受这些高维向量是如何捕捉语义信息的，我基于 plotly 绘制了 GPT-2 (small) &lt;sup&gt;&lt;a id='ref-cite5-6' href='#cite5'&gt;[5]&lt;/a&gt;&lt;/sup&gt; 模型中所有 token embedding 的 t-SNE 降维可视化图。你可以缩放、悬浮查看每个点对应的 token：&lt;/p&gt;
+&lt;center&gt;
+&lt;div id="plotly-figure-6" class="plotly-graph-div" style="aspect-ratio: 1; width: 100%;"&gt;
+&lt;noscript&gt;
+您的浏览器未启用 JavaScript，因此无法展示交互式 Plotly 图表。您可以支持并启用 JavaScript 的浏览器中访问本页，以查看完整的可视化效果。
+&lt;/noscript&gt;
+&lt;/div&gt;
+&lt;/center&gt;&lt;script type="text/javascript"&gt;
+(function() {
+const containerId = "plotly-figure-6";
+const dataUrl = "https:\/\/files.furffisite.link\/interactive\/gpt2_tsne_plot.json";
+function renderPlot() {
+const el = document.getElementById(containerId);
+if (!el || !window.Plotly) return;
+fetch(dataUrl)
+.then(function(resp) {
+if (!resp.ok) {
+throw new Error('Failed to load Plotly data from ' + dataUrl + ': ' + resp.status);
+}
+return resp.json();
+})
+.then(function(payload) {
+var data = payload.data || [];
+var layout = payload.layout || {};
+var config = payload.config || { responsive: true };
+window.Plotly.newPlot(containerId, data, layout, config);
+})
+.catch(function(err) {
+console.error('Error rendering Plotly figure:', err);
+if (el) {
+el.textContent = '加载 Plotly 图表失败：' + (err &amp;&amp; err.message ? err.message : '请稍后重试。');
+}
+});
+}
+if (document.readyState === 'loading') {
+document.addEventListener('DOMContentLoaded', renderPlot);
+} else {
+renderPlot();
+}
+})();
+&lt;/script&gt;
+&lt;div class="c-collapsible" id="collapsible-11"&gt;
+&lt;button
+class="c-collapsible__header"
+type="button"
+aria-expanded="false"
+aria-controls="collapsible-11-content"
+&gt;
+&lt;span class="c-collapsible__icon" aria-hidden="true"&gt;▶&lt;/span&gt;
+&lt;span class="c-collapsible__title"&gt;一些有趣的观察&lt;/span&gt;
+&lt;/button&gt;
+&lt;div
+id="collapsible-11-content"
+class="c-collapsible__body is-collapsed"
+&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;数字聚类&lt;/strong&gt;：右下角蓝色的部分聚集了大量数字，其中在 &lt;code&gt;(68, -33)&lt;/code&gt; 附近，从 1850 到 2018 的年份 token 近似按顺序连成一条弧线，体现了模型对数字大小和时间顺序的感知（GPT-2 的训练数据截止到 2017 年 &lt;sup&gt;&lt;a id='ref-cite6-3' href='#cite6'&gt;[6]&lt;/a&gt;&lt;/sup&gt;）。此外，如果放大还能看到在 1940-1945 附近有一个红色的 &amp;ldquo;WWII&amp;rdquo;，这很明显是将这些年份和第二次世界大战联系在一起了。在这条弧线的左上方还能看到一些和时间相关的词，例如 century、decade 等。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;地理位置聚类&lt;/strong&gt;：坐标 &lt;code&gt;(-76, -18)&lt;/code&gt; 附近（左侧偏下）有很多国家名和地名聚集在一起。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;人名聚类&lt;/strong&gt;：在 &lt;code&gt;(-70, 25)&lt;/code&gt; 区域（左侧偏上），聚集了大量英文人名，如 Marshall, Douglas, Gray 等等。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;过去分词（-ed）&lt;/strong&gt;：右侧大片的绿色区域集中了以 -ed 结尾的过去分词。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;现在分词（-ing）&lt;/strong&gt;：右上角的黄色区域集中了以 -ing 结尾的现在分词。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2 id="总览-transformer"&gt;&lt;a id="transformer-overview"&gt;&lt;/a&gt; 总览 Transformer
+&lt;/h2&gt;&lt;p&gt;在跟着 Embedding 进入 Transformer 的结构之前，我们先解决三个问题：「&lt;a class="link" href="#what-is-transformer" &gt;什么是 Transformer&lt;/a&gt;」、「&lt;a class="link" href="#why-transformer" &gt;为什么是 Transformer&lt;/a&gt;」与「&lt;a class="link" href="#encoder-decoder" &gt;Encoder 和 Decoder 的异同&lt;/a&gt;」。&lt;/p&gt;
+&lt;h3 id="什么是-transformer"&gt;&lt;a id="what-is-transformer"&gt;&lt;/a&gt; 什么是 Transformer
+&lt;/h3&gt;&lt;figure style="text-align: center;"&gt;
+&lt;img src="https://machinelearningmastery.com/wp-content/uploads/2021/08/attention_research_1.png"
+style="width: 50%; min-width: 500px;"
+alt="Transformer 结构示意图"&gt;
+&lt;figcaption&gt;
+Transformer 结构示意图 &lt;sup&gt;&lt;a id='ref-cite1-22' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt;，这里展示的是原始论文中提出的包含 Encoder 和 Decoder 的完整 Transformer
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;从结构上看，&lt;strong&gt;Transformer&lt;/strong&gt; 是一种由多层堆叠的自注意力块和前馈网络组成的深度神经网络。每一层大致包含：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;多头自注意力（Multi-Head Self-Attention）&lt;/strong&gt;，在整个序列范围内聚合上下文信息；&lt;/li&gt;
+&lt;li&gt;按位置独立的 &lt;strong&gt;前馈网络（Feed-Forward Network, FFN）&lt;/strong&gt;，对每个位置的表示做非线性变换；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;残差连接（Residual Connection）&lt;/strong&gt; 与 &lt;strong&gt;层归一化（Layer Normalization）&lt;/strong&gt;，用于稳定训练并便于加深网络。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在《Attention is All You Need》&lt;sup&gt;&lt;a id='ref-cite1-23' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt; 发表七年后，如今大语言模型的具体结构已经和论文里最初的 Transformer 有了不少差异（例如更深的 Decoder-only 堆叠、不同的归一化与位置编码形式等），但从宏观上看，依然可以理解为由上述这些基本组件按层堆叠而成。
+后面我们会按顺序展开这些组件的结构和作用。&lt;/p&gt;
+&lt;h3 id="为什么是-transformer"&gt;&lt;a id="why-transformer"&gt;&lt;/a&gt; 为什么是 Transformer
+&lt;/h3&gt;&lt;p&gt;在 Transformer 出现之前，主流的序列建模方法以 &lt;strong&gt;循环神经网络（Recurrent Neural Network, RNN）&lt;/strong&gt; 一类的 LSTM &lt;sup&gt;&lt;a id='ref-cite7-3' href='#cite7'&gt;[7]&lt;/a&gt;&lt;/sup&gt; 和 GRU &lt;sup&gt;&lt;a id='ref-cite8-3' href='#cite8'&gt;[8]&lt;/a&gt;&lt;/sup&gt; 为代表。它们的基本思路是：给定输入序列 $x_1, x_2, \dots, x_T$，模型从左到右依次读取 Token，每一步根据当前输入和上一时刻的隐藏状态 $h_{t-1}$ 计算出新的隐藏状态 $h_t$，同时给出当前时刻的输出 $y_{t}$。&lt;/p&gt;
+&lt;p&gt;这样一来，所有历史信息都会被不断压缩进一个固定维度的向量中，这势必会导致在输入序列较长时出现信息丢失，让 RNN 的记忆能力和上下文感知能力受到了极大的限制。此外，这种按时间步逐个更新隐藏状态的设计，一方面导致 RNN 在时间维度上高度顺序依赖，难以并行计算；另一方面使得长距离依赖很难稳定地通过梯度传播。&lt;/p&gt;
+&lt;p&gt;在这个背景下，2017 年推出的 Transformer 不再沿着时间轴维护一条单向传递的隐藏状态链路，而是把整个序列在每一层都视作一个整体：给定一组输入向量，模型在同一层内同时为所有 Token 计算新的表示，其中每个位置都可以通过自注意力机制与序列中其他位置的 Token 交互，再配合多头注意力和前馈网络，对整条序列做一次更新。&lt;/p&gt;
+&lt;p&gt;这样的设计，一方面天然适合在时间维度上做大规模并行计算，大幅提升训练和推理时的吞吐速度；另一方面让长距离依赖可以通过注意力机制直接建立联系，从而更容易稳定地建模远距离关系。同时，由于每一层都在全局上下文的基础上更新整条序列的表示，随着层数和参数规模的增加，Transformer 在表达能力和上下文建模能力上也更容易随之扩展。&lt;/p&gt;
+&lt;p&gt;当然，这种优势也不是没有代价的。如果观察一层的计算量，设序列长度为 $n$、隐藏维度为 $d$，Transformer 需要处理所有 Token 之间的交互，其时间和显存复杂度大致为 $O(n^2 d)$；而单层 RNN 每一步只处理当前输入和上一个隐藏状态，时间复杂度约为 $O(n d^2)$。在实际系统中，隐藏维度 $d$ 作为超参数往往是固定的，而上下文长度 $n$ 则可以从几百一路扩展到几千甚至上万。因此，当我们尝试把上下文拉长时，Transformer 在 $n$ 上的二次增长会比 $d$ 带来更显著的计算和显存开销。&lt;/p&gt;
+&lt;p&gt;下面的表格给出了两类架构在复杂度上的对比：在不考虑大规模并行计算的前提下，RNN 在时间和空间复杂度上都更具优势；但是在实际任务中，Transformer 的建模效果和扩展性远远胜出，再加上 NVIDIA 芯片的发展与 CUDA 等大规模并行计算框架的推动，于是 Transformer 取代了 RNN，成为当今序列建模的主流范式。
+尽管去年也出现了以 Mamba &lt;sup&gt;&lt;a id='ref-cite9-3' href='#cite9'&gt;[9]&lt;/a&gt;&lt;/sup&gt; 为代表的新一代线性时间模型，在部分场景中展现出一定的竞争力，但就目前公开的大模型实践而言，Transformer 依然是绝对主流架构。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;场景 （输入序列长 $n$）&lt;/th&gt;
+&lt;th&gt;模型&lt;/th&gt;
+&lt;th&gt;时间复杂度（单层）&lt;sup&gt;&lt;a id='ref-cite1-24' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt;&lt;/th&gt;
+&lt;th&gt;显存复杂度（单层，不含固定参数）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;训练&lt;/td&gt;
+&lt;td&gt;RNN / LSTM / GRU&lt;/td&gt;
+&lt;td&gt;$O(n d^2)$&lt;/td&gt;
+&lt;td&gt;$O(n d)$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;训练&lt;/td&gt;
+&lt;td&gt;Transformer&lt;/td&gt;
+&lt;td&gt;$O(n^2 d + n d^2)$&lt;/td&gt;
+&lt;td&gt;$O(n^2 + n d)$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;推理（生成长度 $l$）&lt;/td&gt;
+&lt;td&gt;RNN / LSTM / GRU&lt;/td&gt;
+&lt;td&gt;$O\big((n + l) d^2\big)$&lt;/td&gt;
+&lt;td&gt;$O(d)$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;推理（生成长度 $l$）&lt;/td&gt;
+&lt;td&gt;Transformer&lt;br&gt;(Decoder-only)&lt;/td&gt;
+&lt;td&gt;$O\big((n + l)^2 d\big)$&lt;/td&gt;
+&lt;td&gt;$O\big((n + l) d\big)$ &lt;sup&gt;&lt;a id='ref-cite10-3' href='#cite10'&gt;[10]&lt;/a&gt;&lt;/sup&gt;&lt;br&gt;（使用 KV cache）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;推理&lt;/td&gt;
+&lt;td&gt;Transformer&lt;br&gt;(Encoder-only)&lt;/td&gt;
+&lt;td&gt;$O(n^2 d)$&lt;/td&gt;
+&lt;td&gt;$O(n^2 + n d)$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="c-collapsible" id="collapsible-12"&gt;
+&lt;button
+class="c-collapsible__header"
+type="button"
+aria-expanded="false"
+aria-controls="collapsible-12-content"
+&gt;
+&lt;span class="c-collapsible__icon" aria-hidden="true"&gt;▶&lt;/span&gt;
+&lt;span class="c-collapsible__title"&gt;推导过程&lt;/span&gt;
+&lt;/button&gt;
+&lt;div
+id="collapsible-12-content"
+class="c-collapsible__body is-collapsed"
+&gt;
+&lt;p&gt;这里的 $n$ 表示输入序列长度（或上下文长度），$l$ 表示在自回归场景下需要额外生成的 Token 数，$d$ 表示隐藏维度。为了对比结构差异，我们忽略 Head 数、常数因子以及低阶项，只保留关于 $n, l, d$ 的主导项。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;训练阶段&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Transformer（训练，序列长 $n$）&lt;/strong&gt;&lt;br&gt;
+对一层来说，大致可以拆成四块：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;线性变换得到 $Q, K, V$：$O(n d^2)$；&lt;/li&gt;
+&lt;li&gt;计算注意力分数 $QK^\top$：$O(n^2 d)$；&lt;/li&gt;
+&lt;li&gt;对 $V$ 做加权求和：$O(n^2 d)$；&lt;/li&gt;
+&lt;li&gt;前馈网络（FFN）：$O(n d^2)$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;合并得到单层时间复杂度约为 $O(n^2 d + n d^2)$。
+显存方面，需要保存：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每个位置的中间激活：$O(n d)$；&lt;/li&gt;
+&lt;li&gt;注意力矩阵（或其等价形式）：$O(n^2)$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;合起来记作 $O(n^2 + n d)$。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;RNN / LSTM / GRU（训练，序列长 $n$）&lt;/strong&gt;&lt;br&gt;
+每个时间步更新隐藏状态的代价约为 $O(d^2)$（来自若干 $d \times d$ 的线性变换），整条序列 $n$ 步，因此时间复杂度为 $O(n d^2)$。训练时为了做反向传播，需要保存每个时间步的隐藏状态 $h_t \in \mathbb{R}^d$，所以显存与序列长度线性相关，为 $O(n d)$。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;推理阶段&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Transformer Encoder-only（推理，序列长 $n$）&lt;/strong&gt;&lt;br&gt;
+一次前向计算和训练的前向部分类似，同样需要为所有 Token 对计算注意力分数并做聚合，时间复杂度仍为 $O(n^2 d)$。
+显存方面，需要保留：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当前层的 $Q, K, V$ 等激活：$O(n d)$；&lt;/li&gt;
+&lt;li&gt;注意力权重或中间结果：$O(n^2)$。&lt;br&gt;
+记作 $O(n^2 + n d)$，主导项随 $n$ 近似二次增长。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Transformer Decoder-only（推理，上下文长 $n$，生成长度 $l$）&lt;/strong&gt;&lt;br&gt;
+自回归生成时，假设一开始有长度为 $n$ 的上下文，之后按步生成 $l$ 个 Token：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;首先对长度为 $n$ 的上下文做一次前向，注意力部分约为 $O(n^2 d)$；&lt;/li&gt;
+&lt;li&gt;之后第 $t$ 个生成步（$t=1, \dots, l$）会看到长度约为 $n+t$ 的序列，其注意力计算量约为 $O((n+t)d)$，总和为 $O((n l + l^2)d)$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;合起来，一层的时间复杂度可以写为 $ O\big((n^2 + n l + l^2)d\big)$，通常为了简洁近似为 $O\big((n + l)^2 d\big)$。
+为了避免重复计算，Decoder 会为每一层缓存所有历史位置的 $K, V$（即 KV cache），其规模与总长度 $n + l$ 成正比，因此显存复杂度约为 $O((n + l) d)$。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;RNN / LSTM / GRU（推理，上下文长 $n$，生成长度 $l$）&lt;/strong&gt;&lt;br&gt;
+在推理时，RNN 每一步只依赖当前输入和上一个隐藏状态：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;共需要处理 $n + l$ 个时间步，每步 $O(d^2)$，时间复杂度为 $O((n + l) d^2)$；&lt;/li&gt;
+&lt;li&gt;显存上，只需保存当前的隐藏状态（以及若干门的内部状态），规模为 $O(d)$，与序列长度 $n, l$ 无关。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;整体来看，RNN 在 $n$ 上的时间和显存复杂度都是线性的，而 Transformer 在训练和 Encoder-only 推理时都具有 $O(n^2)$ 级别的注意力开销；在 Decoder-only 自回归生成时，通过 KV cache 在「时间仍为二次、显存降为线性」之间做了权衡。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h3 id="encoder-和-decoder-的异同"&gt;&lt;a id="encoder-decoder"&gt;&lt;/a&gt; Encoder 和 Decoder 的异同
+&lt;/h3&gt;&lt;p&gt;在 Vaswani 等人提出的原始 Transformer &lt;sup&gt;&lt;a id='ref-cite1-25' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt; 中，他们针对翻译任务设计的是 &lt;strong&gt;Encoder–Decoder 架构&lt;/strong&gt; 的 Transformer。其中，&lt;strong&gt;编码器（Encoder）&lt;/strong&gt; 接收来自源语言的文本（比如 &amp;ldquo;Hello world&amp;rdquo;），通过多层自注意力机制和前馈网络生成一串上下文表示；&lt;strong&gt;解码器（Decoder）&lt;/strong&gt; 通过交叉注意力机制读取 Encoder 的输出，并在 &lt;strong&gt;因果掩码（Causal Mask）&lt;/strong&gt; 的约束下，&lt;strong&gt;自回归&lt;/strong&gt; 地生成目标语言的文本序列（比如 &amp;ldquo;你好世界&amp;rdquo;）。&lt;/p&gt;
+&lt;p&gt;在实际使用中，根据任务不同，常见有三种变体：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;只使用 Encoder 的 &lt;strong&gt;Encoder-only 模型&lt;/strong&gt;：例如 BERT &lt;sup&gt;&lt;a id='ref-cite11-5' href='#cite11'&gt;[11]&lt;/a&gt;&lt;/sup&gt; 一类的掩码语言模型、句向量编码器等，它们的输出通常是编码了上下文语义信息的稠密向量，可用于分类、检索，或者在检索增强生成（Retrieval-Augmented Generation, RAG）场景中对给定文本生成摘要向量；&lt;/li&gt;
+&lt;li&gt;只使用 Decoder 的 &lt;strong&gt;Decoder-only 模型&lt;/strong&gt;：例如 &lt;a class="link" href="https://platform.openai.com/docs/models" target="_blank" rel="noopener"
+&gt;GPT 系列&lt;/a&gt;、&lt;a class="link" href="https://huggingface.co/meta-llama/collections" target="_blank" rel="noopener"
+&gt;Llama 系列&lt;/a&gt;、&lt;a class="link" href="https://huggingface.co/Qwen/collections" target="_blank" rel="noopener"
+&gt;Qwen 系列&lt;/a&gt;、&lt;a class="link" href="https://huggingface.co/deepseek-ai/collections" target="_blank" rel="noopener"
+&gt;DeepSeek 系列&lt;/a&gt;的自回归语言模型，目前几乎所有大语言模型都是 Decoder-only 模型；&lt;/li&gt;
+&lt;li&gt;完整的 &lt;strong&gt;Encoder–Decoder 模型&lt;/strong&gt;：例如机器翻译、部分 Seq2Seq 任务（输入输出是不同模态或不同语言的序列）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;模型类型&lt;/th&gt;
+&lt;th&gt;结构特点&lt;/th&gt;
+&lt;th&gt;典型任务 / 输出&lt;/th&gt;
+&lt;th&gt;代表模型示例&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Encoder-only 模型&lt;/td&gt;
+&lt;td&gt;只使用 Encoder 堆叠&lt;/td&gt;
+&lt;td&gt;输出每个位置的上下文语义向量&lt;br&gt;用于分类、检索、RAG 摘要向量等&lt;/td&gt;
+&lt;td&gt;BERT &lt;sup&gt;&lt;a id='ref-cite11-6' href='#cite11'&gt;[11]&lt;/a&gt;&lt;/sup&gt;、&lt;br&gt;LLaDA &lt;sup&gt;&lt;a id='ref-cite12-5' href='#cite12'&gt;[12]&lt;/a&gt;&lt;/sup&gt; 等&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Decoder-only 模型&lt;/td&gt;
+&lt;td&gt;只使用 Decoder 堆叠&lt;br&gt;+ 因果掩码&lt;/td&gt;
+&lt;td&gt;自回归地生成序列，例如文本生成任务&lt;/td&gt;
+&lt;td&gt;&lt;a class="link" href="https://platform.openai.com/docs/models" target="_blank" rel="noopener"
+&gt;GPT 系列&lt;/a&gt;、&lt;br&gt;&lt;a class="link" href="https://huggingface.co/Qwen/collections" target="_blank" rel="noopener"
+&gt;Qwen 系列&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Encoder–Decoder 模型&lt;/td&gt;
+&lt;td&gt;Encoder + Decoder&lt;br&gt;+ 交叉注意力&lt;/td&gt;
+&lt;td&gt;源序列 → 目标序列的 Seq2Seq 任务&lt;br&gt;（跨模态或跨语言转换）&lt;/td&gt;
+&lt;td&gt;翻译模型等&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;从网络结构的角度，Encoder-only 模型和 Decoder-only 模型是非常相似的，二者的主要差异体现在工作模式上：
+Decoder 在自注意力机制中使用因果掩码，输出的是下一个位置 Token 的概率分布；
+而 Encoder 通常直接输出每个位置的向量表示，用于下游判别或匹配任务。
+虽然近年也出现了基于 Encoder-only 模型的掩码扩散大语言模型 &lt;sup&gt;&lt;a id='ref-cite12-6' href='#cite12'&gt;[12]&lt;/a&gt;&lt;/sup&gt;，但目前主流的大语言模型仍然采用 Decoder-only 结构，因此本文也主要关注这一类模型中的数据流。&lt;/p&gt;
+&lt;h2 id="走进-transformer"&gt;&lt;a id="transformer-structure"&gt;&lt;/a&gt; 走进 Transformer
+&lt;/h2&gt;&lt;p&gt;在上文中，我们已经对 Transformer 的总体结构有了一个大致的印象，也从工作模式上区分了 Encoder、Decoder。接下来，我们将把视角进一步聚焦于 &lt;strong&gt;单层 Transformer Block&lt;/strong&gt;，沿着数据的路径，依次拆解&lt;a class="link" href="#mha" &gt;多头自注意力&lt;/a&gt;、&lt;a class="link" href="#ffn" &gt;前馈网络&lt;/a&gt;、&lt;a class="link" href="#residual-connection" &gt;残差连接&lt;/a&gt;与&lt;a class="link" href="#layernorm" &gt;层归一化&lt;/a&gt;等组件是如何作用在同一串向量上的。&lt;/p&gt;
+&lt;h3 id="多头自注意力机制"&gt;&lt;a id="mha"&gt;&lt;/a&gt; 多头自注意力机制
+&lt;/h3&gt;&lt;p&gt;正如那篇经典论文 &lt;sup&gt;&lt;a id='ref-cite1-26' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt; 的标题「Attention is All You Need」所暗示的那样，注意力机制（Attention Mechanism）是 Transformer 的核心，也是这一架构如此有效的根本原因。目前在 Decoder-only 模型中最常采用的是多头自注意力机制，其中包含三个要素：「&lt;a class="link" href="#multi-head-attention" &gt;多头&lt;/a&gt;」「&lt;a class="link" href="#self-attention" &gt;自&lt;/a&gt;」和「&lt;a class="link" href="#attention" &gt;注意力&lt;/a&gt;」，我们将从后往前依次展开；随后还会介绍在 Decoder-only 模型中同样重要的两个组成部分：&lt;a class="link" href="#rope" &gt;旋转位置编码（RoPE）&lt;/a&gt; 和 &lt;a class="link" href="#causal-mask" &gt;因果掩码（Causal Mask）&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id="注意力机制"&gt;&lt;a id="attention"&gt;&lt;/a&gt; 注意力机制
+&lt;/h4&gt;&lt;p&gt;从历史上看，注意力机制并不是 Transformer &lt;sup&gt;&lt;a id='ref-cite1-27' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt; 独有的发明，而是首先出现在基于 RNN 的序列到序列模型 &lt;sup&gt;&lt;a id='ref-cite13-3' href='#cite13'&gt;[13]&lt;/a&gt;&lt;/sup&gt; 中，用来缓解机器翻译等任务中的长距离依赖问题：编码器输出整条源序列的一串隐藏状态，解码器在生成每个目标 Token 时，对源序列不同位置分配不同权重，从而避免把整句信息强行压缩进一个固定维度的向量里。
+尽管如此，在那个阶段注意力机制只是 RNN 的一个辅助模块，无法摆脱 RNN 结构在长距离建模上的局限；而 Transformer 则抛弃了 RNN 的递归结构，反而把注意力机制提升为网络的核心，从整体架构上重塑了序列建模方式。&lt;/p&gt;
+&lt;p&gt;从直觉上看，可以把注意力理解为对所有值向量（Value）$\mathbf v_i$ 做一次加权求和，其中每个位置的权重由当前查询向量（Query）$\mathbf q$ 与对应键向量（Key）$\mathbf k_i$ 的相似度决定。给定查询向量 $\mathbf q$，模型会使用向量内积 $\mathbf k_i\cdot \mathbf q$ 在归一化后作为权重，再用这些权重对值向量 $\mathbf v_i$ 做加权求和，得到查询向量 $\mathbf q$ 对应的输出。这样一来，模型在更新查询向量 $\mathbf q$ 的时候，可以参考序列中任意位置的 $\mathbf v_i$，直接聚合与当前语义最相关的信息。&lt;/p&gt;
+&lt;figure style="width: 100%; max-width: 1000px; margin: 1.5rem auto;"&gt;
+&lt;img
+src="https://files.furffisite.link/blogimg/20251122153728-fdf1be3ff09cd3fe62c32177cb1c6235-20a8a.png"
+alt="Pointer-Generator Networks 中的注意力与上下文向量示意图"
+style="width: 90%; height: auto;"
+&gt;
+&lt;figcaption&gt;
+图片来自 Pointer-Generator Network &lt;sup&gt;&lt;a id='ref-cite14-3' href='#cite14'&gt;[14]&lt;/a&gt;&lt;/sup&gt;，
+我们主要关注下方的 Encoder / Decoder hidden states、Attention distribution 以及上方的 context vector
+这三部分，这个图示直观地展示了注意力权重如何在源序列上分布，并聚合成用于生成当前 token 的上下文向量。
+此外，这篇文章也展示了注意力机制在 RNN 序列到序列模型中的一种典型用法。
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;从形式化的角度看，可以把上面的直觉抽象成统一的数学形式：给定查询向量 $\mathbf q_j \in \mathbb{R}^{d_k}$，一组键向量 $\mathbf k_i \in \mathbb{R}^{d_k}$，以及对应的值向量 $\mathbf v_i \in \mathbb{R}^{d_v}$，注意力机制首先对每个键计算一个实数作为注意力分数 $\mathrm{score}(\mathbf q_j, \mathbf k_i) \in \mathbb{R}$，然后通过 Softmax 函数得到归一化权重：
+$$\alpha_i = \mathrm{softmax}_i\big(\mathrm{score}(\mathbf q_j, \mathbf k_i)).$$
+最后用这些权重对值向量 $\mathbf v_i$ 做加权求和：
+$$\mathrm{Attention}(\mathbf q_j, {\mathbf k_i}, {\mathbf v_i}) = \sum_i \alpha_i \mathbf v_i \in \mathbb{R}^{d_v}.$$&lt;/p&gt;
+&lt;p&gt;在 Transformer 中使用的是&lt;strong&gt;缩放点积注意力（Scaled Dot-Product Attention）&lt;/strong&gt;，其注意力分数是两个向量的内积乘上一个缩放因子：
+$$\mathrm{score}(\mathbf q_j, \mathbf k_i) = \frac{\mathbf q_j^\top \mathbf k_i}{\sqrt{d_k}},$$
+其中 $d_k$ 是键 / 查询向量的维度，分母的 $\sqrt{d_k}$ 用来缓解内积随维度增长而数值过大的问题，否则在 $d_k$ 较大时注意力分数会进入 Softmax 函数的饱和区，导致权重退化为 One-hot 向量。&lt;/p&gt;
+&lt;div class="c-collapsible" id="collapsible-13"&gt;
+&lt;button
+class="c-collapsible__header"
+type="button"
+aria-expanded="false"
+aria-controls="collapsible-13-content"
+&gt;
+&lt;span class="c-collapsible__icon" aria-hidden="true"&gt;▶&lt;/span&gt;
+&lt;span class="c-collapsible__title"&gt;为什么是 $1/\sqrt{d_k}$？&lt;/span&gt;
+&lt;/button&gt;
+&lt;div
+id="collapsible-13-content"
+class="c-collapsible__body is-collapsed"
+&gt;
+&lt;p&gt;为了简化分析，这里设 $\mathbf q_j$ 和 $\mathbf k_i$ 的每一维都是独立同分布、均值为 $0$、方差为 $\sigma^2$ 的随机变量。
+未缩放时的点积为
+$$s = \mathbf q_j^\top \mathbf k_i = \sum_{\ell=1}^{d_k} q_\ell k_\ell.$$
+由于各维独立，有
+$$
+\mathbb E[q_\ell k_\ell] = 0,\quad
+\mathrm{Var}(q_\ell k_\ell)
+= \mathbb E[q_\ell^2]\mathbb E[k_\ell^2]
+= \sigma^4.
+$$
+因此整体方差为
+$$
+\mathrm{Var}(s)
+= \sum_{\ell=1}^{d_k} \mathrm{Var}(q_\ell k_\ell)
+= d_k \sigma^4.
+$$
+也就是说，&lt;strong&gt;标准差会按 $O(\sqrt{d_k})$ 的速度增长&lt;/strong&gt;：维度越大，$s$ 的取值就越容易变得很大，从而让 Softmax 的输入落在饱和区，注意力权重趋近 One-hot，此时绝大多数位置的分数和梯度均接近 0，不利于训练与 Softmax 的数值稳定。&lt;/p&gt;
+&lt;p&gt;为了让注意力分数的方差与 $d_k$ 无关，我们设注意力分数为 $\tilde s = c \cdot s = c \cdot \mathbf q_j^\top \mathbf k_i$，
+其中 $c\in \mathbb{R}^+$ 是待定常数。不难推出
+$$
+\mathrm{Var}(\tilde s)
+= \mathrm{Var}(c \cdot s)
+= c^2 \mathrm{Var}(s)
+= c^2 d_k \sigma^4.
+$$
+令其与 $d_k$ 无关，即
+$$ c^2 d_k = 1 \quad\Longrightarrow\quad c = \frac{1}{\sqrt{d_k}}. $$&lt;/p&gt;
+&lt;p&gt;这说明&lt;strong&gt;只要在点积前乘上系数 $c = 1/\sqrt{d_k}$，缩放后的 $\tilde s$ 的方差就不再依赖于 $d_k$&lt;/strong&gt;，从而避免了上述问题。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;如果把所有查询向量拼成矩阵 $Q = (\mathbf q_j) \in \mathbb{R}^{L_q \times d_k}$，所有键和值向量分别拼成矩阵 $K = (\mathbf k_i)\in \mathbb{R}^{L_k \times d_k}$、$V = (\mathbf v_i) \in \mathbb{R}^{L_k \times d_v}$，则可以写成更紧凑的矩阵形式：
+$$\mathrm{Attention}(Q, K, V) = \mathrm{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right) V.$$&lt;/p&gt;
+&lt;p&gt;这种形式本身并不限制 $Q, K, V$ 来自哪一条序列：可以是「源序列 → 目标序列」的交叉注意力（Cross-Attention），也可以是后面将要介绍的自注意力（Self-Attention），其中 $Q, K, V$ 均源自同一个序列。&lt;/p&gt;
+&lt;h4 id="自注意力机制"&gt;&lt;a id="self-attention"&gt;&lt;/a&gt; &lt;u&gt;自&lt;/u&gt;注意力机制
+&lt;/h4&gt;&lt;p&gt;如上所述，自注意力机制就是让注意力中的 $Q, K, V$ 都源自同一条输入序列，从而在同一串 Token 上计算「每个位置对其他位置的注意力」。&lt;/p&gt;
+&lt;p&gt;设一层的输入为
+$X \in \mathbb{R}^{L \times d_{\text{model}}}$（$L$ 为序列长度，$d_{\text{model}}$ 为隐藏维度），如果直接令 $Q = K = V = X$，那么 Query、Key 和 Value 在同一子空间里完全共享一套表示，表达能力会受到限制。实际的 Transformer 会为三者分别学习独立的线性投影矩阵：
+$$ Q = X W^Q,\quad K = X W^K,\quad V = X W^V, $$
+其中 $W^Q, W^K \in \mathbb{R}^{d_{\text{model}} \times d_k}$，$W^V \in \mathbb{R}^{d_{\text{model}} \times d_v}$。
+这样一来，模型可以在同一串输入 $X$ 上，用不同的线性变换分别提取用于匹配和打分的特征 $Q, K$ 与最终被聚合的内容 $V$，从而让自注意力在同一层内具备更灵活的表示能力。&lt;/p&gt;
+&lt;p&gt;不过，到目前为止的注意力机制还有两个关键问题没有解决：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;其一，它本身是&lt;strong&gt;位置无关&lt;/strong&gt;的：在不考虑额外信息的情况下，如果我们同时对 $Q, K, V$ 做相同的重排，得到的注意力结果不会发生变化，这意味着模型难以区分「同一组 Token 不同顺序」之间的差异。&lt;/li&gt;
+&lt;li&gt;其二，在生成任务中，原始的注意力计算对所有位置一视同仁，这导致训练时当前位置可以直接看到将来出现的 token，但在推理时这是不可能的，违背了自回归语言建模的因果性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;为了解决这两个问题，实际的 Transformer 会一方面通过 &lt;strong&gt;旋转位置编码（RoPE）&lt;/strong&gt; 向 $Q$ 和 $K$ 中注入位置信息，另一方面在注意力分数矩阵上施加 &lt;strong&gt;因果掩码（Causal Mask）&lt;/strong&gt;，强制当前 token 只能关注自身及其之前的位置。在进入完整的多头自注意力机制之前，我们分别从 RoPE 和因果掩码两部分展开介绍。&lt;/p&gt;
+&lt;h4 id="因果掩码causal-mask"&gt;&lt;a id="causal-mask"&gt;&lt;/a&gt; 因果掩码（Causal Mask）
+&lt;/h4&gt;&lt;p&gt;在自回归语言建模中，第 $i$ 个 Token 只能依赖位置 $\le i$ 的历史信息，不能偷看将来的 Token。但前面给出的注意力却对所有位置一视同仁：第 $i$ 行可以看到第 $j&amp;gt;i$ 列的键值，违背了因果性约束。&lt;/p&gt;
+&lt;p&gt;通常的做法是构造一个上三角的&lt;strong&gt;因果掩码矩阵&lt;/strong&gt; $M \in \mathbb{R}^{L\times L}$：
+$$
+M_{ij} =
+\begin{cases}
+0, &amp;amp; j \le i, \\
+-\infty, &amp;amp; j &amp;gt; i,
+\end{cases}
+$$
+然后在进入 Softmax 之前把它加到打分矩阵上：
+$$
+\mathrm{Attention}_\text{causal}(Q, K, V)
+= \mathrm{softmax}\left(\frac{QK^\top}{\sqrt{d_k}} + M\right) V.
+$$&lt;/p&gt;
+&lt;p&gt;这样一来，$j&amp;gt;i$ 的位置在对应行上的注意力得分是 $-\infty$，Softmax 之后权重变为 0，这样第 $i$ 个位置就只能关注自身及其之前的 Token 了。&lt;/p&gt;
+&lt;h4 id="旋转位置编码rope"&gt;&lt;a id="rope"&gt;&lt;/a&gt; 旋转位置编码（RoPE）
+&lt;/h4&gt;&lt;p&gt;在目前为止的讨论中，注意力分数只依赖于 $\mathbf q_j$ 和 $\mathbf k_i$ 本身的数值，而与它们在序列中的位置无关：如果我们同时对 $Q, K, V$ 按相同方式打乱顺序，得到的注意力结果不会改变。换句话说，在没有位置编码时，模型只看到无序的一袋向量，难以区分同一组 Token 不同排列方式之间的差异，例如「一把把把把住了」这类句子中，多次出现的「把」在不同位置分别充当量词、动词、介词等不同角色，而纯注意力机制并不会区分它们。为了解决这个问题，我们需要在向量中注入位置信息。&lt;/p&gt;
+&lt;p&gt;在原始的 Transformer &lt;sup&gt;&lt;a id='ref-cite1-28' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt; 中，&lt;strong&gt;位置编码（Positional Encoding）&lt;/strong&gt; 是通过在&lt;a class="link" href="#embedding-layer" &gt;嵌入层&lt;/a&gt;之后直接把一个位置向量 $\mathbf p_i$ 加到 Token Embedding 上来实现的，即对第 $i$ 个位置有
+$$ \mathbf x_i = \mathbf e_i + \mathbf p_i, $$
+其中 $\mathbf e_i$ 是 Token Embedding，$\mathbf p_i$ 是对应位置的编码。这种做法实现简单，但有一个小问题：语义信息和位置信息被混合在同一个向量里，后续所有层的隐藏状态既承担语义表示，又携带位置编码，但是实际上我们只需要为注意力机制引入位置信息。&lt;/p&gt;
+&lt;p&gt;相比于原始的 Transformer，大语言模型更倾向于让位置编码&lt;strong&gt;直接作用在 $Q$ 和 $K$ 上&lt;/strong&gt;，而不是一开始就写进所有隐藏状态中。&lt;strong&gt;旋转位置编码（Rotary Positional Embedding, RoPE）&lt;/strong&gt; &lt;sup&gt;&lt;a id='ref-cite15-3' href='#cite15'&gt;[15]&lt;/a&gt;&lt;/sup&gt; 通过对 $Q$ 和 $K$ 施加与位置相关的旋转，确保注意力分数只依赖于 Token 之间的 &lt;strong&gt;相对位置&lt;/strong&gt;，同时又保持自注意力整体结构不变。&lt;/p&gt;
+&lt;p&gt;从实现上看，RoPE 并不是对 $X$ 直接加上位置向量，而是对已经线性变换后的 $Q, K$ 的每两个维度为一组，将其看成 $L d_k/2$ 个二维向量，并对每个二维向量做一次旋转，旋转角度是 Token 位置 $i$ 和维度 $k\in{1, 2, \ldots, d_k/2}$ 的函数
+$$\theta_{ik} = \frac{i}{10000^{2k / d_k}}.$$&lt;/p&gt;
+&lt;p&gt;为了更直观地理解 RoPE 中 $\theta_{i,k}$ 的取值规律，我用 plotly 导出了一幅可交互的热力图：横轴是位置 $i$，纵轴是二维子空间索引 $k$，颜色表示对应的旋转角度（以度数表示，并对 $360^\circ$ 取模）。可以看到，不同 $k$ 上角度随 $i$ 的变化频率不同，越小的 $k$ 对应越高的旋转频率，越大的 $k$ 对应越低的频率。&lt;/p&gt;
+&lt;center&gt;
+&lt;div id="plotly-figure-7" class="plotly-graph-div" style="aspect-ratio: 2; width: 100%;"&gt;
+&lt;noscript&gt;
+您的浏览器未启用 JavaScript，因此无法展示交互式 Plotly 图表。您可以支持并启用 JavaScript 的浏览器中访问本页，以查看完整的可视化效果。
+&lt;/noscript&gt;
+&lt;/div&gt;
+&lt;/center&gt;&lt;script type="text/javascript"&gt;
+(function() {
+const containerId = "plotly-figure-7";
+const dataUrl = "https:\/\/files.furffisite.link\/interactive\/rope-rotation_magnitude.json";
+function renderPlot() {
+const el = document.getElementById(containerId);
+if (!el || !window.Plotly) return;
+fetch(dataUrl)
+.then(function(resp) {
+if (!resp.ok) {
+throw new Error('Failed to load Plotly data from ' + dataUrl + ': ' + resp.status);
+}
+return resp.json();
+})
+.then(function(payload) {
+var data = payload.data || [];
+var layout = payload.layout || {};
+var config = payload.config || { responsive: true };
+window.Plotly.newPlot(containerId, data, layout, config);
+})
+.catch(function(err) {
+console.error('Error rendering Plotly figure:', err);
+if (el) {
+el.textContent = '加载 Plotly 图表失败：' + (err &amp;&amp; err.message ? err.message : '请稍后重试。');
+}
+});
+}
+if (document.readyState === 'loading') {
+document.addEventListener('DOMContentLoaded', renderPlot);
+} else {
+renderPlot();
+}
+})();
+&lt;/script&gt;
+&lt;p&gt;这样的目的是让不同子空间在不同尺度上编码位置信息，旋转频率快的负责刻画局部、细粒度的相对位置变化，旋转频率慢的负责长程趋势，相当于用一组不同频率的正弦基在注意力中构造出多尺度的位置表示，从而提升模型对各种距离范围内相对位移的表达能力。&lt;/p&gt;
+&lt;p&gt;对每个位置 $i$，根据上面的角度 $\theta_{i,k}$，可以把对 $d_k$ 维子空间的旋转写成一个按二维子空间分块的分块对角矩阵 $R_i \in \mathbb{R}^{d_k \times d_k}$。若令第 $k$ 个二维子空间（对应维度 $(2k, 2k+1)$）的旋转角为 $\theta_{ik}$，则有
+$$
+R_i = \begin{pmatrix}
+\cos\theta_{i,0} &amp;amp; -\sin\theta_{i,0} &amp;amp; 0 &amp;amp; 0 &amp;amp; \cdots &amp;amp; 0 &amp;amp; 0 \\
+\sin\theta_{i,0} &amp;amp; \cos\theta_{i,0} &amp;amp; 0 &amp;amp; 0 &amp;amp; \cdots &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; \cos\theta_{i,1} &amp;amp; -\sin\theta_{i,1} &amp;amp; \cdots &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; \sin\theta_{i,1} &amp;amp; \cos\theta_{i,1} &amp;amp; \cdots &amp;amp; 0 &amp;amp; 0 \\
+\vdots &amp;amp; \vdots &amp;amp; \vdots &amp;amp; \vdots &amp;amp; \ddots &amp;amp; \vdots &amp;amp; \vdots \\
+0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; \cdots &amp;amp; \cos\theta_{i,d_{k}/2-1} &amp;amp; -\sin\theta_{i,d_{k}/2-1} \\
+0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; \cdots &amp;amp; \sin\theta_{i,d_{k}/2-1} &amp;amp; \cos\theta_{i,d_{k}/2-1}
+\end{pmatrix}.
+$$
+然后对 $\mathbf k_i$ 和 $\mathbf q_i$ 分别应用这个线性变换，写成向量就是（注意 $R_i$ 和位置 $i$ 有关，因此不同位置的 Token 的旋转矩阵是不一样的。）
+$$ \mathbf q_i&amp;rsquo; = R_i \mathbf q_i,\quad \mathbf k_i&amp;rsquo; = R_i \mathbf k_i. $$&lt;/p&gt;
+&lt;p&gt;我们考察 $\mathbf k_i$ 和 $\mathbf q_j$ 的注意力分数
+$$\mathrm{score}(\mathbf q_j, \mathbf k_i)
+= \frac{(R_j\mathbf q_j)^\top (R_i\mathbf k_i)}{\sqrt{d_k}}
+= \frac{\mathbf q_j^\top (R_j^\top R_i)\mathbf k_i}{\sqrt{d_k}}
+$$
+&lt;strong&gt;根据旋转矩阵的性质&lt;/strong&gt;，以及 $\forall k, \theta_{ik} \propto i$（即旋转角是位置的线性函数），可以推出 $R_j^{-1} = R_j^\top = R_{-j}$，因此有 $R_j^\top R_i = R_j^{-1} R_i = R_{i-j}$。也就是说
+$$\mathrm{score}(\mathbf q_j, \mathbf k_i) = \frac{\mathbf q_j^\top R_{i-j}\mathbf k_i}{\sqrt{d_k}}.$$
+这说明在 RoPE 下，第 $j$ 个位置对第 $i$ 个位置的注意力分数只依赖于两者的&lt;strong&gt;相对位移&lt;/strong&gt; $i-j$，而与它们各自的绝对位置无关。因此 RoPE 本质上是一种相对位置编码形式，同时又不破坏原有自注意力的结构与 KV cache 等推理加速手段。这样的良好性质让 RoPE 在近年的大语言模型中被广泛采用。&lt;/p&gt;
+&lt;p&gt;当然，在代码中并不会真的显式构造整个 $d_k\times d_k$ 的矩阵 $R_i$，而是对每个位置 $i$ 的查询 / 键向量
+$\mathbf q_i,\ \mathbf k_i \in \mathbb{R}^{d_k}$
+按照两个为一组成对切分成若干个二维向量 $(q_{i,2k}, q_{i,2k+1})$、$(k_{i,2k}, k_{i,2k+1})$（其实就是 Reshape 操作），然后对每一对维度应用上式中的对应 $2\times 2$ 旋转块，其余维度保持不变。&lt;/p&gt;
+&lt;div class="c-collapsible" id="collapsible-14"&gt;
+&lt;button
+class="c-collapsible__header"
+type="button"
+aria-expanded="false"
+aria-controls="collapsible-14-content"
+&gt;
+&lt;span class="c-collapsible__icon" aria-hidden="true"&gt;▶&lt;/span&gt;
+&lt;span class="c-collapsible__title"&gt;几种位置编码方式的对比&lt;/span&gt;
+&lt;/button&gt;
+&lt;div
+id="collapsible-14-content"
+class="c-collapsible__body is-collapsed"
+&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;绝对位置编码&lt;/strong&gt;&lt;br&gt;
+直接为每个位置 $i$ 分配向量 $\mathbf p_i$，常见形式包括可学习的位置嵌入和固定的正弦/余弦编码。
+&lt;ul&gt;
+&lt;li&gt;优点：实现简单直观，与 Embedding 形态一致，容易在现有架构中插入，几乎没有额外计算开销。&lt;/li&gt;
+&lt;li&gt;缺点：对超出训练长度的外推能力有限，模型也更难显式捕捉「距离差」这类相对关系。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;相对位置编码&lt;/strong&gt;&lt;br&gt;
+让注意力分数显式依赖于位置差 $j-i$，例如通过为不同相对距离引入 Bias 项或额外的相对位置向量。
+&lt;ul&gt;
+&lt;li&gt;优点：更自然地刻画「谁离谁近」「先后顺序」，在长上下文和跨段对齐任务中往往效果更好。&lt;/li&gt;
+&lt;li&gt;缺点：实现与推导相对复杂，某些形式在长序列时会带来额外的计算或内存开销。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RoPE（旋转位置编码）&lt;/strong&gt;&lt;br&gt;
+通过对 $Q, K$ 施加位置相关的旋转，使注意力分数仅依赖于 $j-i$，本质上属于相对位置编码的一种。
+&lt;ul&gt;
+&lt;li&gt;优点：在保持自注意力结构简洁的同时，引入了平移不变的相对位置信息，对长上下文插值和上下文长度扩展更友好，因此被广泛用于现代大模型（如 &lt;a class="link" href="https://huggingface.co/meta-llama/collections" target="_blank" rel="noopener"
+&gt;Llama 系列&lt;/a&gt;及许多变体）。&lt;/li&gt;
+&lt;li&gt;缺点：理解和实现上比简单的绝对编码更抽象，对部分结构改动（例如跨层共享、某些形式的剪裁 / 拼接）需要格外小心。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;结合了上述的 RoPE 位置编码与自注意力机制，模型在处理实际文本时会形成怎样的注意力模式呢？&lt;/p&gt;
+&lt;p&gt;为了直观理解注意力机制，我从 Qwen3-0.6B &lt;sup&gt;&lt;a id='ref-cite16-5' href='#cite16'&gt;[16]&lt;/a&gt;&lt;/sup&gt; 中导出了模型推理时中间层的自注意力分数。输入文本为：「在自然语言处理任务中，注意力机制允许模型动态地关注输入序列中的不同部分，从而捕捉上下文依赖。」（为了展示清晰，在可视化时移除了通常作为 attention sink &lt;sup&gt;&lt;a id='ref-cite17-3' href='#cite17'&gt;[17]&lt;/a&gt;&lt;/sup&gt; 的首个 token。）&lt;/p&gt;
+&lt;center&gt;
+&lt;div id="plotly-figure-8" class="plotly-graph-div" style="aspect-ratio: 1; width: 90%;"&gt;
+&lt;noscript&gt;
+您的浏览器未启用 JavaScript，因此无法展示交互式 Plotly 图表。您可以支持并启用 JavaScript 的浏览器中访问本页，以查看完整的可视化效果。
+&lt;/noscript&gt;
+&lt;/div&gt;
+&lt;/center&gt;&lt;script type="text/javascript"&gt;
+(function() {
+const containerId = "plotly-figure-8";
+const dataUrl = "https:\/\/files.furffisite.link\/interactive\/attention_map.json";
+function renderPlot() {
+const el = document.getElementById(containerId);
+if (!el || !window.Plotly) return;
+fetch(dataUrl)
+.then(function(resp) {
+if (!resp.ok) {
+throw new Error('Failed to load Plotly data from ' + dataUrl + ': ' + resp.status);
+}
+return resp.json();
+})
+.then(function(payload) {
+var data = payload.data || [];
+var layout = payload.layout || {};
+var config = payload.config || { responsive: true };
+window.Plotly.newPlot(containerId, data, layout, config);
+})
+.catch(function(err) {
+console.error('Error rendering Plotly figure:', err);
+if (el) {
+el.textContent = '加载 Plotly 图表失败：' + (err &amp;&amp; err.message ? err.message : '请稍后重试。');
+}
+});
+}
+if (document.readyState === 'loading') {
+document.addEventListener('DOMContentLoaded', renderPlot);
+} else {
+renderPlot();
+}
+})();
+&lt;/script&gt;
+&lt;p&gt;从图中可以直观地观察到，自注意力分数的分布呈现出明显的规律性：热力图中最深的颜色主要集中在对角线上，说明 token 在大多数时候首选关注自身；同时，高分值区域也密集分布在对角线附近的局部短语中（例如 &amp;ldquo;机制&amp;rdquo; 强烈关注 &amp;ldquo;注意力&amp;rdquo;），反映了模型对词法和短语结构的敏锐捕捉。此外，我们还能观察到部分 token 跨越了较长距离去关注之前的核心词，这种捕捉长程语义依赖的能力正是 Transformer 架构相比于传统 RNN 的核心优势所在。&lt;/p&gt;
+&lt;h4 id="多头自注意力机制-1"&gt;&lt;a id="multi-head-attention"&gt;&lt;/a&gt; &lt;u&gt;多头&lt;/u&gt;自注意力机制
+&lt;/h4&gt;&lt;p&gt;前面的小节一直在讨论「单头」注意力：给定一层输入 $X \in \mathbb{R}^{L \times d_{\text{model}}},$
+先通过线性变换得到
+$$Q = X W^Q,\quad K = X W^K,\quad V = X W^V,$$
+再把注意力看作在同一个特征子空间里的&lt;strong&gt;单头匹配与聚合&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;在实际的 Transformer 中，更常见的是让模型同时在多个子空间里做这种「匹配 + 聚合」，这就是&lt;strong&gt;多头自注意力（Multi-Head Self-Attention）&lt;/strong&gt; &lt;sup&gt;&lt;a id='ref-cite1-29' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt;。具体做法是：为每个注意力头 $h\in \{1,\dots,H\}$ 各自学习一组投影矩阵
+$$W_h^Q, W_h^K \in \mathbb{R}^{d_{\text{model} } \times d_k},\quad W_h^V \in \mathbb{R}^{d_{\text{model} } \times d_v},$$
+得到第 $h$ 个头上的
+$$Q_h = X W_h^Q,\quad K_h = X W_h^K,\quad V_h = X W_h^V.$$
+然后对每个头分别应用前面介绍过的「带 RoPE 的因果自注意力」：
+$$ \mathrm{head}_h(X) = \mathrm{Attention}(Q_h, K_h, V_h) \in \mathbb{R}^{L \times d_v}.$$&lt;/p&gt;
+&lt;p&gt;最后，把所有头在特征维上拼接起来，再通过一个输出线性层 $W^O \in \mathbb{R}^{H d_v \times d_{\text{model} } }$ 做回投影：
+$$\mathrm{MultiHead}(X) = \mathrm{Concat}\big(\mathrm{head}_1(X),\dots,\mathrm{head}_H(X)\big)W^O. $$&lt;/p&gt;
+&lt;p&gt;直观上，多个注意力头的引入可以让每个注意力头在不同的子空间下，独立地学习一套对序列结构的建模方式：有的头可能偏向局部邻域，有的头偏向长程依赖，还有的头专门捕捉某类语法或语义关系。这样让模型在同一层中可以并行地学习不同的视角，提升模型整体的表达能力。&lt;/p&gt;
+&lt;h3 id="前馈网络feed-forward-network"&gt;&lt;a id="ffn"&gt;&lt;/a&gt; 前馈网络（Feed-Forward Network）
+&lt;/h3&gt;&lt;p&gt;在每一层自注意力之后，Transformer 会对每个位置单独再过一层前馈网络（Feed-Forward Network, FFN）。它本质上是一个对序列中每个 Token 的两层感知机：先升维再降维，中间插入非线性激活函数。设某层自注意力（加残差、归一化）后的输出为 $\mathbf h_i \in \mathbb{R}^{d_{\text{model}}}, i=1,\dots,L$，则对每个位置 $i$ 有
+$$
+\begin{align*}
+\mathbf z_i &amp;amp;= \phi(W_1 \mathbf h_i + \mathbf b_1),
+&amp;amp; \mathbf z_i &amp;amp;\in \mathbb{R}^{d_{\text{ff}}},
+&amp;amp; W_1 &amp;amp;\in \mathbb{R}^{d_{\text{ff}} \times d_{\text{model}}}\\
+\mathbf y_i &amp;amp;= W_2 \mathbf z_i + \mathbf b_2,
+&amp;amp; \mathbf y_i &amp;amp;\in \mathbb{R}^{d_{\text{model}}},
+&amp;amp; W_2 &amp;amp;\in \mathbb{R}^{d_{\text{model}} \times d_{\text{ff}}}
+\end{align*}
+$$
+其中 $\phi(\cdot)$ 是非线性激活函数（比如 GELU），维度 $d_{\text{ff}}$ 一般是 $d_{\text{model}}$ 的 4 倍，相当于先把特征展开到更高维空间，在经过激活函数后压回原来的维度。&lt;/p&gt;
+&lt;p&gt;为什么在自注意力之外还需要这样一层前馈网络？一个重要原因是：注意力机制虽然包含 Softmax 非线性，但其对 Value 向量的操作本质上是线性的（即加权求和）。如果整层网络只包含线性运算，即使堆很多层，整体仍然退化为一个大线性变换，表达能力有限。FFN 通过中间的非线性 $\phi(\cdot)$ 引入了位置上的非线性特征变换，让模型不仅能通过自注意力机制聚合上下文信息，还能在每个位置上对聚合到的特征做复杂的模式变换。&lt;/p&gt;
+&lt;p&gt;此外，由于 FFN 的参数量通常远大于注意力部分，一些工作也观察到：&lt;strong&gt;大量「知识」更像是被存放在前馈网络中&lt;/strong&gt;&lt;sup&gt;&lt;a id='ref-cite18-3' href='#cite18'&gt;[18]&lt;/a&gt;&lt;/sup&gt;。一种常见的非正式说法是：自注意力负责在序列各位置之间路由信息，而前馈网络则利用庞大的参数容量，对这些信息做高维查表和非线性映射，承担了相当一部分知识存储与提取的职责。&lt;/p&gt;
+&lt;h4 id="混合专家模型moe"&gt;&lt;a id="moe"&gt;&lt;/a&gt; 混合专家模型（MoE）
+&lt;/h4&gt;&lt;p&gt;前面的讨论里，我们默认每一层只有一套共享的前馈网络：所有 Token 都要经过同一组参数做升维、非线性、降维。这虽然简单，但也带来一个矛盾：如果想提升模型表达能力，通常要把前馈网络做得很大；而一旦变大，参数量和计算开销都会增长，然而，很多参数在大部分样本上其实是冗余的。&lt;strong&gt;混合专家模型（Mixture of Experts, MoE）&lt;/strong&gt; 想解决的，就是在不牺牲模型表达能力的前提下，减少单个 Token 在推理时所需的计算量。&lt;/p&gt;
+&lt;figure style="width: 100%; max-width: 1000px; margin: 1.5rem auto;"&gt;
+&lt;img
+src="https://files.furffisite.link/blogimg/20251126023037-28191f236df7ab1db589399e49e7dba2-e153c.png"
+alt="一个典型的 MoE 层结构示意图：输入先经过 Router 生成各专家的 Gating 权重，再将输入送入若干并行的 Expert FFN，最后按权重加权聚合各专家输出得到最终输出"
+style="width: 50%; height: auto;"
+&gt;
+&lt;figcaption&gt;
+一个典型的混合专家层结构：Router 根据输入计算各个专家的权重，只激活其中少数几个专家，然后将这些专家的输出按权重加权求和得到最终输出。（图片来自 Mixtral 8×7B &lt;sup&gt;&lt;a id='ref-cite19-5' href='#cite19'&gt;[19]&lt;/a&gt;&lt;/sup&gt;）
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;典型的 MoE 层可以看作是前馈网络的一种稀疏扩展：不再只有一个 FFN，而是有 $N$ 个按相同结构堆叠的专家（Expert）FFN，再加上一个小的 &lt;strong&gt;门控网络（Router）&lt;/strong&gt;。对某一层第 $i$ 个位置的输入向量 $\mathbf h_i$，大致流程是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;门控网络根据 $\mathbf h_i$ 输出一组权重 $g_i \in \mathbb{R}^N$，通常只保留 Top-$k$ 个最大的分量，其余置零。&lt;/li&gt;
+&lt;li&gt;对于被选中的少数几个专家 $E_{j}$，分别计算各自的 FFN 输出 $E_j(\mathbf h_i)$。&lt;/li&gt;
+&lt;li&gt;按门控权重把这些专家输出加权求和，作为这一层在位置 $i$ 的 FFN 输出：
+$$ \mathrm{MoE}(\mathbf h_i) = \sum_{j \in \text{TopK}(g_i)} g_{i,j}, E_j(\mathbf h_i).$$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在这里，门控网络决定当前这个 Token 更应该交给哪几个专家去处理，而不是让所有 Token 都用同一套参数。这样一来，在参数量上，模型可以拥有远多于单一 FFN 的总参数；在计算量上，每个 Token 只会激活其中少数几个专家，单步推理的计算量增幅相对温和；在表示能力上，不同专家可以关注不同的模式，形成一定程度的专家分工。比如在 Mixtral 8×7B 的分析中，就观察到有的专家更多地处理数字和标点等特殊 Token，有的主要服务于自然语言词片，还有的则偏向代码相关 Token &lt;sup&gt;&lt;a id='ref-cite19-6' href='#cite19'&gt;[19]&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;p&gt;当然 MoE 也是有代价的，它需要额外的门控网络和训练时的负载均衡 Loss，来避免所有 Token 都挤到同一个专家上，因此其在训练和推理时的实现也会更复杂。不过，得益于稀疏激活带来的巨大计算性能优势和优秀的扩展性，MoE 仍然在近年的大模型设计中被广泛采用，例如 gpt-oss &lt;sup&gt;&lt;a id='ref-cite4-6' href='#cite4'&gt;[4]&lt;/a&gt;&lt;/sup&gt;、DeepSeek-V3 &lt;sup&gt;&lt;a id='ref-cite20-3' href='#cite20'&gt;[20]&lt;/a&gt;&lt;/sup&gt;、DeepSeek-R1 &lt;sup&gt;&lt;a id='ref-cite21-3' href='#cite21'&gt;[21]&lt;/a&gt;&lt;/sup&gt;、Qwen3 系列的一部分模型 &lt;sup&gt;&lt;a id='ref-cite16-6' href='#cite16'&gt;[16]&lt;/a&gt;&lt;/sup&gt;、Kimi-K2 &lt;sup&gt;&lt;a id='ref-cite22-3' href='#cite22'&gt;[22]&lt;/a&gt;&lt;/sup&gt; 等等。&lt;/p&gt;
+&lt;h3 id="残差连接residual-connection"&gt;&lt;a id="residual-connection"&gt;&lt;/a&gt; 残差连接（Residual Connection）
+&lt;/h3&gt;&lt;p&gt;残差连接最早由何恺明等人在 ResNet &lt;sup&gt;&lt;a id='ref-cite23-3' href='#cite23'&gt;[23]&lt;/a&gt;&lt;/sup&gt; 中系统提出，其核心思想是在一段非线性变换 $F(\cdot)$ 外面再加上一条恒等映射的捷径：
+$$\mathbf y = \mathbf x + F(\mathbf x),$$
+其中 $\mathbf x$ 是块的输入，$F(\mathbf x)$ 是若干层卷积 / 线性层加激活函数后的输出。相比于单纯学习 $\mathbf y = F(\mathbf x)$，这种写法让网络只需学习输出相对于输入的 &lt;strong&gt;残差（Residual）&lt;/strong&gt;，即 $\mathbf y - \mathbf x$。&lt;/p&gt;
+&lt;p&gt;从优化角度看，残差连接为梯度提供了一条近似恒等的&lt;strong&gt;直通路径&lt;/strong&gt;：在反向传播时，损失对 $\mathbf x$ 的梯度除了会经过 $F$ 的链式求导外，还会直接通过加法中的那条支路传回。这在网络堆叠得很深时，可以显著缓解梯度消失和退化问题，使得更深的网络仍然可训练，也是现代深层网络得以显著加深的重要前提之一。&lt;/p&gt;
+&lt;p&gt;在 Transformer 中，每一层的自注意力和前馈网络周围都会包一层这样的残差连接，例如（忽略 LayerNorm 的细节）：
+$$\begin{aligned}
+\mathbf H^{(l)}_\mathrm{attn} &amp;amp;= \mathbf H^{(l-1)} + \mathrm{MultiHeadAttention}\big(\mathbf H^{(l-1)}\big), \\
+\mathbf H^{(l)} &amp;amp;= \mathbf H_\mathrm{attn}^{(l)} + \mathrm{FFN}\big(\mathbf H_\mathrm{attn}^{(l)}\big),
+\end{aligned}$$&lt;/p&gt;
+&lt;p&gt;其中 $\mathbf H^{(l-1)}$ 是第 $(l-1)$ 层的输出，$\mathbf H^{(l)}$ 是第 $l$ 层的最终输出。这样一来，即使注意力或 FFN 中某些子结构在初始阶段还没学到有用的变换，信息也可以通过残差支路几乎不受损地向前和向后传递。&lt;/p&gt;
+&lt;p&gt;直观地说，残差连接为每一层的梯度提供了一个捷径，模型可以在此基础上逐层叠加小的修正项，而不用担心网络深度带来的优化困难。下一小节中引入的 LayerNorm 则会和这种残差结构搭配，进一步改善训练稳定性。&lt;/p&gt;
+&lt;h3 id="层归一化layer-normalization"&gt;&lt;a id="layernorm"&gt;&lt;/a&gt; 层归一化（Layer Normalization）
+&lt;/h3&gt;&lt;p&gt;在训练过程中，由于模型前面层的参数在不断更新，后面层看到的输入分布也会随之发生改变，相当于后面层要不断适应一个在训练过程中缓慢变化的任务，这不利于后面层的训练。为此我们需要引入 &lt;strong&gt;归一化层（Normalization Layer）&lt;/strong&gt;，其的目的就是在不改变模型表达能力的前提下，在训练时先把每一层的输入/输出标准化到一个稳定的范围内，从而削弱这种分布漂移对训练过程的干扰。&lt;/p&gt;
+&lt;p&gt;按照归一化操作所作用的维度不同，常见的做法包括 &lt;strong&gt;批次归一化（BatchNorm）&lt;/strong&gt; &lt;sup&gt;&lt;a id='ref-cite24-3' href='#cite24'&gt;[24]&lt;/a&gt;&lt;/sup&gt; 和 &lt;strong&gt;层归一化（LayerNorm）&lt;/strong&gt; &lt;sup&gt;&lt;a id='ref-cite25-5' href='#cite25'&gt;[25]&lt;/a&gt;&lt;/sup&gt; 等。在 Transformer 中，最常用的是后者 层归一化 &lt;sup&gt;&lt;a id='ref-cite25-6' href='#cite25'&gt;[25]&lt;/a&gt;&lt;/sup&gt;。它对&lt;strong&gt;每一个样本的每一个 Token&lt;/strong&gt;，在&lt;strong&gt;特征维度上&lt;/strong&gt;单独做归一化。例如，对某一层第 $i$ 个 Token 的隐藏向量
+$\mathbf h_i \in \mathbb{R}^{d_{\text{model}}}$，LayerNorm 的计算大致是：
+$$
+y_{i,j} = \gamma_j \frac{h_{i,j} - \mu_i}{\sqrt{\sigma_i^2 + \varepsilon}} + \beta_j.
+$$
+其中，$\mu_i$ 和 $\sigma_i^2$ 分别是 $\mathbf h_i$ 内共 $d_{\text{model}}$ 个元素的均值和方差，$\varepsilon$ 是防止除零的小常数，$\gamma_j,\beta_j \in \mathbb{R}$ 是每个维度之间独立的可学习参数。可以看到，对同一位置 $i$ 来说，所有维度共享同一组统计量 $(\mu_i,\sigma_i^2)$，而不同维度有各自的缩放 / 平移参数 $(\gamma_j,\beta_j)$。这既让各维的数值范围更稳定，又保留了模型按维度重新标定特征的重要自由度。&lt;/p&gt;
+&lt;p&gt;顺带一提，近年的一些大模型还会采用 &lt;strong&gt;RMSNorm&lt;/strong&gt; 这一变体。与 LayerNorm 先减去均值、再按方差归一化不同，RMSNorm 只对向量的均方根做缩放，不再显式去中心化，其形式大致是：
+$$
+y_{i,j} = \gamma_j \frac{h_{i,j}}{\sqrt{\frac{1}{d_{\text{model}}}\sum_{k} h_{i,k}^2 + \varepsilon}}.
+$$
+这样一方面保留了「按整体尺度规范激活」的核心效果，另一方面实现更简单、在部分大模型实践中也被观察到具有略好的数值稳定性和收敛表现，因此逐渐成为 LayerNorm 的常见替代方案。&lt;/p&gt;
+&lt;h4 id="对比-batchnorm"&gt;对比 BatchNorm
+&lt;/h4&gt;&lt;p&gt;从归一化的角度看，BatchNorm 和 LayerNorm 的核心差异在于&lt;strong&gt;统计量计算所依赖的维度不同&lt;/strong&gt;。BatchNorm 更适合卷积网络中的图像场景：它对同一通道上的激活，在一个 Mini-Batch（以及可能的空间维）上共同计算均值和方差，因此统计量直接依赖于 Batch 的大小与组成，训练和推理时还需要维护全局均值 / 方差的估计。相比之下，LayerNorm 对于每个样本、每个位置，只在特征维度上计算均值和方差，与 Batch 里还有多少其他样本无关，这使得即便在 Batch Size 很小、甚至推理阶段单样本在线生成的情况下，归一化行为也能保持一致。&lt;/p&gt;
+&lt;p&gt;对 Transformer / LLM 来说，这一点非常关键。一方面，语言任务中的序列长度和 Batch 构成高度可变，BatchNorm 的 Batch 统计往往噪声较大，训练 / 推理之间的分布差异也更难控制；另一方面，自回归推理时常常是小 Batch 甚至单条请求逐 Token 生成，此时依赖 Batch 统计的 BatchNorm 会带来额外的工程复杂度和数值不稳定。相反，LayerNorm 完全不依赖 Batch 维度，只对当前位置的特征向量做归一化，天然适配「按 Token 逐位置处理、支持可变长度和小 Batch 推理」的使用模式。因此，现代 Transformer 和大语言模型几乎清一色采用 LayerNorm 或其变体 RMSNorm，作为标准的归一化方案。&lt;/p&gt;
+&lt;h4 id="pre-ln-和-post-ln"&gt;&lt;a id="pre-ln-post-ln"&gt;&lt;/a&gt; Pre-LN 和 Post-LN
+&lt;/h4&gt;&lt;figure style="width: 100%; margin: 1.5rem auto;"&gt;
+&lt;img
+src="https://files.furffisite.link/blogimg/20251124014227-afbaaf9fee3ef161ff59a06b4fa23ed5-e7ce6.png"
+alt="对比 Transformer 中 Post-LN 和 Pre-LN：左图在多头注意力和前馈网络之后做 LayerNorm，右图在进入子层前先做 LayerNorm，再通过残差相加"
+style="width: 60%; height: auto;"
+&gt;
+&lt;figcaption&gt;
+左图 (a) 是原始 Transformer 中的 Post-LN 结构：先做自注意力 / 前馈网络，再与输入相加，最后经过 LayerNorm；&lt;br&gt;
+右图 (b) 是后续广泛采用的 Pre-LN 结构：先对输入做 LayerNorm，再进入子层，最后直接与原输入相加。&lt;br&gt;
+（图片来自 Xiong &lt;i&gt;et al.&lt;/i&gt; &lt;sup&gt;&lt;a id='ref-cite26-5' href='#cite26'&gt;[26]&lt;/a&gt;&lt;/sup&gt;）
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;在前面介绍了 LayerNorm 的作用之后，一个自然的问题是：它在 Transformer 的残差结构里到底放在哪个位置更合适？主流有两种设计，分别是 Post-LN 和 Pre-LN，上图给出了这两种设计的对比，从其中可以更直观地看到两种设计的差异。&lt;/p&gt;
+&lt;p&gt;左侧的 &lt;strong&gt;Post-LN&lt;/strong&gt; 中，每个子层（多头注意力或前馈网络）先对输入做变换，再把结果与残差加到一起，最后整体通过一次 LayerNorm。这样一来，沿着残差路径向上传递的信号，每经过一层都会被 LayerNorm 和非线性再加工一次；当网络足够深时，梯度在层与层之间会被反复缩放和扰动，训练过程容易变得不稳定。&lt;/p&gt;
+&lt;p&gt;右侧的 &lt;strong&gt;Pre-LN&lt;/strong&gt; 则把 LayerNorm 挪到了子层之前：先对当前表示做一次归一化，再送入多头注意力或前馈网络，子层输出直接与原输入相加，形成下一层的残差起点。对主干残差通路来说，这更接近一条「恒等映射加小修正」的线路：即便子层一开始还没学到有用的变换，信息和梯度也可以几乎不受干扰地一路向前和向后流动，更有利于在几十层甚至上百层的深度下保持训练稳定。&lt;/p&gt;
+&lt;p&gt;此外，一些系统性的实验 &lt;sup&gt;&lt;a id='ref-cite26-6' href='#cite26'&gt;[26]&lt;/a&gt;&lt;/sup&gt; 对这两种结构做了对比，结果表明：在网络加深时，Post-LN 更容易出现梯度衰减和训练不稳定的问题，而 Pre-LN 在大多数配置下能以更大的学习率稳定收敛；Post-LN 往往需要更保守的学习率和更复杂的 Warmup 策略才能勉强训练起来。因此，虽然最初的 Transformer &lt;sup&gt;&lt;a id='ref-cite1-30' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt; 采用的是 Post-LN，但在后续的 LLM 实践中，Pre-LN（以及只保留缩放的 RMSNorm 等变体）逐渐成为事实上的主流选择，现代的模型基本都采用这类结构。&lt;/p&gt;
+&lt;h3 id="小结"&gt;小结
+&lt;/h3&gt;&lt;p&gt;在前面几节里我们分别拆开讲了注意力、RoPE、因果掩码、多头机制、前馈网络、残差连接和归一化。这里不再继续引入新符号，而是回到那条简单的输入序列 &lt;code&gt;[The, capital, city, of, China, is]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在章节末尾，我们从数据流的视角，把一层 Transformer Block 里发生的事情串起来看一遍。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;上一层的输出作为这一层的输入表示&lt;/strong&gt;&lt;br&gt;
+经过嵌入层和若干层 Transformer 之后，我们在第 $l-1$ 层出口处得到六个 Token 的隐藏向量&lt;br&gt;
+&lt;code&gt;[The, capital, city, of, China, is]&lt;/code&gt; 分别对应 $H^{(l-1)}_1,\dots,H^{(l-1)}_6$。&lt;br&gt;
+你可以把它们看成「当前模型对每个位置的语义理解」，这一层的任务就是在此基础上再做一次全局信息路由与非线性变换。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;LayerNorm&lt;/strong&gt;&lt;br&gt;
+在 &lt;strong&gt;Pre-LN 结构&lt;/strong&gt; 中，这一层并不是直接把 $H^{(l-1)}$ 丢进多头注意力，而是先对每个 Token 的向量做一次 &lt;strong&gt;LayerNorm&lt;/strong&gt;：&lt;br&gt;
+对于 &lt;code&gt;The&lt;/code&gt;、&lt;code&gt;capital&lt;/code&gt;、&lt;code&gt;city&lt;/code&gt; 等每个位置的 Token，各自根据隐状态 $H^{(l-1)}_i$ 在特征维度上的均值和方差做归一化，再对每个维度 $j$ 乘上可学习的缩放系数 $\gamma_j$ 并加上偏置 $\beta_j$，得到的结果记作 $\tilde H^{(l-1)}_i$，它们将作为本层注意力子层的输入。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;多头自注意力：MHA + RoPE + Mask&lt;/strong&gt;&lt;br&gt;
+接下来是本层的「&lt;strong&gt;多头自注意力子层&lt;/strong&gt;」：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对每个注意力头，分别从 $\tilde H^{(l-1)}_i$ 通过可学习的参数线性投影出 $Q, K, V$（实际部署时还会通过 KV Cache、批量调度等手段避免重复计算前缀、提升吞吐，这些属于系统实现层面的优化，本文不展开）；&lt;/li&gt;
+&lt;li&gt;在 $Q, K$ 上应用 &lt;strong&gt;RoPE&lt;/strong&gt;：把 $Q, K$ 的维度两两分为一组，对不同 Token 和不同子空间应用不同角度的旋转作为位置编码，让注意力分数只依赖 Token 之间的相对位移；&lt;/li&gt;
+&lt;li&gt;在注意力分数矩阵上施加 &lt;strong&gt;因果掩码（Causal Mask）&lt;/strong&gt;：
+让 &lt;code&gt;city&lt;/code&gt; 在这一层只能看到 &lt;code&gt;[The, capital, city]&lt;/code&gt; 三个 Token；
+对位置 &lt;code&gt;is&lt;/code&gt;，它可以看到 &lt;code&gt;[The, capital, city, of, China, is]&lt;/code&gt;，但看不到后面还没生成的 Token。&lt;/li&gt;
+&lt;li&gt;每个头各自完成一次带 RoPE 和因果掩码的自注意力，得到六个位置的上下文向量，再在特征维上拼接，通过输出线性层合并成本层注意力的输出 $\Delta_{\text{attn}}$。&lt;/li&gt;
+&lt;li&gt;最后，把这个输出与原始输入 $H^{(l-1)}$ 相加（残差连接），得到 $H^{(l)}_{\text{attn}} = H^{(l-1)} + \Delta_{\text{attn}}.$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在直觉上，可以理解为：在这一层里，&lt;code&gt;is&lt;/code&gt; 会查看前面所有的 Token，结合当前上下文，对自己在这一步该承载什么信息做一次加权汇总；此外，原来的表示 $H^{(l-1)}_i$ 通过残差连接被完整保留下来，给梯度留出一条稳定的直通路径。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;LayerNorm + 前馈网络&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先对注意力子层的输出 $H^{(l)}_{\text{attn}}$ 做一次 &lt;strong&gt;LayerNorm&lt;/strong&gt; 得到 $\tilde H^{(l)}_{\text{attn}}$，保证送入前馈网络的输入在尺度上也是稳定的；&lt;/li&gt;
+&lt;li&gt;对每个位置各自应用同一组两层感知机：先升维、过一次激活函数 $\phi$，再降回原来的维度 $$ \Delta_{\text{FFN}} = W^{(l)}_2 \phi\big(W^{(l)}_1 \tilde H^{(l)}_{\text{attn}, i} + \mathbf b^{(l)}_1\big) + \mathbf b^{(l)}_2.$$&lt;/li&gt;
+&lt;li&gt;最后再和这一层的输入做一次残差相加，得到这一层最终的输出 $H^{(l)}_i = H^{(l)}_{\text{attn}} + \Delta_{\text{FFN}}.$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;把上面的「LayerNorm → MHA + RoPE + 因果掩码 → 残差连接 → LayerNorm → 前馈网络 → 残差连接」视作一个基本单元，沿深度方向堆叠几十层之后，最后一个位置的 Token &lt;code&gt;is&lt;/code&gt; 会在每一层中回看前面的 &lt;code&gt;[The, capital, city, of, China]&lt;/code&gt;，在全局范围内不断重组、强化与当前预测相关的上下文线索；同时，每一层的 FFN 又在局部为当前 Token 提供更抽象、更任务相关的特征变换。等到整段 &lt;code&gt;[The, capital, city, of, China, is]&lt;/code&gt; 最终到达输出层时，输出的隐状态是经过多层 Transformer 共同塑造出的高维表示，这为后续 Logits 的计算提供了充足的信息。&lt;/p&gt;
+&lt;h2 id="输出从向量到文本"&gt;&lt;a id="output"&gt;&lt;/a&gt; 输出：从向量到文本
+&lt;/h2&gt;&lt;p&gt;经过多层 Transformer 的处理，输入序列的最后一个 Token 已经被编码为一个高维的隐状态向量，其中聚合了生成下一个词所需的上下文信息。接下来，我们需要将这个连续的向量表示转换回人类可读的离散文本。这个过程主要包含三个步骤：&lt;a class="link" href="#unembedding" &gt;逆嵌入（Unembedding）&lt;/a&gt;、&lt;a class="link" href="#sampling" &gt;采样（Sampling）&lt;/a&gt; 和 &lt;a class="link" href="#detokenization" &gt;逆分词（Detokenization）&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id="逆嵌入unembedding"&gt;&lt;a id="unembedding"&gt;&lt;/a&gt; 逆嵌入（Unembedding）
+&lt;/h3&gt;&lt;p&gt;当经过深层网络处理后的隐状态向量 $H^{(L)}$（对应当前处理的 Token &lt;code&gt;is&lt;/code&gt;）离开最后一层的 Transformer Block 时，它首先会经过一次最终的 LayerNorm 以统一特征分布。紧接着，这个维度为 $d_{\text{model}}$ 的向量会被送入&lt;strong&gt;逆嵌入层（Unembedding Layer）&lt;/strong&gt;，其本质上是一个线性投影矩阵 $W_U \in \mathbb{R}^{d_{\text{model}} \times V}$，它将高维的语义特征映射回词表空间 $\mathbb{R}^{V}$。这个矩阵乘法的输出是一个长度为词表大小 $V$ 的向量，其中的每一个数值代表了模型认为词表中对应 Token 是下一个词的打分，这些未归一化的分数被称为 &lt;strong&gt;Logits&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;Logits 本身的数值范围通常在 $(-\infty, +\infty)$ 之间，且难以直接解释。为了确定下一个词是谁，我们需要将这些分数转换为概率分布。这里使用的是 Softmax 函数。在这个过程中，为了控制生成的创造性或确定性，通常在推理时会引入一个重要的超参数：&lt;strong&gt;温度（Temperature）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;经过温度调整后的完整概率计算公式为 $$\mathbf p_i = \mathrm{softmax}\left(\frac{1}{T}\cdot W_U\cdot\mathrm{LayerNorm}(\mathbf h^{(L)}_i)\right),$$
+其中 $\mathbf p_i \in \mathbb{R}^{V}$ 是第 $(i+1)$ 个输入 Token 的概率分布。直观地看，温度 $T$ 起到了调节分布集中程度的作用：当 $T &amp;lt; 1$ 时，原本得分较高的 Token 的概率会被进一步放大，分布变得尖锐，信息熵降低，在采样时倾向于选择最稳妥的词，适合推理或问答；当 $T &amp;gt; 1$ 时，分布趋于平坦，信息熵升高，原本概率较低的 Token 也有了被选中的机会，这增加了生成结果的多样性，适合创意写作。&lt;/p&gt;
+&lt;h3 id="采样sampling"&gt;&lt;a id="sampling"&gt;&lt;/a&gt; 采样（Sampling）
+&lt;/h3&gt;&lt;p&gt;得到了概率分布 $\mathbf p$ 之后，最后一步就是根据这个分布选择一个具体的 Token ID 作为当前的输出，并将其拼接到输入序列的末尾，开始下一轮的循环。这个过程决定了模型生成的性格，主要有&lt;strong&gt;确定性&lt;/strong&gt;和&lt;strong&gt;随机性&lt;/strong&gt;两大类策略。&lt;/p&gt;
+&lt;p&gt;在早期的序列生成模型（如机器翻译）中，&lt;strong&gt;束搜索（Beam Search）&lt;/strong&gt; 曾经是标配。它不局限于眼下的这一步，而是时刻维护 $k$ 个候选序列（Beam），每一步都搜索所有可能的扩展路径并保留得分最高的 $k$ 个，试图找到全局最优解。然而，在现代的 Decoder-only 大模型中，Beam Search 的使用频率大大降低了。原因主要有二：一是它需要同时维护 $k$ 份 KV Cache，显存和计算开销成倍增加，对于长文本生成难以承受；二是研究发现，在开放式生成中，概率最高的全局最优解往往也是最平庸、最容易陷入重复循环（Repetition Loop）的文本 &lt;sup&gt;&lt;a id='ref-cite27-5' href='#cite27'&gt;[27]&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;p&gt;因此，现在的 LLM 推理主要采用&lt;strong&gt;单步解码&lt;/strong&gt;策略，其中最基础的就是&lt;strong&gt;贪心搜索（Greedy Search）&lt;/strong&gt;：在每一步直接选择概率最大的那个 Token。这种策略计算效率最高，适合数学推理、代码生成等追求唯一正确解的任务；但对于创意写作，它的结果是确定的，且不受温度的控制，因此可能会显得过于死板和枯燥。&lt;/p&gt;
+&lt;p&gt;为了让生成更像人类，我们通常会引入&lt;strong&gt;随机采样&lt;/strong&gt;，即从概率分布中随机抽取下一个 Token。最常用的策略有两种：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Top-k 采样&lt;/strong&gt; &lt;sup&gt;&lt;a id='ref-cite28-3' href='#cite28'&gt;[28]&lt;/a&gt;&lt;/sup&gt;：只从概率最高的前 $k$ 个 Token 里进行采样。这虽然排除了长尾的离谱选项，但 $k$ 值是固定的，无法适应模型信心变化（在不确定时 $k$ 太小会丢掉合理选项，在确定时 $k$ 太大又会引入噪声）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Top-p (Nucleus) 采样&lt;/strong&gt; &lt;sup&gt;&lt;a id='ref-cite27-6' href='#cite27'&gt;[27]&lt;/a&gt;&lt;/sup&gt;：这是目前最主流的方法。它不固定候选词的数量，而是选择概率总和达到 $p$（例如 0.9）的最小 Token 集合。这是一种动态的策略：当模型很确定时（分布尖锐），候选集可能只有 1-2 个词；当模型不确定时（分布平坦），候选集会自动扩展到几十个词。这种方式完美平衡了生成的多样性和合理性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在实际应用中，通常会将温度与 Top-p 结合使用，先用 Temperature 调整分布形状，再用 Top-p 截断长尾，最后在候选集合内根据重新归一化后的概率分布进行采样。&lt;/p&gt;
+&lt;h3 id="逆分词-detokenization"&gt;&lt;a id="detokenization"&gt;&lt;/a&gt; 逆分词 (Detokenization)
+&lt;/h3&gt;&lt;p&gt;当模型通过采样选定了一个 Token ID（例如 11618）之后，我们通过查阅分词器的词表将其还原为对应的文本片段（例如 &amp;quot; Beijing&amp;quot;）。这个过程即&lt;strong&gt;逆分词（Detokenization）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;对于 BPE 类分词器 &lt;sup&gt;&lt;a id='ref-cite2-6' href='#cite2'&gt;[2]&lt;/a&gt;&lt;/sup&gt;，这个过程本质上是字节序列的拼接。模型不断生成新的 Token，我们将这些 Token 对应的字符串依次追加到输出缓冲区中。需要注意的是，由于 BPE 可能会把一个完整的 Unicode 字符切分成多个字节，有时刚生成的 Token 只是一个不完整的字节片段（如汉字 Unicode 编码的前半部分），此时直接解码会产生乱码。因此，稳健的实现通常会维护一个字节缓冲区，只有当缓冲区内的字节能组成合法的 Unicode 字符时才进行解码并展示给用户。&lt;/p&gt;
+&lt;h3 id="走入轮回"&gt;&lt;a id="new-cycle"&gt;&lt;/a&gt; 走入轮回
+&lt;/h3&gt;&lt;p&gt;至此，我们已经完成了一次完整的&lt;strong&gt;预测下一个词&lt;/strong&gt;的过程：从输入的文本序列，经过分词、嵌入、多层 Transformer 的变换，最终从最后一个 Token &lt;code&gt;is&lt;/code&gt; 对应的输出概率分布采样得到了一个新的 Token ID（例如 11618，对应单词 &lt;code&gt;Beijing&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;但这并不是终点。正如我们在 &lt;a class="link" href="#ntp" &gt;预测下一个词与自回归生成&lt;/a&gt; 一节中所述，大语言模型的生成过程是自回归的。这个新生成的 Token ID 会被追加到当前输入序列的末尾，成为下一轮推理的历史上下文的一部分。&lt;/p&gt;
+&lt;p&gt;紧接着，新一轮的循环开始了。这个新的整数 ID 会再次被送入 &lt;a class="link" href="#embedding-layer" &gt;&lt;strong&gt;嵌入层&lt;/strong&gt;&lt;/a&gt;，转化为向量表示，并再次流经那一层层复杂的 Transformer 结构。模型会基于包含了 &lt;code&gt;Beijing&lt;/code&gt; 的新上下文，去预测下一个可能出现的词（比如句号 &lt;code&gt;.&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;这个「预测 - 采样 - 拼接 - 再预测」的循环将一直持续下去，直到模型采样到了代表结束的特殊标记 &lt;code&gt;&amp;lt;|end_of_text|&amp;gt;&lt;/code&gt;，或者触碰到了设定的最大长度限制。到那时，这段从用户指尖出发的文本，在经历了无数次矩阵乘法与非线性变换的漫长旅程后，终于完成它的使命，化作屏幕上一段完整的、富有逻辑的回复，呈现在你的面前。&lt;/p&gt;
+&lt;h2 id="后记"&gt;后记
+&lt;/h2&gt;&lt;p&gt;呼~终于写完了！这应该是我第一次主动挑战写这么长篇幅的技术文章。回顾下来，LLM 推理相关的数据流和模型结构知识点大概都覆盖到了。文中如果有遗漏或错误之处，烦请在评论区斧正，如果本文有帮到你的话也欢迎在评论区留下评论哦！&lt;/p&gt;
+&lt;p&gt;当然这篇文章也不全是我一个人敲出来的。为了达到复习巩固的目的，我在列好大纲之后对每一节采用了「我撰写初稿 → LLM 事实核查 → 我修改 → LLM 润色」的工作流。在这个过程中，LLM 确实帮我纠正了不少错误理解（比如我之前一直以为 &lt;a class="link" href="#rope" &gt;RoPE&lt;/a&gt; 是像传统的位置编码一样在输入层直接作用于 Embedding 的），同时也补充了许多我未曾注意到的细节，帮助确实很大。&lt;/p&gt;
+&lt;p&gt;另外，这也是我首次尝试在博客文章中嵌入可交互组件（比如文中用 Svelte 写的 Tokenizer 演示和 Plotly 导出的可交互图表）。这种可交互组件的存在确实相比于单纯的图片更有助于加深理解，这也算是独立博客相比于知乎等第三方平台的优势之一吧。后续可能会水一篇文章讲讲我是如何实现和插入这些交互式组件的。&lt;/p&gt;
+&lt;h2 id="相关文献"&gt;相关文献
+&lt;/h2&gt;&lt;style&gt;
+.bibliography { display: table; font-size: medium; line-height: normal; }
+.bib-item { display: table-row; }
+.bib-item &gt; :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
+.bib-item &gt; :last-child { display: table-cell; padding-bottom: .5ex; }
+&lt;/style&gt;
+&lt;div class="bibliography"&gt;&lt;div id="cite1" class="bib-item"&gt;
+&lt;span&gt;[1]&lt;/span&gt;
+&lt;span&gt;Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., &lt;em&gt;et al.&lt;/em&gt; (2017). &lt;a class="link" href="https://proceedings.neurips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html" target="_blank" rel="noopener"
+&gt;Attention is All you Need&lt;/a&gt;. &lt;em&gt;Advances in Neural Information Processing Systems&lt;/em&gt;, 30.&lt;a href="#ref-cite1-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-6"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-7"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-8"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-9"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-10"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-11"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-12"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-13"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-14"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-15"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-16"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-17"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-18"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-19"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-20"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-21"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-22"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-23"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-24"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-25"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-26"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-27"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-28"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-29"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite1-30"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite2" class="bib-item"&gt;
+&lt;span&gt;[2]&lt;/span&gt;
+&lt;span&gt;Sennrich, R., Haddow, B., &amp;amp; Birch, A. (2016). &lt;a class="link" href="https://arxiv.org/abs/1508.07909" target="_blank" rel="noopener"
+&gt;Neural machine translation of rare words with subword units&lt;/a&gt;. &lt;em&gt;ACL 2016&lt;/em&gt;.&lt;a href="#ref-cite2-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite2-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite2-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite2-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite2-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite2-6"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite3" class="bib-item"&gt;
+&lt;span&gt;[3]&lt;/span&gt;
+&lt;span&gt;Kudo, T. (2018). &lt;a class="link" href="https://doi.org/10.48550/arXiv.1804.10959" target="_blank" rel="noopener"
+&gt;Subword regularization: Improving neural network translation models with multiple subword candidates&lt;/a&gt;. &lt;em&gt;arXiv.&lt;/em&gt;&lt;a href="#ref-cite3-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite3-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite3-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite4" class="bib-item"&gt;
+&lt;span&gt;[4]&lt;/span&gt;
+&lt;span&gt;Agarwal, S., Ahmad, L., Ai, J., Altman, S., &amp;amp; Applebaum, A., &lt;em&gt;et al.&lt;/em&gt; (2025). &lt;a class="link" href="https://doi.org/10.48550/arXiv.2508.10925" target="_blank" rel="noopener"
+&gt;gpt-oss-120b &amp;amp; gpt-oss-20b Model Card&lt;/a&gt;. &lt;em&gt;arXiv.&lt;/em&gt;&lt;a href="#ref-cite4-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite4-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite4-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite4-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite4-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite4-6"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite5" class="bib-item"&gt;
+&lt;span&gt;[5]&lt;/span&gt;
+&lt;span&gt;OpenAI. (2019). &lt;a class="link" href="https://openai.com/index/better-language-models/" target="_blank" rel="noopener"
+&gt;Better language models and their implications&lt;/a&gt;.&lt;a href="#ref-cite5-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite5-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite5-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite5-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite5-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite5-6"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite6" class="bib-item"&gt;
+&lt;span&gt;[6]&lt;/span&gt;
+&lt;span&gt;OpenAI. (2019). &lt;a class="link" href="https://github.com/openai/gpt-2/blob/master/model_card.md" target="_blank" rel="noopener"
+&gt;GPT-2 model card&lt;/a&gt;.&lt;a href="#ref-cite6-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite6-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite6-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite7" class="bib-item"&gt;
+&lt;span&gt;[7]&lt;/span&gt;
+&lt;span&gt;Hochreiter, S., &amp;amp; Schmidhuber, J. (1997). &lt;a class="link" href="https://doi.org/10.1162/neco.1997.9.8.1735" target="_blank" rel="noopener"
+&gt;Long Short-Term Memory&lt;/a&gt;. &lt;em&gt;Neural Comput.&lt;/em&gt;, 9(8), 1735–1780&lt;a href="#ref-cite7-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite7-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite7-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite8" class="bib-item"&gt;
+&lt;span&gt;[8]&lt;/span&gt;
+&lt;span&gt;Cho, K., van Merriënboer, B., Gulcehre, C., Bahdanau, D., Bougares, F., &lt;em&gt;et al.&lt;/em&gt; (2014). &lt;a class="link" href="https://doi.org/10.3115/v1/D14-1179" target="_blank" rel="noopener"
+&gt;Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation&lt;/a&gt;. In &lt;em&gt;Proceedings of EMNLP 2014&lt;/em&gt; (pp. 1724–1734). ACL.&lt;a href="#ref-cite8-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite8-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite8-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite9" class="bib-item"&gt;
+&lt;span&gt;[9]&lt;/span&gt;
+&lt;span&gt;Gu, A., &amp;amp; Dao, T. (2024). &lt;a class="link" href="https://doi.org/10.48550/arXiv.2312.00752" target="_blank" rel="noopener"
+&gt;Mamba: Linear-Time Sequence Modeling with Selective State Spaces&lt;/a&gt;. &lt;em&gt;arXiv&lt;/em&gt;.&lt;a href="#ref-cite9-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite9-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite9-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite10" class="bib-item"&gt;
+&lt;span&gt;[10]&lt;/span&gt;
+&lt;span&gt;Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., &lt;em&gt;et al.&lt;/em&gt; (2023). &lt;a class="link" href="https://doi.org/10.1145/3600006.3613165" target="_blank" rel="noopener"
+&gt;Efficient Memory Management for Large Language Model Serving with PagedAttention&lt;/a&gt;. &lt;em&gt;Proceedings of the 29th Symposium on Operating Systems Principles&lt;/em&gt;, 611–626.&lt;a href="#ref-cite10-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite10-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite10-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite11" class="bib-item"&gt;
+&lt;span&gt;[11]&lt;/span&gt;
+&lt;span&gt;Nie, S., Zhu, F., You, Z., Zhang, X., Ou, J., &lt;em&gt;et al.&lt;/em&gt; (2025). &lt;a class="link" href="https://doi.org/10.48550/arXiv.2502.09992" target="_blank" rel="noopener"
+&gt;Large Language Diffusion Models&lt;/a&gt;. &lt;em&gt;arXiv.&lt;/em&gt;&lt;a href="#ref-cite11-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite11-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite11-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite11-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite11-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite11-6"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite12" class="bib-item"&gt;
+&lt;span&gt;[12]&lt;/span&gt;
+&lt;span&gt;Devlin, J., Chang, M.-W., Lee, K., &amp;amp; Toutanova, K. (2019). &lt;a class="link" href="https://doi.org/10.48550/arXiv.1810.04805" target="_blank" rel="noopener"
+&gt;BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding&lt;/a&gt;. &lt;em&gt;arXiv.&lt;/em&gt;&lt;a href="#ref-cite12-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite12-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite12-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite12-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite12-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite12-6"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite13" class="bib-item"&gt;
+&lt;span&gt;[13]&lt;/span&gt;
+&lt;span&gt;Bahdanau, D., Cho, K., &amp;amp; Bengio, Y. (2015). &lt;a class="link" href="https://doi.org/10.48550/arXiv.1409.0473" target="_blank" rel="noopener"
+&gt;Neural Machine Translation by Jointly Learning to Align and Translate&lt;/a&gt;. &lt;em&gt;ICLR 2015&lt;/em&gt;.&lt;a href="#ref-cite13-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite13-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite13-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite14" class="bib-item"&gt;
+&lt;span&gt;[14]&lt;/span&gt;
+&lt;span&gt;See, A., Liu, P. J., &amp;amp; Manning, C. D. (2017). &lt;a class="link" href="https://doi.org/10.18653/v1/P17-1099" target="_blank" rel="noopener"
+&gt;Get To The Point: Summarization with Pointer-Generator Networks&lt;/a&gt;. &lt;em&gt;ACL 2017&lt;/em&gt;.&lt;a href="#ref-cite14-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite14-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite14-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite15" class="bib-item"&gt;
+&lt;span&gt;[15]&lt;/span&gt;
+&lt;span&gt;Su, J., Ahmed, M., Lu, Y., Pan, S., Bo, W., &amp;amp; Liu, Y. (2024). &lt;a class="link" href="https://doi.org/10.1016/j.neucom.2023.127063" target="_blank" rel="noopener"
+&gt;RoFormer: Enhanced transformer with Rotary Position Embedding&lt;/a&gt;. &lt;em&gt;Neurocomput.&lt;/em&gt;, 568(C).&lt;a href="#ref-cite15-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite15-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite15-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite16" class="bib-item"&gt;
+&lt;span&gt;[16]&lt;/span&gt;
+&lt;span&gt;Yang, A., Li, A., Yang, B., Zhang, B., Hui, B., &lt;em&gt;et al.&lt;/em&gt; (2025). &lt;a class="link" href="https://doi.org/10.48550/arXiv.2505.09388" target="_blank" rel="noopener"
+&gt;Qwen3 Technical Report&lt;/a&gt;. &lt;em&gt;arXiv.&lt;/em&gt;&lt;a href="#ref-cite16-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite16-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite16-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite16-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite16-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite16-6"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite17" class="bib-item"&gt;
+&lt;span&gt;[17]&lt;/span&gt;
+&lt;span&gt;Xiao, G., Tian, Y., Chen, B., Han, S., &amp;amp; Lewis, M. (2024). &lt;a class="link" href="https://doi.org/10.48550/arXiv.2309.17453" target="_blank" rel="noopener"
+&gt;Efficient Streaming Language Models with Attention Sinks&lt;/a&gt;. &lt;em&gt;ICLR 2024&lt;/em&gt;.&lt;a href="#ref-cite17-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite17-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite17-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite18" class="bib-item"&gt;
+&lt;span&gt;[18]&lt;/span&gt;
+&lt;span&gt;Geva, M., Schuster, R., Berant, J., &amp;amp; Levy, O. (2021). &lt;a class="link" href="https://aclanthology.org/2021.emnlp-main.446/" target="_blank" rel="noopener"
+&gt;Transformer Feed-Forward Layers Are Key-Value Memories&lt;/a&gt;. &lt;em&gt;Proceedings of EMNLP 2021&lt;/em&gt;.&lt;a href="#ref-cite18-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite18-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite18-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite19" class="bib-item"&gt;
+&lt;span&gt;[19]&lt;/span&gt;
+&lt;span&gt;Jiang, A., Sablayrolles, A., Roux, A., Mensch, A., Savary, B., &lt;em&gt;et al.&lt;/em&gt; (2024). &lt;a class="link" href="https://arxiv.org/abs/2401.04088" target="_blank" rel="noopener"
+&gt;Mixtral of Experts&lt;/a&gt;. &lt;em&gt;arXiv&lt;/em&gt;.&lt;a href="#ref-cite19-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite19-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite19-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite19-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite19-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite19-6"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite20" class="bib-item"&gt;
+&lt;span&gt;[20]&lt;/span&gt;
+&lt;span&gt;DeepSeek-AI, Liu, A., Feng, B., Xue, B., &amp;amp; Wang, B., &lt;em&gt;et al.&lt;/em&gt; (2025). &lt;a class="link" href="https://doi.org/10.48550/arXiv.2412.19437" target="_blank" rel="noopener"
+&gt;DeepSeek-V3 Technical Report&lt;/a&gt;. &lt;em&gt;arXiv.&lt;/em&gt;&lt;a href="#ref-cite20-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite20-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite20-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite21" class="bib-item"&gt;
+&lt;span&gt;[21]&lt;/span&gt;
+&lt;span&gt;DeepSeek-AI, Guo, D., Yang, D., Zhang, H., Song, J., &lt;em&gt;et al.&lt;/em&gt; (2025). &lt;a class="link" href="https://doi.org/10.48550/arXiv.2501.12948" target="_blank" rel="noopener"
+&gt;DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning&lt;/a&gt;. &lt;em&gt;arXiv.&lt;/em&gt;&lt;a href="#ref-cite21-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite21-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite21-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite22" class="bib-item"&gt;
+&lt;span&gt;[22]&lt;/span&gt;
+&lt;span&gt;Bai, Y., Bao, Y., Chen, G., Chen, J., Chen, N., &lt;em&gt;et al.&lt;/em&gt; (2025). &lt;a class="link" href="https://doi.org/10.48550/arXiv.2507.20534" target="_blank" rel="noopener"
+&gt;Kimi K2: Open Agentic Intelligence&lt;/a&gt;. &lt;em&gt;arXiv.&lt;/em&gt;&lt;a href="#ref-cite22-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite22-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite22-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite23" class="bib-item"&gt;
+&lt;span&gt;[23]&lt;/span&gt;
+&lt;span&gt;He, K., Zhang, X., Ren, S., &amp;amp; Sun, J. (2016). &lt;a class="link" href="https://doi.org/10.1109/CVPR.2016.90" target="_blank" rel="noopener"
+&gt;Deep Residual Learning for Image Recognition&lt;/a&gt;. &lt;em&gt;CVPR 2016&lt;/em&gt;.&lt;a href="#ref-cite23-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite23-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite23-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite24" class="bib-item"&gt;
+&lt;span&gt;[24]&lt;/span&gt;
+&lt;span&gt;Ioffe, S. &amp;amp; Szegedy, C.. (2015). &lt;a class="link" href="https://proceedings.mlr.press/v37/ioffe15.html" target="_blank" rel="noopener"
+&gt;Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift&lt;/a&gt;. &lt;i&gt;ICML 2015&lt;/i&gt;.&lt;a href="#ref-cite24-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite24-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite24-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite25" class="bib-item"&gt;
+&lt;span&gt;[25]&lt;/span&gt;
+&lt;span&gt;Ba, J. L., Kiros, J. R., &amp;amp; Hinton, G. E. (2016). &lt;a class="link" href="https://doi.org/10.48550/arXiv.1607.06450" target="_blank" rel="noopener"
+&gt;Layer Normalization&lt;/a&gt;. &lt;em&gt;arXiv&lt;/em&gt;.&lt;a href="#ref-cite25-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite25-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite25-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite25-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite25-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite25-6"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite26" class="bib-item"&gt;
+&lt;span&gt;[26]&lt;/span&gt;
+&lt;span&gt;Xiong, R., Yang, Y., He, D., Zheng, K., Zheng, S., &lt;em&gt;et al.&lt;/em&gt; (2020). &lt;a class="link" href="https://dl.acm.org/doi/10.5555/3524938.3525913" target="_blank" rel="noopener"
+&gt;On layer normalization in the transformer architecture&lt;/a&gt;. &lt;em&gt;ICML 2020.&lt;/em&gt;&lt;a href="#ref-cite26-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite26-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite26-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite26-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite26-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite26-6"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite27" class="bib-item"&gt;
+&lt;span&gt;[27]&lt;/span&gt;
+&lt;span&gt;Holtzman, A., Buys, J., Du, L., Forbes, M., &amp;amp; Choi, Y. (2020). &lt;a class="link" href="https://doi.org/10.48550/arXiv.1904.09751" target="_blank" rel="noopener"
+&gt;The Curious Case of Neural Text Degeneration&lt;/a&gt;. &lt;em&gt;ICLR 2020&lt;/em&gt;.&lt;a href="#ref-cite27-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite27-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite27-3"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite27-4"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite27-5"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite27-6"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite28" class="bib-item"&gt;
+&lt;span&gt;[28]&lt;/span&gt;
+&lt;span&gt;Fan, A., Lewis, M., &amp;amp; Dauphin, Y. (2018). &lt;a class="link" href="https://doi.org/10.18653/v1/P18-1082" target="_blank" rel="noopener"
+&gt;Hierarchical Neural Story Generation&lt;/a&gt;. &lt;em&gt;ACL 2018&lt;/em&gt;.&lt;a href="#ref-cite28-1"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite28-2"&gt;⤶&lt;/a&gt;&lt;a href="#ref-cite28-3"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;</description></item></channel></rss>

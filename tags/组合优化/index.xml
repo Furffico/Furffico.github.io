@@ -1,155 +1,57 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>组合优化 on Furffiblog</title><link>https://blog.furffisite.link/tags/%E7%BB%84%E5%90%88%E4%BC%98%E5%8C%96/</link><description>Recent content in 组合优化 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 08 Jul 2024 12:33:03 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/%E7%BB%84%E5%90%88%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml"/><item><title>【读论文】An End-to-End Submodular Framework for Data-Efficient In-Context Learning</title><link>https://blog.furffisite.link/p/read-papers/div-s3/</link><pubDate>Mon, 08 Jul 2024 12:33:03 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/div-s3/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240709193826-409d3c5c4adf797af0b0d55992852fce-5194f.jpg" alt="Featured image of post 【读论文】An End-to-End Submodular Framework for Data-Efficient In-Context Learning" />&lt;p>This blog post is completely written in English, just for practicing my English writing skills. Please let me know if there is any suggestions.&lt;/p>
-&lt;hr>
-&lt;h2 id="basic-information">Basic Information
-&lt;/h2>&lt;ul>
-&lt;li>Title： &lt;strong>An End-to-End Submodular Framework for Data-Efficient In-Context Learning&lt;/strong> &lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;/li>
-&lt;li>Authors： Lilly Kumari, Shengjie Wang, Arnav Das, Tianyi Zhou, Jeff Bilmes&lt;/li>
-&lt;li>Conference： &lt;a class="link" href="https://2024.naacl.org/" target="_blank" rel="noopener"
->NAACL 2024&lt;/a>&lt;/li>
-&lt;li>Open Access： &lt;a class="link" href="https://aclanthology.org/2024.findings-naacl.209" target="_blank" rel="noopener"
->https://aclanthology.org/2024.findings-naacl.209&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="the-problem-to-solve">The Problem to Solve
-&lt;/h2>&lt;p>&lt;strong>The problem of annotating, selecting and ordering in-context exemplars for Large Language Models (LLMs).&lt;/strong>&lt;/p>
-&lt;p>The In-Context Learning (ICL) performance of LLMs is largely affected by the selection and ordering of in-context exemplars, which makes it necessary to develop a methodology to select the in-context exemplars according to the query.&lt;/p>
-&lt;h2 id="the-proposed-algorithm">The Proposed Algorithm
-&lt;/h2>&lt;p>In reality, the most of the data we have are unannotated data, &lt;em>i.e.&lt;/em> queries without answers, some recent methods &lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup> suggest to select and annotate a subset from an unannotated huge dataset
-$\mathcal X_\mathrm{unlabeled}$ to form a small annotated dataset $\mathcal X_\mathrm{labeled}$, and to choose the in-context exemplars from this subset during evaluation. This passage followed this paradigm, and proposed &lt;strong>Div-S3&lt;/strong>, a two-stage data-efficient learning-free framework for exemplar selection.&lt;/p>
-&lt;ul>
-&lt;li>The first stage (&lt;strong>Div&lt;/strong>): Exemplar Annotation, from $\mathcal X_\mathrm{unlabeled}$ to $\mathcal X_\mathrm{labeled}$.&lt;/li>
-&lt;li>The second stage (&lt;strong>S3&lt;/strong>): Exemplar Retrieval, from $\mathcal X_\mathrm{labeled}$ and query set $Q$ to get in-context exemplars $\mathcal D_\mathrm{context}$.&lt;/li>
-&lt;/ul>
-&lt;h3 id="exemplar-annotation">Exemplar Annotation
-&lt;/h3>&lt;p>&lt;strong>Problem Definition.&lt;/strong>
-The first stage of &lt;em>Div-S3&lt;/em>, as mentioned above, selects from unannotated data $\mathcal X_\mathrm{unlabeled}$ and let &lt;em>homo sapiens&lt;/em> do the annotations to make an informative and diverse subset $\mathcal X_\mathrm{labeled}$, with the constraint of $|\mathcal X_\mathrm{labeled}| \ll |\mathcal X_\mathrm{unlabeled}|$. This is a process similar to one iteration of pool-based active learning. With the objective of diversity and reducing redundancy, this can also be formulated as a set optimization problem &lt;sup>&lt;a id='ref-cite3-1' href='#cite3'>[3]&lt;/a>&lt;/sup> as follows:
-$$\max_{A\subset \mathcal X_\mathrm{unlabeled},|A|\le k} f(A),$$
-where $k$ is a hyperparameter representing the annotation budget, $f:~2^{\mathcal X_\mathrm{unlabeled}}\rightarrow\mathbb R$ is a submodular function mapping all subsets of $\mathcal X_\mathrm{unlabeled}$ to the respective score of each subset. The higher the score, the better the subset is.&lt;/p>
-&lt;blockquote>
-&lt;p>The submodular function must satisfy the properties of monotone and decreasing marginal profit, &lt;em>i.e.&lt;/em>, respectively,
-$$\begin{aligned}\forall A\subseteq T, \quad&amp;amp;f(A) \le f(T), \\ \forall A\subset T,~ \forall x\not\in T, \quad&amp;amp;f(\{x\}|A) \ge f(\{x\}|T), \end{aligned}$$
-where $f(\{x\}|T) = f(\{x\}\cup T) - f(T)$ is the marginal profit of adding $\{x\}$ to $T$.&lt;/p>
-&lt;/blockquote>
-&lt;p>The authors set the submodular function to be &lt;em>facility location&lt;/em>, which is defined as
-$$f(A) = \sum_{s_i\in\mathcal X_\mathrm{unlabeled}}\max_{s_j\in A}\mathrm{sim}(s_i,s_j),$$
-where $\mathrm{sim}(\cdot,\cdot)$ denotes the cosine similarity of two queries&amp;rsquo; embeddings, generated by sentence-BERT &lt;sup>&lt;a id='ref-cite4-1' href='#cite4'>[4]&lt;/a>&lt;/sup>.&lt;/p>
-&lt;p>&lt;strong>Intuitive Interpretation.&lt;/strong>
-This problem can be intuitively and geometrically interpreted as minimizing the sum of all distances between each node and its nearest selected nodes, which is a k-medoids problem and is pretty similar to k-means clustering.&lt;/p>
-&lt;p>&lt;strong>Solution.&lt;/strong>
-The authors of this paper use a greedy algorithm proposed by Nemhauser &lt;em>et al.&lt;/em> &lt;sup>&lt;a id='ref-cite5-1' href='#cite5'>[5]&lt;/a>&lt;/sup>, called Greedy Submodular Maximization (GSM). Its fundamental idea is to greedily select the item with the maximum marginal profit for $k$ iterations, &lt;em>i.e.&lt;/em>
-$$A\leftarrow A\cup \{\argmax_{v\in V, v\not\in A} f(A\cup \{v\}) - f(A) \}.$$
-Considering the time spent in calculating $f$, this is an algorithm with the time complexity of $O((nk)^2)$. The paper says it&amp;rsquo;s $O(n^2+nk)$ but I beg to differ as it seems to have ignored the time complexity of calculating $f$, which is $\Theta(nm)$ with pre-calculated similarity matrix, where $m=0,1,\ldots,k-1$ in the iterations. But I agree with the authors that the algorithm can be accelerated by techniques like caching and priority queues, &lt;em>etc.&lt;/em>&lt;/p>
-&lt;h3 id="exemplar-retrieval">Exemplar Retrieval
-&lt;/h3>&lt;p>Exemplar retrieval is intended to find the best in-context exemplars $\mathcal D_\mathrm{context}$ for the given query set $Q$ from $\mathcal X_\mathrm{labeled}$. Previous similarity-based methods usually yield in-context exemplars with redundant information. To reduce such redundancy, the authors formalize exemplar retrieval as a conditional submodular subset selection problem. The purpose of this stage is to &amp;ldquo;obtain a set of exemplars that are not only relevant to the test query but also encompass diverse aspects crucial for aiding the LLM in the target task&amp;rdquo; &lt;sup>&lt;a id='ref-cite1-2' href='#cite1'>[1]&lt;/a>&lt;/sup>. They come up with a two-phase method called Submodular Span Summarization (S3), which was published prior to this paper &lt;sup>&lt;a id='ref-cite6-1' href='#cite6'>[6]&lt;/a>&lt;/sup>.&lt;/p>
-&lt;h4 id="phase-1-of-s3">Phase 1 of S3
-&lt;/h4>&lt;p>&lt;strong>Problem Definition.&lt;/strong>
-This phase targets to select a relatively large subset relevant to the query set $Q$, but might be redundant.
-The original problem might be difficult to solve, so the paper considered solving the dual problem of it:
-$$\min_{A\subseteq V - Q,|A|\ge k_1}f(A|Q),$$
-which is a cardinality-constrained submodular minimization problem. The authors use $m_Q(A) = \sum_{a\in A}f(a|Q)$ to approximate $f(A|Q)$, which is an upper bound of $f(A|Q)$.&lt;/p>
-&lt;p>&lt;strong>Solution.&lt;/strong>
-Although the paper doesn&amp;rsquo;t state it clearly, I think the algorithm to solve this problem, given the approximation, is to select $k_1$ exemplars with minimal values of $f(a|Q)$ from $A$. And this algorithm matches the time complexity $O(k+k\log k_1)$ stated in Appendix B, if ignoring the time for calculating $f$.&lt;/p>
-&lt;h4 id="phase-2-of-s3">Phase 2 of S3
-&lt;/h4>&lt;p>This stage is intended to select the most representative exemplars from the result of phase 1, and is mathematically the same as &lt;a class="link" href="#exemplar-annotation" >Exemplar Annotation&lt;/a>:
-$$\max_{A\subset A_Q,|A|\le k_2} f(A),$$
-where $A_Q$ is the set of selected exemplars from phase 1.
-Optionally, we can apply a knapsack constraint on the problem, and solve it with a modified version of GSM.&lt;/p>
-&lt;h2 id="comments">Comments
-&lt;/h2>&lt;p>The authors proposed a learning-free framework named &lt;strong>Div-S3&lt;/strong> to select in-context exemplars from unlabeled datasets, and evaluated its effectiveness with ablation experiments across 7 Natural Language Processing (NLP) tasks and 5 LLMs. Although the algorithm doesn&amp;rsquo;t take ordering into consideration, the paper proves its insensitiveness to the order of exemplars.&lt;/p>
-&lt;p>However, from my perspective, I still have some problems related to the paper:&lt;/p>
-&lt;ul>
-&lt;li>In Exemplar Retrieval stage, what&amp;rsquo;s the meaning of computing $f(Q)$ against all unlabeled data $\mathcal X_\mathrm{unlabeled}$. Given that $\mathcal X_\mathrm{labeled}$ is a representative subset of $\mathcal X_\mathrm{unlabeled}$, would it be computationally better to calculate $f(Q)$ and $f(a|Q)$ only against $\mathcal X_\mathrm{labeled}\cup Q$?&lt;/li>
-&lt;li>What&amp;rsquo;s the purpose of dealing with the queries as a whole (query set $Q$), instead of retrieving the best exemplars for each query $q$?&lt;/li>
-&lt;li>The experiments didn&amp;rsquo;t cover the comparison of Div-S3 with some recent algorithms, especially the learning-based ones.&lt;/li>
-&lt;li>Will the algorithm averagely perform better if we handcraft a rule to arrange the selected exemplars? Also, in Figure 3, the variances do not seem to be small.&lt;/li>
-&lt;/ul>
-&lt;h2 id="references">References
-&lt;/h2>&lt;style>
-.bibliography { display: table; font-size: medium; line-height: normal; }
-.bib-item { display: table-row; }
-.bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
-.bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
-&lt;/style>
-&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
-&lt;span>[1]&lt;/span>
-&lt;span>L. Kumari, S. Wang, A. Das, T. Zhou, and J. Bilmes, “An End-to-End Submodular Framework for Data-Efficient In-Context Learning,” in Findings of the Association for Computational Linguistics: NAACL 2024, K. Duh, H. Gomez, and S. Bethard, Eds., Mexico City, Mexico: Association for Computational Linguistics, Jun. 2024, pp. 3293–3308. Accessed: Jul. 02, 2024. [Online]. Available: &lt;a class="link" href="https://aclanthology.org/2024.findings-naacl.209" target="_blank" rel="noopener"
->https://aclanthology.org/2024.findings-naacl.209&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;a href="#ref-cite1-2">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;div id="cite2" class="bib-item">
-&lt;span>[2]&lt;/span>
-&lt;span>H. Su et al., “Selective Annotation Makes Language Models Better Few-Shot Learners,” presented at the The Eleventh International Conference on Learning Representations, Sep. 2022. Accessed: May 30, 2024. [Online]. Available: &lt;a class="link" href="https://openreview.net/forum?id=qY1hlv7gwg" target="_blank" rel="noopener"
->https://openreview.net/forum?id=qY1hlv7gwg&lt;/a>&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;div id="cite3" class="bib-item">
-&lt;span>[3]&lt;/span>
-&lt;span>S. C. H. Hoi, R. Jin, J. Zhu, and M. R. Lyu, “Batch mode active learning and its application to medical image classification,” in Proceedings of the 23rd international conference on Machine learning, in ICML ’06. New York, NY, USA: Association for Computing Machinery, Jun. 2006, pp. 417–424. doi: 10.1145/1143844.1143897.&lt;a href="#ref-cite3-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;div id="cite4" class="bib-item">
-&lt;span>[4]&lt;/span>
-&lt;span>N. Reimers and I. Gurevych, “Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks.” arXiv, Aug. 27, 2019. Accessed: Jul. 08, 2024. [Online]. Available: &lt;a class="link" href="http://arxiv.org/abs/1908.10084" target="_blank" rel="noopener"
->http://arxiv.org/abs/1908.10084&lt;/a>&lt;a href="#ref-cite4-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;div id="cite5" class="bib-item">
-&lt;span>[5]&lt;/span>
-&lt;span>G. L. Nemhauser, L. A. Wolsey, and M. L. Fisher, “An analysis of approximations for maximizing submodular set functions—I,” Mathematical programming, vol. 14, pp. 265–294, 1978.&lt;a href="#ref-cite5-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;div id="cite6" class="bib-item">
-&lt;span>[6]&lt;/span>
-&lt;span>L. Kumari and J. Bilmes, “Submodular Span, with Applications to Conditional Data Summarization,” Proceedings of the AAAI Conference on Artificial Intelligence, vol. 35, no. 14, Art. no. 14, May 2021, doi: 10.1609/aaai.v35i14.17465.&lt;a href="#ref-cite6-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;/div>
-&lt;!--
-{{#- And it is formulated as a submodular span optimization problem:
-$$\begin{aligned}&amp;\max_{A\subseteq V - Q} |A| \\\\ \mathrm{s.t.}\quad&amp;f(A\cup Q) - f(Q)\le\epsilon\end{aligned},$$
-where $\epsilon>0$ is a hyperparameter controlling the relevance level.
-This can be interpreted as maximizing the marginal -#}}
---></description></item><item><title>【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem</title><link>https://blog.furffisite.link/p/read-papers/utsp/</link><pubDate>Tue, 12 Mar 2024 15:05:23 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/utsp/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240312193735-df25ede3714c69d2ea8b42ba9c39f7c9-755f3.jpg" alt="Featured image of post 【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem" />&lt;h2 id="论文信息">论文信息
-&lt;/h2>&lt;ul>
-&lt;li>标题： Unsupervised Learning for Solving the Travelling Salesman Problem&lt;sup>&lt;a id='ref-cite1-1' href='#cite1'>[1]&lt;/a>&lt;/sup>&lt;/li>
-&lt;li>作者： Yimeng Min, Yiwei Bai, Carla P. Gomes&lt;/li>
-&lt;li>会议： NeurIPS 2023&lt;/li>
-&lt;li>在线资源： &lt;a class="link" href="https://proceedings.neurips.cc/paper_files/paper/2023/hash/93b8618a9061f8a55825c13ecf28392b-Abstract-Conference.html" target="_blank" rel="noopener"
->https://proceedings.neurips.cc/paper_files/paper/2023/hash/93b8618a9061f8a55825c13ecf28392b-Abstract-Conference.html&lt;/a>&lt;/li>
-&lt;li>代码： &lt;a class="link" href="https://github.com/yimengmin/UTSP" target="_blank" rel="noopener"
->https://github.com/yimengmin/UTSP&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="utsp-算法">UTSP 算法
-&lt;/h2>&lt;p>作者认为理想的 heatmap $\mathcal{H}\in[0,1]^{n\times n}$ 应该表示 TSP 的最优解，即一条长度最短的汉密尔顿环路，也就是：&lt;/p>
-&lt;ol>
-&lt;li>$\mathcal{H}$ 作为邻接矩阵表示的图内有且仅有一条汉密尔顿环路；&lt;/li>
-&lt;li>$\mathcal{H}$ 表示的环路长度最短，即$$\min_\mathcal{H}\sum^n_{i=1}\sum^n_{j=1} \mathcal{H} _{ij}\cdot d _{ij}$$&lt;/li>
-&lt;/ol>
-&lt;p>为了让网络输出的 $\mathcal{H}$ 满足第一个条件，作者设计了 soft indicator matrix $\mathbb{T}\in[0,1]^{n\times n}$，$\mathbb{T}=[\mathbf p_1|\mathbf p_2|\cdots|\mathbf p_n]$ 是$n$个列向量组成的矩阵，满足各列和为$1$（$\sum_{j=1}^n p_{ij} = 1$），这个条件可以使用 Softmax 函数或者归一化满足，论文里使用了前者。&lt;/p>
-&lt;p>然后作者提出了 $\mathbb{T}\rightarrow\mathcal{H}$ transformation，以将 soft indicator $\mathbb{T}$ 转化为可以采样的 heatmap $\mathcal{H}$：$$\mathcal{H} = \sum_{i=1}^n \mathbf p_i\cdot \mathbf p_{i+1}^T + \mathbf p_n\cdot \mathbf p_1^T$$
-同时作者也证明了这样形成的 heatmap 中至少有一条汉密尔顿环路，这样就满足了第一个条件的一半（有一条）。&lt;/p>
-&lt;p>至于剩下的一半（不超过一条），作者使用设计的 loss 函数鼓励网络减少环路数量：
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>组合优化 on Furffiblog</title><link>https://blog.furffisite.link/tags/%E7%BB%84%E5%90%88%E4%BC%98%E5%8C%96/</link><description>Recent content in 组合优化 on Furffiblog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 12 Mar 2024 15:05:23 +0800</lastBuildDate><atom:link href="https://blog.furffisite.link/tags/%E7%BB%84%E5%90%88%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml"/><item><title>【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem</title><link>https://blog.furffisite.link/p/read-papers/utsp/</link><pubDate>Tue, 12 Mar 2024 15:05:23 +0800</pubDate><guid>https://blog.furffisite.link/p/read-papers/utsp/</guid><description>&lt;img src="https://files.furffisite.link/blogimg/20240312193735-df25ede3714c69d2ea8b42ba9c39f7c9-755f3.jpg" alt="Featured image of post 【读论文】Unsupervised Learning for Solving the Travelling Salesman Problem" /&gt;&lt;h2 id="论文信息"&gt;论文信息
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;标题： Unsupervised Learning for Solving the Travelling Salesman Problem&lt;sup&gt;&lt;a id='ref-cite1-1' href='#cite1'&gt;[1]&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;作者： Yimeng Min, Yiwei Bai, Carla P. Gomes&lt;/li&gt;
+&lt;li&gt;会议： NeurIPS 2023&lt;/li&gt;
+&lt;li&gt;在线资源： &lt;a class="link" href="https://proceedings.neurips.cc/paper_files/paper/2023/hash/93b8618a9061f8a55825c13ecf28392b-Abstract-Conference.html" target="_blank" rel="noopener"
+&gt;https://proceedings.neurips.cc/paper_files/paper/2023/hash/93b8618a9061f8a55825c13ecf28392b-Abstract-Conference.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;代码： &lt;a class="link" href="https://github.com/yimengmin/UTSP" target="_blank" rel="noopener"
+&gt;https://github.com/yimengmin/UTSP&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="utsp-算法"&gt;UTSP 算法
+&lt;/h2&gt;&lt;p&gt;作者认为理想的 heatmap $\mathcal{H}\in[0,1]^{n\times n}$ 应该表示 TSP 的最优解，即一条长度最短的汉密尔顿环路，也就是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;$\mathcal{H}$ 作为邻接矩阵表示的图内有且仅有一条汉密尔顿环路；&lt;/li&gt;
+&lt;li&gt;$\mathcal{H}$ 表示的环路长度最短，即$$\min_\mathcal{H}\sum^n_{i=1}\sum^n_{j=1} \mathcal{H} _{ij}\cdot d _{ij}$$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;为了让网络输出的 $\mathcal{H}$ 满足第一个条件，作者设计了 soft indicator matrix $\mathbb{T}\in[0,1]^{n\times n}$，$\mathbb{T}=[\mathbf p_1|\mathbf p_2|\cdots|\mathbf p_n]$ 是$n$个列向量组成的矩阵，满足各列和为$1$（$\sum_{j=1}^n p_{ij} = 1$），这个条件可以使用 Softmax 函数或者归一化满足，论文里使用了前者。&lt;/p&gt;
+&lt;p&gt;然后作者提出了 $\mathbb{T}\rightarrow\mathcal{H}$ transformation，以将 soft indicator $\mathbb{T}$ 转化为可以采样的 heatmap $\mathcal{H}$：$$\mathcal{H} = \sum_{i=1}^n \mathbf p_i\cdot \mathbf p_{i+1}^T + \mathbf p_n\cdot \mathbf p_1^T$$
+同时作者也证明了这样形成的 heatmap 中至少有一条汉密尔顿环路，这样就满足了第一个条件的一半（有一条）。&lt;/p&gt;
+&lt;p&gt;至于剩下的一半（不超过一条），作者使用设计的 loss 函数鼓励网络减少环路数量：
 $$\mathcal{L}=\lambda _1 \sum^n _{i=1}(\sum^n _{j=1}\mathbb{T} _{ij}-1)^2 + \lambda_2 \sum^n _{i=1}\mathcal{H} _{ii} + \sum^n _{i=1}\sum^n _{j=1} \mathcal{H} _{ij}\cdot d _{ij}$$
-其中第一项鼓励 $\mathbb T$ 每行的和接近 $1$；第二项惩罚 $\mathcal{H}$ 中的自环；第三项对应上面的第二个条件，即让图里所有边的加权和尽可能小。最理想的情况下前两项都是 $0$，$\mathcal L$等于TSP最优解的路径长度。UTSP 通过设置这样的 loss 函数，让神经网络输出的结果靠近理想的 heatmap。&lt;/p>
-&lt;p>此外，文章使用了 Scattering Attention GNN (SAG) 作为神经网络，在搜索前用 top-k 缩小搜索空间，并使用 Heat Map Guided Best-first Local Search 作为局部搜索方法。&lt;/p>
-&lt;h2 id="优势与局限性">优势与局限性
-&lt;/h2>&lt;p>根据文章，UTSP 的优势是：&lt;/p>
-&lt;ul>
-&lt;li>相比于有监督学习，UTSP 不需要有标注的数据，相比于强化学习，UTSP 的收敛速度更快（需要的样本数量更少）；&lt;/li>
-&lt;li>UTSP 直接从 heatmap 计算 loss，省去了强化学习依赖采样获得 reward 的过程；&lt;/li>
-&lt;li>通过结构设计保证输出的 heatmap 含有汉密尔顿环路；&lt;/li>
-&lt;li>神经网络很轻量化（TSP100 仅需两层 45k 个参数）；&lt;/li>
-&lt;li>可以有效地减小搜索空间。&lt;/li>
-&lt;/ul>
-&lt;p>我认为 UTSP 的局限性是：&lt;/p>
-&lt;ul>
-&lt;li>根据提供的实验数据，UTSP 即使有轻量化的网络，它生成 heatmap 需要的时间依然比 Att-GCRN&lt;sup>&lt;a id='ref-cite2-1' href='#cite2'>[2]&lt;/a>&lt;/sup> 要长（为什么呢？）；&lt;/li>
-&lt;li>Soft indicator 是针对 TSP 的巧妙设计，只适用于解为汉密尔顿环的问题，并且 UTSP 需要针对问题精心设计 loss 函数，因此将 UTSP 迁移到别的组合优化问题时，相比于一些有监督学习和强化学习方法（分别可以通过有标签的数据和 reward 学习问题特征）需要更多工作。&lt;/li>
-&lt;/ul>
-&lt;p>几个问题：&lt;/p>
-&lt;ul>
-&lt;li>在将边权重输入网络时，文章进行了预处理：$w_{ij}=e^{-d_{ij}/\tau}$，这样做除了将输入映射到 $(0,1]$ 之外，相比于直接输入 $w_{ij}=d_{ij}$ 还有什么作用嘛；&lt;/li>
-&lt;li>如果不采用 Soft indicator，实验结果会有多大变化。&lt;/li>
-&lt;/ul>
-&lt;h2 id="相关文献">相关文献
-&lt;/h2>&lt;style>
+其中第一项鼓励 $\mathbb T$ 每行的和接近 $1$；第二项惩罚 $\mathcal{H}$ 中的自环；第三项对应上面的第二个条件，即让图里所有边的加权和尽可能小。最理想的情况下前两项都是 $0$，$\mathcal L$等于TSP最优解的路径长度。UTSP 通过设置这样的 loss 函数，让神经网络输出的结果靠近理想的 heatmap。&lt;/p&gt;
+&lt;p&gt;此外，文章使用了 Scattering Attention GNN (SAG) 作为神经网络，在搜索前用 top-k 缩小搜索空间，并使用 Heat Map Guided Best-first Local Search 作为局部搜索方法。&lt;/p&gt;
+&lt;h2 id="优势与局限性"&gt;优势与局限性
+&lt;/h2&gt;&lt;p&gt;根据文章，UTSP 的优势是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;相比于有监督学习，UTSP 不需要有标注的数据，相比于强化学习，UTSP 的收敛速度更快（需要的样本数量更少）；&lt;/li&gt;
+&lt;li&gt;UTSP 直接从 heatmap 计算 loss，省去了强化学习依赖采样获得 reward 的过程；&lt;/li&gt;
+&lt;li&gt;通过结构设计保证输出的 heatmap 含有汉密尔顿环路；&lt;/li&gt;
+&lt;li&gt;神经网络很轻量化（TSP100 仅需两层 45k 个参数）；&lt;/li&gt;
+&lt;li&gt;可以有效地减小搜索空间。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我认为 UTSP 的局限性是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;根据提供的实验数据，UTSP 即使有轻量化的网络，它生成 heatmap 需要的时间依然比 Att-GCRN&lt;sup&gt;&lt;a id='ref-cite2-1' href='#cite2'&gt;[2]&lt;/a&gt;&lt;/sup&gt; 要长（为什么呢？）；&lt;/li&gt;
+&lt;li&gt;Soft indicator 是针对 TSP 的巧妙设计，只适用于解为汉密尔顿环的问题，并且 UTSP 需要针对问题精心设计 loss 函数，因此将 UTSP 迁移到别的组合优化问题时，相比于一些有监督学习和强化学习方法（分别可以通过有标签的数据和 reward 学习问题特征）需要更多工作。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;几个问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在将边权重输入网络时，文章进行了预处理：$w_{ij}=e^{-d_{ij}/\tau}$，这样做除了将输入映射到 $(0,1]$ 之外，相比于直接输入 $w_{ij}=d_{ij}$ 还有什么作用嘛；&lt;/li&gt;
+&lt;li&gt;如果不采用 Soft indicator，实验结果会有多大变化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="相关文献"&gt;相关文献
+&lt;/h2&gt;&lt;style&gt;
 .bibliography { display: table; font-size: medium; line-height: normal; }
 .bib-item { display: table-row; }
-.bib-item > :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
-.bib-item > :last-child { display: table-cell; padding-bottom: .5ex; }
-&lt;/style>
-&lt;div class="bibliography">&lt;div id="cite1" class="bib-item">
-&lt;span>[1]&lt;/span>
-&lt;span>Y. Min, Y. Bai, and C. P. Gomes, “Unsupervised Learning for Solving the Travelling Salesman Problem,” in Advances in Neural Information Processing Systems, A. Oh, T. Neumann, A. Globerson, K. Saenko, M. Hardt, and S. Levine, Eds., Curran Associates, Inc., 2023, pp. 47264–47278. [Online]. Available: &lt;a class="link" href="https://proceedings.neurips.cc/paper_files/paper/2023/file/93b8618a9061f8a55825c13ecf28392b-Paper-Conference.pdf" target="_blank" rel="noopener"
->https://proceedings.neurips.cc/paper_files/paper/2023/file/93b8618a9061f8a55825c13ecf28392b-Paper-Conference.pdf&lt;/a>&lt;a href="#ref-cite1-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;div id="cite2" class="bib-item">
-&lt;span>[2]&lt;/span>
-&lt;span>Z.-H. Fu, K.-B. Qiu, and H. Zha, “Generalize a Small Pre-trained Model to Arbitrarily Large TSP Instances,” Proceedings of the AAAI Conference on Artificial Intelligence, vol. 35, no. 8, pp. 7474–7482, May 2021, doi: 10.1609/aaai.v35i8.16916.&lt;a href="#ref-cite2-1">⤶&lt;/a>&lt;/span>
-&lt;/div>&lt;/div></description></item></channel></rss>
+.bib-item &gt; :first-child { display: table-cell; padding-right: .5em; font-weight: bold; text-align: right; }
+.bib-item &gt; :last-child { display: table-cell; padding-bottom: .5ex; }
+&lt;/style&gt;
+&lt;div class="bibliography"&gt;&lt;div id="cite1" class="bib-item"&gt;
+&lt;span&gt;[1]&lt;/span&gt;
+&lt;span&gt;Y. Min, Y. Bai, and C. P. Gomes, “Unsupervised Learning for Solving the Travelling Salesman Problem,” in Advances in Neural Information Processing Systems, A. Oh, T. Neumann, A. Globerson, K. Saenko, M. Hardt, and S. Levine, Eds., Curran Associates, Inc., 2023, pp. 47264–47278. [Online]. Available: &lt;a class="link" href="https://proceedings.neurips.cc/paper_files/paper/2023/file/93b8618a9061f8a55825c13ecf28392b-Paper-Conference.pdf" target="_blank" rel="noopener"
+&gt;https://proceedings.neurips.cc/paper_files/paper/2023/file/93b8618a9061f8a55825c13ecf28392b-Paper-Conference.pdf&lt;/a&gt;&lt;a href="#ref-cite1-1"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;div id="cite2" class="bib-item"&gt;
+&lt;span&gt;[2]&lt;/span&gt;
+&lt;span&gt;Z.-H. Fu, K.-B. Qiu, and H. Zha, “Generalize a Small Pre-trained Model to Arbitrarily Large TSP Instances,” Proceedings of the AAAI Conference on Artificial Intelligence, vol. 35, no. 8, pp. 7474–7482, May 2021, doi: 10.1609/aaai.v35i8.16916.&lt;a href="#ref-cite2-1"&gt;⤶&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;</description></item></channel></rss>
